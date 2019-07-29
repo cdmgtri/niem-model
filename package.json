@@ -1,0 +1,21 @@
+{
+  "name": "niem-model-objects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "docs": "jsdoc -c jsdoc.json",
+    "test": "jest",
+    "test:cov": "jest --runInBand --coverage || true ",
+    "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.5",
+    "jest": "^24.8.0",
+    "jsdoc": "^3.6.3"
+  }
+}
