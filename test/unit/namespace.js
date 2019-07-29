@@ -1,5 +1,5 @@
 
-let NIEMModelObjects = require("../../src/index");
+let NIEMModelObjects = require("../../index");
 
 let { Model, Release, Namespace } = NIEMModelObjects;
 

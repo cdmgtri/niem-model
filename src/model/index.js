@@ -5,7 +5,7 @@
 class Model {
 
   /**
-   * @param {NIEM} collection
+   * @param {Object} source - A NIEM model source implementation
    * @param {String} userKey
    * @param {String} modelKey
    * @param {"model"|"IEPD"|"other"} style
@@ -13,9 +13,9 @@ class Model {
    * @param {String} website
    * @param {String} repo
    */
-  constructor(collection, userKey, modelKey, style, description, website, repo) {
+  constructor(source, userKey, modelKey, style, description, website, repo) {
 
-    this.collection = collection;
+    this.collection = source;
     this.userKey = userKey;
     this.modelKey = modelKey;
     this.style = style;
@@ -54,5 +54,3 @@ class Model {
 }
 
 module.exports = Model;
-
-let NIEM = require("../index");

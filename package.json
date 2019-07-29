@@ -2,7 +2,7 @@
   "name": "niem-model-objects",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json",
     "test": "jest",
