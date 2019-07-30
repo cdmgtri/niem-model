@@ -15,7 +15,7 @@ class Model {
    */
   constructor(source, userKey, modelKey, style, description, website, repo) {
 
-    this.collection = source;
+    this.source = source;
     this.userKey = userKey;
     this.modelKey = modelKey;
     this.style = style;
