@@ -1,9 +1,7 @@
 
-let NIEMModelObjects = require("../../index");
-
-let { Model, Release, Facet } = NIEMModelObjects;
-
 function testFacet() {
+
+  let { Model, Release, Facet } = require("../../index");
 
   describe("Facet", () => {
 

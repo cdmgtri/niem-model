@@ -1,9 +1,7 @@
 
-let NIEMModelObjects = require("../../index");
-
-let { Model, Release, Namespace } = NIEMModelObjects;
-
 function testNamespace() {
+
+  let { Model, Release, Namespace } = require("../../index");
 
   describe("Namespace", () => {
 

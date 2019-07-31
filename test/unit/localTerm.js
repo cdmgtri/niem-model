@@ -1,9 +1,7 @@
 
-let NIEMModelObjects = require("../../index");
-
-let { Model, Release, LocalTerm } = NIEMModelObjects;
-
 function testLocalTerm() {
+
+  let { Model, Release, LocalTerm } = require("../../index");
 
   describe("Local Term", () => {
 

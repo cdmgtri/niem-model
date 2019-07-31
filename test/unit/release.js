@@ -1,10 +1,8 @@
 
-let NIEMModelObjects = require("../../index");
-
-let { Model, Release } = NIEMModelObjects;
-
 
 function testRelease() {
+
+  let { Model, Release } = require("../../index");
 
   describe("Release", () => {
 

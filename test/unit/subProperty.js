@@ -1,9 +1,7 @@
 
-let NIEMModelObjects = require("../../index");
-
-let { Model, Release, SubProperty } = NIEMModelObjects;
-
 function testSubProperty() {
+
+  let { Model, Release, SubProperty } = require("../../index");
 
   describe("SubProperty", () => {
 
