@@ -8,6 +8,9 @@ let testType = require("./type");
 let testSubProperty = require("./subProperty");
 let testFacet = require("./facet");
 
+/**
+ * Jest unit tests for NIEM Model objects
+ */
 function unitTests() {
 
   describe("NIEM unit tests", () => {

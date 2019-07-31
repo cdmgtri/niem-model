@@ -9,5 +9,8 @@ module.exports = {
   Property: require("./src/property/index"),
   Type: require("./src/type/index"),
   Facet: require("./src/facet/index"),
-  SubProperty: require("./src/subproperty/index")
+  SubProperty: require("./src/subproperty/index"),
+  tests: {
+    unitTests: require("./test/unit/index")
+  }
 };
