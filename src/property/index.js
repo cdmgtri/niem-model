@@ -44,38 +44,6 @@ class Property extends Component {
     return new Property(release, prefix, name, definition, null, null, true, true);
   }
 
-
-  get subProperties() {
-
-    let SubProperty = require("../subproperty/index");
-
-    return {
-      /**
-       * @param {SubProperty} input
-       */
-      add: async (input) => {
-        input.propertyQName = this.qname;
-        return this.release.subProperties.add(input);
-      },
-
-      /**
-       * @param {String} typeQName
-       */
-      get: async (typeQName) => {
-        return this.release.subProperties.get(typeQName, this.qname);
-      },
-
-      /**
-       * @param {SubProperty} criteria
-       */
-      find: async (criteria={}) => {
-        criteria.propertyQName = this.qname;
-        return this.release.subProperties.find(criteria);
-      }
-    }
-  }
-
-
   /**
    * @param {"full"|"release"|"namespace"} [scope="full"]
    */
