@@ -101,6 +101,35 @@ class Component extends NIEMObject {
     return object;
   }
 
+  /**
+   * Custom sort function to order an array of components by qualified name.
+   *
+   * @static
+   * @param {Component} component1
+   * @param {Component} component2
+   */
+  static sortByQName(component1, component2) {
+    return component1.qname.localeCompare(component2.qname);
+  }
+
+  /**
+   * Custom sort function to order an array of components by name, and then by prefix.
+   *
+   * @static
+   * @param {Component} component1
+   * @param {Component} component2
+   */
+  static sortByName(component1, component2) {
+
+    // Sort by prefix if names match
+    if (component1.name == component2.name) {
+      return component1.prefix.localeCompare(component2.prefix);
+    }
+
+    // Sort by name
+    return component1.name.localeCompare(component2.name);
+  }
+
 }
 
 module.exports = Component;

@@ -13,7 +13,7 @@ class Namespace extends NIEMObject {
    * @param {String} [fileName]
    * @param {String} [definition]
    * @param {String} [version]
-   * @param {NamespaceStyles} [style]
+   * @param {Namespace.NamespaceStyleType} [style]
    * @param {String} [version]
    * @param {Boolean} [isPreGenerated=false]
    * @param {String[]} [conformanceTargets=[]]
@@ -49,6 +49,32 @@ class Namespace extends NIEMObject {
 
   get authoritativePrefix() {
     return this.prefix;
+  }
+
+  get styleRank() {
+    switch (this.style) {
+      case "core":
+        return 1;
+      case "domain":
+        return 2;
+      case "code":
+        return 3;
+      case "extension":
+        return 4;
+      case "adapter":
+        return 5;
+      case "proxy":
+        return 6;
+      case "utility":
+        return 7;
+      case "external":
+        return 8;
+    }
+    return 99;
+  }
+
+  get conformanceRequired() {
+    return (this.style == "utility" || this.style == "external") ? false : true;
   }
 
   static buildRoute(userKey, modelKey, releaseKey, prefix) {
@@ -118,13 +144,51 @@ class Namespace extends NIEMObject {
 
   }
 
+  /**
+   * Custom sort function to order an array of namespaces by prefix.
+   *
+   * @static
+   * @param {Namespace} ns1
+   * @param {Namespace} ns2
+   */
+  static sortByPrefix(ns1, ns2) {
+    return ns1.prefix.localeCompare(ns2.prefix);
+  }
+
+  /**
+   * Custom sort function to order an array of namespaces by ranked style
+   * and then by prefix.
+   *
+   * @static
+   * @param {Namespace} ns1
+   * @param {Namespace} ns2
+   */
+  static sortByStyle(ns1, ns2) {
+
+    // Sort by prefix if styles match
+    if (ns1.style == ns2.style) {
+      return ns1.prefix.localeCompare(ns2.prefix);
+    }
+
+    // Sort by style rank
+    return ns1.styleRank - ns2.styleRank;
+  }
+
+  /**
+   * Custom sort function to order an array of namespaces by target namespace URI.
+   *
+   * @static
+   * @param {Namespace} ns1
+   * @param {Namespace} ns2
+   */
+  static sortByURI(ns1, ns2) {
+    return ns1.uri.localeCompare(ns2.uri);
+  }
+
 }
 
 /** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"} */
-let NamespaceStyles = "";
-
-Namespace.NamespaceStyles = NamespaceStyles;
-
+Namespace.NamespaceStyleType;
 
 module.exports = Namespace;
 

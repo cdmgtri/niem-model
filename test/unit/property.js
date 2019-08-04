@@ -10,6 +10,12 @@ function testProperty() {
 
     let property = new Property(release, "nc", "PersonName", "A name of a person.", "nc:PersonNameType");
 
+    let properties = [
+      new Property(null, "nc", "Person"),
+      new Property(null, "nc", "Activity"),
+      new Property(null, "ext", "Person"),
+    ];
+
     test("#constructor", () => {
       expect(property.route).toBe("/user/test/1.0/properties/nc:PersonName");
       expect(property.qname).toBe("nc:PersonName");
@@ -62,6 +68,16 @@ function testProperty() {
       property = new Property(release, "nc", "PersonABC_XYZCode");
       expect(property.terms.join(" ")).toEqual("Person ABC XYZ Code");
 
+    });
+
+    test("#sortByName", () => {
+      let qnames = properties.sort(Property.sortByName).map( property => property.qname ).join(", ");
+      expect(qnames).toEqual("nc:Activity, ext:Person, nc:Person");
+    });
+
+    test("#sortByQName", () => {
+      let qnames = properties.sort(Property.sortByQName).map( property => property.qname ).join(", ");
+      expect(qnames).toEqual("ext:Person, nc:Activity, nc:Person");
     });
 
   });
