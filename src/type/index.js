@@ -1,12 +1,6 @@
 
 const Component = require("../component/index");
 
-/** @type {"object"|"adapter"|"association"|"augmentation"|"metadata"|"CSC"} */
-let ComplexPatterns;
-
-/** @type {"simple"|"list"|"union"} */
-let SimplePatterns;
-
 /**
  * A NIEM Type.
  * @extends {Component}
@@ -18,7 +12,7 @@ class Type extends Component {
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
-   * @param {ComplexPatterns|SimplePatterns} pattern
+   * @param {Type.PatternType} pattern
    * @param {string} [baseQName]
    * @param {string[]} [memberQNames=[]]
    */
@@ -129,8 +123,14 @@ class Type extends Component {
 
 }
 
-/** @type {ComplexPatterns | SimplePatterns} */
-Type.Patterns = "";
+/** @type {"object"|"adapter"|"association"|"augmentation"|"metadata"|"CSC"} */
+Type.ComplexPatternType;
+
+/** @type {"simple"|"list"|"union"} */
+Type.SimplePatternType;
+
+/** @type {Type.ComplexPatternType | Type.SimplePatternType} */
+Type.PatternType = "";
 
 Type.ComplexPatterns = {
   "object": "object",
@@ -146,6 +146,11 @@ Type.SimplePatterns = {
   "list": "list",
   "union": "union"
 };
+
+Type.Patterns = {
+  ...Type.ComplexPatterns,
+  ...Type.SimplePatterns
+}
 
 module.exports = Type;
 
