@@ -80,6 +80,23 @@ function testProperty() {
       expect(qnames).toEqual("ext:Person, nc:Activity, nc:Person");
     });
 
+    test("#group", () => {
+      let property = new Property(release, "nc", "StateCode", "", "",  "nc:StateCodeAbstract");
+      expect(property.groupQName).toBe("nc:StateCodeAbstract");
+      expect(property.groupName).toBe("StateCodeAbstract");
+      expect(property.groupPrefix).toBe("nc");
+
+      let unqualifiedGroup = new Property(release, "nc", "StateCode", "", "", "StateCodeAbstract");
+      expect(unqualifiedGroup.groupQName).toBe("StateCodeAbstract");
+      expect(unqualifiedGroup.groupName).not.toBeDefined();
+      expect(unqualifiedGroup.groupPrefix).not.toBeDefined();
+
+      let invalidGroup = new Property(release, "nc", "StateCode", "", "", ":StateCodeAbstract");
+      expect(invalidGroup.groupQName).toBe(":StateCodeAbstract");
+      expect(invalidGroup.groupName).not.toBeDefined();
+      expect(invalidGroup.groupPrefix).not.toBeDefined();
+    });
+
   });
 
 }

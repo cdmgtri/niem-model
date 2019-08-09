@@ -69,6 +69,23 @@ function testType() {
       expect(type.isSimpleType).toBe(false);
     });
 
+    test("#base", () => {
+      let type = new Type(release, "nc", "PersonType", "A data type for a human being", "object", "structures:ObjectType");
+      expect(type.baseQName).toBe("structures:ObjectType");
+      expect(type.baseName).toBe("ObjectType");
+      expect(type.basePrefix).toBe("structures");
+
+      let unqualifiedBase = new Type(release, "nc", "PersonType", "A data type for a human being", "object", "ObjectType");
+      expect(unqualifiedBase.baseQName).toBe("ObjectType");
+      expect(unqualifiedBase.baseName).not.toBeDefined();
+      expect(unqualifiedBase.basePrefix).not.toBeDefined();
+
+      let invalidBase = new Type(release, "nc", "PersonType", "A data type for a human being", "object", ":ObjectType");
+      expect(invalidBase.baseQName).toBe(":ObjectType");
+      expect(invalidBase.baseName).not.toBeDefined();
+      expect(invalidBase.basePrefix).not.toBeDefined();
+    });
+
     test("#serialize", () => {
       let type = new Type(release, "nc", "PersonEyeColorCodeSimpleType", "A data type for a person's eye color.", "simple", "xs:token");
 

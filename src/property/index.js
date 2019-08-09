@@ -28,6 +28,30 @@ class Property extends Component {
     this.isAbstract = isAbstract;
   }
 
+  /**
+   * Name from the property group's qname field.
+   * Returns undefined if there is no qualified group.
+   */
+  get groupName() {
+    // Check that the groupQName contains both a prefix and a name
+    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
+      return this.groupQName.split(":")[1];
+    }
+    return undefined;
+  }
+
+  /**
+   * Namespace prefix from the property group's qname field.
+   * Returns undefined if there is no qualified group.
+   */
+  get groupPrefix() {
+    // Check that the groupQName contains both a prefix and a name
+    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
+      return this.groupQName.split(":")[0];
+    }
+    return undefined;
+  }
+
   static buildRoute(userKey, modelKey, releaseKey, propertyQName) {
     return Component.buildRoute(userKey, modelKey, releaseKey, "Property", propertyQName);
   }

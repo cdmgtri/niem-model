@@ -60,6 +60,30 @@ class Type extends Component {
     return this.isSimpleType || this.pattern == "CSC";
   }
 
+  /**
+   * Name from the type base's qname field.
+   * Returns undefined if there is no qualified base.
+   */
+  get baseName() {
+    // Check that the baseQName contains both a prefix and a name
+    if (this.baseQName && this.baseQName.match(/.+\:.+/)) {
+      return this.baseQName.split(":")[1];
+    }
+    return undefined;
+  }
+
+  /**
+   * Namespace prefix from the type base's qname field.
+   * Returns undefined if there is no qualified base.
+   */
+  get basePrefix() {
+    // Check that the baseQName contains both a prefix and a name
+    if (this.baseQName && this.baseQName.match(/.+\:.+/)) {
+      return this.baseQName.split(":")[0];
+    }
+    return undefined;
+  }
+
   get baseQNameSuggestion() {
     if (this.baseQName) {
       return this.baseQName;
