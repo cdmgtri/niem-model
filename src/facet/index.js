@@ -73,20 +73,6 @@ class Facet extends NIEMObject {
     return object;
   }
 
-  /**
-   * Custom JSON serialization
-   */
-  toJSON() {
-    let json = this.type ? this.type.toJSON() : {};
-
-    return {
-      kind: this.kind,
-      value: this.value,
-      definition: this.definition,
-      ...json
-    };
-  }
-
 }
 
 /** @type{"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"} */
