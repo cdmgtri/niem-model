@@ -52,6 +52,26 @@ class Property extends Component {
     return undefined;
   }
 
+  get isAttribute() {
+    return ! this.isElement;
+  }
+
+  get isConcrete() {
+    return ! this.isAbstract;
+  }
+
+  get style() {
+
+    if (this.isAbstract) {
+      return "abstract";
+    }
+    if (this.isAttribute) {
+      return "attribute";
+    }
+    return "element";
+
+  }
+
   static buildRoute(userKey, modelKey, releaseKey, propertyQName) {
     return Component.buildRoute(userKey, modelKey, releaseKey, "Property", propertyQName);
   }

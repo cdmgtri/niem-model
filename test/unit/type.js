@@ -17,7 +17,7 @@ function testType() {
       expect(type.isComplexType).toBe(true);
       expect(type.isComplexContent).toBe(true);
       expect(type.pattern).toBe("object");
-      expect(type.style).toBe("CCC");
+      expect(type.styleCategory).toBe("CCC");
       expect(type.baseQName).toBe(undefined);
       expect(type.baseQNameSuggestion).toBe("structures:ObjectType");
       expect(type.label).toBe("nc:PersonType");
@@ -57,7 +57,7 @@ function testType() {
       expect(type.isComplexType).toBe(false);
       expect(type.isComplexContent).toBe(false);
       expect(type.pattern).toBe("simple");
-      expect(type.style).toBe("S");
+      expect(type.styleCategory).toBe("S");
       expect(type.baseQNameSuggestion).toBe("xs:token");
     });
 

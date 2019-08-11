@@ -109,20 +109,33 @@ class Type extends Component {
     return undefined;
   }
 
+  get style() {
+    return this.pattern;
+  }
+
   /**
    * The general type style - CCC, CSC, or S.
    * @returns {"CCC"|"CSC"|"S"}
    */
-  get style() {
-    if (! this.isComplexType) {
-      return "S";
+  get styleCategory() {
+
+    switch (this.pattern) {
+
+      case "CSC":
+        return "CSC";
+
+      case "adapter":
+      case "association":
+      case "metadata":
+      case "object":
+        return "CCC";
+
+      case "simple":
+      case "list":
+      case "union":
+        return "S";
     }
-    else if (this.isComplexContent) {
-      return "CCC";
-    }
-    else {
-      return "CSC";
-    }
+
   }
 
   /**
