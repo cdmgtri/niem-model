@@ -22,6 +22,17 @@ function testFacet() {
 
     });
 
+    test("prefix", () => {
+      let facet = new Facet(release, "ext:IDCodeSimpleType");
+      expect(facet.typePrefix).toBe("ext");
+
+      facet = new Facet(release, "IDCodeSimpleType");
+      expect(facet.typePrefix).toBe("");
+
+      facet = new Facet(release, null);
+      expect(facet.typePrefix).toBe("");
+    });
+
   });
 
 }

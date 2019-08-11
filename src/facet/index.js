@@ -37,11 +37,20 @@ class Facet extends NIEMObject {
   }
 
   get typePrefix() {
-    return this.typeQName.split(":")[0];
+    if (this.typeQName && this.typeQName.includes(":")) {
+      return this.typeQName.split(":")[0];
+    }
+    return "";
   }
 
   get typeName() {
-    return this.typeQName.includes(":") ? this.typeQName.split(":")[1] : "";
+    if (this.typeQName && this.typeQName.includes(":")) {
+      return this.typeQName.split(":")[1];
+    }
+    if (this.typeQName) {
+      return this.typeQName;
+    }
+    return "";
   }
 
   get authoritativePrefix() {
