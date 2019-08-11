@@ -152,7 +152,7 @@ class Namespace extends NIEMObject {
    * @param {Namespace} ns2
    */
   static sortByPrefix(ns1, ns2) {
-    return ns1.prefix.localeCompare(ns2.prefix);
+    return ns1.prefix ? ns1.prefix.localeCompare(ns2.prefix) : -1;
   }
 
   /**
@@ -167,7 +167,7 @@ class Namespace extends NIEMObject {
 
     // Sort by prefix if styles match
     if (ns1.style == ns2.style) {
-      return ns1.prefix.localeCompare(ns2.prefix);
+      return ns1.prefix ? ns1.prefix.localeCompare(ns2.prefix) : -1;
     }
 
     // Sort by style rank
