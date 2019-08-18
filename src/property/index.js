@@ -9,7 +9,6 @@ const Component = require("../component/index");
 class Property extends Component {
 
   /**
-   * @param {Release} release
    * @param {String} prefix
    * @param {String} name
    * @param {String} [definition]
@@ -18,9 +17,9 @@ class Property extends Component {
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
    */
-  constructor (release, prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+  constructor (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
 
-    super(release, prefix, name, definition);
+    super(prefix, name, definition);
 
     this.typeQName = typeQName;
     this.groupQName = groupQName;
@@ -68,12 +67,24 @@ class Property extends Component {
     if (this.isAttribute) {
       return "attribute";
     }
+    if (this.groupQName) {
+      return "substitution";
+    }
     return "element";
 
   }
 
-  static buildRoute(userKey, modelKey, releaseKey, propertyQName) {
-    return Component.buildRoute(userKey, modelKey, releaseKey, "Property", propertyQName);
+  static route(userKey, modelKey, releaseKey, prefix, name) {
+    let releaseRoute = super.route(userKey, modelKey, releaseKey);
+    return releaseRoute + "/properties/" + prefix + ":" + name;
+  }
+
+  get route() {
+    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+  }
+
+  get sourceDataSet() {
+    if (this.source) return this.source.properties;
   }
 
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {
@@ -88,29 +99,36 @@ class Property extends Component {
     return new Property(release, prefix, name, definition, null, null, true, true);
   }
 
-  /**
-   * @param {"full"|"release"|"namespace"} [scope="full"]
-   */
-  serialize(scope="full") {
-
-    let object = super.serialize(scope);
-
-    if (this.typeQName) {
-      object.typeQName = this.typeQName;
-    }
-
-    if (this.groupQName) {
-      object.groupQName = this.groupQName;
-    }
-
-    object.isElement = this.isElement;
-    object.isAbstract = this.isAbstract;
-
-    return object;
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      typeQName: this.typeQName,
+      isElement: this.isElement,
+      isAbstract: this.isAbstract,
+      groupQName: this.groupQName
+    };
   }
 
 }
 
-module.exports = Property;
+/**
+ * Search criteria options for type find operations.
+ *
+ * String fields are for exact matches.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} prefix
+ * @property {string|RegExp} name
+ * @property {string|RegExp} definition
+ * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
+ * @property {string|RegExp} groupQName
+ * @property {boolean} isElement
+ * @property {boolean} isAbstract
+ */
+Property.CriteriaType = {};
 
-const Release = require("../release/index");
+module.exports = Property;

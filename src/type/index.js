@@ -22,15 +22,6 @@ class Type extends Component {
     this.memberQNames = [];
   }
 
-  static route(userKey, modelKey, releaseKey, prefix, name) {
-    let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/types/" + prefix + ":" + name;
-  }
-
-  get route() {
-    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
-  }
-
   /**
    * True if the type is complex and capable of carrying attributes.
    * @type {Boolean}
@@ -136,6 +127,19 @@ class Type extends Component {
 
   }
 
+  get sourceDataSet() {
+    if (this.source) return this.source.types;
+  }
+
+  static route(userKey, modelKey, releaseKey, prefix, name) {
+    let releaseRoute = super.route(userKey, modelKey, releaseKey);
+    return releaseRoute + "/types/" + prefix + ":" + name;
+  }
+
+  get route() {
+    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+  }
+
   toJSON() {
     return {
       ...super.toJSON(),
@@ -143,10 +147,6 @@ class Type extends Component {
       baseQName: this.baseQName,
       memberQNames: this.memberQNames.length > 0 ? this.memberQNames : undefined
     };
-  }
-
-  get sourceDataSet() {
-    if (this.source) return this.source.types;
   }
 
 }
@@ -182,6 +182,9 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
  * @property {string|RegExp} definition
  * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
  * @property {string|RegExp} baseQName
+ * @property {Type.StyleType[]} styles
+ * @property {boolean} isComplexType
+ * @property {boolean} isComplexContent
  */
 Type.CriteriaType = {};
 

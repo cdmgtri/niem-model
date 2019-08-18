@@ -115,6 +115,27 @@ class Release extends NIEMObject {
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
+   * @param {string} typeQName
+   * @param {string} groupQName
+   * @param {boolean} [isElement=true] Defaults to true
+   * @param {boolean} [isAbstract=false] Defaults to false
+   */
+  async createProperty(prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+
+    let property = new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+    property.release = this;
+
+    if (this.source) {
+      await property.add();
+    }
+
+    return property;
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
    * @param {Type.StyleType} style
    * @param {string} baseQName
    */
@@ -145,6 +166,24 @@ class Release extends NIEMObject {
     if (! this.model) throw new Error(NO_MODEL);
     criteria.releaseKey = this.releaseKey;
     return this.model.namespaces(criteria);
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} name
+   */
+  async property(prefix, name) {
+    if (! this.model) throw new Error(NO_MODEL);
+    return this.model.property(this.releaseKey, prefix, name);
+  }
+
+  /**
+   * @param {Property.CriteriaType} criteria
+   */
+  async properties(criteria) {
+    if (! this.model) throw new Error(NO_MODEL);
+    criteria.releaseKey = this.releaseKey;
+    return this.model.properties(criteria);
   }
 
   /**
@@ -189,3 +228,4 @@ module.exports = Release;
 let Model = require("../model/index");
 let Namespace = require("../namespace/index");
 let Type = require("../type/index");
+let Property = require("../property/index");

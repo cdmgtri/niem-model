@@ -110,6 +110,21 @@ class Model extends NIEMObject {
     return this.niem.namespaces(criteria);
   }
 
+  async property(releaseKey, prefix, name) {
+    if (! this.niem) throw new Error(NO_NIEM);
+    return this.niem.property(this.userKey, this.modelKey, releaseKey, prefix, name);
+  };
+
+  /**
+   * @param {Property.CriteriaType} criteria
+   */
+  async properties(criteria) {
+    if (! this.niem) throw new Error(NO_NIEM);
+    criteria.userKey = this.userKey;
+    criteria.modelKey = this.modelKey;
+    return this.niem.properties(criteria);
+  }
+
   async type(releaseKey, prefix, name) {
     if (! this.niem) throw new Error(NO_NIEM);
     return this.niem.type(this.userKey, this.modelKey, releaseKey, prefix, name);
@@ -149,5 +164,6 @@ module.exports = Model;
 let NIEM = require("../../index");
 let Release = require("../release/index");
 let Namespace = require("../namespace/index");
+let Property = require("../property/index");
 let Type = require("../type/index");
 let NIEMModelSource = require("../interfaces/source/index");

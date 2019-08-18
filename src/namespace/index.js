@@ -124,6 +124,23 @@ class Namespace extends ReleaseObject {
   /**
    * @param {string} name
    */
+  async property(name) {
+    if (! this.release) throw new Error(NO_RELEASE);
+    return this.release.property(this.prefix, name);
+  }
+
+  /**
+   * @param {Property.CriteriaType} criteria
+   */
+  async properties(criteria) {
+    if (! this.release) throw new Error(NO_RELEASE);
+    criteria.prefix = this.prefix;
+    return this.release.properties(criteria);
+  }
+
+  /**
+   * @param {string} name
+   */
   async type(name) {
     if (! this.release) throw new Error(NO_RELEASE);
     return this.release.type(this.prefix, name);
@@ -203,3 +220,4 @@ Namespace.NamespaceStyles = ["core", "domain", "code", "extension", "adapter", "
 module.exports = Namespace;
 
 let Type = require("../type/index");
+let Property = require("../property/index");
