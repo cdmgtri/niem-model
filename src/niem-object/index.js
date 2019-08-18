@@ -1,6 +1,6 @@
 
-let Change = require("../../interfaces/source/change/index");
-let NIEMModelSource = require("../../interfaces/source/index");
+let Change = require("../interfaces/source/change/index");
+let NIEMModelSource = require("../interfaces/source/index");
 
 let { SourceDataSet } = NIEMModelSource;
 

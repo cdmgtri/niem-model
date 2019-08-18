@@ -28,4 +28,4 @@ class Transaction {
 
 module.exports = Transaction;
 
-let NIEMObject = require("../../../src/niem-object/index");
+let NIEMObject = require("../../../niem-object/index");

@@ -1,6 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
-let NIEMModelSourceInterface = require("../../interfaces/source/index");
+let NIEMModelSourceInterface = require("../interfaces/source/index");
 
 class Model extends NIEMObject {
 

@@ -1,5 +1,5 @@
 
-let NIEMModelSource = require("./interfaces/source/index");
+let NIEMModelSource = require("./src/interfaces/source/index");
 
 let Model = require("./src/model/index");
 let Release = require("./src/release/index");
@@ -11,9 +11,6 @@ let Facet = require("./src/facet/index");
 let SubProperty = require("./src/subproperty/index");
 
 /**
- * @todo Fix NIEMModel class
- *
- * @todo Refactor source interface - kinds
  * @todo Add niem-model-source-memory as testing dependency
  *
  * @todo Add object match functions to compare criteria
@@ -249,18 +246,16 @@ NIEM.Model = Model;
 NIEM.Release = Release;
 NIEM.Namespace = Namespace;
 NIEM.LocalTerm = LocalTerm;
+NIEM.Component = require("./src/component/index");
 NIEM.Property = Property;
 NIEM.Type = Type;
 NIEM.Facet = Facet;
 NIEM.SubProperty = SubProperty;
 
-NIEM.Helpers = {
-  NIEMObject: require("./src/niem-object/index"),
-  ReleaseObject: require("./src/release-object/index"),
-  Component: require("./src/component/index")
-};
+NIEM.NIEMObject = require("./src/niem-object/index");
+NIEM.ReleaseObject = require("./src/release-object/index");
 
-NIEM.Interfaces = require("./interfaces/index");
+NIEM.Interfaces = require("./src/interfaces/index");
 
 NIEM.Tests = {
   unitTests: require("./test/unit/index")

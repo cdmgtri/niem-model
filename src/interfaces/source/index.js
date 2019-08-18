@@ -39,11 +39,11 @@ class NIEMModelSourceInterface {
 
 module.exports = NIEMModelSourceInterface;
 
-let Model = require("../../src/model/index");
-let Release = require("../../src/release/index");
-let Namespace = require("../../src/namespace/index");
-let Property = require("../../src/property/index");
-let Type = require("../../src/type/index");
-let Facet = require("../../src/facet/index");
-let SubProperty = require("../../src/subproperty/index");
-let LocalTerm = require("../../src/local-term/index");
+let Model = require("../../model/index");
+let Release = require("../../release/index");
+let Namespace = require("../../namespace/index");
+let Property = require("../../property/index");
+let Type = require("../../type/index");
+let Facet = require("../../facet/index");
+let SubProperty = require("../../subproperty/index");
+let LocalTerm = require("../../local-term/index");
