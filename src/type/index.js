@@ -3,30 +3,32 @@ const Component = require("../component/index");
 
 /**
  * A NIEM Type.
- * @extends {Component}
  */
 class Type extends Component {
 
   /**
-   * @param {Release} release
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
-   * @param {Type.PatternType} pattern
+   * @param {Type.StyleType} style
    * @param {string} [baseQName]
-   * @param {string[]} [memberQNames=[]]
    */
-  constructor(release, prefix, name, definition, pattern, baseQName, memberQNames=[]) {
+  constructor(prefix, name, definition, style, baseQName) {
 
-    super(release, prefix, name, definition);
+    super(prefix, name, definition);
 
-    this.pattern = pattern;
+    this.style = style;
     this.baseQName = baseQName;
-    this.memberQNames = memberQNames;
+    this.memberQNames = [];
   }
 
-  static buildRoute(userKey, modelKey, releaseKey, typeQName) {
-    return Component.buildRoute(userKey, modelKey, releaseKey, "Type", typeQName);
+  static route(userKey, modelKey, releaseKey, prefix, name) {
+    let releaseRoute = super.route(userKey, modelKey, releaseKey);
+    return releaseRoute + "/types/" + prefix + ":" + name;
+  }
+
+  get route() {
+    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
   }
 
   /**
@@ -34,14 +36,14 @@ class Type extends Component {
    * @type {Boolean}
    */
   get isComplexType() {
-    return this.pattern ? Type.ComplexPatterns.hasOwnProperty(this.pattern) : false;
+    return this.style ? Type.ComplexStyles.includes(this.style) : false;
   }
 
   /**
    * True if the type is complex and capable of carrying elements.
    */
   get isComplexContent() {
-    return this.isComplexType && this.pattern !== "CSC";
+    return this.isComplexType && this.style !== "CSC";
   }
 
   /**
@@ -49,7 +51,7 @@ class Type extends Component {
    * @type {Boolean}
    */
   get isSimpleType() {
-    return this.pattern ? Type.SimplePatterns.hasOwnProperty(this.pattern) : false;
+    return this.style ? Type.SimpleStyles.includes(this.style) : false;
   }
 
   /**
@@ -57,7 +59,7 @@ class Type extends Component {
    * type with a value and attributes).
    */
   get isSimpleContent() {
-    return this.isSimpleType || this.pattern == "CSC";
+    return this.isSimpleType || this.style == "CSC";
   }
 
   /**
@@ -84,33 +86,29 @@ class Type extends Component {
     return undefined;
   }
 
-  get baseQNameSuggestion() {
+  get baseQNameDefault() {
     if (this.baseQName) {
       return this.baseQName;
     }
 
     // Return defaults if an explicit base type is not set
-    if (this.pattern == "object" || this.pattern == "adapter") {
+    if (this.style == "object" || this.style == "adapter") {
       return "structures:ObjectType";
     }
-    if (this.pattern == "association") {
+    if (this.style == "association") {
       return "structures:AssociationType";
     }
-    if (this.pattern == "augmentation") {
+    if (this.style == "augmentation") {
       return "structures:AugmentationType";
     }
-    if (this.pattern == "metadata") {
+    if (this.style == "metadata") {
       return "structures:MetadataType";
     }
-    if (this.pattern == "simple") {
+    if (this.style == "simple") {
       return "xs:token";
     }
 
     return undefined;
-  }
-
-  get style() {
-    return this.pattern;
   }
 
   /**
@@ -119,7 +117,7 @@ class Type extends Component {
    */
   get styleCategory() {
 
-    switch (this.pattern) {
+    switch (this.style) {
 
       case "CSC":
         return "CSC";
@@ -138,57 +136,53 @@ class Type extends Component {
 
   }
 
-  /**
-   * @param {"full"|"release"|"namespace"} [scope="full"]
-   */
-  serialize(scope="full") {
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      style: this.style,
+      baseQName: this.baseQName,
+      memberQNames: this.memberQNames.length > 0 ? this.memberQNames : undefined
+    };
+  }
 
-    let object = super.serialize(scope);
-
-    object.pattern = this.pattern;
-
-    if (this.baseQName) {
-      object.baseQName = this.baseQName;
-    }
-
-    if (this.memberQNames.length > 0) {
-      object.memberQNames = this.memberQName;
-    }
-
-    return object;
+  get sourceDataSet() {
+    if (this.source) return this.source.types;
   }
 
 }
 
 /** @type {"object"|"adapter"|"association"|"augmentation"|"metadata"|"CSC"} */
-Type.ComplexPatternType;
+Type.ComplexStyleType;
 
 /** @type {"simple"|"list"|"union"} */
-Type.SimplePatternType;
+Type.SimpleStyleType;
 
-/** @type {Type.ComplexPatternType | Type.SimplePatternType} */
-Type.PatternType = "";
+/** @type {Type.ComplexStyleType | Type.SimpleStyleType} */
+Type.StyleType = "";
 
-Type.ComplexPatterns = {
-  "object": "object",
-  "adapter": "adapter",
-  "association": "association",
-  "augmentation": "augmentation",
-  "metadata": "metadata",
-  "CSC": "CSC"
-};
+Type.ComplexStyles = ["object", "adapter", "association", "augmentation", "metadata", "CSC"];
 
-Type.SimplePatterns = {
-  "simple": "simple",
-  "list": "list",
-  "union": "union"
-};
+Type.SimpleStyles = ["simple", "list", "union"];
 
-Type.Patterns = {
-  ...Type.ComplexPatterns,
-  ...Type.SimplePatterns
-}
+Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
+
+
+/**
+ * Search criteria options for type find operations.
+ *
+ * String fields are for exact matches.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} prefix
+ * @property {string|RegExp} name
+ * @property {string|RegExp} definition
+ * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
+ * @property {string|RegExp} baseQName
+ */
+Type.CriteriaType = {};
 
 module.exports = Type;
-
-const Release = require("../release/index");

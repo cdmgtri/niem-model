@@ -1,5 +1,5 @@
 {
-  "name": "niem-model-objects",
+  "name": "niem-model",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,5 +17,6 @@
     "coveralls": "^3.0.5",
     "jest": "^24.8.0",
     "jsdoc": "^3.6.3"
-  }
+  },
+  "dependencies": {}
 }

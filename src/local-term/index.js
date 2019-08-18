@@ -1,18 +1,16 @@
 
-let NIEMObject = require("../niem-object/index");
+let ReleaseObject = require("../release-object/index");
 
-class LocalTerm extends NIEMObject {
+class LocalTerm extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {String} prefix
    * @param {String} term
    * @param {String} literal
    * @param {String} definition
    */
-  constructor(release, prefix, term, literal, definition) {
+  constructor(prefix, term, literal, definition) {
     super();
-    this.release = release;
     this.prefix = prefix;
     this.term = term;
     this.literal = literal;
@@ -20,11 +18,7 @@ class LocalTerm extends NIEMObject {
   }
 
   get route() {
-    return LocalTerm.buildRoute(this.release.userKey, this.release.modelKey, this.release.releaseKey, this.prefix, this.term) ;
-  }
-
-  get authoritativePrefix() {
-    return this.prefix;
+    return LocalTerm.route(this.release.userKey, this.release.modelKey, this.releaseKey, this.prefix, this.term) ;
   }
 
   /**
@@ -34,38 +28,38 @@ class LocalTerm extends NIEMObject {
    * @param {String} prefix
    * @param {String} term
    */
-  static buildRoute(userKey, modelKey, releaseKey, prefix, term) {
+  static route(userKey, modelKey, releaseKey, prefix, term) {
     let Namespace = require("../namespace/index");
-    let route = Namespace.buildRoute(userKey, modelKey, releaseKey, prefix);
-    return route + "/terms/" + term;
+    let namespaceRoute = Namespace.route(userKey, modelKey, releaseKey, prefix);
+    return namespaceRoute + "/terms/" + term;
   }
 
-  /**
-   * @param {"release"|"namespace"|"full"} [scope="full"]
-   */
-  serialize(scope="full") {
+  get authoritativePrefix() {
+    return this.prefix;
+  }
 
-    let object = {};
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      prefix: this.prefix,
+      term: this.term
+    };
+  }
 
-    if (scope == "full") {
-      object.userKey = this.userKey;
-      object.modelKey = this.modelKey;
-      object.releaseKey = this.releaseKey;
+  get sourceDataSet() {
+    if (this.source) return this.source.localTerms;
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      prefix: this.prefix,
+      term: this.term,
+      literal: this.literal,
+      definition: this.definition
     }
-
-    if (scope == "full" || scope == "release") {
-      object.prefix = this.prefix;
-    }
-
-    object.term = this.term;
-    object.literal = this.literal;
-    object.definition = this.definition;
-
-    return object;
   }
 
 }
 
 module.exports = LocalTerm;
-
-let Release = require("../release/index");

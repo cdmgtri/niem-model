@@ -9,7 +9,7 @@ function testModel() {
     let model;
 
     test("#route", () => {
-      model = new Model(null, "niem", "referenceModel", "model");
+      model = new Model("niem", "referenceModel", "model");
       expect(model.route).toBe("/niem/referenceModel");
     });
 

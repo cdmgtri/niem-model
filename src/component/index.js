@@ -1,22 +1,21 @@
 
-let NIEMObject = require("../niem-object/index");
+let ReleaseObject = require("../release-object/index");
 
 /**
  * A root class for commonalities between properties and types.
  * @abstract
  */
-class Component extends NIEMObject {
+class Component extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
    */
-  constructor(release, prefix, name, definition) {
+  constructor(prefix, name, definition) {
+
     super();
 
-    this.release = release;
     this.prefix = prefix;
     this.name = name;
     this.definition = definition;
@@ -29,24 +28,21 @@ class Component extends NIEMObject {
     return this.qname;
   }
 
-  get route() {
-    return Component.buildRoute(this.userKey, this.modelKey, this.releaseKey, this.componentClass, this.qname);
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      prefix: this.prefix,
+      name: this.name
+    };
   }
 
-  /**
-   *
-   * @static
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
-   * @param {"Property"|"Type"} componentClass
-   * @param {String} qname
-   * @returns {String}
-   */
-  static buildRoute(userKey, modelKey, releaseKey, componentClass, qname) {
-    let str = Release.buildRoute(userKey, modelKey, releaseKey) + "/";
-    str += componentClass == "Property" ? "properties/" : "types/";
-    return str + qname;
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      prefix: this.prefix,
+      name: this.name,
+      definition: this.definition
+    };
   }
 
   get authoritativePrefix() {
@@ -133,5 +129,3 @@ class Component extends NIEMObject {
 }
 
 module.exports = Component;
-
-let Release = require("../release/index");

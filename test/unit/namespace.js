@@ -1,51 +1,44 @@
 
 function testNamespace() {
 
-  let { Model, Release, Namespace } = require("../../index");
+  let { Model, Namespace } = require("../../index");
+
+  /** @type {Namespace} */
+  let namespace;
 
   describe("Namespace", () => {
 
-    let model = new Model(null, "user", "test");
-    let release = new Release(model, "1.0");
-    let namespace = new Namespace(release, "nc");
+    beforeAll( async() => {
+      let model = new Model("user", "test");
+      let release = await model.createRelease("1.0");
+      namespace = await release.createNamespace("nc");
+    });
 
     let namespaces = [
-      new Namespace(null, "core", null, null, null, null, "core"),
-      new Namespace(null, "ag", null, null, null, null, "domain"),
-      new Namespace(null, "em", null, null, null, null, "domain"),
-      new Namespace(null, "ncic", null, null, null, null, "code"),
-      new Namespace(null, "aamva", null, null, null, null, "code"),
-      new Namespace(null, "arrestRpt", null, null, null, null, "extension"),
-      new Namespace(null, "extension", null, null, null, null, "extension"),
+      new Namespace("core", "core"),
+      new Namespace("ag", "domain"),
+      new Namespace("em", "domain"),
+      new Namespace("ncic", "code"),
+      new Namespace("aamva", "code"),
+      new Namespace("arrestRpt", "extension"),
+      new Namespace("extension", "extension"),
     ];
-
-    let expectedJSON = {
-      prefix: "nc",
-      conformanceTargets: [],
-      isBuiltIn: false,
-      isPreGenerated: false,
-      source_line: "",
-      source_location: "",
-      source_position: ""
-    };
 
     test("#route", () => {
       expect(namespace.route).toBe("/user/test/1.0/namespaces/nc");
     });
 
-    test("#serialize", () => {
-      // Check scoped to release
-      let receivedJSON = namespace.serialize("release");
-      expect(receivedJSON).toEqual(expectedJSON);
+    test("#toJSON", () => {
 
-      // Check full scope
-      receivedJSON = namespace.serialize();
+      let expectedJSON = {
+        id: "/user/test/1.0/namespaces/nc",
+        userKey: "user",
+        modelKey: "test",
+        releaseKey: "1.0",
+        prefix: "nc"
+      };
 
-      // Update expectedJSON with sandbox values
-      expectedJSON.modelKey = release.modelKey,
-      expectedJSON.releaseKey = release.releaseKey,
-      expectedJSON.userKey = release.userKey
-
+      let receivedJSON = JSON.parse(JSON.stringify(namespace));
       expect(receivedJSON).toEqual(expectedJSON);
     });
 

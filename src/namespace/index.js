@@ -1,50 +1,82 @@
 
-let NIEMObject = require("../niem-object/index");
+let ReleaseObject = require("../release-object/index");
+
+const NO_RELEASE = "Namespace does not belong to a release";
 
 /**
  * A NIEM Namespace
  */
-class Namespace extends NIEMObject {
+class Namespace extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {String} prefix
+   * @param {Namespace.NamespaceStyleType} [style]
    * @param {String} [uri]
    * @param {String} [fileName]
    * @param {String} [definition]
    * @param {String} [version]
-   * @param {Namespace.NamespaceStyleType} [style]
-   * @param {String} [version]
-   * @param {Boolean} [isPreGenerated=false]
-   * @param {String[]} [conformanceTargets=[]]
-   * @param {String} [relativePath]
-   * @param {String} [xsdString] - XSD text for external (non-parsed) namespaces
    */
-  constructor(release, prefix, uri, fileName, definition, version, style,
-    isPreGenerated=false, conformanceTargets=[], relativePath, xsdString ) {
+  constructor(prefix, style, uri, fileName, definition, version) {
 
     super();
 
-    this.release = release;
     this.prefix = prefix;
-    this.fileName = fileName;
+    this.style = style;
     this.uri = uri;
+    this.fileName = fileName;
     this.definition = definition;
     this.version = version;
-    this.style = style;
-    this.isPreGenerated = isPreGenerated;
-    this.conformanceTargets = conformanceTargets;
-    this.relativePath = relativePath;
-    this.xsdString = xsdString;
-    this.isBuiltIn = false;
+
+    this.conformanceTargets = [];
+
+    /** @type {String} */
+    this.relativePath;
+
+    /** @type {String} */
+    this.xsdString;
   }
 
-  get route() {
-    return Namespace.buildRoute(this.userKey, this.modelKey, this.releaseKey, this.prefix);
+  get sourceDataSet() {
+    if (this.source) return this.source.namespaces;
   }
 
   get label() {
     return this.prefix;
+  }
+
+  static route(userKey, modelKey, releaseKey, prefix) {
+    return super.route(userKey, modelKey, releaseKey) + "/namespaces/" + prefix;
+  }
+
+  /**
+   * @example "/niem/model/4.0/namespaces/nc"
+   * @example "/lapd/arrestReport/1.0/namespaces/nc"
+   * @example "/lapd/arrestReport/1.0/namespaces/ext"
+   */
+  get route() {
+    return Namespace.route(this.userKey, this.modelKey, this.releaseKey, this.prefix);
+  }
+
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      prefix: this.prefix
+    }
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      prefix: this.prefix,
+      uri: this.uri,
+      fileName: this.fileName,
+      definition: this.definition,
+      version: this.version,
+      style: this.style,
+      conformanceTargets: this.conformanceTargets.length > 0 ? this.conformanceTargets : undefined,
+      relativePath: this.relativePath,
+      xsdString: this.xsdString
+    };
   }
 
   get authoritativePrefix() {
@@ -58,6 +90,7 @@ class Namespace extends NIEMObject {
       case "domain":
         return 2;
       case "code":
+      case "csv":
         return 3;
       case "extension":
         return 4;
@@ -67,81 +100,42 @@ class Namespace extends NIEMObject {
         return 6;
       case "utility":
         return 7;
-      case "external":
+      case "built-in":
         return 8;
+      case "external":
+        return 9;
     }
     return 99;
   }
 
   get conformanceRequired() {
-    return (this.style == "utility" || this.style == "external") ? false : true;
-  }
-
-  static buildRoute(userKey, modelKey, releaseKey, prefix) {
-    return Release.buildRoute(userKey, modelKey, releaseKey) + "/namespaces/" + prefix;
-  }
-
-  /**
-   * The NDR conformance target for the namespace, if available
-   *
-   * @example http://reference.niem.gov/niem/specification/naming-and-design-rules/4.0/#ReferenceSchemaDocument
-   * @type {String}
-   */
-  get ndrConformanceTargetIdentifier() {
-    let ndrTargetPrefix = "http://reference.niem.gov/niem/specification/naming-and-design-rules/";
-    return this.conformanceTargets.find( tgt => tgt.startsWith(ndrTargetPrefix));
+    /** @type {Namespace.NamespaceStyleType[]} */
+    let nonconformantStyles = ["built-in", "csv", "external", "utility"];
+    return ! nonconformantStyles.includes(this.style);
   }
 
   /**
    * @type {"3.0"|"4.0"}
    */
   get ndrVersion() {
-    let target = this.ndrConformanceTargetIdentifier;
-    if (target) {
-      // Capture the NDR version number, e.g., 4.0
-      let re = /.*\/(\d\.\d)\/#.*SchemaDocument/;
-      let matches = re.exec(target);
-      if (matches.length > 0) {
-        return matches[1];
-      }
-    }
     return undefined;
   }
 
   /**
-   * @type {"ReferenceSchemaDocument"|"ExtensionSchemaDocument"}
+   * @param {string} name
    */
-  get ndrConformanceTarget() {
-    if (this.ndrVersion) {
-      return this.ndrConformanceTargetIdentifier.split("#")[1];
-    }
-    return null;
-  }
-
-  get hasNDRConformanceTarget() {
-    return typeof this.ndrConformanceTarget == "string";
+  async type(name) {
+    if (! this.release) throw new Error(NO_RELEASE);
+    return this.release.type(this.prefix, name);
   }
 
   /**
-   * @param {"full"|"release"} [scope="full"]
+   * @param {Type.CriteriaType} criteria
    */
-  serialize(scope="full") {
-
-    // Get namespace fields without release info
-    let json = JSON.parse( JSON.stringify(this) );
-    delete json.release
-
-    if (scope == "release") {
-      // Return the namespace relative to its release (no release fields)
-      return json;
-    }
-
-    // Return the full set of namespace fields
-    return {
-      ...this.releaseIdentifiers,
-      ...json
-    }
-
+  async types(criteria) {
+    if (! this.release) throw new Error(NO_RELEASE);
+    criteria.prefix = this.prefix;
+    return this.release.types(criteria);
   }
 
   /**
@@ -182,14 +176,30 @@ class Namespace extends NIEMObject {
    * @param {Namespace} ns2
    */
   static sortByURI(ns1, ns2) {
-    return ns1.uri.localeCompare(ns2.uri);
+    return ns1.uri ? ns1.uri.localeCompare(ns2.uri) : -1;
   }
 
 }
 
-/** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"} */
+/**
+ * Search criteria options for namespace find operations.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} prefix
+ * @property {Namespace.NamespaceStyleType[]} styles
+ * @property {boolean} conformanceRequired
+ */
+Namespace.CriteriaType = {};
+
+/** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"} */
 Namespace.NamespaceStyleType;
+
+Namespace.NamespaceStyles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in"];
 
 module.exports = Namespace;
 
-let Release = require("../release/index");
+let Type = require("../type/index");

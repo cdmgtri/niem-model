@@ -1,4 +1,9 @@
 
+let Change = require("../interfaces/source/change/index");
+let NIEMModelSource = require("../interfaces/source/index");
+
+let { SourceDataSet } = NIEMModelSource;
+
 /**
  * Commonalities of NIEM components and other items.
  */
@@ -6,80 +11,230 @@ class NIEMObject {
 
   constructor() {
 
-    /** A file name, a spreadsheet tab, etc. */
-    this.source_location = "";
+    /**
+     * The object ID from the latest source transaction.
+     * @type {string}
+     */
+    this.lastTransactionID;
 
-    /** A line number, a spreadsheet row, etc. */
-    this.source_line = "";
+    /**
+     * The corresponding object ID from the previous release.
+     * @type {string}
+     */
+    this.migrationID;
 
-    /** A character position in a line, a spreadsheet column, etc. */
-    this.source_position = "";
+    /**
+     * A file name, a spreadsheet tab, etc.
+     * @type {String}
+     */
+    this.input_location;
+
+    /**
+     * A line number, a spreadsheet row, etc.
+     * @type {String}
+     */
+    this.input_line;
 
   }
 
   /**
-   * Returns the prefix of the namespace responsible for the object.
-   *
-   * @example For element nc:Person, returns "nc"
-   * @example For type-has-property relationship type j:SubjectType-has-property nc:RoleOfPerson, returns "j"
+   * Model data source used to access and modify components.
+   * @type {NIEMModelSource}
    */
-  get authoritativePrefix() {
-    return "";
+  get source() {
+    return undefined;
   }
 
   /**
-   * A string with enough information to generally identify a component.
-   * Used for documentation purposes.
-   *
-   * @example Property label "nc:PersonHairColorCode"
-   * @example Type-Contains-Property label "nc:PersonType - nc:PersonBirthDate"
-   * @example Facet label "ncic:HAIRCodeSimpleType enumeration BLK"
+   * @type {SourceDataSet<NIEMObject>}
    */
-  get label() {
-    return "";
+  get sourceDataSet() {
+    return undefined;
   }
 
-  get route() {
-    return "";
-  }
-
+  /**
+   * An object ID.
+   * May be overwritten to return a new kind of value, like a database id.
+   */
   get id() {
     return this.route;
   }
 
-  static buildRoute() {
-    return "";
+  /**
+   * A readable label for a NIEM object.
+   * May not be unique in certain cases (non-unique codes) or across releases.
+   *
+   * @example "niem model"
+   * @example "lapd arrestReport"
+   *
+   * @example Property label "nc:PersonHairColorCode"
+   * @example Type-Contains-Property label "nc:PersonType - nc:PersonBirthDate"
+   * @example Facet label "ncic:HAIRCodeSimpleType - enum BLK"
+   */
+  get label() {
+    return this.userKey + " " + this.modelKey;
+  }
+
+  static route(userKey, modelKey) {
+    return "/" + userKey + "/" + modelKey;
+  }
+
+  /**
+   * An ID that distinguishes objects across different users, models, and releases.
+   * Not unique for duplicate facets.
+   *
+   * @example "/niem/model"
+   * @example "/lapd/arrestReport"
+   */
+  get route() {
+    return NIEMObject.route(this.userKey, this.modelKey);
   }
 
   get modelKey() {
-    return this.release && this.release.modelKey ? this.release.modelKey : "undefined";
+    return undefined;
   }
 
   get userKey() {
-    return this.release && this.release.userKey ? this.release.userKey : "undefined";
+    return undefined;
   }
 
-  get releaseKey() {
-    return this.release && this.release.releaseKey ? this.release.releaseKey : "undefined";
-  }
-
-  get releaseIdentifiers() {
+  get identifiers() {
     return {
       userKey: this.userKey,
+      modelKey: this.modelKey
+    };
+  }
+
+  toJSON() {
+    return {
+      id: this.id,
+      userKey: this.userKey,
       modelKey: this.modelKey,
-      releaseKey: this.releaseKey
+      migrationID: this.migrationID,
+      transactionID: this.lastTransactionID,
+      input_location: this.input_location,
+      input_line: this.input_line
     };
   }
 
   /**
    * @param {String} location
    * @param {String} line
-   * @param {String} position
    */
-  updateSource(location, line, position) {
-    this.source_location = location;
-    this.source_line = line;
-    this.source_position = position;
+  updateSource(location, line) {
+    this.input_location = location;
+    this.input_line = line;
+  }
+
+  /**
+   * Check for values in all required identifier fields
+   */
+  hasBaselineFields() {
+    for (let field in this.identifiers) {
+      if (! this.identifiers[field]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks that a NIEM object has unique identifiers needed for source operations.
+   *
+   * @example "Throws error if a type does not have a name."
+   * @example "Returns if a type has a userKey, modelKey, releaseKey, prefix, and name."
+   * @throws
+   */
+  async checkBaselineFields() {
+    if (! this.hasBaselineFields()) {
+      throw new Error("Required fields are missing");
+    }
+  }
+
+  /**
+   * Checks that an object ID does or does not exist in the source.
+   *
+   * @example "False if a type does not have a name."
+   * @example "False if a type has the same name as another type in the namespace."
+   * @example "True if a type has a unique qname within its release."
+   *
+   * @param {"exists"|"available"} expectedStatus
+   * @param {string} id
+   *
+   * @throws {Error} Required fields are missing
+   * @throws {Error} Required fields are not unique
+   * @throws {Error} No NIEM source data implementation
+   */
+  async checkSourceID(expectedStatus, id) {
+
+    if (! this.source || ! this.sourceDataSet) {
+      throw new Error("No NIEM source data implementation");
+    }
+
+    // Check for an existing object with the given id
+    let match = await this.sourceDataSet.get(id);
+
+    if (expectedStatus == "available" && match) {
+      throw new Error("Required fields are not unique");
+    }
+
+    if (expectedStatus == "exists" && ! match ) {
+      throw new Error("Object not found");
+    }
+
+  }
+
+  /**
+   * Save changes to the object.
+   * @param {Change} change
+   */
+  async add(change) {
+
+    // Check required fields and that object is unique
+    await this.checkBaselineFields();
+    await this.checkSourceID("available", this.id);
+
+    // Add object
+    await this.sourceDataSet.add(this, change);
+
+    // Initialize transaction id
+    this.lastTransactionID = this.id;
+
+    return this;
+  }
+
+  /**
+   * Save changes to the object.
+   * @param {Change} change
+   */
+  async save(change) {
+
+    // Check required fields and that object exists
+    await this.checkBaselineFields();
+    await this.checkSourceID("exists", this.lastTransactionID);
+
+    // Update object
+    await this.sourceDataSet.edit(this, change);
+
+    // Reset transaction id
+    this.lastTransactionID = this.id;
+
+    return this;
+  }
+
+  /**
+   * Deletes the object.
+   * @param {Change} change
+   */
+  async delete(change) {
+
+    // Check that object exists
+    await this.checkSourceID("exists", this.lastTransactionID);
+
+    // Remove object from data source
+    this.sourceDataSet.delete(this, change);
+
+    return this;
   }
 
 }
