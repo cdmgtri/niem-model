@@ -13,7 +13,7 @@ let SubProperty = require("./src/subproperty/index");
 /**
  * @todo Fix NIEMModel class
  *
- * @todo Refactor source interface accessors into classes
+ * @todo Refactor source interface - kinds
  * @todo Add niem-model-source-memory as testing dependency
  *
  * @todo Add object match functions to compare criteria
@@ -104,6 +104,10 @@ class NIEM {
     return this.source.models.find(criteria);
   }
 
+  async niemModel() {
+    return this.model("niem", "model");
+  }
+
   /**
    * @param {string} userKey
    * @param {string} modelKey
@@ -119,6 +123,10 @@ class NIEM {
    */
   async releases(criteria) {
     return this.source.releases.find(criteria);
+  }
+
+  async niemRelease(releaseKey) {
+    return this.release("niem", "model", releaseKey);
   }
 
   /**

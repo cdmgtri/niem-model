@@ -39,22 +39,24 @@ class Namespace extends ReleaseObject {
       case "core":
         return 1;
       case "domain":
-        return 2;
+        return 5;
       case "code":
       case "csv":
-        return 3;
+        return 10;
       case "extension":
-        return 4;
+        return 15;
+      case "CS":
+        return 20;
       case "adapter":
-        return 5;
+        return 25;
       case "proxy":
-        return 6;
+        return 30;
       case "utility":
-        return 7;
+        return 35;
       case "built-in":
-        return 8;
+        return 40;
       case "external":
-        return 9;
+        return 45;
     }
     return 99;
   }
@@ -335,10 +337,10 @@ class Namespace extends ReleaseObject {
  */
 Namespace.CriteriaType = {};
 
-/** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"} */
+/** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} */
 Namespace.StyleType;
 
-Namespace.Styles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in"];
+Namespace.Styles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "CS"];
 
 module.exports = Namespace;
 

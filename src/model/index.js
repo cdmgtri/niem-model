@@ -199,6 +199,7 @@ Model.Styles = ["model", "IEPD", "other"];
  * @typedef {Object} CriteriaType
  * @property {string} userKey
  * @property {string} modelKey
+ * @property {Model.StyleType} style
  */
 Model.CriteriaType = {};
 
