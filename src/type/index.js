@@ -145,8 +145,24 @@ class Type extends Component {
     return facet;
   }
 
-  async namespace() {
-    return this.release.namespace(this.prefix);
+  /**
+   * @param {string} propertyQName
+   * @param {string} [min="0"] Defaults to "0"
+   * @param {string} [max="unbounded"] Defaults to "unbounded"
+   * @param {string} definition
+   */
+  async createSubProperty(propertyQName, min="0", max="unbounded", definition) {
+
+    let subProperty = new SubProperty(this.qname, propertyQName, min, max, definition);
+    subProperty.release = this.release;
+
+    try {
+      await subProperty.add();
+    }
+    catch (err) {
+    }
+
+    return subProperty;
   }
 
   async base() {
@@ -174,17 +190,38 @@ class Type extends Component {
     return this.release.facet(this.prefix, this.name, style, value);
   }
 
-  async facets() {
-    return this.release.facets({prefix: this.prefix, name: this.name});
+  /**
+   * @param {Facet.CriteriaType} criteria
+   */
+  async facets(criteria) {
+    criteria.prefix = this.prefix;
+    criteria.name = this.name;
+    return this.release.facets(criteria);
   }
 
-  static route(userKey, modelKey, releaseKey, prefix, name) {
+  /**
+   * @param {string} propertyQName
+   */
+  async subProperty(propertyQName) {
+    return this.release.subProperty(this.qname, propertyQName);
+  }
+
+  /**
+   * @param {SubProperty.CriteriaType} criteria
+   */
+  async subProperties(criteria) {
+    criteria.typePrefix = this.prefix;
+    criteria.typeName = this.name;
+    return this.release.subProperties(criteria);
+  }
+
+  static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/types/" + prefix + ":" + name;
+    return releaseRoute + "/types/" + qname;
   }
 
   get route() {
-    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.qname);
   }
 
   toJSON() {

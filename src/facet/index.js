@@ -44,20 +44,19 @@ class Facet extends ReleaseObject {
   }
 
   get route() {
-    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.value, this.style);
+    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style);
   }
 
   /**
    * @param {string} userKey
    * @param {string} modelKey
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} typeQName
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  static route(userKey, modelKey, releaseKey, prefix, name, value, style="enumeration") {
-    let typeRoute = Type.route(userKey, modelKey, releaseKey, prefix, name);
+  static route(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
     return typeRoute + `/facets/${style}/${value}`;
   }
 

@@ -84,6 +84,19 @@ class Model extends NIEMObject {
     return this.niem.namespaces(criteria);
   }
 
+  async localTerm(releaseKey, prefix, term) {
+    return this.niem.localTerm(this.userKey, this.modelKey, releaseKey, prefix, term);
+  }
+
+  /**
+   * @param {LocalTerm.CriteriaType} criteria
+   */
+  async localTerms(criteria) {
+    criteria.userKey = this.userKey;
+    criteria.modelKey = this.modelKey;
+    return this.niem.localTerms(criteria);
+  }
+
   async property(releaseKey, prefix, name) {
     return this.niem.property(this.userKey, this.modelKey, releaseKey, prefix, name);
   };
@@ -112,13 +125,12 @@ class Model extends NIEMObject {
 
   /**
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} typeQName
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  async facet(releaseKey, prefix, name, value, style="enumeration") {
-    return this.niem.facet(this.userKey, this.modelKey, releaseKey, prefix, name, value, style);
+  async facet(releaseKey, typeQName, value, style="enumeration") {
+    return this.niem.facet(this.userKey, this.modelKey, releaseKey, typeQName, value, style);
   };
 
   /**
@@ -128,6 +140,19 @@ class Model extends NIEMObject {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.facets(criteria);
+  }
+
+  async subProperty(releaseKey, typeQName, propertyQName) {
+    return this.niem.subProperty(this.userKey, this.modelKey, releaseKey, typeQName, propertyQName);
+  };
+
+  /**
+   * @param {SubProperty.CriteriaType} criteria
+   */
+  async subProperties(criteria) {
+    criteria.userKey = this.userKey;
+    criteria.modelKey = this.modelKey;
+    return this.niem.subProperties(criteria);
   }
 
   get label() {

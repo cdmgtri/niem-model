@@ -51,8 +51,7 @@ class ReleaseObject extends NIEMObject {
 
   get identifiers() {
     return {
-      releaseKey: this.releaseKey,
-      ...super.identifiers
+      ...this.release.identifiers
     };
   }
 

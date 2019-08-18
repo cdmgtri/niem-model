@@ -47,7 +47,18 @@ class LocalTerm extends ReleaseObject {
   }
 
   get sourceDataSet() {
-    if (this.source) return this.source.localTerms;
+    return this.source.localTerms;
+  }
+
+  get namespace() {
+    return this.release.namespace(this.prefix);
+  }
+
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      term: this.term
+    }
   }
 
   toJSON() {
@@ -61,5 +72,19 @@ class LocalTerm extends ReleaseObject {
   }
 
 }
+
+
+/**
+ * Search criteria options for local term find operations.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} prefix
+ * @property {string|RegExp} text
+ */
+LocalTerm.CriteriaType = {};
 
 module.exports = LocalTerm;

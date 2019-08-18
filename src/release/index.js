@@ -43,13 +43,12 @@ class Release extends NIEMObject {
   }
 
   /**
-   * @param {string} releaseKey
-   * @param {string} niemReleaseKey
+   * @param {string} prefix
+   * @param {Namespace.StyleType} style
+   * @param {string} uri
+   * @param {string} fileName
+   * @param {string} definition
    * @param {string} version
-   * @param {Release.StatusType} status
-   * @param {string} baseURI
-   * @param {string} branch
-   * @param {string} description
    */
   async createNamespace(prefix, style, uri, fileName, definition, version) {
 
@@ -63,6 +62,26 @@ class Release extends NIEMObject {
     }
 
     return namespace;
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} term
+   * @param {string} literal
+   * @param {string} definition
+   */
+  async createLocalTerm(prefix, term, literal, definition) {
+
+    let localTerm = new LocalTerm(prefix, term, literal, definition);
+    localTerm.release = this;
+
+    try {
+      await localTerm.add();
+    }
+    catch (err) {
+    }
+
+    return localTerm;
   }
 
   /**
@@ -130,6 +149,27 @@ class Release extends NIEMObject {
   }
 
   /**
+   * @param {string} typeQName
+   * @param {string} propertyQName
+   * @param {string} min
+   * @param {string} max
+   * @param {string} definition
+   */
+  async createSubProperty(typeQName, propertyQName, min, max, definition) {
+
+    let subProperty = new SubProperty(typeQName, propertyQName, min, max, definition);
+    subProperty.release = this;
+
+    try {
+      await subProperty.add();
+    }
+    catch (err) {
+    }
+
+    return subProperty;
+  }
+
+  /**
    * @param {string} prefix
    */
   async namespace(prefix) {
@@ -142,6 +182,22 @@ class Release extends NIEMObject {
   async namespaces(criteria) {
     criteria.releaseKey = this.releaseKey;
     return this.model.namespaces(criteria);
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} term
+   */
+  async localTerm(prefix, term) {
+    return this.model.localTerm(this.releaseKey, prefix, term);
+  }
+
+  /**
+   * @param {LocalTerm.CriteriaType} criteria
+   */
+  async localTerms(criteria) {
+    criteria.releaseKey = this.releaseKey;
+    return this.model.localTerms(criteria);
   }
 
   /**
@@ -192,6 +248,22 @@ class Release extends NIEMObject {
   async facets(criteria) {
     criteria.releaseKey = this.releaseKey;
     return this.model.facets(criteria);
+  }
+
+  /**
+   * @param {string} typeQName
+   * @param {string} propertyQName
+   */
+  async subProperty(typeQName, propertyQName) {
+    return this.model.subProperty(this.releaseKey, typeQName, propertyQName);
+  }
+
+  /**
+   * @param {SubProperty.CriteriaType} criteria
+   */
+  async subProperties(criteria) {
+    criteria.releaseKey = this.releaseKey;
+    return this.model.subProperties(criteria);
   }
 
   get modelKey() {

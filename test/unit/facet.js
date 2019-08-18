@@ -6,7 +6,7 @@ function testFacet() {
   /** @type {Release} */
   let release;
 
-  describe.only("Facet", () => {
+  describe("Facet", () => {
 
     beforeAll( async () => {
       let model = new Model("user", "test");

@@ -8,7 +8,7 @@ class Namespace extends ReleaseObject {
 
   /**
    * @param {String} prefix
-   * @param {Namespace.NamespaceStyleType} [style]
+   * @param {Namespace.StyleType} [style]
    * @param {String} [uri]
    * @param {String} [fileName]
    * @param {String} [definition]
@@ -60,7 +60,7 @@ class Namespace extends ReleaseObject {
   }
 
   get conformanceRequired() {
-    /** @type {Namespace.NamespaceStyleType[]} */
+    /** @type {Namespace.StyleType[]} */
     let nonconformantStyles = ["built-in", "csv", "external", "utility"];
     return ! nonconformantStyles.includes(this.style);
   }
@@ -76,6 +76,24 @@ class Namespace extends ReleaseObject {
     return this.source.namespaces;
   }
 
+  /**
+   * @param {string} term
+   * @param {string} literal
+   * @param {string} definition
+   */
+  async createLocalTerm(term, literal, definition) {
+
+    let localTerm = new LocalTerm(this.prefix, term, literal, definition);
+    localTerm.release = this.release;
+
+    try {
+      await localTerm.add();
+    }
+    catch (err) {
+    }
+
+    return localTerm;
+  }
 
   /**
    * @param {string} name
@@ -140,6 +158,21 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @param {string} term
+   */
+  async localTerm(term) {
+    return this.release.localTerm(this.prefix, term);
+  }
+
+  /**
+   * @param {LocalTerm.CriteriaType} criteria
+   */
+  async localTerms(criteria) {
+    criteria.prefix = this.prefix;
+    return this.release.localTerms(criteria);
+  }
+
+  /**
    * @param {string} name
    */
   async property(name) {
@@ -184,6 +217,22 @@ class Namespace extends ReleaseObject {
   async facets(criteria) {
     criteria.prefix = this.prefix;
     return this.release.facets(criteria);
+  }
+
+  /**
+   * @param {string} typeName
+   * @param {string} propertyQName
+   */
+  async subProperty(typeName, propertyQName) {
+    return this.release.subProperty(this.prefix + typeName, propertyQName);
+  }
+
+  /**
+   * @param {SubProperty.CriteriaType} criteria
+   */
+  async subProperties(criteria) {
+    criteria.typePrefix = this.prefix;
+    return this.release.subProperties(criteria);
   }
 
   get authoritativePrefix() {
@@ -281,15 +330,15 @@ class Namespace extends ReleaseObject {
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
  * @property {string|RegExp} prefix
- * @property {Namespace.NamespaceStyleType[]} styles
+ * @property {Namespace.StyleType[]} styles
  * @property {boolean} conformanceRequired
  */
 Namespace.CriteriaType = {};
 
 /** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"} */
-Namespace.NamespaceStyleType;
+Namespace.StyleType;
 
-Namespace.NamespaceStyles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in"];
+Namespace.Styles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in"];
 
 module.exports = Namespace;
 

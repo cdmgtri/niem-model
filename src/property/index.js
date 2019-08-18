@@ -27,28 +27,20 @@ class Property extends Component {
     this.isAbstract = isAbstract;
   }
 
-  /**
-   * Name from the property group's qname field.
-   * Returns undefined if there is no qualified group.
-   */
-  get groupName() {
-    // Check that the groupQName contains both a prefix and a name
-    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
-      return this.groupQName.split(":")[1];
-    }
-    return undefined;
+  get typePrefix() {
+    return Property.prefix(this.typeQName);
   }
 
-  /**
-   * Namespace prefix from the property group's qname field.
-   * Returns undefined if there is no qualified group.
-   */
+  get typeName() {
+    return Property.name(this.typeQName);
+  }
+
   get groupPrefix() {
-    // Check that the groupQName contains both a prefix and a name
-    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
-      return this.groupQName.split(":")[0];
-    }
-    return undefined;
+    return Property.prefix(this.groupQName);
+  }
+
+  get groupName() {
+    return Property.name(this.groupQName);
   }
 
   get isAttribute() {
@@ -74,17 +66,36 @@ class Property extends Component {
 
   }
 
-  static route(userKey, modelKey, releaseKey, prefix, name) {
+  static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/properties/" + prefix + ":" + name;
+    return releaseRoute + "/properties/" + qname;
   }
 
   get route() {
-    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.qname);
   }
 
   get sourceDataSet() {
     if (this.source) return this.source.properties;
+  }
+
+  async group() {
+    return this.release.property(this.groupPrefix, this.groupName);
+  }
+
+  async type() {
+    return this.release.type(this.typePrefix, this.typeName);
+  }
+
+  async substitutions() {
+    return this.release.properties({groupQName: this.qname});
+  }
+
+  async subProperties() {
+    return this.release.subProperties({
+      propertyPrefix: this.prefix,
+      propertyName: this.name
+    });
   }
 
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {

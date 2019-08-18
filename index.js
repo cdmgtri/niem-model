@@ -13,13 +13,7 @@ let SubProperty = require("./src/subproperty/index");
 /**
  * @todo Fix NIEMModel class
  *
- * @todo Refactor each class against NIEMObject
- * @todo Refactor each class against ReleaseObject
- * @todo Refactor serialize into toJSON getters on each class
- * @todo Update tests
- *
  * @todo Refactor source interface accessors into classes
- * @todo --Property: group, namespace, type, container type
  * @todo Add niem-model-source-memory as testing dependency
  *
  * @todo Add object match functions to compare criteria
@@ -150,6 +144,25 @@ class NIEM {
    * @param {string} modelKey
    * @param {string} releaseKey
    * @param {string} prefix
+   * @param {string} term
+   */
+  async localTerm(userKey, modelKey, releaseKey, prefix, term) {
+    let route = LocalTerm.route(userKey, modelKey, releaseKey, prefix, term);
+    return this.source.localTerms.get(route);
+  }
+
+  /**
+   * @param {LocalTerm.CriteriaType} criteria
+   */
+  async localTerms(criteria) {
+    return this.source.localTerms.find(criteria);
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
    * @param {string} name
    */
   async property(userKey, modelKey, releaseKey, prefix, name) {
@@ -187,13 +200,12 @@ class NIEM {
    * @param {string} userKey
    * @param {string} modelKey
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} typeQName
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  async facet(userKey, modelKey, releaseKey, prefix, name, value, style="enumeration") {
-    let route = Facet.route(userKey, modelKey, releaseKey, prefix, name, value, style);
+  async facet(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
+    let route = Facet.route(userKey, modelKey, releaseKey, typeQName, value, style);
     return this.source.facets.get(route);
   }
 
@@ -202,6 +214,25 @@ class NIEM {
    */
   async facets(criteria) {
     return this.source.facets.find(criteria);
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   */
+  async subProperty(userKey, modelKey, releaseKey, typeQName, propertyQName) {
+    let route = SubProperty.route(userKey, modelKey, releaseKey, typeQName, propertyQName);
+    return this.source.subProperties.get(route);
+  }
+
+  /**
+   * @param {SubProperty.CriteriaType} criteria
+   */
+  async subProperties(criteria) {
+    return this.source.subProperties.find(criteria);
   }
 
 }
