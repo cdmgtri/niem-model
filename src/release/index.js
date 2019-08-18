@@ -21,8 +21,8 @@ class Release extends NIEMObject {
 
     super();
 
-    /** @type {Model} */
-    this.model;
+    let Model = require("../model/index");
+    this.model = new Model();
 
     this.releaseKey = releaseKey;
     this.niemReleaseKey = niemReleaseKey;
@@ -35,59 +35,11 @@ class Release extends NIEMObject {
   }
 
   get source() {
-    if (this.model) return this.model.source;
+    return this.model.source;
   }
 
   get sourceDataSet() {
-    if (this.source) return this.source.releases;
-  }
-
-  get modelKey() {
-    if (this.model) return this.model.modelKey;
-  }
-
-  get userKey() {
-    if (this.model) return this.model.userKey;
-  }
-
-  get identifiers() {
-    return {
-      ...super.identifiers,
-      releaseKey: this.releaseKey
-    };
-  }
-
-  /**
-   * @example "niem model 4.0"
-   * @example "lapd arrestReport 1.0"
-   */
-  get label() {
-    return super.label + " " + this.releaseKey;
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   */
-  static route(userKey, modelKey, releaseKey) {
-    return super.route(userKey, modelKey) + "/" + releaseKey;
-  }
-
-  get route() {
-    return Release.route(this.userKey, this.modelKey, this.releaseKey);
-  }
-
-  toJSON() {
-    return {
-      ...super.toJSON(),
-      releaseKey: this.releaseKey,
-      niemReleaseKey: this.niemReleaseKey,
-      version: this.version,
-      baseURI: this.baseURI,
-      branch: this.branch,
-      description: this.description
-    };
+    return this.source.releases;
   }
 
   /**
@@ -104,8 +56,10 @@ class Release extends NIEMObject {
     let namespace = new Namespace(prefix, style, uri, fileName, definition, version);
     namespace.release = this;
 
-    if (this.source) {
+    try {
       await namespace.add();
+    }
+    catch (err) {
     }
 
     return namespace;
@@ -125,8 +79,10 @@ class Release extends NIEMObject {
     let property = new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
     property.release = this;
 
-    if (this.source) {
+    try {
       await property.add();
+    }
+    catch (err) {
     }
 
     return property;
@@ -144,8 +100,10 @@ class Release extends NIEMObject {
     let type = new Type(prefix, name, definition, style, baseQName);
     type.release = this;
 
-    if (this.source) {
+    try {
       await type.add();
+    }
+    catch (err) {
     }
 
     return type;
@@ -202,6 +160,54 @@ class Release extends NIEMObject {
     if (! this.model) throw new Error(NO_MODEL);
     criteria.releaseKey = this.releaseKey;
     return this.model.types(criteria);
+  }
+
+  get modelKey() {
+    return this.model.modelKey;
+  }
+
+  get userKey() {
+    return this.model.userKey;
+  }
+
+  get identifiers() {
+    return {
+      ...this.model.identifiers,
+      releaseKey: this.releaseKey
+    };
+  }
+
+  /**
+   * @example "niem model 4.0"
+   * @example "lapd arrestReport 1.0"
+   */
+  get label() {
+    return this.model.label + " " + this.releaseKey;
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   */
+  static route(userKey, modelKey, releaseKey) {
+    return Model.route(userKey, modelKey) + "/" + releaseKey;
+  }
+
+  get route() {
+    return Release.route(this.userKey, this.modelKey, this.releaseKey);
+  }
+
+  toJSON() {
+    return {
+      ...this.model.toJSON(),
+      releaseKey: this.releaseKey,
+      niemReleaseKey: this.niemReleaseKey,
+      version: this.version,
+      baseURI: this.baseURI,
+      branch: this.branch,
+      description: this.description
+    };
   }
 
 }

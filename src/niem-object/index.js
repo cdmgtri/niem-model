@@ -1,6 +1,6 @@
 
-let Change = require("../interfaces/source/change/index");
-let NIEMModelSource = require("../interfaces/source/index");
+let Change = require("../../interfaces/source/change/index");
+let NIEMModelSource = require("../../interfaces/source/index");
 
 let { SourceDataSet } = NIEMModelSource;
 
@@ -38,14 +38,6 @@ class NIEMObject {
   }
 
   /**
-   * Model data source used to access and modify components.
-   * @type {NIEMModelSource}
-   */
-  get source() {
-    return undefined;
-  }
-
-  /**
    * @type {SourceDataSet<NIEMObject>}
    */
   get sourceDataSet() {
@@ -72,11 +64,11 @@ class NIEMObject {
    * @example Facet label "ncic:HAIRCodeSimpleType - enum BLK"
    */
   get label() {
-    return this.userKey + " " + this.modelKey;
+    return undefined;
   }
 
-  static route(userKey, modelKey) {
-    return "/" + userKey + "/" + modelKey;
+  static route() {
+    return undefined;
   }
 
   /**
@@ -87,22 +79,11 @@ class NIEMObject {
    * @example "/lapd/arrestReport"
    */
   get route() {
-    return NIEMObject.route(this.userKey, this.modelKey);
-  }
-
-  get modelKey() {
-    return undefined;
-  }
-
-  get userKey() {
     return undefined;
   }
 
   get identifiers() {
-    return {
-      userKey: this.userKey,
-      modelKey: this.modelKey
-    };
+    return {};
   }
 
   toJSON() {

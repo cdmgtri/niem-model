@@ -1,7 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
-
-const NO_NIEM = "Model does not belong to a NIEM community data set";
+let NIEMModelSourceInterface = require("../../interfaces/source/index");
 
 class Model extends NIEMObject {
 
@@ -17,45 +16,22 @@ class Model extends NIEMObject {
 
     super();
 
-    /** @type {NIEMModelSource} */
-    this._source;
+    this.source = new NIEMModelSourceInterface();
 
-    this._userKey = userKey;
-    this._modelKey = modelKey;
+    this.userKey = userKey;
+    this.modelKey = modelKey;
     this.style = style;
     this.description = description;
     this.website = website;
     this.repo = repo;
 
-    /** @type {NIEM} */
-    this.niem;
+    let NIEM = require("../../index");
+    this.niem = new NIEM();
 
-  }
-
-  get source() {
-    return this._source;
   }
 
   get sourceDataSet() {
-    if (this.source) return this.source.models;
-  }
-
-  get modelKey() {
-    return this._modelKey;
-  }
-
-  get userKey() {
-    return this._userKey;
-  }
-
-  toJSON() {
-    return {
-      ...super.toJSON(),
-      style: this.style,
-      description: this.description,
-      website: this.website,
-      repo: this.repo
-    }
+    return this.source.models;
   }
 
   /**
@@ -73,15 +49,16 @@ class Model extends NIEMObject {
     let release = new Release(releaseKey, niemReleaseKey, version, status, baseURI);
     release.model = this;
 
-    if (this.source) {
+    try {
       await release.add();
+    }
+    catch (err) {
     }
 
     return release;
   }
 
   async release(releaseKey) {
-    if (! this.niem) throw new Error(NO_NIEM);
     return this.niem.release(this.userKey, this.modelKey, releaseKey);
   }
 
@@ -89,14 +66,12 @@ class Model extends NIEMObject {
    * @param {Release.CriteriaType} criteria
    */
   async releases(criteria) {
-    if (! this.niem) throw new Error(NO_NIEM);
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.releases(criteria);
   }
 
   async namespace(releaseKey, prefix) {
-    if (! this.niem) throw new Error(NO_NIEM);
     return this.niem.namespace(this.userKey, this.modelKey, releaseKey, prefix);
   }
 
@@ -104,14 +79,12 @@ class Model extends NIEMObject {
    * @param {Namespace.CriteriaType} criteria
    */
   async namespaces(criteria) {
-    if (! this.niem) throw new Error(NO_NIEM);
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.namespaces(criteria);
   }
 
   async property(releaseKey, prefix, name) {
-    if (! this.niem) throw new Error(NO_NIEM);
     return this.niem.property(this.userKey, this.modelKey, releaseKey, prefix, name);
   };
 
@@ -119,14 +92,12 @@ class Model extends NIEMObject {
    * @param {Property.CriteriaType} criteria
    */
   async properties(criteria) {
-    if (! this.niem) throw new Error(NO_NIEM);
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.properties(criteria);
   }
 
   async type(releaseKey, prefix, name) {
-    if (! this.niem) throw new Error(NO_NIEM);
     return this.niem.type(this.userKey, this.modelKey, releaseKey, prefix, name);
   };
 
@@ -134,12 +105,40 @@ class Model extends NIEMObject {
    * @param {Type.CriteriaType} criteria
    */
   async types(criteria) {
-    if (! this.niem) throw new Error(NO_NIEM);
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.types(criteria);
   }
 
+  get label() {
+    return this.userKey + " " + this.modelKey;
+  }
+
+  get route() {
+    return Model.route(this.userKey, this.modelKey);
+  }
+
+  static route(userKey, modelKey) {
+    return "/" + userKey + "/" + modelKey;
+  }
+
+
+  get identifiers() {
+    return {
+      userKey: this.userKey,
+      modelKey: this.modelKey
+    };
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      style: this.style,
+      description: this.description,
+      website: this.website,
+      repo: this.repo
+    }
+  }
 
 }
 
@@ -161,9 +160,7 @@ Model.CriteriaType = {};
 
 module.exports = Model;
 
-let NIEM = require("../../index");
 let Release = require("../release/index");
 let Namespace = require("../namespace/index");
 let Property = require("../property/index");
 let Type = require("../type/index");
-let NIEMModelSource = require("../interfaces/source/index");

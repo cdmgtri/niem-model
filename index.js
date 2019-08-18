@@ -1,5 +1,5 @@
 
-let NIEMModelSource = require("./src/interfaces/source/index");
+let NIEMModelSource = require("./interfaces/source/index");
 
 let Model = require("./src/model/index");
 let Release = require("./src/release/index");
@@ -21,6 +21,8 @@ let SubProperty = require("./src/subproperty/index");
  * @todo Refactor source interface accessors into classes
  * @todo Add niem-model-source-memory as testing dependency
  *
+ * @todo Move source checks to source class
+ *
  * @todo Generate docs and set things private as needed
  *
  * @todo Implement find criteria and regex
@@ -36,19 +38,9 @@ class NIEM {
    */
   constructor(source) {
 
-    this.source = source;
+    this.source = source || new NIEMModelSource();
 
     this.qa;
-  }
-
-  /**
-   * Throw error if no data source implementation.
-   * @throws {Error} - No source
-   */
-  sourceCheck() {
-    if (! this.source) {
-      throw new Error("No NIEM source data implementation");
-    }
   }
 
   /**
@@ -64,8 +56,10 @@ class NIEM {
     let model = new Model(userKey, modelKey, style, description, website, repo);
     model._source = this.source;
 
-    if (this.source) {
+    try {
       await model.add();
+    }
+    catch(err) {
     }
 
     return model;
@@ -85,9 +79,11 @@ class NIEM {
     /** @type {Model} */
     let model;
 
-    if (this.source) {
+    try {
       // Load existing model if available
       model = await this.model(userKey, modelKey);
+    }
+    catch (err) {
     }
 
     if (! model) {
@@ -103,7 +99,6 @@ class NIEM {
    * @param {string} modelKey
    */
   async model(userKey, modelKey) {
-    this.sourceCheck();
     let route = Model.route(userKey, modelKey);
     return this.source.models.get(route);
   }
@@ -112,7 +107,6 @@ class NIEM {
    * @param {Model.CriteriaType} criteria
    */
   async models(criteria) {
-    this.sourceCheck();
     return this.source.models.find(criteria);
   }
 
@@ -122,7 +116,6 @@ class NIEM {
    * @param {string} releaseKey
    */
   async release(userKey, modelKey, releaseKey) {
-    this.sourceCheck();
     let route = Release.route(userKey, modelKey, releaseKey);
     return this.source.releases.get(route);
   }
@@ -131,7 +124,6 @@ class NIEM {
    * @param {Release.CriteriaType} criteria
    */
   async releases(criteria) {
-    this.sourceCheck();
     return this.source.releases.find(criteria);
   }
 
@@ -142,7 +134,6 @@ class NIEM {
    * @param {string} prefix
    */
   async namespace(userKey, modelKey, releaseKey, prefix) {
-    this.sourceCheck();
     let route = Namespace.route(userKey, modelKey, releaseKey, prefix);
     return this.source.namespaces.get(route);
   }
@@ -151,7 +142,6 @@ class NIEM {
    * @param {Type.CriteriaType} criteria
    */
   async namespaces(criteria) {
-    this.sourceCheck();
     return this.source.namespaces.find(criteria);
   }
 
@@ -163,7 +153,6 @@ class NIEM {
    * @param {string} name
    */
   async property(userKey, modelKey, releaseKey, prefix, name) {
-    this.sourceCheck();
     let route = Property.route(userKey, modelKey, releaseKey, prefix, name);
     return this.source.properties.get(route);
   }
@@ -172,7 +161,6 @@ class NIEM {
    * @param {Property.CriteriaType} criteria
    */
   async properties(criteria) {
-    this.sourceCheck();
     return this.source.properties.find(criteria);
   }
 
@@ -184,7 +172,6 @@ class NIEM {
    * @param {string} name
    */
   async type(userKey, modelKey, releaseKey, prefix, name) {
-    this.sourceCheck();
     let route = Type.route(userKey, modelKey, releaseKey, prefix, name);
     return this.source.types.get(route);
   }
@@ -193,7 +180,6 @@ class NIEM {
    * @param {Type.CriteriaType} criteria
    */
   async types(criteria) {
-    this.sourceCheck();
     return this.source.types.find(criteria);
   }
 
@@ -214,7 +200,7 @@ NIEM.Helpers = {
   Component: require("./src/component/index")
 };
 
-NIEM.Interfaces = require("./src/interfaces/index");
+NIEM.Interfaces = require("./interfaces/index");
 
 NIEM.Tests = {
   unitTests: require("./test/unit/index")

@@ -1,5 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
+let Release = require("../release/index");
 
 /**
  * Commonalities of NIEM release components and other items.
@@ -10,8 +11,7 @@ class ReleaseObject extends NIEMObject {
 
     super();
 
-    /** @type {Release} */
-    this.release;
+    this.release = new Release();
 
   }
 
@@ -38,7 +38,7 @@ class ReleaseObject extends NIEMObject {
   }
 
   static route(userKey, modelKey, releaseKey) {
-    return super.route(userKey, modelKey) + "/" + releaseKey;
+    return Release.route(userKey, modelKey, releaseKey);
   }
 
   /**
@@ -70,5 +70,3 @@ class ReleaseObject extends NIEMObject {
 }
 
 module.exports = ReleaseObject;
-
-let Release = require("../release/index");
