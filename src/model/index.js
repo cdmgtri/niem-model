@@ -110,6 +110,26 @@ class Model extends NIEMObject {
     return this.niem.types(criteria);
   }
 
+  /**
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async facet(releaseKey, prefix, name, value, style="enumeration") {
+    return this.niem.facet(this.userKey, this.modelKey, releaseKey, prefix, name, value, style);
+  };
+
+  /**
+   * @param {Facet.CriteriaType} criteria
+   */
+  async facets(criteria) {
+    criteria.userKey = this.userKey;
+    criteria.modelKey = this.modelKey;
+    return this.niem.facets(criteria);
+  }
+
   get label() {
     return this.userKey + " " + this.modelKey;
   }
@@ -121,7 +141,6 @@ class Model extends NIEMObject {
   static route(userKey, modelKey) {
     return "/" + userKey + "/" + modelKey;
   }
-
 
   get identifiers() {
     return {
@@ -164,3 +183,6 @@ let Release = require("../release/index");
 let Namespace = require("../namespace/index");
 let Property = require("../property/index");
 let Type = require("../type/index");
+let Facet = require("../facet/index");
+let SubProperty = require("../subproperty/index");
+let LocalTerm = require("../local-term/index");

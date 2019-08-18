@@ -1,8 +1,6 @@
 
 let ReleaseObject = require("../release-object/index");
 
-const NO_RELEASE = "Namespace does not belong to a release";
-
 /**
  * A NIEM Namespace
  */
@@ -34,53 +32,6 @@ class Namespace extends ReleaseObject {
 
     /** @type {String} */
     this.xsdString;
-  }
-
-  get sourceDataSet() {
-    if (this.source) return this.source.namespaces;
-  }
-
-  get label() {
-    return this.prefix;
-  }
-
-  static route(userKey, modelKey, releaseKey, prefix) {
-    return super.route(userKey, modelKey, releaseKey) + "/namespaces/" + prefix;
-  }
-
-  /**
-   * @example "/niem/model/4.0/namespaces/nc"
-   * @example "/lapd/arrestReport/1.0/namespaces/nc"
-   * @example "/lapd/arrestReport/1.0/namespaces/ext"
-   */
-  get route() {
-    return Namespace.route(this.userKey, this.modelKey, this.releaseKey, this.prefix);
-  }
-
-  get identifiers() {
-    return {
-      ...super.identifiers,
-      prefix: this.prefix
-    }
-  }
-
-  toJSON() {
-    return {
-      ...super.toJSON(),
-      prefix: this.prefix,
-      uri: this.uri,
-      fileName: this.fileName,
-      definition: this.definition,
-      version: this.version,
-      style: this.style,
-      conformanceTargets: this.conformanceTargets.length > 0 ? this.conformanceTargets : undefined,
-      relativePath: this.relativePath,
-      xsdString: this.xsdString
-    };
-  }
-
-  get authoritativePrefix() {
-    return this.prefix;
   }
 
   get styleRank() {
@@ -121,11 +72,77 @@ class Namespace extends ReleaseObject {
     return undefined;
   }
 
+  get sourceDataSet() {
+    return this.source.namespaces;
+  }
+
+
+  /**
+   * @param {string} name
+   * @param {string} definition
+   * @param {string} typeQName
+   * @param {string} groupQName
+   * @param {boolean} [isElement=true] Defaults to true
+   * @param {boolean} [isAbstract=false] Defaults to false
+   */
+  async createProperty(name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+
+    let property = new Property(this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+    property.release = this.release;
+
+    try {
+      await property.add();
+    }
+    catch (err) {
+    }
+
+    return property;
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} definition
+   * @param {Type.StyleType} style
+   * @param {string} baseQName
+   */
+  async createType(name, definition, style, baseQName) {
+
+    let type = new Type(this.prefix, name, definition, style, baseQName);
+    type.release = this.release;
+
+    try {
+      await type.add();
+    }
+    catch (err) {
+    }
+
+    return type;
+  }
+
+  /**
+   * @param {string} typeName
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async createFacet(typeName, value, definition, style="enumeration") {
+
+    let facet = new Facet(this.prefix + ":" + typeName, value, definition, style);
+    facet.release = this.release;
+
+    try {
+      await facet.add();
+    }
+    catch (err) {
+    }
+
+    return facet;
+  }
+
   /**
    * @param {string} name
    */
   async property(name) {
-    if (! this.release) throw new Error(NO_RELEASE);
     return this.release.property(this.prefix, name);
   }
 
@@ -133,7 +150,6 @@ class Namespace extends ReleaseObject {
    * @param {Property.CriteriaType} criteria
    */
   async properties(criteria) {
-    if (! this.release) throw new Error(NO_RELEASE);
     criteria.prefix = this.prefix;
     return this.release.properties(criteria);
   }
@@ -142,7 +158,6 @@ class Namespace extends ReleaseObject {
    * @param {string} name
    */
   async type(name) {
-    if (! this.release) throw new Error(NO_RELEASE);
     return this.release.type(this.prefix, name);
   }
 
@@ -150,9 +165,53 @@ class Namespace extends ReleaseObject {
    * @param {Type.CriteriaType} criteria
    */
   async types(criteria) {
-    if (! this.release) throw new Error(NO_RELEASE);
     criteria.prefix = this.prefix;
     return this.release.types(criteria);
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration]" Default "enumeration"
+   */
+  async facet(name, value, style="enumeration") {
+    return this.release.facet(this.prefix, name, style, value);
+  }
+
+  /**
+   * @param {Facet.CriteriaType} criteria
+   */
+  async facets(criteria) {
+    criteria.prefix = this.prefix;
+    return this.release.facets(criteria);
+  }
+
+  get authoritativePrefix() {
+    return this.prefix;
+  }
+
+  get label() {
+    return this.prefix;
+  }
+
+  static route(userKey, modelKey, releaseKey, prefix) {
+    return super.route(userKey, modelKey, releaseKey) + "/namespaces/" + prefix;
+  }
+
+  /**
+   * @example "/niem/model/4.0/namespaces/nc"
+   * @example "/lapd/arrestReport/1.0/namespaces/nc"
+   * @example "/lapd/arrestReport/1.0/namespaces/ext"
+   */
+  get route() {
+    return Namespace.route(this.userKey, this.modelKey, this.releaseKey, this.prefix);
+  }
+
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      prefix: this.prefix
+    }
   }
 
   /**
@@ -196,6 +255,21 @@ class Namespace extends ReleaseObject {
     return ns1.uri ? ns1.uri.localeCompare(ns2.uri) : -1;
   }
 
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      prefix: this.prefix,
+      uri: this.uri,
+      fileName: this.fileName,
+      definition: this.definition,
+      version: this.version,
+      style: this.style,
+      conformanceTargets: this.conformanceTargets.length > 0 ? this.conformanceTargets : undefined,
+      relativePath: this.relativePath,
+      xsdString: this.xsdString
+    };
+  }
+
 }
 
 /**
@@ -219,5 +293,8 @@ Namespace.NamespaceStyles = ["core", "domain", "code", "extension", "adapter", "
 
 module.exports = Namespace;
 
-let Type = require("../type/index");
 let Property = require("../property/index");
+let Type = require("../type/index");
+let Facet = require("../facet/index");
+let SubProperty = require("../subproperty/index");
+let LocalTerm = require("../local-term/index");

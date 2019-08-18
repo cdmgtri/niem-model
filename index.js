@@ -19,13 +19,13 @@ let SubProperty = require("./src/subproperty/index");
  * @todo Update tests
  *
  * @todo Refactor source interface accessors into classes
+ * @todo --Property: group, namespace, type, container type
  * @todo Add niem-model-source-memory as testing dependency
  *
- * @todo Move source checks to source class
+ * @todo Add object match functions to compare criteria
+ * @todo Implement find criteria and regex
  *
  * @todo Generate docs and set things private as needed
- *
- * @todo Implement find criteria and regex
  *
  * @todo Handle different versioned classes
  *
@@ -181,6 +181,27 @@ class NIEM {
    */
   async types(criteria) {
     return this.source.types.find(criteria);
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async facet(userKey, modelKey, releaseKey, prefix, name, value, style="enumeration") {
+    let route = Facet.route(userKey, modelKey, releaseKey, prefix, name, value, style);
+    return this.source.facets.get(route);
+  }
+
+  /**
+   * @param {Facet.CriteriaType} criteria
+   */
+  async facets(criteria) {
+    return this.source.facets.find(criteria);
   }
 
 }

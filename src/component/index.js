@@ -24,31 +24,6 @@ class Component extends ReleaseObject {
     this.componentClass = this.constructor.name;
   }
 
-  get label() {
-    return this.qname;
-  }
-
-  get identifiers() {
-    return {
-      ...super.identifiers,
-      prefix: this.prefix,
-      name: this.name
-    };
-  }
-
-  toJSON() {
-    return {
-      ...super.toJSON(),
-      prefix: this.prefix,
-      name: this.name,
-      definition: this.definition
-    };
-  }
-
-  get authoritativePrefix() {
-    return this.prefix;
-  }
-
   /**
    * Qualified name
    */
@@ -77,24 +52,27 @@ class Component extends ReleaseObject {
   }
 
   /**
-   * @param {"full"|"release"|"namespace"} [scope="full"]
+   * Name portion from a component qualified name (qname).
+   * @example "Given 'nc:Person', returns 'Person'.
+   * @param {string} qname
+   * @returns {string}
    */
-  serialize(scope="full") {
-
-    let object = {};
-
-    if (scope == "full") {
-      object = this.releaseIdentifiers;
+  static name(qname) {
+    if (qname && qname.match(/.+\:.+/)) {
+      return qname.split(":")[1];
     }
+  }
 
-    if (scope == "full" || scope == "release") {
-      object.prefix = this.prefix;
+  /**
+   * Namespace prefix from a component qualified name (qname).
+   * @example "Given 'nc:Person', returns 'nc'.
+   * @param {string} qname
+   * @returns {string}
+   */
+  static prefix(qname) {
+    if (qname && qname.match(/.+\:.+/)) {
+      return qname.split(":")[0];
     }
-
-    object.name = this.name;
-    object.definition = this.definition;
-
-    return object;
   }
 
   /**
@@ -124,6 +102,31 @@ class Component extends ReleaseObject {
 
     // Sort by name
     return component1.name.localeCompare(component2.name);
+  }
+
+  get authoritativePrefix() {
+    return this.prefix;
+  }
+
+  get label() {
+    return this.qname;
+  }
+
+  get identifiers() {
+    return {
+      ...super.identifiers,
+      prefix: this.prefix,
+      name: this.name
+    };
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      prefix: this.prefix,
+      name: this.name,
+      definition: this.definition
+    };
   }
 
 }

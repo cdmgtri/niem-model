@@ -110,10 +110,29 @@ class Release extends NIEMObject {
   }
 
   /**
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async createFacet(typeQName, value, definition, style="enumeration") {
+
+    let facet = new Facet(typeQName, value, definition, style);
+    facet.release = this;
+
+    try {
+      await facet.add();
+    }
+    catch (err) {
+    }
+
+    return facet;
+  }
+
+  /**
    * @param {string} prefix
    */
   async namespace(prefix) {
-    if (! this.model) throw new Error(NO_MODEL);
     return this.model.namespace(this.releaseKey, prefix);
   }
 
@@ -121,7 +140,6 @@ class Release extends NIEMObject {
    * @param {Namespace.CriteriaType} criteria
    */
   async namespaces(criteria) {
-    if (! this.model) throw new Error(NO_MODEL);
     criteria.releaseKey = this.releaseKey;
     return this.model.namespaces(criteria);
   }
@@ -131,7 +149,6 @@ class Release extends NIEMObject {
    * @param {string} name
    */
   async property(prefix, name) {
-    if (! this.model) throw new Error(NO_MODEL);
     return this.model.property(this.releaseKey, prefix, name);
   }
 
@@ -139,7 +156,6 @@ class Release extends NIEMObject {
    * @param {Property.CriteriaType} criteria
    */
   async properties(criteria) {
-    if (! this.model) throw new Error(NO_MODEL);
     criteria.releaseKey = this.releaseKey;
     return this.model.properties(criteria);
   }
@@ -149,7 +165,6 @@ class Release extends NIEMObject {
    * @param {string} name
    */
   async type(prefix, name) {
-    if (! this.model) throw new Error(NO_MODEL);
     return this.model.type(this.releaseKey, prefix, name);
   }
 
@@ -157,9 +172,26 @@ class Release extends NIEMObject {
    * @param {Type.CriteriaType} criteria
    */
   async types(criteria) {
-    if (! this.model) throw new Error(NO_MODEL);
     criteria.releaseKey = this.releaseKey;
     return this.model.types(criteria);
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async facet(prefix, name, value, style="enumeration") {
+    return this.model.facet(this.releaseKey, prefix, name, value, style);
+  }
+
+  /**
+   * @param {Facet.CriteriaType} criteria
+   */
+  async facets(criteria) {
+    criteria.releaseKey = this.releaseKey;
+    return this.model.facets(criteria);
   }
 
   get modelKey() {
@@ -233,5 +265,8 @@ module.exports = Release;
 
 let Model = require("../model/index");
 let Namespace = require("../namespace/index");
-let Type = require("../type/index");
 let Property = require("../property/index");
+let Type = require("../type/index");
+let Facet = require("../facet/index");
+let SubProperty = require("../subproperty/index");
+let LocalTerm = require("../local-term/index");

@@ -108,27 +108,74 @@ class Type extends Component {
    */
   get styleCategory() {
 
-    switch (this.style) {
+    if (this.style == "CSC") {
+      return "CSC";
+    }
 
-      case "CSC":
-        return "CSC";
+    if (Type.ComplexStyles.includes(this.style)) {
+      return "CCC";
+    }
 
-      case "adapter":
-      case "association":
-      case "metadata":
-      case "object":
-        return "CCC";
-
-      case "simple":
-      case "list":
-      case "union":
-        return "S";
+    if (Type.SimpleStyles.includes(this.style)) {
+      return "S";
     }
 
   }
 
   get sourceDataSet() {
-    if (this.source) return this.source.types;
+    return this.source.types;
+  }
+
+  /**
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async createFacet(value, definition, style="enumeration") {
+
+    let facet = new Facet(this.qname, value, definition, style);
+    facet.release = this.release;
+
+    try {
+      await facet.add();
+    }
+    catch (err) {
+    }
+
+    return facet;
+  }
+
+  async namespace() {
+    return this.release.namespace(this.prefix);
+  }
+
+  async base() {
+    return this.release.type(this.basePrefix, this.baseName);
+  }
+
+  async members() {
+
+    /** @type {Type[]} */
+    let members = [];
+
+    for (let qname of this.memberQNames) {
+      let member = await this.release.type(Type.prefix(qname), Type.name(qname));
+      members.push(member);
+    }
+
+    return members;
+  }
+
+  /**
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   * @param {string} value
+   */
+  async facet(value, style="enumeration") {
+    return this.release.facet(this.prefix, this.name, style, value);
+  }
+
+  async facets() {
+    return this.release.facets({prefix: this.prefix, name: this.name});
   }
 
   static route(userKey, modelKey, releaseKey, prefix, name) {
@@ -189,3 +236,6 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
 Type.CriteriaType = {};
 
 module.exports = Type;
+
+let Facet = require("../facet/index");
+let SubProperty = require("../subproperty/index");

@@ -1,97 +1,118 @@
 
-let NIEMObject = require("../niem-object/index");
+let ReleaseObject = require("../release-object/index");
+let Type = require("../type/index");
 
 /**
  * A NIEM Facet
  */
-class Facet extends NIEMObject {
+class Facet extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {String} typeQName
    * @param {string} value
    * @param {string} definition
-   * @param {KindShape} [kind="enumeration"]
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
    */
-  constructor(release, typeQName, value, definition, kind="enumeration") {
+  constructor(typeQName, value, definition, style="enumeration") {
     super();
 
-    this.release = release;
     this.typeQName = typeQName;
+    this.style = style;
     this.value = value;
     this.definition = definition;
-    this.kind = kind;
-  }
-
-  get route() {
-    return Facet.buildRoute(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.kind, this.value);
-  }
-
-  get label() {
-    return this.typeQName + " - " + this.kind + "=" + this.value;
-  }
-
-  static buildRoute(userKey, modelKey, releaseKey, typeQName, kind, value) {
-    let Type = require("../type/index");
-    return Type.buildRoute(userKey, modelKey, releaseKey, typeQName) + `/facets/${kind}/${value}`;
   }
 
   get typePrefix() {
     if (this.typeQName && this.typeQName.includes(":")) {
       return this.typeQName.split(":")[0];
     }
-    return "";
   }
 
   get typeName() {
     if (this.typeQName && this.typeQName.includes(":")) {
       return this.typeQName.split(":")[1];
     }
-    if (this.typeQName) {
-      return this.typeQName;
-    }
-    return "";
   }
 
   get authoritativePrefix() {
     return this.typePrefix;
   }
 
+  get label() {
+    let shortStyle = this.style.replace("enumeration", "enum");
+    return this.typeQName + " - " + shortStyle + " " + this.value;
+  }
+
+  get route() {
+    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.value, this.style);
+  }
+
   /**
-   * @param {"full"|"release"|"type"|"kind"} [scope="full"]
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  serialize(scope) {
+  static route(userKey, modelKey, releaseKey, prefix, name, value, style="enumeration") {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, prefix, name);
+    return typeRoute + `/facets/${style}/${value}`;
+  }
 
-    let object = {};
+  get sourceDataSet() {
+    return this.source.facets;
+  }
 
-    if (scope == "full") {
-      object = this.releaseIdentifiers;
-    }
+  async namespace() {
+    return this.release.namespace(this.typePrefix);
+  }
 
-    if (scope == "full" || scope == "release") {
-      object.typeQName = this.typeQName;
-    }
+  async type() {
+    return this.release.type(this.typePrefix, this.typeName);
+  }
 
-    if (scope != "kind") {
-      object.kind = this.kind;
-    }
-
-    object.value = this.value;
-    object.definition = this.definition;
-
-    return object;
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      typePrefix: this.typePrefix,
+      typeName: this.typeName,
+      style: this.style,
+      value: this.value,
+      definition: this.definition
+    };
   }
 
 }
 
 /** @type{"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"} */
-let KindShape;
+Facet.StyleType;
 
-Facet.KindShape = KindShape;
-
-Facet.KindValues = ["enumeration", "length", "minLength", "maxLength", "pattern",
+Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
   "whiteSpace", "maxInclusive", "minInclusive", "maxExclusive", "minExclusive",
   "totalDigits", "fractionDigits"];
+
+
+
+/**
+ * Search criteria options for facet find operations.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} prefix
+ * @property {string|RegExp} name
+ * @property {string|RegExp} value
+ * @property {string|RegExp} definition
+ * @property {string|RegExp} keyword - value or definition
+ * @property {Facet.StyleType[]} styles
+ * @property {boolean} enums True to return only enums; false to return non-enums
+ */
+Facet.CriteriaType = {};
+
 
 module.exports = Facet;
 
