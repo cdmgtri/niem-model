@@ -12,8 +12,6 @@ let SubProperty = require("./src/subproperty/index");
 
 /**
  * @todo Add niem-model-source-memory as testing dependency
- *
- * @todo Handle different versioned classes
  */
 class NIEM {
 

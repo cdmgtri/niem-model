@@ -1,8 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
 
-const NO_MODEL = "Release does not belong to a model";
-
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.
  */
@@ -11,13 +9,14 @@ class Release extends NIEMObject {
   /**
    * @param {String} releaseKey
    * @param {String} niemReleaseKey
+   * @param {"3.0"|"4.0"} [ndrVersion="4.0"] Defaults to "4.0"
    * @param {String} version
    * @param {"draft"|"published"} status
    * @param {String} baseURI
    * @param {String} branch
    * @param {String} description
    */
-  constructor(releaseKey="default", niemReleaseKey, version, status, baseURI, branch, description) {
+  constructor(releaseKey="default", niemReleaseKey, ndrVersion="4.0", version, status, baseURI, branch, description) {
 
     super();
 
@@ -26,6 +25,7 @@ class Release extends NIEMObject {
 
     this.releaseKey = releaseKey;
     this.niemReleaseKey = niemReleaseKey;
+    this.ndrVersion = ndrVersion;
     this.version = version;
     this.status = status;
     this.baseURI = baseURI;
@@ -52,7 +52,9 @@ class Release extends NIEMObject {
    */
   async createNamespace(prefix, style, uri, fileName, definition, version) {
 
-    let namespace = new Namespace(prefix, style, uri, fileName, definition, version);
+    // Use Namespace builder to return the right NDR-version of a namespace
+    let namespace = Namespace.createNamespace(this.ndrVersion, prefix, style, uri, fileName, definition, version);
+
     namespace.release = this;
 
     try {

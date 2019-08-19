@@ -266,6 +266,29 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @param {"3.0"|"4.0"} ndrVersion
+   * @param {String} prefix
+   * @param {Namespace.StyleType} [style]
+   * @param {String} [uri]
+   * @param {String} [fileName]
+   * @param {String} [definition]
+   * @param {String} [version]
+   */
+  static createNamespace(ndrVersion, prefix, style, uri, fileName, definition, version) {
+
+    let versionedNamespace = Namespace;
+
+    if (ndrVersion == "3.0") {
+      versionedNamespace = require("./3.0/index");
+    }
+    else if (ndrVersion == "4.0") {
+      versionedNamespace = require("./4.0/index");
+    }
+
+    return new versionedNamespace(prefix, style, uri, fileName, definition, version);
+  }
+
+  /**
    * Custom sort function to order an array of namespaces by prefix.
    *
    * @static
