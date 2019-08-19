@@ -261,16 +261,18 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
  * @property {string} modelKey
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
- * @property {string|RegExp} prefix
+ * @property {string|string[]} prefix
  * @property {string|RegExp} name
  * @property {string|RegExp} definition
  * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
  * @property {string|RegExp} baseQName
- * @property {Type.StyleType[]} styles
+ * @property {Type.StyleType[]} style
  * @property {boolean} isComplexType
  * @property {boolean} isComplexContent
  */
 Type.CriteriaType = {};
+
+Type.CriteriaKeywordFields = ["name", "definition"];
 
 module.exports = Type;
 

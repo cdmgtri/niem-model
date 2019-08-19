@@ -82,9 +82,11 @@ class LocalTerm extends ReleaseObject {
  * @property {string} modelKey
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
- * @property {string|RegExp} prefix
- * @property {string|RegExp} text
+ * @property {string|string[]} prefix
+ * @property {string|RegExp} keyword
  */
 LocalTerm.CriteriaType = {};
+
+LocalTerm.CriteriaKeywordFields = ["term", "literal", "definition"];
 
 module.exports = LocalTerm;

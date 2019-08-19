@@ -121,15 +121,17 @@ class SubProperty extends ReleaseObject {
  * @property {string} modelKey
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
- * @property {string|RegExp} typePrefix
+ * @property {string|string[]} typePrefix
  * @property {string|RegExp} typeName
- * @property {string|RegExp} propertyPrefix
+ * @property {string|string[]} propertyPrefix
  * @property {string|RegExp} propertyName
- * @property {string|RegExp} keyword - Text fields
  * @property {string|RegExp} min
  * @property {string|RegExp} max
+ * @property {string|RegExp} keyword - Property and type names
  */
 SubProperty.CriteriaType = {};
+
+SubProperty.CriteriaKeywordFields = ["typeName", "propertyName"];
 
 module.exports = SubProperty;
 

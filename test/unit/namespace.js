@@ -3,6 +3,8 @@ function testNamespace() {
 
   let { Model, Namespace } = require("../../index");
 
+  let { CriteriaType } = Namespace;
+
   /** @type {Namespace} */
   let namespace;
 
@@ -11,7 +13,7 @@ function testNamespace() {
     beforeAll( async() => {
       let model = new Model("user", "test");
       let release = await model.createRelease("1.0");
-      namespace = await release.createNamespace("nc");
+      namespace = await release.createNamespace("nc", "core");
     });
 
     let namespaces = [
@@ -28,6 +30,23 @@ function testNamespace() {
       expect(namespace.route).toBe("/user/test/1.0/namespaces/nc");
     });
 
+    test("#matches", () => {
+
+      /** @type {CriteriaType} */
+      let criteria = {
+        style: ["domain", "code"],
+        conformanceRequired: true
+      };
+
+      /** @type {Namespace[]} */
+      let matches = Namespace.matches(namespaces, criteria);
+      let prefixes = matches.map( ns => ns.prefix ).join(" ");
+
+      expect(matches.length).toBe(4);
+      expect(prefixes).toBe("ag em ncic aamva");
+
+    });
+
     test("#toJSON", () => {
 
       let expectedJSON = {
@@ -35,7 +54,8 @@ function testNamespace() {
         userKey: "user",
         modelKey: "test",
         releaseKey: "1.0",
-        prefix: "nc"
+        prefix: "nc",
+        style: "core"
       };
 
       let receivedJSON = JSON.parse(JSON.stringify(namespace));

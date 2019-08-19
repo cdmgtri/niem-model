@@ -2,6 +2,9 @@
 let NIEMObject = require("../niem-object/index");
 let NIEMModelSourceInterface = require("../interfaces/source/index");
 
+/**
+ * @extends {NIEMObject<Model>}
+ */
 class Model extends NIEMObject {
 
   /**
@@ -24,6 +27,8 @@ class Model extends NIEMObject {
     this.description = description;
     this.website = website;
     this.repo = repo;
+
+    Model.match()
 
     let NIEM = require("../../index");
     this.niem = new NIEM();
@@ -201,7 +206,7 @@ Model.Styles = ["model", "IEPD", "other"];
  * @property {string} modelKey
  * @property {Model.StyleType} style
  */
-Model.CriteriaType = {};
+Model.CriteriaType;
 
 module.exports = Model;
 

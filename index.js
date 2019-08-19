@@ -13,12 +13,7 @@ let SubProperty = require("./src/subproperty/index");
 /**
  * @todo Add niem-model-source-memory as testing dependency
  *
- * @todo Add object match functions to compare criteria
- * @todo Implement find criteria and regex
- *
  * @todo Handle different versioned classes
- *
- * @todo Add test runtime to niem-test-suite
  */
 class NIEM {
 

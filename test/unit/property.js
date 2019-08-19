@@ -99,6 +99,37 @@ function testProperty() {
       expect(invalidGroup.groupPrefix).not.toBeDefined();
     });
 
+    test("#matches--regex", () => {
+      let properties = [
+        new Property("a", "Person", "A human being"),
+        new Property("b", "PersonName", "A name of a person"),
+        new Property("c", "personAttribute"),
+        new Property("d", "ContactLocation", "A contact location for a person"),
+        new Property("e", "ContactEmail", "A contact email for a PERSON"),
+        new Property("f", "Car", "A car"),
+        new Property("g", "truck", "Not a car"),
+        new Property("g", "truckContact", "Truck contact"),
+        new Property("h", "boat")
+      ];
+
+      let { CriteriaType } = Property;
+
+      /** @type {CriteriaType} */
+      let criteria = {
+        keyword: "PERSON"
+      }
+
+      /** @type {Property[]} */
+      let matches = Property.matches(properties, criteria);
+      let prefixes = matches.map( property => property.prefix ).join(" ");
+      expect(prefixes).toBe("a b c d e");
+
+      criteria.definition = /CONTACT/;
+      matches = Property.matches(properties, criteria);
+      prefixes = matches.map( property => property.prefix ).join(" ");
+      expect(prefixes).toBe("d e");
+    });
+
   });
 
 }

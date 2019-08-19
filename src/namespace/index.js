@@ -332,7 +332,7 @@ class Namespace extends ReleaseObject {
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
  * @property {string|RegExp} prefix
- * @property {Namespace.StyleType[]} styles
+ * @property {Namespace.StyleType[]} style
  * @property {boolean} conformanceRequired
  */
 Namespace.CriteriaType = {};

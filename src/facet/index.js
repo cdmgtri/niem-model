@@ -22,6 +22,10 @@ class Facet extends ReleaseObject {
     this.definition = definition;
   }
 
+  get isCode() {
+    return this.style == "enumeration";
+  }
+
   get typePrefix() {
     if (this.typeQName && this.typeQName.includes(":")) {
       return this.typeQName.split(":")[0];
@@ -102,17 +106,16 @@ Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
  * @property {string} modelKey
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
- * @property {string|RegExp} prefix
+ * @property {string|string[]} prefix
  * @property {string|RegExp} name
  * @property {string|RegExp} value
  * @property {string|RegExp} definition
+ * @property {Facet.StyleType[]} style
+ * @property {boolean} isCode True to return only enums; false to return non-enums
  * @property {string|RegExp} keyword - value or definition
- * @property {Facet.StyleType[]} styles
- * @property {boolean} enums True to return only enums; false to return non-enums
  */
 Facet.CriteriaType = {};
 
+Facet.CriteriaKeywordFields = ["value", "definition"];
 
 module.exports = Facet;
-
-let Release = require("../release/index");

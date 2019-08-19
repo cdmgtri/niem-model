@@ -6,6 +6,7 @@ let { SourceDataSet } = NIEMModelSource;
 
 /**
  * Commonalities of NIEM components and other items.
+ * @template T
  */
 class NIEMObject {
 
@@ -38,7 +39,7 @@ class NIEMObject {
   }
 
   /**
-   * @type {SourceDataSet<NIEMObject>}
+   * @type {SourceDataSet<T>}
    */
   get sourceDataSet() {
     return undefined;
@@ -134,17 +135,8 @@ class NIEMObject {
 
   /**
    * Checks that an object ID does or does not exist in the source.
-   *
-   * @example "False if a type does not have a name."
-   * @example "False if a type has the same name as another type in the namespace."
-   * @example "True if a type has a unique qname within its release."
-   *
    * @param {"exists"|"available"} expectedStatus
    * @param {string} id
-   *
-   * @throws {Error} Required fields are missing
-   * @throws {Error} Required fields are not unique
-   * @throws {Error} No NIEM source data implementation
    */
   async checkSourceID(expectedStatus, id) {
 
@@ -218,6 +210,97 @@ class NIEMObject {
     return this;
   }
 
+  /**
+   * True if the given object matches the given criteria.
+   * @template T
+   * @param {T} niemObject
+   * @param {CriteriaType} criteria
+   * @returns {Boolean}
+   */
+  static match(niemObject, criteria) {
+
+    for (let key in criteria) {
+
+      // Evaluate keyword separately
+      if (key == "keyword") continue;
+
+      /** @type {String} */
+      let niemObjectValue = niemObject[key];
+
+      if (!niemObjectValue) return false;
+
+      let criteriaValue = criteria[key];
+
+      if (criteriaValue instanceof RegExp) {
+        // Make case insensitive and compare regular expression
+        let regex = new RegExp(criteriaValue, "i");
+        if (! regex.test(niemObjectValue)) {
+          return false;
+        }
+      }
+      else if (Array.isArray(criteriaValue)) {
+        // Check if the object value matches one of the values in the criteria array
+        if (! criteriaValue.includes(niemObjectValue)) {
+          return false;
+        }
+      }
+      else {
+        // Compare string or boolean
+        if (niemObjectValue != criteriaValue) {
+          return false;
+        }
+      }
+    }
+
+    // Second pass criteria check for keyword regex searches on multiple fields
+    if (criteria && criteria.keyword) {
+
+      // Get the list of fields to check for a keyword search
+      let keywordFields = niemObject.constructor.CriteriaKeywordFields;
+
+      let regex = new RegExp(criteria.keyword, "i");
+
+      // Return true if any of the fields matches the keyword
+      for (let fld of keywordFields) {
+        if (niemObject[fld] && regex.test(niemObject[fld])) {
+          return true;
+        }
+      }
+
+      // No field matched
+      return false;
+    }
+
+    return true;
+
+  }
+
+  /**
+   * True if the object matches the given criteria.
+   * @param {CriteriaType} criteria
+   * @returns {Boolean}
+   */
+  match(criteria) {
+    return this.constructor.match(this, criteria);
+  }
+
+  /**
+   * An array of NIEM objects that match the given criteria.
+   * @param {NIEMObject[]} niemObjects
+   * @param {CriteriaType} criteria
+   * @returns {NIEMObject<T>[]}
+   */
+  static matches(niemObjects, criteria) {
+    return niemObjects.filter( niemObject => niemObject.match(criteria) );
+  }
+
 }
+
+NIEMObject.CriteriaKeywordFields = [];
+
+/**
+ * @type {Object.<string, string|boolean|RegExp|string[]>}
+ */
+let CriteriaType;
 
 module.exports = NIEMObject;

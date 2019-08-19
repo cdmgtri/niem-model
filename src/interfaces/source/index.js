@@ -37,6 +37,8 @@ class NIEMModelSourceInterface {
 
 }
 
+NIEMModelSourceInterface.SourceDataSet = SourceDataSet;
+
 module.exports = NIEMModelSourceInterface;
 
 let Model = require("../../model/index");
