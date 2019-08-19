@@ -215,6 +215,44 @@ class Type extends Component {
     return this.release.subProperties(criteria);
   }
 
+  /**
+   * @param {Property.CriteriaType} criteria
+   */
+  async dataProperties(criteria) {
+    criteria.typePrefix = this.prefix;
+    criteria.typeName = this.name;
+    return this.release.properties(criteria);
+  }
+
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async childTypes(criteria) {
+    criteria.baseQName = this.qname;
+    return this.release.types(criteria);
+  }
+
+  async dependencies() {
+
+    let base = await this.base();
+    let childTypes = await this.childTypes();
+    let subProperties = await this.subProperties();
+    let dataProperties = await this.dataProperties();
+    let facets = await this.facets();
+
+    let count = childTypes.length + subProperties.length + dataProperties.length + facets.length;
+    if (base) count ++;
+
+    return {
+      base,
+      childTypes,
+      subProperties,
+      dataProperties,
+      facets,
+      count
+    }
+  }
+
   static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
     return releaseRoute + "/types/" + qname;

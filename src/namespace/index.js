@@ -237,6 +237,20 @@ class Namespace extends ReleaseObject {
     return this.release.subProperties(criteria);
   }
 
+  async dependencies() {
+
+    let localTerms = await this.localTerms();
+    let properties = await this.properties();
+    let types = await this.types();
+
+    return {
+      count: localTerms.length + properties.length + types.length,
+      localTerms,
+      properties,
+      types
+    }
+  }
+
   get authoritativePrefix() {
     return this.prefix;
   }

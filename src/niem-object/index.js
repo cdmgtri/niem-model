@@ -157,6 +157,17 @@ class NIEMObject {
 
   }
 
+  async hasDependencies() {
+    let dependencies = await this.dependencies();
+    return dependencies ? dependencies.count > 0 : false;
+  }
+
+  /**
+   * @returns {{count: number}}
+   */
+  async dependencies() {
+  }
+
   /**
    * Save changes to the object.
    * @param {Change} change
@@ -178,6 +189,7 @@ class NIEMObject {
 
   /**
    * Save changes to the object.
+   * @todo Update release references for identifier changes
    * @param {Change} change
    */
   async save(change) {
@@ -197,6 +209,7 @@ class NIEMObject {
 
   /**
    * Deletes the object.
+   * @todo Remove release references
    * @param {Change} change
    */
   async delete(change) {

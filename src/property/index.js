@@ -3,8 +3,6 @@ const Component = require("../component/index");
 
 /**
  * A NIEM Property.
- *
- * @extends {Component}
  */
 class Property extends Component {
 
@@ -98,6 +96,26 @@ class Property extends Component {
     });
   }
 
+  async dependencies() {
+
+    let type = await this.type();
+    let group = await this.group();
+    let substitutions = await this.substitutions();
+    let subProperties = await this.subProperties();
+
+    let count = substitutions.length + subProperties.length;
+    if (type) count++;
+    if (group) count++;
+
+    return {
+      type,
+      group,
+      substitutions,
+      subProperties,
+      count
+    }
+  }
+
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {
     return new Property(release, prefix, name, definition, typeQName, groupQName, true, isAbstract);
   }
@@ -135,12 +153,15 @@ class Property extends Component {
  * @property {string|string[]} prefix
  * @property {string|RegExp} name
  * @property {string|RegExp} definition
+ * @property {string|string[]} typePrefix
+ * @property {string|RegExp} typeName
+ * @property {string|string[]|RegExp} typeQName
  * @property {string|RegExp} groupQName
  * @property {boolean} isElement
  * @property {boolean} isAbstract
  * @property {RegExp} keyword - Name, definition, or other text keyword fields
  */
-Property.CriteriaType = {}
+Property.CriteriaType = {};
 
 Property.CriteriaKeywordFields = ["name", "definition"];
 
