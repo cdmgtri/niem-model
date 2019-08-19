@@ -20,7 +20,10 @@ class Component extends ReleaseObject {
     this.name = name;
     this.definition = definition;
 
-    /** @type {"Property"|"Type"} */
+    /**
+     * @private
+     * @type {"Property"|"Type"}
+     */
     this.componentClass = this.constructor.name;
   }
 
@@ -82,22 +85,27 @@ class Component extends ReleaseObject {
   /**
    * Custom sort function to order an array of components by qualified name.
    *
-   * @static
+   * @example "ag:ProducerShare would appear before nc:Activity"
+   *
    * @param {Component} component1
    * @param {Component} component2
    */
   static sortByQName(component1, component2) {
+    if (!component1 || ! component2) return 0;
     return component1.qname.localeCompare(component2.qname);
   }
 
   /**
    * Custom sort function to order an array of components by name, and then by prefix.
    *
-   * @static
+   * @example "nc:Activity would appear before ag:ProducerShare"
+   *
    * @param {Component} component1
    * @param {Component} component2
    */
   static sortByName(component1, component2) {
+
+    if (!component1 || ! component2) return 0;
 
     // Sort by prefix if names match
     if (component1.name == component2.name) {

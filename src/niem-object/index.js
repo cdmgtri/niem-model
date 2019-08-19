@@ -124,7 +124,7 @@ class NIEMObject {
    *
    * @example "Throws error if a type does not have a name."
    * @example "Returns if a type has a userKey, modelKey, releaseKey, prefix, and name."
-   * @throws
+   * @throws {Error}
    */
   async checkBaselineFields() {
     if (! this.hasBaselineFields()) {

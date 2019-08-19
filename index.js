@@ -16,8 +16,6 @@ let SubProperty = require("./src/subproperty/index");
  * @todo Add object match functions to compare criteria
  * @todo Implement find criteria and regex
  *
- * @todo Generate docs and set things private as needed
- *
  * @todo Handle different versioned classes
  *
  * @todo Add test runtime to niem-test-suite
