@@ -284,6 +284,15 @@ class Release extends NIEMObject {
   }
 
   /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   */
+  static identifiers(userKey, modelKey, releaseKey) {
+    return {userKey, modelKey, releaseKey};
+  }
+
+  /**
    * @example "niem model 4.0"
    * @example "lapd arrestReport 1.0"
    */

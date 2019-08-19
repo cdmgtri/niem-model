@@ -172,6 +172,14 @@ class Model extends NIEMObject {
     return "/" + userKey + "/" + modelKey;
   }
 
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   */
+  static identifiers(userKey, modelKey) {
+    return {userKey, modelKey};
+  }
+
   get identifiers() {
     return {
       userKey: this.userKey,

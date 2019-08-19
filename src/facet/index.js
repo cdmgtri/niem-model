@@ -38,32 +38,6 @@ class Facet extends ReleaseObject {
     }
   }
 
-  get authoritativePrefix() {
-    return this.typePrefix;
-  }
-
-  get label() {
-    let shortStyle = this.style.replace("enumeration", "enum");
-    return this.typeQName + " - " + shortStyle + " " + this.value;
-  }
-
-  get route() {
-    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style);
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} typeQName
-   * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  static route(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
-    let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
-    return typeRoute + `/facets/${style}/${value}`;
-  }
-
   get sourceDataSet() {
     return this.source.facets;
   }
@@ -74,6 +48,49 @@ class Facet extends ReleaseObject {
 
   async type() {
     return this.release.type(this.typePrefix, this.typeName);
+  }
+
+  get authoritativePrefix() {
+    return this.typePrefix;
+  }
+
+  get label() {
+    let shortStyle = this.style.replace("enumeration", "enum");
+    return this.typeQName + " - " + shortStyle + " " + this.value;
+  }
+
+  get route() {
+    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.value, this.style);
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  static route(userKey, modelKey, releaseKey, typePrefix, typeName, value, style="enumeration") {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typePrefix, typeName);
+    return typeRoute + `/facets/${style}/${value}`;
+  }
+
+  get identifiers() {
+    return Facet.identifiers(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style, this.definition);
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   * @param {string} definition
+   */
+  static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) {
+    return {userKey, modelKey, releaseKey, typeQName, style, value, definition};
   }
 
   toJSON() {

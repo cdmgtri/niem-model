@@ -81,8 +81,8 @@ class NIEM {
    * @param {string} modelKey
    */
   async model(userKey, modelKey) {
-    let route = Model.route(userKey, modelKey);
-    return this.source.models.get(route);
+    let identifiers = Model.identifiers(userKey, modelKey);
+    return this.source.models.get(identifiers);
   }
 
   /**
@@ -102,8 +102,8 @@ class NIEM {
    * @param {string} releaseKey
    */
   async release(userKey, modelKey, releaseKey) {
-    let route = Release.route(userKey, modelKey, releaseKey);
-    return this.source.releases.get(route);
+    let identifiers = Release.identifiers(userKey, modelKey, releaseKey);
+    return this.source.releases.get(identifiers);
   }
 
   /**
@@ -124,8 +124,8 @@ class NIEM {
    * @param {string} prefix
    */
   async namespace(userKey, modelKey, releaseKey, prefix) {
-    let route = Namespace.route(userKey, modelKey, releaseKey, prefix);
-    return this.source.namespaces.get(route);
+    let identifiers = Namespace.identifiers(userKey, modelKey, releaseKey, prefix);
+    return this.source.namespaces.get(identifiers);
   }
 
   /**
@@ -143,8 +143,8 @@ class NIEM {
    * @param {string} term
    */
   async localTerm(userKey, modelKey, releaseKey, prefix, term) {
-    let route = LocalTerm.route(userKey, modelKey, releaseKey, prefix, term);
-    return this.source.localTerms.get(route);
+    let identifiers = LocalTerm.identifiers(userKey, modelKey, releaseKey, prefix, term);
+    return this.source.localTerms.get(identifiers);
   }
 
   /**
@@ -162,8 +162,8 @@ class NIEM {
    * @param {string} name
    */
   async property(userKey, modelKey, releaseKey, prefix, name) {
-    let route = Property.route(userKey, modelKey, releaseKey, prefix, name);
-    return this.source.properties.get(route);
+    let identifiers = Property.identifiers(userKey, modelKey, releaseKey, prefix, name);
+    return this.source.properties.get(identifiers);
   }
 
   /**
@@ -181,8 +181,8 @@ class NIEM {
    * @param {string} name
    */
   async type(userKey, modelKey, releaseKey, prefix, name) {
-    let route = Type.route(userKey, modelKey, releaseKey, prefix, name);
-    return this.source.types.get(route);
+    let identifiers = Type.identifiers(userKey, modelKey, releaseKey, prefix, name);
+    return this.source.types.get(identifiers);
   }
 
   /**
@@ -199,10 +199,11 @@ class NIEM {
    * @param {string} typeQName
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   * @param {string} definition
    */
-  async facet(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
-    let route = Facet.route(userKey, modelKey, releaseKey, typeQName, value, style);
-    return this.source.facets.get(route);
+  async facet(userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) {
+    let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style, definition);
+    return this.source.facets.get(identifiers);
   }
 
   /**
@@ -220,8 +221,8 @@ class NIEM {
    * @param {string} name
    */
   async subProperty(userKey, modelKey, releaseKey, typeQName, propertyQName) {
-    let route = SubProperty.route(userKey, modelKey, releaseKey, typeQName, propertyQName);
-    return this.source.subProperties.get(route);
+    let identifiers = SubProperty.identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName);
+    return this.source.subProperties.get(identifiers);
   }
 
   /**

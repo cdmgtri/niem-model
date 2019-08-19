@@ -132,6 +132,17 @@ class Component extends ReleaseObject {
     };
   }
 
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   */
+  static identifiers(userKey, modelKey, releaseKey, prefix, name) {
+    return {userKey, modelKey, releaseKey, prefix, name};
+  }
+
   toJSON() {
     return {
       ...super.toJSON(),

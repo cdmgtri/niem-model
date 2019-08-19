@@ -64,13 +64,13 @@ class Property extends Component {
 
   }
 
-  static route(userKey, modelKey, releaseKey, qname) {
+  static route(userKey, modelKey, releaseKey, prefix, name) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/properties/" + qname;
+    return releaseRoute + "/properties/" + prefix + ":" + name;
   }
 
   get route() {
-    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.qname);
+    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
   }
 
   get sourceDataSet() {

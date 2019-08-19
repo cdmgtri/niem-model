@@ -80,15 +80,15 @@ class SubProperty extends ReleaseObject {
   }
 
   get route() {
-    return SubProperty.route(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.propertyQName);
+    return SubProperty.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.propertyPrefix, this.propertyName);
   }
 
   /**
-   * @example" /niem/model/4.1/types/nc:PersonType/properties/nc:PersonName"
+   * @example "/niem/model/4.1/types/nc:PersonType/properties/nc:PersonName"
    */
-  static route(userKey, modelKey, releaseKey, typeQName, propertyQName) {
-    let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
-    return typeRoute + "/properties/" + propertyQName;
+  static route(userKey, modelKey, releaseKey, typePrefix, typeName, propertyPrefix, propertyName) {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typePrefix, typeName);
+    return typeRoute + "/properties/" + propertyPrefix + ":" + propertyName;
   }
 
   get identifiers() {
@@ -97,6 +97,17 @@ class SubProperty extends ReleaseObject {
       typeQName: this.typeQName,
       propertyQName: this.propertyQName
     };
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} name
+   */
+  static identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName) {
+    return {userKey, modelKey, releaseKey, typeQName, propertyQName};
   }
 
   toJSON() {

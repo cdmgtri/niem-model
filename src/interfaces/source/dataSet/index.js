@@ -35,10 +35,10 @@ class SourceDataSetInterface {
   }
 
   /**
-   * @param {string} id
+   * @param {{[string: string]: string}} identifiers
    * @returns {Promise<T>}
    */
-  async get(id) {
+  async get(identifiers) {
     notImplemented();
   }
 

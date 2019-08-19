@@ -280,6 +280,16 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   */
+  static identifiers(userKey, modelKey, releaseKey, prefix) {
+    return {userKey, modelKey, releaseKey, prefix};
+  }
+
+  /**
    * @param {"3.0"|"4.0"} ndrVersion
    * @param {String} prefix
    * @param {Namespace.StyleType} [style]

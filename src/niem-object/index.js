@@ -13,10 +13,10 @@ class NIEMObject {
   constructor() {
 
     /**
-     * The object ID from the latest source transaction.
-     * @type {string}
+     * The object identifiers from the latest source transaction.
+     * @type {{[string: string]: string}}
      */
-    this.lastTransactionID;
+    this.lastSavedIdentifiers;
 
     /**
      * The corresponding object ID from the previous release.
@@ -87,13 +87,17 @@ class NIEMObject {
     return {};
   }
 
+  static identifiers() {
+    return {};
+  }
+
   toJSON() {
     return {
       id: this.id,
       userKey: this.userKey,
       modelKey: this.modelKey,
       migrationID: this.migrationID,
-      transactionID: this.lastTransactionID,
+      transactionID: this.lastSavedIdentifiers,
       input_location: this.input_location,
       input_line: this.input_line
     };
@@ -182,7 +186,7 @@ class NIEMObject {
     await this.sourceDataSet.add(this, change);
 
     // Initialize transaction id
-    this.lastTransactionID = this.id;
+    this.lastSavedIdentifiers = this.id;
 
     return this;
   }
@@ -196,13 +200,13 @@ class NIEMObject {
 
     // Check required fields and that object exists
     await this.checkBaselineFields();
-    await this.checkSourceID("exists", this.lastTransactionID);
+    await this.checkSourceID("exists", this.lastSavedIdentifiers);
 
     // Update object
     await this.sourceDataSet.edit(this, change);
 
     // Reset transaction id
-    this.lastTransactionID = this.id;
+    this.lastSavedIdentifiers = this.id;
 
     return this;
   }
@@ -215,7 +219,7 @@ class NIEMObject {
   async delete(change) {
 
     // Check that object exists
-    await this.checkSourceID("exists", this.lastTransactionID);
+    await this.checkSourceID("exists", this.lastSavedIdentifiers);
 
     // Remove object from data source
     this.sourceDataSet.delete(this, change);

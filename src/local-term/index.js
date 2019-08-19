@@ -46,6 +46,17 @@ class LocalTerm extends ReleaseObject {
     };
   }
 
+  /**
+   * @param {String} userKey
+   * @param {String} modelKey
+   * @param {String} releaseKey
+   * @param {String} prefix
+   * @param {String} term
+   */
+  static identifiers(userKey, modelKey, releaseKey, prefix, term) {
+    return {userKey, modelKey, releaseKey, prefix, term};
+  }
+
   get sourceDataSet() {
     return this.source.localTerms;
   }

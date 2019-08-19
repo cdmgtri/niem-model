@@ -253,13 +253,13 @@ class Type extends Component {
     }
   }
 
-  static route(userKey, modelKey, releaseKey, qname) {
+  static route(userKey, modelKey, releaseKey, prefix, name) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/types/" + qname;
+    return releaseRoute + "/types/" + prefix + ":" + name;
   }
 
   get route() {
-    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.qname);
+    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
   }
 
   toJSON() {
