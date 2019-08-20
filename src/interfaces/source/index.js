@@ -1,6 +1,7 @@
 
 let SourceDataSet = require("./dataSet/index");
 let Transaction = require("./transaction/index");
+let Change = require("./change/index");
 
 class NIEMModelSourceInterface {
 
@@ -38,6 +39,8 @@ class NIEMModelSourceInterface {
 }
 
 NIEMModelSourceInterface.SourceDataSet = SourceDataSet;
+NIEMModelSourceInterface.Transaction = Transaction;
+NIEMModelSourceInterface.Change = Change;
 
 module.exports = NIEMModelSourceInterface;
 
