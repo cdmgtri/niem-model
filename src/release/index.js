@@ -203,11 +203,10 @@ class Release extends NIEMObject {
   }
 
   /**
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} qname
    */
-  async property(prefix, name) {
-    return this.model.property(this.releaseKey, prefix, name);
+  async property(qname) {
+    return this.model.property(this.releaseKey, qname);
   }
 
   /**
@@ -219,11 +218,10 @@ class Release extends NIEMObject {
   }
 
   /**
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} qname
    */
-  async type(prefix, name) {
-    return this.model.type(this.releaseKey, prefix, name);
+  async type(qname) {
+    return this.model.type(this.releaseKey, qname);
   }
 
   /**

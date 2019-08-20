@@ -100,8 +100,8 @@ class Model extends NIEMObject {
     return this.niem.localTerms(criteria);
   }
 
-  async property(releaseKey, prefix, name) {
-    return this.niem.property(this.userKey, this.modelKey, releaseKey, prefix, name);
+  async property(releaseKey, qname) {
+    return this.niem.property(this.userKey, this.modelKey, releaseKey, qname);
   };
 
   /**
@@ -113,8 +113,8 @@ class Model extends NIEMObject {
     return this.niem.properties(criteria);
   }
 
-  async type(releaseKey, prefix, name) {
-    return this.niem.type(this.userKey, this.modelKey, releaseKey, prefix, name);
+  async type(releaseKey, qname) {
+    return this.niem.type(this.userKey, this.modelKey, releaseKey, qname);
   };
 
   /**

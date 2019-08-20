@@ -178,7 +178,7 @@ class Namespace extends ReleaseObject {
    * @param {string} name
    */
   async property(name) {
-    return this.release.property(this.prefix, name);
+    return this.release.property(this.prefix + ":" + name);
   }
 
   /**
@@ -193,7 +193,7 @@ class Namespace extends ReleaseObject {
    * @param {string} name
    */
   async type(name) {
-    return this.release.type(this.prefix, name);
+    return this.release.type(this.prefix + ":" + name);
   }
 
   /**

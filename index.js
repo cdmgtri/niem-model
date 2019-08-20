@@ -159,11 +159,10 @@ class NIEM {
    * @param {string} userKey
    * @param {string} modelKey
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} qname
    */
-  async property(userKey, modelKey, releaseKey, prefix, name) {
-    let identifiers = Property.identifiers(userKey, modelKey, releaseKey, prefix, name);
+  async property(userKey, modelKey, releaseKey, qname) {
+    let identifiers = Property.identifiers(userKey, modelKey, releaseKey, qname);
     return this.source.properties.get(identifiers);
   }
 
@@ -178,11 +177,10 @@ class NIEM {
    * @param {string} userKey
    * @param {string} modelKey
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} qname
    */
-  async type(userKey, modelKey, releaseKey, prefix, name) {
-    let identifiers = Type.identifiers(userKey, modelKey, releaseKey, prefix, name);
+  async type(userKey, modelKey, releaseKey, qname) {
+    let identifiers = Type.identifiers(userKey, modelKey, releaseKey, qname);
     return this.source.types.get(identifiers);
   }
 
