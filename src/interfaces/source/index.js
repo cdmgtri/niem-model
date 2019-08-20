@@ -36,11 +36,19 @@ class NIEMModelSourceInterface {
 
   }
 
-}
+  static SourceDataSet() {
+    return SourceDataSet;
+  }
 
-NIEMModelSourceInterface.SourceDataSet = SourceDataSet;
-NIEMModelSourceInterface.Transaction = Transaction;
-NIEMModelSourceInterface.Change = Change;
+  static Transaction() {
+    return Transaction;
+  }
+
+  static Change() {
+    return Change;
+  }
+
+}
 
 module.exports = NIEMModelSourceInterface;
 
