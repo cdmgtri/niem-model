@@ -247,7 +247,14 @@ NIEM.SubProperty = SubProperty;
 NIEM.NIEMObject = require("./src/niem-object/index");
 NIEM.ReleaseObject = require("./src/release-object/index");
 
-NIEM.Interfaces = require("./src/interfaces/index");
+NIEM.Interfaces = {
+  NIEMSource: {
+    NIEMModelSource: require("./src/interfaces/index"),
+    Change: require("./src/interfaces/source/change/index"),
+    Transaction: require("./src/interfaces/source/transaction/index"),
+    DataSet: require("./src/interfaces/source/dataSet/index")
+  }
+}
 
 NIEM.Tests = {
   unitTests: require("./test/unit/index")
