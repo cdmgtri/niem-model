@@ -2,25 +2,38 @@
 class Transaction {
 
   /**
-   * @param {"add"|"edit"|"delete"} op
+   * @param {Function} ObjectClass
+   * @param {"add"|"edit"|"delete"|"get"|"find"|"count"|"history"} operation
    * @param {NIEMObject} niemObject
-   * @param {string} description
-   * @param {string} url
+   * @param {Object} criteria NIEM object search criteria for find operations
+   * @param {Change} change
    */
-  constructor(op, niemObject, description, url) {
+  constructor(ObjectClass, operation, niemObject, criteria, change = new Change()) {
 
-    this.op = op;
+    this.operation = operation;
     this.niemObject = niemObject;
-    this.description = description;
-    this.url = url;
+    this.criteria = criteria;
+    this.change = change;
+    this.className = ObjectClass;
 
-    this.className = niemObject.constructor.name;
-    this.id = niemObject.id;
-    this.userKey = niemObject.userKey;
-    this.modelKey = niemObject.modelKey;
-    this.releaseKey = niemObject.releaseKey;
-    this.version = niemObject.release ? niemObject.release.version : undefined;
-    this.previousID = niemObject.lastRevisionID;;
+    this.id = niemObject ? niemObject.id : "";
+    this.userKey = niemObject ? niemObject.userKey : "";
+    this.modelKey = niemObject ? niemObject.modelKey : "";
+    this.releaseKey = niemObject ? niemObject.releaseKey : "";
+    this.version = niemObject && niemObject.release ? niemObject.release.version : undefined;
+    this.previousID = niemObject ? niemObject.lastRevisionID : "";
+
+  }
+
+  toString() {
+
+    let str = `${this.operation} ${this.className} ${this.id} ${this.change.toString()}`;
+
+    if (this.criteria) {
+      str += JSON.stringify(this.criteria) + " ";
+    }
+
+    return str;
 
   }
 
@@ -29,3 +42,4 @@ class Transaction {
 module.exports = Transaction;
 
 let NIEMObject = require("../../../niem-object/index");
+let Change = require("../change/index");

@@ -181,7 +181,7 @@ class Release extends NIEMObject {
   /**
    * @param {Namespace.CriteriaType} criteria
    */
-  async namespaces(criteria) {
+  async namespaces(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.namespaces(criteria);
   }
@@ -197,7 +197,7 @@ class Release extends NIEMObject {
   /**
    * @param {LocalTerm.CriteriaType} criteria
    */
-  async localTerms(criteria) {
+  async localTerms(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.localTerms(criteria);
   }
@@ -213,7 +213,7 @@ class Release extends NIEMObject {
   /**
    * @param {Property.CriteriaType} criteria
    */
-  async properties(criteria) {
+  async properties(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.properties(criteria);
   }
@@ -229,7 +229,7 @@ class Release extends NIEMObject {
   /**
    * @param {Type.CriteriaType} criteria
    */
-  async types(criteria) {
+  async types(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.types(criteria);
   }
@@ -247,7 +247,7 @@ class Release extends NIEMObject {
   /**
    * @param {Facet.CriteriaType} criteria
    */
-  async facets(criteria) {
+  async facets(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.facets(criteria);
   }
@@ -263,7 +263,7 @@ class Release extends NIEMObject {
   /**
    * @param {SubProperty.CriteriaType} criteria
    */
-  async subProperties(criteria) {
+  async subProperties(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.subProperties(criteria);
   }

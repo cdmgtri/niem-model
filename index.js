@@ -36,7 +36,8 @@ class NIEM {
   async createModel(userKey, modelKey, style, description, website, repo) {
 
     let model = new Model(userKey, modelKey, style, description, website, repo);
-    model._source = this.source;
+    model.source = this.source;
+    model.niem = this;
 
     try {
       await model.add();
@@ -88,7 +89,7 @@ class NIEM {
   /**
    * @param {Model.CriteriaType} criteria
    */
-  async models(criteria) {
+  async models(criteria={}) {
     return this.source.models.find(criteria);
   }
 
@@ -109,7 +110,7 @@ class NIEM {
   /**
    * @param {Release.CriteriaType} criteria
    */
-  async releases(criteria) {
+  async releases(criteria={}) {
     return this.source.releases.find(criteria);
   }
 
@@ -131,7 +132,7 @@ class NIEM {
   /**
    * @param {Type.CriteriaType} criteria
    */
-  async namespaces(criteria) {
+  async namespaces(criteria={}) {
     return this.source.namespaces.find(criteria);
   }
 
@@ -150,7 +151,7 @@ class NIEM {
   /**
    * @param {LocalTerm.CriteriaType} criteria
    */
-  async localTerms(criteria) {
+  async localTerms(criteria={}) {
     return this.source.localTerms.find(criteria);
   }
 
@@ -169,7 +170,7 @@ class NIEM {
   /**
    * @param {Property.CriteriaType} criteria
    */
-  async properties(criteria) {
+  async properties(criteria={}) {
     return this.source.properties.find(criteria);
   }
 
@@ -188,7 +189,7 @@ class NIEM {
   /**
    * @param {Type.CriteriaType} criteria
    */
-  async types(criteria) {
+  async types(criteria={}) {
     return this.source.types.find(criteria);
   }
 
@@ -209,7 +210,7 @@ class NIEM {
   /**
    * @param {Facet.CriteriaType} criteria
    */
-  async facets(criteria) {
+  async facets(criteria={}) {
     return this.source.facets.find(criteria);
   }
 
@@ -228,7 +229,7 @@ class NIEM {
   /**
    * @param {SubProperty.CriteriaType} criteria
    */
-  async subProperties(criteria) {
+  async subProperties(criteria={}) {
     return this.source.subProperties.find(criteria);
   }
 

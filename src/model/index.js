@@ -28,8 +28,6 @@ class Model extends NIEMObject {
     this.website = website;
     this.repo = repo;
 
-    Model.match()
-
     let NIEM = require("../../index");
     this.niem = new NIEM();
 
@@ -70,7 +68,7 @@ class Model extends NIEMObject {
   /**
    * @param {Release.CriteriaType} criteria
    */
-  async releases(criteria) {
+  async releases(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.releases(criteria);
@@ -83,7 +81,7 @@ class Model extends NIEMObject {
   /**
    * @param {Namespace.CriteriaType} criteria
    */
-  async namespaces(criteria) {
+  async namespaces(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.namespaces(criteria);
@@ -96,7 +94,7 @@ class Model extends NIEMObject {
   /**
    * @param {LocalTerm.CriteriaType} criteria
    */
-  async localTerms(criteria) {
+  async localTerms(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.localTerms(criteria);
@@ -109,7 +107,7 @@ class Model extends NIEMObject {
   /**
    * @param {Property.CriteriaType} criteria
    */
-  async properties(criteria) {
+  async properties(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.properties(criteria);
@@ -122,7 +120,7 @@ class Model extends NIEMObject {
   /**
    * @param {Type.CriteriaType} criteria
    */
-  async types(criteria) {
+  async types(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.types(criteria);
@@ -141,7 +139,7 @@ class Model extends NIEMObject {
   /**
    * @param {Facet.CriteriaType} criteria
    */
-  async facets(criteria) {
+  async facets(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.facets(criteria);
@@ -154,7 +152,7 @@ class Model extends NIEMObject {
   /**
    * @param {SubProperty.CriteriaType} criteria
    */
-  async subProperties(criteria) {
+  async subProperties(criteria={}) {
     criteria.userKey = this.userKey;
     criteria.modelKey = this.modelKey;
     return this.niem.subProperties(criteria);

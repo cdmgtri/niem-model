@@ -140,16 +140,16 @@ class NIEMObject {
   /**
    * Checks that an object ID does or does not exist in the source.
    * @param {"exists"|"available"} expectedStatus
-   * @param {string} id
+   * @param {Object} identifiers
    */
-  async checkSourceID(expectedStatus, id) {
+  async checkSourceID(expectedStatus, identifiers) {
 
     if (! this.source || ! this.sourceDataSet) {
       throw new Error("No NIEM source data implementation");
     }
 
     // Check for an existing object with the given id
-    let match = await this.sourceDataSet.get(id);
+    let match = await this.sourceDataSet.get(identifiers);
 
     if (expectedStatus == "available" && match) {
       throw new Error("Required fields are not unique");
@@ -195,13 +195,13 @@ class NIEMObject {
 
     // Check required fields and that object is unique
     await this.checkBaselineFields();
-    await this.checkSourceID("available", this.id);
+    await this.checkSourceID("available", this.identifiers);
 
     // Add object
     await this.sourceDataSet.add(this, change);
 
     // Initialize transaction id
-    this.previousIdentifiers = this.id;
+    this.previousIdentifiers = this.identifiers;
 
     return this;
   }
@@ -341,6 +341,7 @@ class NIEMObject {
    * @returns {NIEMObject<T>[]}
    */
   static matches(niemObjects, criteria) {
+    if (!criteria) return niemObjects;
     return niemObjects.filter( niemObject => niemObject.match(criteria) );
   }
 

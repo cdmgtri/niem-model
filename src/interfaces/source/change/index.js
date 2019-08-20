@@ -7,6 +7,10 @@ class Change {
     this.refUpdate;
   }
 
+  toString() {
+    return `${this.url} ${this.description} ${this.refUpdate}`;
+  }
+
 }
 
 module.exports = Change;

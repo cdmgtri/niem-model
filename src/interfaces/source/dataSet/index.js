@@ -51,10 +51,18 @@ class SourceDataSetInterface {
   }
 
   /**
-   * @param {string} id
-   * @returns {Promise<Transaction[]>}
+   * @param {object} criteria
+   * @returns {Promise<T[]>}
    */
-  async history(id) {
+  async count(criteria) {
+    notImplemented();
+  }
+
+  /**
+   * @param {string} identifiers
+   * @returns {Promise<T[]>}
+   */
+  async history(identifiers) {
     notImplemented();
   }
 
