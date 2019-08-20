@@ -237,7 +237,34 @@ class Namespace extends ReleaseObject {
     return this.release.subProperties(criteria);
   }
 
+  /**
+   * @example `For Core, dependents j:PersonEyeColorCode (substitutes for
+     nc:PersonEyeColorAbstract) and hs:ServiceType (extends nc:ActivityType)`
+   */
   async dependencies() {
+
+    // Substitutions
+    let substitutions = await this.release.properties({ groupPrefix: this.prefix });
+
+    // Data properties
+    let dataProperties = await this.release.properties({ typePrefix: this.prefix });
+
+    // Child types
+    let childTypes = await this.release.types({ basePrefix: this.prefix });
+
+    // Sub-properties
+    let subProperties = await this.release.subProperties({ propertyName: this.prefix });
+
+    let count = substitutions.length + dataProperties.length + childTypes.length + subProperties.length;
+
+    return { substitutions, dataProperties, childTypes, subProperties, count };
+
+  }
+
+  /**
+   * @example "For Core, dependents nc:Person and nc:PersonType"
+   */
+  async dependents() {
 
     let localTerms = await this.localTerms();
     let properties = await this.properties();
@@ -249,6 +276,55 @@ class Namespace extends ReleaseObject {
       properties,
       types
     }
+  }
+
+
+  /**
+   * Update namespace dependents.  Operations will cascade through the
+   * namespace properties and types.
+   *
+   * @param {"edit"|"delete"} op
+   * @param {Change} change
+   */
+  async updateDependents(op, change) {
+
+    await super.updateDependents(op, change);
+
+    let dependents = await this.dependents(false);
+
+    // Update or delete local terms
+    for (let localTerm of dependents.localTerms) {
+      if (op == "edit") {
+        localTerm.prefix = this.prefix;
+        await localTerm.save(change);
+      }
+      else {
+        await location.delete(change);
+      }
+    }
+
+    // Update or delete properties
+    for (let property of dependents.properties) {
+      if (op == "edit") {
+        property.prefix = this.prefix;
+        await property.save(change);
+      }
+      else if (op == "delete") {
+        await property.delete(change);
+      }
+    }
+
+    // Update or delete types
+    for (let type of dependents.types) {
+      if (op == "edit") {
+        type.prefix = this.prefix;
+        await type.save(change);
+      }
+      else if (op == "delete") {
+        await type.delete(change);
+      }
+    }
+
   }
 
   get authoritativePrefix() {
@@ -396,3 +472,4 @@ let Type = require("../type/index");
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
+let Change = require("../interfaces/source/change/index");

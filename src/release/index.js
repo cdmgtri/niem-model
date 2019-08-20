@@ -268,6 +268,11 @@ class Release extends NIEMObject {
     return this.model.subProperties(criteria);
   }
 
+  async dependents() {
+    let namespaces = await this.namespaces();
+    return { namespaces, count: namespaces.length };
+  }
+
   get modelKey() {
     return this.model.modelKey;
   }

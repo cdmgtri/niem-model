@@ -70,6 +70,12 @@ class SubProperty extends ReleaseObject {
     return this.release.property(this.propertyPrefix, this.propertyName);
   }
 
+  async dependencies() {
+    let type = await this.type();
+    let property = await this.property();
+    return { type, property, count: 2 };
+  }
+
   async isElement() {
     let property = await this.property();
     if (property) return property.isElement;
@@ -134,8 +140,10 @@ class SubProperty extends ReleaseObject {
  * @property {string} niemReleaseKey
  * @property {string|string[]} typePrefix
  * @property {string|RegExp} typeName
+ * @property {string|RegExp} typeQName
  * @property {string|string[]} propertyPrefix
  * @property {string|RegExp} propertyName
+ * @property {string|RegExp} propertyQName
  * @property {string|RegExp} min
  * @property {string|RegExp} max
  * @property {string|RegExp} keyword - Property and type names

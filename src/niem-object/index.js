@@ -16,7 +16,7 @@ class NIEMObject {
      * The object identifiers from the latest source transaction.
      * @type {{[string: string]: string}}
      */
-    this.lastSavedIdentifiers;
+    this.previousIdentifiers;
 
     /**
      * The corresponding object ID from the previous release.
@@ -97,7 +97,7 @@ class NIEMObject {
       userKey: this.userKey,
       modelKey: this.modelKey,
       migrationID: this.migrationID,
-      transactionID: this.lastSavedIdentifiers,
+      transactionID: this.previousIdentifiers,
       input_location: this.input_location,
       input_line: this.input_line
     };
@@ -173,6 +173,21 @@ class NIEMObject {
   }
 
   /**
+   * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
+   * @returns {{count: number}}
+   */
+  async dependents(current=true) {
+  }
+
+  /**
+   * @param {"edit"|"delete"} op
+   * @param {Change} change
+   */
+  async updateDependents(op, change = new Change()) {
+    change.refUpdate = this.route;
+  }
+
+  /**
    * Save changes to the object.
    * @param {Change} change
    */
@@ -186,7 +201,7 @@ class NIEMObject {
     await this.sourceDataSet.add(this, change);
 
     // Initialize transaction id
-    this.lastSavedIdentifiers = this.id;
+    this.previousIdentifiers = this.id;
 
     return this;
   }
@@ -194,19 +209,34 @@ class NIEMObject {
   /**
    * Save changes to the object.
    * @todo Update release references for identifier changes
+   * @todo Review how to propagate dependent changes outside of a release
    * @param {Change} change
    */
   async save(change) {
 
     // Check required fields and that object exists
     await this.checkBaselineFields();
-    await this.checkSourceID("exists", this.lastSavedIdentifiers);
+    await this.checkSourceID("exists", this.previousIdentifiers);
 
     // Update object
     await this.sourceDataSet.edit(this, change);
 
+    // Determine if identifier fields have been modified
+    let identifiersModified = false;
+
+    for (let key of this.identifiers) {
+      if (this.identifiers[key] != this.previousIdentifiers[key]) {
+        identifiersModified = true;
+      }
+    }
+
+    // Update dependents if identifiers have been modified
+    if (identifiersModified) {
+      await this.updateDependents("edit");
+    }
+
     // Reset transaction id
-    this.lastSavedIdentifiers = this.id;
+    this.previousIdentifiers = this.id;
 
     return this;
   }
@@ -219,10 +249,13 @@ class NIEMObject {
   async delete(change) {
 
     // Check that object exists
-    await this.checkSourceID("exists", this.lastSavedIdentifiers);
+    await this.checkSourceID("exists", this.previousIdentifiers);
 
     // Remove object from data source
     this.sourceDataSet.delete(this, change);
+
+    // Update dependents
+    await this.updateDependents("delete");
 
     return this;
   }

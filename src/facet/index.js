@@ -50,6 +50,11 @@ class Facet extends ReleaseObject {
     return this.release.type(this.typePrefix, this.typeName);
   }
 
+  async dependencies() {
+    let type = await this.type();
+    return {type, count: 1};
+  }
+
   get authoritativePrefix() {
     return this.typePrefix;
   }
@@ -123,8 +128,9 @@ Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
  * @property {string} modelKey
  * @property {string} releaseKey
  * @property {string} niemReleaseKey
- * @property {string|string[]} prefix
- * @property {string|RegExp} name
+ * @property {string|RegExp} typeQName
+ * @property {string|string[]} typePrefix
+ * @property {string|RegExp} typeName
  * @property {string|RegExp} value
  * @property {string|RegExp} definition
  * @property {Facet.StyleType[]} style

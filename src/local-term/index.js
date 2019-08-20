@@ -17,6 +17,14 @@ class LocalTerm extends ReleaseObject {
     this.definition = definition;
   }
 
+  get sourceDataSet() {
+    return this.source.localTerms;
+  }
+
+  get namespace() {
+    return this.release.namespace(this.prefix);
+  }
+
   get route() {
     return LocalTerm.route(this.release.userKey, this.release.modelKey, this.releaseKey, this.prefix, this.term) ;
   }
@@ -55,14 +63,6 @@ class LocalTerm extends ReleaseObject {
    */
   static identifiers(userKey, modelKey, releaseKey, prefix, term) {
     return {userKey, modelKey, releaseKey, prefix, term};
-  }
-
-  get sourceDataSet() {
-    return this.source.localTerms;
-  }
-
-  get namespace() {
-    return this.release.namespace(this.prefix);
   }
 
   get identifiers() {

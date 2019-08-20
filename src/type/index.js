@@ -55,26 +55,16 @@ class Type extends Component {
 
   /**
    * Name from the type base's qname field.
-   * Returns undefined if there is no qualified base.
    */
   get baseName() {
-    // Check that the baseQName contains both a prefix and a name
-    if (this.baseQName && this.baseQName.match(/.+\:.+/)) {
-      return this.baseQName.split(":")[1];
-    }
-    return undefined;
+    return Component.name(this.baseQName);
   }
 
   /**
    * Namespace prefix from the type base's qname field.
-   * Returns undefined if there is no qualified base.
    */
   get basePrefix() {
-    // Check that the baseQName contains both a prefix and a name
-    if (this.baseQName && this.baseQName.match(/.+\:.+/)) {
-      return this.baseQName.split(":")[0];
-    }
-    return undefined;
+    return Component.prefix(this.baseQName);
   }
 
   get baseQNameDefault() {
@@ -233,24 +223,74 @@ class Type extends Component {
   }
 
   async dependencies() {
-
     let base = await this.base();
-    let childTypes = await this.childTypes();
-    let subProperties = await this.subProperties();
-    let dataProperties = await this.dataProperties();
-    let facets = await this.facets();
+    let count = base ? 2 : 1;
+    return { base, count };
+  }
+
+  /**
+   * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
+   */
+  async dependents(current=true) {
+
+    let qname = current ? this.qname : this.previousIdentifiers.prefix + ":" + this.previousIdentifiers.name;
+
+    let childTypes = await this.release.types({ baseQName: qname });
+    let dataProperties = await this.release.properties({ typeQName: qname });
+    let subProperties = await this.release.subProperties({ typeQName: qname });
+    let facets = await this.release.facets({ typeQName: qname });
 
     let count = childTypes.length + subProperties.length + dataProperties.length + facets.length;
-    if (base) count ++;
 
-    return {
-      base,
-      childTypes,
-      subProperties,
-      dataProperties,
-      facets,
-      count
+    return { childTypes, subProperties, dataProperties, facets, count };
+  }
+
+  /**
+   * @param {"edit"|"delete"} op
+   * @param {Change} change
+   */
+  async updateDependents(op, change) {
+
+    await super.updateDependents(op, change);
+
+    let newQName = op == "edit" ? this.qname : null;
+
+    let dependents = await this.dependents(false);
+
+    // Update child types
+    for (let childType of dependents.childTypes) {
+      childType.baseQName = newQName;
+      await childType.save(change);
     }
+
+    // Update data properties
+    for (let dataProperty of dependents.dataProperties) {
+      dataProperty.typeQName = newQName;
+      await dataProperty.save(change);
+    }
+
+    // Update or delete subproperties (these don't exist without the type)
+    for (let subProperty of dependents.subProperties) {
+      if (op == "edit") {
+        subProperty.propertyQName = newQName;
+        await subProperty.save(change);
+      }
+      else if (op == "delete") {
+        await subProperty.delete(change);
+      }
+    }
+
+    // Update or delete facets (these don't exist without the type)
+    for (let facet of dependents.facets) {
+      if (op == "edit") {
+        facet.typeQName = newQName;
+        await facet.save(change);
+      }
+      else if (op == "delete") {
+        await facet.delete(change);
+      }
+    }
+
   }
 
   static route(userKey, modelKey, releaseKey, prefix, name) {
@@ -304,6 +344,8 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
  * @property {string|RegExp} definition
  * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
  * @property {string|RegExp} baseQName
+ * @property {string|RegExp} baseName
+ * @property {string|RegExp} basePrefix
  * @property {Type.StyleType[]} style
  * @property {boolean} isComplexType
  * @property {boolean} isComplexContent
@@ -316,3 +358,4 @@ module.exports = Type;
 
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
+let Change = require("../interfaces/source/change/index");

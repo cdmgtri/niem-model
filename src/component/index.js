@@ -35,6 +35,14 @@ class Component extends ReleaseObject {
   }
 
   /**
+   * @param  {string} qname
+   */
+  set qname(qname) {
+    this.prefix = Component.prefix(qname);
+    this.name = Component.name(qname);
+  }
+
+  /**
    * An array of terms inferred from the name of the component based on camel casing.
    *
    * @readonly
