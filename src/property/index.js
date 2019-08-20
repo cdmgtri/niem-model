@@ -26,19 +26,19 @@ class Property extends Component {
   }
 
   get typePrefix() {
-    return Component.prefix(this.typeQName);
+    return Component.getPrefix(this.typeQName);
   }
 
   get typeName() {
-    return Component.name(this.typeQName);
+    return Component.getName(this.typeQName);
   }
 
   get groupPrefix() {
-    return Component.prefix(this.groupQName);
+    return Component.getPrefix(this.groupQName);
   }
 
   get groupName() {
-    return Component.name(this.groupQName);
+    return Component.getName(this.groupQName);
   }
 
   get isAttribute() {

@@ -36,19 +36,19 @@ class SubProperty extends ReleaseObject {
   }
 
   get typePrefix() {
-    return Component.prefix(this.typeQName);
+    return Component.getPrefix(this.typeQName);
   }
 
   get typeName() {
-    return Component.name(this.typeQName);
+    return Component.getName(this.typeQName);
   }
 
   get propertyPrefix() {
-    return Component.prefix(this.typeQName);
+    return Component.getPrefix(this.typeQName);
   }
 
   get propertyName() {
-    return Component.name(this.propertyQName);
+    return Component.getName(this.propertyQName);
   }
 
   get sourceDataSet() {

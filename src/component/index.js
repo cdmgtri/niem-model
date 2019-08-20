@@ -38,8 +38,8 @@ class Component extends ReleaseObject {
    * @param  {string} qname
    */
   set qname(qname) {
-    this.prefix = Component.prefix(qname);
-    this.name = Component.name(qname);
+    this.prefix = Component.getPrefix(qname);
+    this.name = Component.getName(qname);
   }
 
   /**
@@ -68,7 +68,7 @@ class Component extends ReleaseObject {
    * @param {string} qname
    * @returns {string}
    */
-  static name(qname) {
+  static getName(qname) {
     if (qname && qname.match(/.+\:.+/)) {
       return qname.split(":")[1];
     }
@@ -80,7 +80,7 @@ class Component extends ReleaseObject {
    * @param {string} qname
    * @returns {string}
    */
-  static prefix(qname) {
+  static getPrefix(qname) {
     if (qname && qname.match(/.+\:.+/)) {
       return qname.split(":")[0];
     }

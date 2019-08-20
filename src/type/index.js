@@ -57,14 +57,14 @@ class Type extends Component {
    * Name from the type base's qname field.
    */
   get baseName() {
-    return Component.name(this.baseQName);
+    return Component.getName(this.baseQName);
   }
 
   /**
    * Namespace prefix from the type base's qname field.
    */
   get basePrefix() {
-    return Component.prefix(this.baseQName);
+    return Component.getPrefix(this.baseQName);
   }
 
   get baseQNameDefault() {
@@ -165,7 +165,7 @@ class Type extends Component {
     let members = [];
 
     for (let qname of this.memberQNames) {
-      let member = await this.release.type(Type.prefix(qname), Type.name(qname));
+      let member = await this.release.type(Type.getPrefix(qname), Type.getName(qname));
       members.push(member);
     }
 
