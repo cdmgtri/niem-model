@@ -34,6 +34,29 @@ class Namespace extends ReleaseObject {
     this.xsdString;
   }
 
+  /**
+   * @param {ReleaseObject.NDRVersionType} ndrVersion
+   * @param {String} prefix
+   * @param {Namespace.StyleType} [style]
+   * @param {String} [uri]
+   * @param {String} [fileName]
+   * @param {String} [definition]
+   * @param {String} [version]
+   */
+  static create(ndrVersion, prefix, style, uri, fileName, definition, version) {
+
+    let versionedNamespace = Namespace;
+
+    if (ndrVersion == "3.0") {
+      versionedNamespace = require("./3.0/index");
+    }
+    else if (ndrVersion == "4.0") {
+      versionedNamespace = require("./4.0/index");
+    }
+
+    return new versionedNamespace(prefix, style, uri, fileName, definition, version);
+  }
+
   get styleRank() {
     switch (this.style) {
       case "core":
@@ -83,9 +106,9 @@ class Namespace extends ReleaseObject {
    * @param {string} literal
    * @param {string} definition
    */
-  async createLocalTerm(term, literal, definition) {
+  async localTerm_add(term, literal, definition) {
 
-    let localTerm = new LocalTerm(this.prefix, term, literal, definition);
+    let localTerm = LocalTerm.create(this.ndrVersion, this.prefix, term, literal, definition);
     localTerm.release = this.release;
 
     try {
@@ -98,6 +121,21 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @param {string} term
+   */
+  async localTerm(term) {
+    return this.release.localTerm(this.prefix, term);
+  }
+
+  /**
+   * @param {LocalTerm.CriteriaType} criteria
+   */
+  async localTerms(criteria={}) {
+    criteria.prefix = this.prefix;
+    return this.release.localTerms(criteria);
+  }
+
+  /**
    * @param {string} name
    * @param {string} definition
    * @param {string} typeQName
@@ -105,9 +143,9 @@ class Namespace extends ReleaseObject {
    * @param {boolean} [isElement=true] Defaults to true
    * @param {boolean} [isAbstract=false] Defaults to false
    */
-  async createProperty(name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+  async property_add(name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
 
-    let property = new Property(this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+    let property = Property.create(this.ndrVersion, this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
     property.release = this.release;
 
     try {
@@ -121,13 +159,28 @@ class Namespace extends ReleaseObject {
 
   /**
    * @param {string} name
+   */
+  async property(name) {
+    return this.release.property(this.prefix + ":" + name);
+  }
+
+  /**
+   * @param {Property.CriteriaType} criteria
+   */
+  async properties(criteria={}) {
+    criteria.prefix = this.prefix;
+    return this.release.properties(criteria);
+  }
+
+  /**
+   * @param {string} name
    * @param {string} definition
    * @param {Type.StyleType} style
    * @param {string} baseQName
    */
-  async createType(name, definition, style, baseQName) {
+  async type_add(name, definition, style, baseQName) {
 
-    let type = new Type(this.prefix, name, definition, style, baseQName);
+    let type = Type.create(this.ndrVersion, this.prefix, name, definition, style, baseQName);
     type.release = this.release;
 
     try {
@@ -140,14 +193,29 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @param {string} name
+   */
+  async type(name) {
+    return this.release.type(this.prefix + ":" + name);
+  }
+
+  /**
+   * @param {Type.CriteriaType} criteria
+   */
+  async types(criteria={}) {
+    criteria.prefix = this.prefix;
+    return this.release.types(criteria);
+  }
+
+  /**
    * @param {string} typeName
    * @param {string} value
    * @param {string} definition
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  async createFacet(typeName, value, definition, style="enumeration") {
+  async facet_add(typeName, value, definition, style="enumeration") {
 
-    let facet = new Facet(this.prefix + ":" + typeName, value, definition, style);
+    let facet = Facet.create(this.ndrVersion, this.prefix + ":" + typeName, value, definition, style);
     facet.release = this.release;
 
     try {
@@ -160,63 +228,18 @@ class Namespace extends ReleaseObject {
   }
 
   /**
-   * @param {string} term
-   */
-  async localTerm(term) {
-    return this.release.localTerm(this.prefix, term);
-  }
-
-  /**
-   * @param {LocalTerm.CriteriaType} criteria
-   */
-  async localTerms(criteria) {
-    criteria.prefix = this.prefix;
-    return this.release.localTerms(criteria);
-  }
-
-  /**
-   * @param {string} name
-   */
-  async property(name) {
-    return this.release.property(this.prefix + ":" + name);
-  }
-
-  /**
-   * @param {Property.CriteriaType} criteria
-   */
-  async properties(criteria) {
-    criteria.prefix = this.prefix;
-    return this.release.properties(criteria);
-  }
-
-  /**
-   * @param {string} name
-   */
-  async type(name) {
-    return this.release.type(this.prefix + ":" + name);
-  }
-
-  /**
-   * @param {Type.CriteriaType} criteria
-   */
-  async types(criteria) {
-    criteria.prefix = this.prefix;
-    return this.release.types(criteria);
-  }
-
-  /**
    * @param {string} name
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration]" Default "enumeration"
    */
   async facet(name, value, style="enumeration") {
-    return this.release.facet(this.prefix, name, style, value);
+    return this.release.facet(this.prefix + ":" + name, style, value);
   }
 
   /**
    * @param {Facet.CriteriaType} criteria
    */
-  async facets(criteria) {
+  async facets(criteria={}) {
     criteria.prefix = this.prefix;
     return this.release.facets(criteria);
   }
@@ -232,7 +255,7 @@ class Namespace extends ReleaseObject {
   /**
    * @param {SubProperty.CriteriaType} criteria
    */
-  async subProperties(criteria) {
+  async subProperties(criteria={}) {
     criteria.typePrefix = this.prefix;
     return this.release.subProperties(criteria);
   }
@@ -363,29 +386,6 @@ class Namespace extends ReleaseObject {
    */
   static identifiers(userKey, modelKey, releaseKey, prefix) {
     return {userKey, modelKey, releaseKey, prefix};
-  }
-
-  /**
-   * @param {"3.0"|"4.0"} ndrVersion
-   * @param {String} prefix
-   * @param {Namespace.StyleType} [style]
-   * @param {String} [uri]
-   * @param {String} [fileName]
-   * @param {String} [definition]
-   * @param {String} [version]
-   */
-  static createNamespace(ndrVersion, prefix, style, uri, fileName, definition, version) {
-
-    let versionedNamespace = Namespace;
-
-    if (ndrVersion == "3.0") {
-      versionedNamespace = require("./3.0/index");
-    }
-    else if (ndrVersion == "4.0") {
-      versionedNamespace = require("./4.0/index");
-    }
-
-    return new versionedNamespace(prefix, style, uri, fileName, definition, version);
   }
 
   /**

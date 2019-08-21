@@ -17,6 +17,17 @@ class LocalTerm extends ReleaseObject {
     this.definition = definition;
   }
 
+  /**
+   * @param {ReleaseObject.NDRVersionType} ndrVersion
+   * @param {String} prefix
+   * @param {String} term
+   * @param {String} literal
+   * @param {String} definition
+   */
+  static create(ndrVersion, prefix, term, literal, definition) {
+    return new LocalTerm(prefix, term, literal, definition);
+  }
+
   get sourceDataSet() {
     return this.source.localTerms;
   }
@@ -63,13 +74,6 @@ class LocalTerm extends ReleaseObject {
    */
   static identifiers(userKey, modelKey, releaseKey, prefix, term) {
     return {userKey, modelKey, releaseKey, prefix, term};
-  }
-
-  get identifiers() {
-    return {
-      ...super.identifiers,
-      term: this.term
-    }
   }
 
   toJSON() {

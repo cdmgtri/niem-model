@@ -13,7 +13,7 @@ function testNamespace() {
     beforeAll( async() => {
       let model = new Model("user", "test");
       let release = await model.createRelease("1.0");
-      namespace = await release.createNamespace("nc", "core");
+      namespace = await release.namespace_add("nc", "core");
     });
 
     let namespaces = [

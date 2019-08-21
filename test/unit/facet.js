@@ -15,13 +15,13 @@ function testFacet() {
 
 
     test("enum route", async () => {
-      let facet = await release.createFacet("nc:HairColorCodeSimpleType", "BLK", "black");
+      let facet = await release.facet_add("nc:HairColorCodeSimpleType", "BLK", "black");
       expect(facet.route).toBe(release.route + "/types/nc:HairColorCodeSimpleType/facets/enumeration/BLK");
       expect(facet.style).toBe("enumeration");
     });
 
     test("pattern route", async () => {
-      let facet = await release.createFacet("nc:ORICodeSimpleType", "\d{9}", "9 digit code", "pattern");
+      let facet = await release.facet_add("nc:ORICodeSimpleType", "\d{9}", "9 digit code", "pattern");
       // TODO: escape special characters in patterns
       expect(facet.route).toBe(release.route + "/types/nc:ORICodeSimpleType/facets/pattern/\d{9}");
       expect(facet.style).toBe("pattern");
@@ -29,13 +29,13 @@ function testFacet() {
     });
 
     test("prefix", async () => {
-      let facet = await release.createFacet("ext:IDCodeSimpleType");
+      let facet = await release.facet_add("ext:IDCodeSimpleType");
       expect(facet.typePrefix).toBe("ext");
 
-      facet = await release.createFacet("IDCodeSimpleType");
+      facet = await release.facet_add("IDCodeSimpleType");
       expect(facet.typePrefix).not.toBeDefined();
 
-      facet = await release.createFacet(null);
+      facet = await release.facet_add(null);
       expect(facet.typePrefix).not.toBeDefined();
     });
 

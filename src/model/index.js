@@ -158,6 +158,18 @@ class Model extends NIEMObject {
     return this.niem.subProperties(criteria);
   }
 
+  /**
+   * @param {String} userKey
+   * @param {String} modelKey
+   * @param {Model.StyleType} style
+   * @param {String} description
+   * @param {String} website
+   * @param {String} repo
+   */
+  static create(userKey, modelKey, style, description, website, repo) {
+    return new Model(userKey, modelKey, style, description, website, repo);
+  }
+
   get label() {
     return this.userKey + " " + this.modelKey;
   }

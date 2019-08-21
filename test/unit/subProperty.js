@@ -14,7 +14,7 @@ function testSubProperty() {
     beforeAll( async () => {
       let model = new Model("user", "test");
       release = await model.createRelease("1.0");
-      subProperty = await release.createSubProperty("nc:PersonType", "nc:PersonName");
+      subProperty = await release.subProperty_add("nc:PersonType", "nc:PersonName");
     });
 
     test("route", () => {
@@ -27,7 +27,7 @@ function testSubProperty() {
     });
 
     test("sub-attribute default values", async () => {
-      subProperty = await release.createSubProperty("nc:PersonType", "nc:attributeName");
+      subProperty = await release.subProperty_add("nc:PersonType", "nc:attributeName");
       expect(subProperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:attributeName");
       expect(subProperty.min).toBe("0");
       expect(subProperty.max).toBe("1");

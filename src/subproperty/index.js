@@ -35,6 +35,19 @@ class SubProperty extends ReleaseObject {
 
   }
 
+  /**
+   * @param {ReleaseObject.NDRVersionType} ndrVersion
+   * @param {Release} release
+   * @param {String} typeQName
+   * @param {String} propertyQName
+   * @param {String} [min="0"] Default "0"
+   * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
+   * @param {String} definition
+   */
+  static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition) {
+    return new SubProperty(typeQName, propertyQName, min, max, definition);
+  }
+
   get typePrefix() {
     return Component.getPrefix(this.typeQName);
   }

@@ -22,6 +22,17 @@ class Facet extends ReleaseObject {
     this.definition = definition;
   }
 
+  /**
+   * @param {ReleaseObject.NDRVersionType} ndrVersion
+   * @param {String} typeQName
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
+   */
+  static create(ndrVersion, typeQName, value, definition, style="enumeration") {
+    return new Facet(typeQName, value, definition, style);
+  }
+
   get isCode() {
     return this.style == "enumeration";
   }

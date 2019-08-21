@@ -15,7 +15,7 @@ function testType() {
 
 
     test("#object type values", async () => {
-      let type = await release.createType("nc", "PersonType", "A data type for a human being.", "object");
+      let type = await release.type_add("nc", "PersonType", "A data type for a human being.", "object");
 
       expect(type.route).toBe("/user/test/1.0/types/nc:PersonType");
 
@@ -33,22 +33,22 @@ function testType() {
     });
 
     test("#association type values", async () => {
-      let type = await release.createType("nc", "PersonResidenceAssociationType", "", "association");
+      let type = await release.type_add("nc", "PersonResidenceAssociationType", "", "association");
       expect(type.baseQNameDefault).toBe("structures:AssociationType");
     });
 
     test("#augmentation type values", async () => {
-      let type = await release.createType("j", "PersonAugmentationType", "", "augmentation");
+      let type = await release.type_add("j", "PersonAugmentationType", "", "augmentation");
       expect(type.baseQNameDefault).toBe("structures:AugmentationType");
     });
 
     test("#metadata type values", async () => {
-      let type = await release.createType("nc", "MetadataType", "", "metadata");
+      let type = await release.type_add("nc", "MetadataType", "", "metadata");
       expect(type.baseQNameDefault).toBe("structures:MetadataType");
     });
 
     test("#CSC type values", async () => {
-      let type = await release.createType("nc", "PersonEyeColorCodeType", "", "CSC");
+      let type = await release.type_add("nc", "PersonEyeColorCodeType", "", "CSC");
       expect(type.baseQNameDefault).toBe(undefined);
       expect(type.style).toBe("CSC");
       expect(type.isComplexType).toBe(true);
@@ -56,7 +56,7 @@ function testType() {
     });
 
     test("#simple type values", async () => {
-      let type = await release.createType("nc", "PersonEyeColorCodeSimpleType", "A data type for a person's eye color.", "simple");
+      let type = await release.type_add("nc", "PersonEyeColorCodeSimpleType", "A data type for a person's eye color.", "simple");
       expect(type.route).toBe("/user/test/1.0/types/nc:PersonEyeColorCodeSimpleType");
 
       // Check that simple type default are set correctly
@@ -93,7 +93,7 @@ function testType() {
     });
 
     test("#toJSON", async () => {
-      let type = await release.createType("nc", "PersonEyeColorCodeSimpleType", "A data type for a person's eye color.", "simple", "xs:token");
+      let type = await release.type_add("nc", "PersonEyeColorCodeSimpleType", "A data type for a person's eye color.", "simple", "xs:token");
 
       // Check serialize function, scoped to namespace
       let receivedJSON = JSON.parse(JSON.stringify(type));

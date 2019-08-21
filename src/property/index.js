@@ -25,6 +25,20 @@ class Property extends Component {
     this.isAbstract = isAbstract;
   }
 
+  /**
+   * @param {NDRVersionType} ndrVersion
+   * @param {String} prefix
+   * @param {String} name
+   * @param {String} [definition]
+   * @param {String} [typeQName]
+   * @param {Property} [groupQName]
+   * @param {boolean} [isElement=true]
+   * @param {boolean} [isAbstract=false]
+   */
+  static create (ndrVersion, prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+    return new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+  }
+
   get typePrefix() {
     return Component.getPrefix(this.typeQName);
   }
@@ -207,3 +221,5 @@ Property.CriteriaKeywordFields = ["name", "definition"];
 module.exports = Property;
 
 let Change = require("../interfaces/source/change/index");
+
+let { NDRVersionType } = Component;

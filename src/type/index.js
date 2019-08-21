@@ -23,6 +23,18 @@ class Type extends Component {
   }
 
   /**
+   * @param {NDRVersionType} ndrVersion
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   * @param {Type.StyleType} style
+   * @param {string} [baseQName]
+   */
+  static create(ndrVersion, prefix, name, definition, style, baseQName) {
+    return new Type(prefix, name, definition, style, baseQName);
+  }
+
+  /**
    * True if the type is complex and capable of carrying attributes.
    * @type {Boolean}
    */
@@ -116,45 +128,6 @@ class Type extends Component {
     return this.source.types;
   }
 
-  /**
-   * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async createFacet(value, definition, style="enumeration") {
-
-    let facet = new Facet(this.qname, value, definition, style);
-    facet.release = this.release;
-
-    try {
-      await facet.add();
-    }
-    catch (err) {
-    }
-
-    return facet;
-  }
-
-  /**
-   * @param {string} propertyQName
-   * @param {string} [min="0"] Defaults to "0"
-   * @param {string} [max="unbounded"] Defaults to "unbounded"
-   * @param {string} definition
-   */
-  async createSubProperty(propertyQName, min="0", max="unbounded", definition) {
-
-    let subProperty = new SubProperty(this.qname, propertyQName, min, max, definition);
-    subProperty.release = this.release;
-
-    try {
-      await subProperty.add();
-    }
-    catch (err) {
-    }
-
-    return subProperty;
-  }
-
   async base() {
     return this.release.type(this.basePrefix, this.baseName);
   }
@@ -173,11 +146,30 @@ class Type extends Component {
   }
 
   /**
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async facet_add(value, definition, style="enumeration") {
+
+    let facet = Facet.create(this.ndrVersion, this.qname, value, definition, style);
+    facet.release = this.release;
+
+    try {
+      await facet.add();
+    }
+    catch (err) {
+    }
+
+    return facet;
+  }
+
+  /**
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    * @param {string} value
    */
   async facet(value, style="enumeration") {
-    return this.release.facet(this.prefix, this.name, style, value);
+    return this.release.facet(this.qname, style, value);
   }
 
   /**
@@ -187,6 +179,26 @@ class Type extends Component {
     criteria.prefix = this.prefix;
     criteria.name = this.name;
     return this.release.facets(criteria);
+  }
+
+  /**
+   * @param {string} propertyQName
+   * @param {string} [min="0"] Defaults to "0"
+   * @param {string} [max="unbounded"] Defaults to "unbounded"
+   * @param {string} definition
+   */
+  async subProperty_add(propertyQName, min="0", max="unbounded", definition) {
+
+    let subProperty = SubProperty.create(this.ndrVersion, this.qname, propertyQName, min, max, definition);
+    subProperty.release = this.release;
+
+    try {
+      await subProperty.add();
+    }
+    catch (err) {
+    }
+
+    return subProperty;
   }
 
   /**
@@ -359,3 +371,5 @@ module.exports = Type;
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let Change = require("../interfaces/source/change/index");
+
+let { NDRVersionType } = Component;

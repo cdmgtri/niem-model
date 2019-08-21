@@ -14,7 +14,7 @@ function testProperty() {
     beforeAll( async () => {
       let release = await niem.createRelease("user", "test", "1.0");
 
-      property = await release.createProperty("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
+      property = await release.property_add("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
 
     });
 

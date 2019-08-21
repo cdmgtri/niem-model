@@ -104,6 +104,16 @@ class NIEMObject {
   }
 
   /**
+   * Creates a new class.
+   * Used to support different versions of classes based on the NDR version.
+   *
+   * @example "Namespace.create('3.0', ...) returns a NDR 3.0-specific Namespace object"
+   */
+  static create(ndrVersion) {
+
+  }
+
+  /**
    * @param {String} location
    * @param {String} line
    */

@@ -41,6 +41,10 @@ class ReleaseObject extends NIEMObject {
     if (this.release) return this.release.niemReleaseKey;
   }
 
+  get ndrVersion() {
+    if (this.release) return this.release.ndrVersion;
+  }
+
   static route(userKey, modelKey, releaseKey) {
     return Release.route(userKey, modelKey, releaseKey);
   }
@@ -71,5 +75,8 @@ class ReleaseObject extends NIEMObject {
   }
 
 }
+
+/** @type {"3.0"|"4.0"} */
+ReleaseObject.NDRVersionType;
 
 module.exports = ReleaseObject;

@@ -34,7 +34,21 @@ class Release extends NIEMObject {
 
   }
 
-  get source() {
+  /**
+   * @param {String} releaseKey
+   * @param {String} niemReleaseKey
+   * @param {"3.0"|"4.0"} [ndrVersion="4.0"] Defaults to "4.0"
+   * @param {String} version
+   * @param {"draft"|"published"} status
+   * @param {String} baseURI
+   * @param {String} branch
+   * @param {String} description
+   */
+  static create(releaseKey, niemReleaseKey, ndrVersion="4.0", version, status, baseURI, branch, description) {
+    return new Release(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI, branch, description);
+  }
+
+   get source() {
     return this.model.source;
   }
 
@@ -50,10 +64,10 @@ class Release extends NIEMObject {
    * @param {string} definition
    * @param {string} version
    */
-  async createNamespace(prefix, style, uri, fileName, definition, version) {
+  async namespace_add(prefix, style, uri, fileName, definition, version) {
 
     // Use Namespace builder to return the right NDR-version of a namespace
-    let namespace = Namespace.createNamespace(this.ndrVersion, prefix, style, uri, fileName, definition, version);
+    let namespace = Namespace.create(this.ndrVersion, prefix, style, uri, fileName, definition, version);
 
     namespace.release = this;
 
@@ -64,111 +78,6 @@ class Release extends NIEMObject {
     }
 
     return namespace;
-  }
-
-  /**
-   * @param {string} prefix
-   * @param {string} term
-   * @param {string} literal
-   * @param {string} definition
-   */
-  async createLocalTerm(prefix, term, literal, definition) {
-
-    let localTerm = new LocalTerm(prefix, term, literal, definition);
-    localTerm.release = this;
-
-    try {
-      await localTerm.add();
-    }
-    catch (err) {
-    }
-
-    return localTerm;
-  }
-
-  /**
-   * @param {string} prefix
-   * @param {string} name
-   * @param {string} definition
-   * @param {string} typeQName
-   * @param {string} groupQName
-   * @param {boolean} [isElement=true] Defaults to true
-   * @param {boolean} [isAbstract=false] Defaults to false
-   */
-  async createProperty(prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
-
-    let property = new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
-    property.release = this;
-
-    try {
-      await property.add();
-    }
-    catch (err) {
-    }
-
-    return property;
-  }
-
-  /**
-   * @param {string} prefix
-   * @param {string} name
-   * @param {string} definition
-   * @param {Type.StyleType} style
-   * @param {string} baseQName
-   */
-  async createType(prefix, name, definition, style, baseQName) {
-
-    let type = new Type(prefix, name, definition, style, baseQName);
-    type.release = this;
-
-    try {
-      await type.add();
-    }
-    catch (err) {
-    }
-
-    return type;
-  }
-
-  /**
-   * @param {string} typeQName
-   * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async createFacet(typeQName, value, definition, style="enumeration") {
-
-    let facet = new Facet(typeQName, value, definition, style);
-    facet.release = this;
-
-    try {
-      await facet.add();
-    }
-    catch (err) {
-    }
-
-    return facet;
-  }
-
-  /**
-   * @param {string} typeQName
-   * @param {string} propertyQName
-   * @param {string} min
-   * @param {string} max
-   * @param {string} definition
-   */
-  async createSubProperty(typeQName, propertyQName, min, max, definition) {
-
-    let subProperty = new SubProperty(typeQName, propertyQName, min, max, definition);
-    subProperty.release = this;
-
-    try {
-      await subProperty.add();
-    }
-    catch (err) {
-    }
-
-    return subProperty;
   }
 
   /**
@@ -189,6 +98,26 @@ class Release extends NIEMObject {
   /**
    * @param {string} prefix
    * @param {string} term
+   * @param {string} literal
+   * @param {string} definition
+   */
+  async localTerm_add(prefix, term, literal, definition) {
+
+    let localTerm = LocalTerm.create(this.ndrVersion, prefix, term, literal, definition);
+    localTerm.release = this;
+
+    try {
+      await localTerm.add();
+    }
+    catch (err) {
+    }
+
+    return localTerm;
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} term
    */
   async localTerm(prefix, term) {
     return this.model.localTerm(this.releaseKey, prefix, term);
@@ -200,6 +129,29 @@ class Release extends NIEMObject {
   async localTerms(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.localTerms(criteria);
+  }
+
+  /**
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   * @param {string} typeQName
+   * @param {string} groupQName
+   * @param {boolean} [isElement=true] Defaults to true
+   * @param {boolean} [isAbstract=false] Defaults to false
+   */
+  async property_add(prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+
+    let property = Property.create(this.ndrVersion, prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+    property.release = this;
+
+    try {
+      await property.add();
+    }
+    catch (err) {
+    }
+
+    return property;
   }
 
   /**
@@ -218,6 +170,27 @@ class Release extends NIEMObject {
   }
 
   /**
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   * @param {Type.StyleType} style
+   * @param {string} baseQName
+   */
+  async type_add(prefix, name, definition, style, baseQName) {
+
+    let type = Type.create(this.ndrVersion, prefix, name, definition, style, baseQName);
+    type.release = this;
+
+    try {
+      await type.add();
+    }
+    catch (err) {
+    }
+
+    return type;
+  }
+
+  /**
    * @param {string} qname
    */
   async type(qname) {
@@ -233,13 +206,32 @@ class Release extends NIEMObject {
   }
 
   /**
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   */
+  async facet_add(typeQName, value, definition, style="enumeration") {
+
+    let facet = Facet.create(this.ndrVersion, typeQName, value, definition, style);
+    facet.release = this;
+
+    try {
+      await facet.add();
+    }
+    catch (err) {
+    }
+
+    return facet;
+  }
+
+  /**
+   * @param {string} qname
    * @param {string} value
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  async facet(prefix, name, value, style="enumeration") {
-    return this.model.facet(this.releaseKey, prefix, name, value, style);
+  async facet(qname, value, style="enumeration") {
+    return this.model.facet(this.releaseKey, qname, value, style);
   }
 
   /**
@@ -248,6 +240,27 @@ class Release extends NIEMObject {
   async facets(criteria={}) {
     criteria.releaseKey = this.releaseKey;
     return this.model.facets(criteria);
+  }
+
+  /**
+   * @param {string} typeQName
+   * @param {string} propertyQName
+   * @param {string} min
+   * @param {string} max
+   * @param {string} definition
+   */
+  async subProperty_add(typeQName, propertyQName, min, max, definition) {
+
+    let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
+    subProperty.release = this;
+
+    try {
+      await subProperty.add();
+    }
+    catch (err) {
+    }
+
+    return subProperty;
   }
 
   /**
