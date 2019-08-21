@@ -57,6 +57,13 @@ class LocalTerm extends ReleaseObject {
     return this.prefix;
   }
 
+  /**
+   * @example "nc - NIEM"
+   */
+  get label() {
+    return this.prefix + " - " + this.term
+  }
+
   get identifiers() {
     return {
       ...super.identifiers,

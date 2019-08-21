@@ -98,6 +98,10 @@ class SubProperty extends ReleaseObject {
     return this.typePrefix;
   }
 
+  get label() {
+    return this.typeQName + " - " + this.propertyQName;
+  }
+
   get route() {
     return SubProperty.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.propertyPrefix, this.propertyName);
   }
