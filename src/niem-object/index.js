@@ -19,10 +19,10 @@ class NIEMObject {
     this.previousIdentifiers;
 
     /**
-     * The corresponding object ID from the previous release.
+     * The corresponding object identifiers from the previous release.
      * @type {string}
      */
-    this.migrationID;
+    this.migrationIdentifiers;
 
     /**
      * A file name, a spreadsheet tab, etc.
@@ -93,11 +93,11 @@ class NIEMObject {
 
   toJSON() {
     return {
-      id: this.id,
+      route: this.route,
       userKey: this.userKey,
       modelKey: this.modelKey,
-      migrationID: this.migrationID,
-      transactionID: this.previousIdentifiers,
+      migrationIdentifiers: this.migrationIdentifiers,
+      previousIdentifiers: this.previousIdentifiers,
       input_location: this.input_location,
       input_line: this.input_line
     };
@@ -210,8 +210,8 @@ class NIEMObject {
     // Add object
     await this.sourceDataSet.add(this, change);
 
-    // Initialize transaction id
-    this.previousIdentifiers = this.identifiers;
+    // Initialize previous identifiers in case of future updated fields
+    this.previousIdentifiers = Object.assign({}, this.identifiers);
 
     return this;
   }
@@ -245,8 +245,9 @@ class NIEMObject {
       await this.updateDependents("edit");
     }
 
-    // Reset transaction id
-    this.previousIdentifiers = this.id;
+    // Reset previous identifiers
+    this.previousIdentifiers = Object.assign({}, this.identifiers);
+
 
     return this;
   }

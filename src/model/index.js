@@ -47,9 +47,9 @@ class Model extends NIEMObject {
    * @param {string} description
    * @param {string}
    */
-  async createRelease(releaseKey, niemReleaseKey, version, status, baseURI) {
+  async release_add(releaseKey, niemReleaseKey, version, status, baseURI) {
 
-    let release = new Release(releaseKey, niemReleaseKey, version, status, baseURI);
+    let release = Release.create(releaseKey, niemReleaseKey, version, status, baseURI);
     release.model = this;
 
     try {

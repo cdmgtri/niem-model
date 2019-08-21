@@ -33,9 +33,9 @@ class NIEM {
    * @param {string} website
    * @param {string} repo
    */
-  async createModel(userKey, modelKey, style, description, website, repo) {
+  async model_add(userKey, modelKey, style, description, website, repo) {
 
-    let model = new Model(userKey, modelKey, style, description, website, repo);
+    let model = Model.create(userKey, modelKey, style, description, website, repo);
     model.source = this.source;
     model.niem = this;
 
@@ -46,35 +46,6 @@ class NIEM {
     }
 
     return model;
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} niemReleaseKey
-   * @param {string} version
-   * @param {Release.StatusType} status
-   * @param {string} baseURI
-   */
-  async createRelease(userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) {
-
-    /** @type {Model} */
-    let model;
-
-    try {
-      // Load existing model if available
-      model = await this.model(userKey, modelKey);
-    }
-    catch (err) {
-    }
-
-    if (! model) {
-      // Create model if not found
-      model = await this.createModel(userKey, modelKey);
-    }
-
-    return model.createRelease(releaseKey, niemReleaseKey, version, status, baseURI);
   }
 
   /**
@@ -95,6 +66,35 @@ class NIEM {
 
   async niemModel() {
     return this.model("niem", "model");
+  }
+
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} niemReleaseKey
+   * @param {string} version
+   * @param {Release.StatusType} status
+   * @param {string} baseURI
+   */
+  async release_add(userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) {
+
+    /** @type {Model} */
+    let model;
+
+    try {
+      // Load existing model if available
+      model = await this.model(userKey, modelKey);
+    }
+    catch (err) {
+    }
+
+    if (! model) {
+      // Create model if not found
+      model = await this.model_add(userKey, modelKey);
+    }
+
+    return model.release_add(releaseKey, niemReleaseKey, version, status, baseURI);
   }
 
   /**

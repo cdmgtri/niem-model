@@ -12,7 +12,7 @@ function testNamespace() {
 
     beforeAll( async() => {
       let model = new Model("user", "test");
-      let release = await model.createRelease("1.0");
+      let release = await model.release_add("1.0");
       namespace = await release.namespace_add("nc", "core");
     });
 
@@ -50,7 +50,7 @@ function testNamespace() {
     test("#toJSON", () => {
 
       let expectedJSON = {
-        id: "/user/test/1.0/namespaces/nc",
+        route: "/user/test/1.0/namespaces/nc",
         userKey: "user",
         modelKey: "test",
         releaseKey: "1.0",

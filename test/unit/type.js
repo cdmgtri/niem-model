@@ -10,7 +10,7 @@ function testType() {
 
     beforeAll( async () => {
       let model = new Model("user", "test");
-      release = await model.createRelease("1.0");
+      release = await model.release_add("1.0");
     });
 
 
@@ -98,7 +98,7 @@ function testType() {
       // Check serialize function, scoped to namespace
       let receivedJSON = JSON.parse(JSON.stringify(type));
       let expectedJSON = {
-        "id": "/user/test/1.0/types/nc:PersonEyeColorCodeSimpleType",
+        "route": "/user/test/1.0/types/nc:PersonEyeColorCodeSimpleType",
         "userKey": "user",
         "modelKey": "test",
         "releaseKey": "1.0",

@@ -10,7 +10,7 @@ function testFacet() {
 
     beforeAll( async () => {
       let model = new Model("user", "test");
-      release = await model.createRelease("1.0");
+      release = await model.release_add("1.0");
     });
 
 

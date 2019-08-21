@@ -7,27 +7,23 @@ class Transaction {
    * @param {NIEMObject} niemObject
    * @param {Object} criteria NIEM object search criteria for find operations
    * @param {Change} change
+   * @param {number} count
    */
-  constructor(ObjectClass, operation, niemObject, criteria, change = new Change()) {
+  constructor(ObjectClass, operation, niemObject, criteria, change = new Change(), count) {
 
+    this.className = ObjectClass.name;
     this.operation = operation;
-    this.niemObject = niemObject;
     this.criteria = criteria;
+    this.niemObject = Object.assign({}, niemObject);
     this.change = change;
-    this.className = ObjectClass;
-
-    this.id = niemObject ? niemObject.id : "";
-    this.userKey = niemObject ? niemObject.userKey : "";
-    this.modelKey = niemObject ? niemObject.modelKey : "";
-    this.releaseKey = niemObject ? niemObject.releaseKey : "";
-    this.version = niemObject && niemObject.release ? niemObject.release.version : undefined;
-    this.previousID = niemObject ? niemObject.lastRevisionID : "";
+    this.count = count;
+    this.timestamp = (new Date()).toLocaleString();
 
   }
 
   toString() {
 
-    let str = `${this.operation} ${this.className} ${this.id} ${this.change.toString()}`;
+    let str = `${this.operation} ${this.className} ${this.id} (${this.count}) ${this.change.toString()}`;
 
     if (this.criteria) {
       str += JSON.stringify(this.criteria) + " ";
