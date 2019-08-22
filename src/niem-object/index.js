@@ -218,8 +218,6 @@ class NIEMObject {
 
   /**
    * Save changes to the object.
-   * @todo Update release references for identifier changes
-   * @todo Review how to propagate dependent changes outside of a release
    * @param {Change} change
    */
   async save(change) {
@@ -228,17 +226,18 @@ class NIEMObject {
     await this.checkBaselineFields();
     await this.checkSourceID("exists", this.previousIdentifiers);
 
-    // Update object
-    await this.sourceDataSet.edit(this, change);
-
     // Determine if identifier fields have been modified
     let identifiersModified = false;
 
-    for (let key of this.identifiers) {
+    for (let key in this.identifiers) {
       if (this.identifiers[key] != this.previousIdentifiers[key]) {
         identifiersModified = true;
+        continue;
       }
     }
+
+    // Update object
+    await this.sourceDataSet.edit(this, change);
 
     // Update dependents if identifiers have been modified
     if (identifiersModified) {
