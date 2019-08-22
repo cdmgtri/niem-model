@@ -39,6 +39,22 @@ class NIEMObject {
   }
 
   /**
+   * @type {String}
+   */
+  get previousRoute() {
+    let params = Object.values(this.previousIdentifiers);
+    return this.constructor.route(...params);
+  }
+
+  /**
+   * @type {String}
+   */
+  get migrationRoute() {
+    let params = Object.values(this.migrationIdentifiers);
+    return this.constructor.route(...params);
+  }
+
+  /**
    * @type {SourceDataSet<T>}
    */
   get sourceDataSet() {
