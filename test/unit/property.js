@@ -31,6 +31,7 @@ function testProperty() {
       expect(property.isElement).toBe(true);
       expect(property.isAbstract).toBe(false);
       expect(property.label).toBe("nc:PersonName");
+      expect(property.previousRoute).toBe(undefined);
     });
 
     test("#toJSON", () => {

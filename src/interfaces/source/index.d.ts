@@ -48,6 +48,14 @@ interface DataSet<T> {
 
   count(criteria: object): Promise<number>;
 
-  history(id: string): Promise<Transaction[]>;
+  /**
+   * Object history for changes in the current release
+   */
+  revisions(object: T): Promise<Transaction[]>;
+
+  /**
+   * Published object history across releases
+   */
+  history(object: T): Promise<Transaction[]>;
 
 }

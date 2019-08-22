@@ -59,10 +59,18 @@ class SourceDataSetInterface {
   }
 
   /**
-   * @param {string} identifiers
+   * @param {T} niemObject
    * @returns {Promise<T[]>}
    */
-  async history(identifiers) {
+  async revisions(niemObject) {
+    notImplemented();
+  }
+
+  /**
+   * @param {T} niemObject
+   * @returns {Promise<T[]>}
+   */
+  async history(niemObject) {
     notImplemented();
   }
 

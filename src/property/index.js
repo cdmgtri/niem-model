@@ -115,6 +115,7 @@ class Property extends Component {
 
   /**
    * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
+   * @returns {DependentsTypes}
    */
   async dependents(current=true) {
 
@@ -156,6 +157,8 @@ class Property extends Component {
       substitution.groupQName = newQName;
       await substitution.save(change);
     }
+
+    return dependents;
 
   }
 
@@ -218,8 +221,17 @@ Property.CriteriaType = {};
 
 Property.CriteriaKeywordFields = ["name", "definition"];
 
+/**
+ * @typedef {Object} DependentsTypes
+ * @property {Property[]} substitutions
+ * @property {SubProperty[]} subProperties
+ * @property {number} count
+ */
+Property.DependentsTypes;
+
 module.exports = Property;
 
 let Change = require("../interfaces/source/change/index");
+let SubProperty = require("../subproperty/index");
 
 let { NDRVersionType } = Component;

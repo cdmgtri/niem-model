@@ -42,6 +42,7 @@ class NIEMObject {
    * @type {String}
    */
   get previousRoute() {
+    if (! this.previousIdentifiers) return undefined;
     let params = Object.values(this.previousIdentifiers);
     return this.constructor.route(...params);
   }
@@ -50,6 +51,7 @@ class NIEMObject {
    * @type {String}
    */
   get migrationRoute() {
+    if (! this.migrationIdentifiers) return undefined;
     let params = Object.values(this.migrationIdentifiers);
     return this.constructor.route(...params);
   }
@@ -242,29 +244,9 @@ class NIEMObject {
     await this.checkBaselineFields();
     await this.checkSourceID("exists", this.previousIdentifiers);
 
-    // Determine if identifier fields have been modified
-    let identifiersModified = false;
-
-    for (let key in this.identifiers) {
-      if (this.identifiers[key] != this.previousIdentifiers[key]) {
-        identifiersModified = true;
-        continue;
-      }
-    }
-
     // Update object
-    await this.sourceDataSet.edit(this, change);
+    return this.sourceDataSet.edit(this, change);
 
-    // Update dependents if identifiers have been modified
-    if (identifiersModified) {
-      await this.updateDependents("edit");
-    }
-
-    // Reset previous identifiers
-    this.previousIdentifiers = Object.assign({}, this.identifiers);
-
-
-    return this;
   }
 
   /**
