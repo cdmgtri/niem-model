@@ -50,7 +50,6 @@ function testNamespace() {
     test("#toJSON", () => {
 
       let expectedJSON = {
-        route: "/user/test/1.0/namespaces/nc",
         userKey: "user",
         modelKey: "test",
         releaseKey: "1.0",

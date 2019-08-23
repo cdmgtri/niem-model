@@ -112,8 +112,7 @@ class Facet extends ReleaseObject {
   toJSON() {
     return {
       ...super.toJSON(),
-      typePrefix: this.typePrefix,
-      typeName: this.typeName,
+      typeQName: this.typeQName,
       style: this.style,
       value: this.value,
       definition: this.definition

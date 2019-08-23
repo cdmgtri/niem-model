@@ -25,47 +25,55 @@ class NIEM {
     this.qa;
   }
 
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {Model.StyleType} style
-   * @param {string} description
-   * @param {string} website
-   * @param {string} repo
-   */
-  async model_add(userKey, modelKey, style, description, website, repo) {
+  get models() {
 
-    let model = Model.create(userKey, modelKey, style, description, website, repo);
-    model.source = this.source;
-    model.niem = this;
+    return {
 
-    try {
-      await model.add();
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {Model.StyleType} style
+       * @param {string} description
+       * @param {string} website
+       * @param {string} repo
+       */
+      add: async (userKey, modelKey, style, description, website, repo) => {
+
+        let model = Model.create(userKey, modelKey, style, description, website, repo);
+        model.source = this.source;
+        model.niem = this;
+
+        try {
+          await model.add();
+        }
+        catch(err) {
+        }
+
+        return model;
+      },
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       */
+      get: async (userKey, modelKey) => {
+        let identifiers = Model.identifiers(userKey, modelKey);
+        return this.source.models.get(identifiers);
+      },
+
+      /**
+       * @param {Model.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.models.find(criteria);
+      },
+
+      niem: async () => {
+        return this.model("niem", "model");
+      }
+
     }
-    catch(err) {
-    }
 
-    return model;
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   */
-  async model(userKey, modelKey) {
-    let identifiers = Model.identifiers(userKey, modelKey);
-    return this.source.models.get(identifiers);
-  }
-
-  /**
-   * @param {Model.CriteriaType} criteria
-   */
-  async models(criteria={}) {
-    return this.source.models.find(criteria);
-  }
-
-  async niemModel() {
-    return this.model("niem", "model");
   }
 
   /**
@@ -91,7 +99,7 @@ class NIEM {
 
     if (! model) {
       // Create model if not found
-      model = await this.model_add(userKey, modelKey);
+      model = await this.models.add(userKey, modelKey);
     }
 
     return model.release_add(releaseKey, niemReleaseKey, version, status, baseURI);

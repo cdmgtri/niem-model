@@ -329,9 +329,14 @@ class Release extends NIEMObject {
     return Release.route(this.userKey, this.modelKey, this.releaseKey);
   }
 
+  get modelRoute() {
+    return this.model.route;
+  }
+
   toJSON() {
     return {
-      ...this.model.toJSON(),
+      ...super.toJSON(),
+      modelRoute: this.modelRoute,
       releaseKey: this.releaseKey,
       niemReleaseKey: this.niemReleaseKey,
       version: this.version,

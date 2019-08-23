@@ -67,6 +67,10 @@ class ReleaseObject extends NIEMObject {
     if (this.release) return this.release.source;
   }
 
+  get releaseRoute() {
+    return this.release.route;
+  }
+
   toJSON() {
     return {
       ...super.toJSON(),

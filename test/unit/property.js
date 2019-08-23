@@ -39,7 +39,6 @@ function testProperty() {
       // Check toJSON function, scoped to namespace
       let receivedJSON = JSON.parse(JSON.stringify(property));
       let expectedJSON = {
-        "route": "/user/test/1.0/properties/nc:PersonName",
         "userKey": "user",
         "modelKey": "test",
         "releaseKey": "1.0",

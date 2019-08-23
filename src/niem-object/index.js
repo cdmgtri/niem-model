@@ -25,6 +25,12 @@ class NIEMObject {
     this.migrationIdentifiers;
 
     /**
+     * The corresponding object identifiers from the original subset object.
+     * @type {string}
+     */
+    this.subsetIdentifiers;
+
+    /**
      * A file name, a spreadsheet tab, etc.
      * @type {String}
      */
@@ -53,6 +59,15 @@ class NIEMObject {
   get migrationRoute() {
     if (! this.migrationIdentifiers) return undefined;
     let params = Object.values(this.migrationIdentifiers);
+    return this.constructor.route(...params);
+  }
+
+  /**
+   * @type {String}
+   */
+  get migrationRoute() {
+    if (! this.subsetIdentifiers) return undefined;
+    let params = Object.values(this.subsetIdentifiers);
     return this.constructor.route(...params);
   }
 
@@ -111,7 +126,6 @@ class NIEMObject {
 
   toJSON() {
     return {
-      route: this.route,
       userKey: this.userKey,
       modelKey: this.modelKey,
       migrationIdentifiers: this.migrationIdentifiers,

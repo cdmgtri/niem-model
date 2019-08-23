@@ -98,7 +98,6 @@ function testType() {
       // Check serialize function, scoped to namespace
       let receivedJSON = JSON.parse(JSON.stringify(type));
       let expectedJSON = {
-        "route": "/user/test/1.0/types/nc:PersonEyeColorCodeSimpleType",
         "userKey": "user",
         "modelKey": "test",
         "releaseKey": "1.0",
