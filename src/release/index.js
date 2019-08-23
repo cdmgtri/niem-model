@@ -336,7 +336,6 @@ class Release extends NIEMObject {
   toJSON() {
     return {
       ...super.toJSON(),
-      modelRoute: this.modelRoute,
       releaseKey: this.releaseKey,
       niemReleaseKey: this.niemReleaseKey,
       version: this.version,

@@ -10,7 +10,7 @@ function testType() {
 
     beforeAll( async () => {
       let model = new Model("user", "test");
-      release = await model.release_add("1.0");
+      release = await model.releases.add("1.0");
     });
 
 

@@ -37,67 +37,85 @@ class Model extends NIEMObject {
     return this.source.models;
   }
 
-  /**
-   * @param {string} releaseKey
-   * @param {string} niemReleaseKey
-   * @param {string} version
-   * @param {Release.StatusType} status
-   * @param {string} baseURI
-   * @param {string} branch
-   * @param {string} description
-   * @param {string}
-   */
-  async release_add(releaseKey, niemReleaseKey, version, status, baseURI) {
+  get releases() {
+    return {
 
-    let release = Release.create(releaseKey, niemReleaseKey, version, status, baseURI);
-    release.model = this;
+        /**
+         * @param {string} releaseKey
+         * @param {string} niemReleaseKey
+         * @param {string} version
+         * @param {Release.StatusType} status
+         * @param {string} baseURI
+         * @param {string} branch
+         * @param {string} description
+         * @param {string}
+         */
+        add: async (releaseKey, niemReleaseKey, version, status, baseURI) => {
 
-    try {
-      await release.add();
+          let release = Release.create(releaseKey, niemReleaseKey, version, status, baseURI);
+          release.model = this;
+
+          try {
+            await release.add();
+          }
+          catch (err) {
+          }
+
+          return release;
+        },
+
+        get: async (releaseKey) => {
+          return this.niem.release(this.userKey, this.modelKey, releaseKey);
+        },
+
+        /**
+         * @param {Release.CriteriaType} criteria
+         */
+        find: async (criteria={}) => {
+          criteria.userKey = this.userKey;
+          criteria.modelKey = this.modelKey;
+          return this.niem.releases(criteria);
+        }
+
     }
-    catch (err) {
+  }
+
+  get namespaces() {
+    return{
+
+      get: async (releaseKey, prefix) => {
+        return this.niem.namespaces.get(this.userKey, this.modelKey, releaseKey, prefix);
+      },
+
+      /**
+       * @param {Namespace.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.userKey = this.userKey;
+        criteria.modelKey = this.modelKey;
+        return this.niem.namespaces.find(criteria);
+      }
+
     }
-
-    return release;
   }
 
-  async release(releaseKey) {
-    return this.niem.release(this.userKey, this.modelKey, releaseKey);
-  }
+  get localTerms() {
+    return {
 
-  /**
-   * @param {Release.CriteriaType} criteria
-   */
-  async releases(criteria={}) {
-    criteria.userKey = this.userKey;
-    criteria.modelKey = this.modelKey;
-    return this.niem.releases(criteria);
-  }
+      get: async (releaseKey, prefix, term) => {
+        return this.niem.localTerms.get(this.userKey, this.modelKey, releaseKey, prefix, term);
+      },
 
-  async namespace(releaseKey, prefix) {
-    return this.niem.namespace(this.userKey, this.modelKey, releaseKey, prefix);
-  }
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.userKey = this.userKey;
+        criteria.modelKey = this.modelKey;
+        return this.niem.localTerms.find(criteria);
+      }
 
-  /**
-   * @param {Namespace.CriteriaType} criteria
-   */
-  async namespaces(criteria={}) {
-    criteria.userKey = this.userKey;
-    criteria.modelKey = this.modelKey;
-    return this.niem.namespaces(criteria);
-  }
-
-  async localTerm(releaseKey, prefix, term) {
-    return this.niem.localTerm(this.userKey, this.modelKey, releaseKey, prefix, term);
-  }
-
-  /**
-   * @param {LocalTerm.CriteriaType} criteria
-   */
-  async localTerms(criteria={}) {
-    criteria.userKey = this.userKey;
-    criteria.modelKey = this.modelKey;
-    return this.niem.localTerms(criteria);
+    }
   }
 
   async property(releaseKey, qname) {

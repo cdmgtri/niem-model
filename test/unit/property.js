@@ -12,7 +12,7 @@ function testProperty() {
   describe("Property", () => {
 
     beforeAll( async () => {
-      let release = await niem.release_add("user", "test", "1.0");
+      let release = await niem.releases.add("user", "test", "1.0");
 
       property = await release.property_add("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
 

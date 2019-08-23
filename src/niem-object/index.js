@@ -65,7 +65,7 @@ class NIEMObject {
   /**
    * @type {String}
    */
-  get migrationRoute() {
+  get subsetRoute() {
     if (! this.subsetIdentifiers) return undefined;
     let params = Object.values(this.subsetIdentifiers);
     return this.constructor.route(...params);

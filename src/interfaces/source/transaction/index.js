@@ -14,7 +14,7 @@ class Transaction {
     this.className = ObjectClass.name;
     this.operation = operation;
     this.criteria = criteria;
-    this.niemObject = Object.assign({}, niemObject);
+    this.niemObject = niemObject;
     this.change = change;
     this.count = count;
     this.timestamp = (new Date()).toLocaleString();

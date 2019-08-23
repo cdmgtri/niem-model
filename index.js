@@ -76,167 +76,209 @@ class NIEM {
 
   }
 
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} niemReleaseKey
-   * @param {string} version
-   * @param {Release.StatusType} status
-   * @param {string} baseURI
-   */
-  async release_add(userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) {
+  get releases() {
+    return {
 
-    /** @type {Model} */
-    let model;
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} niemReleaseKey
+       * @param {string} version
+       * @param {Release.StatusType} status
+       * @param {string} baseURI
+       */
+      add: async (userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) => {
 
-    try {
-      // Load existing model if available
-      model = await this.model(userKey, modelKey);
+        /** @type {Model} */
+        let model;
+
+        try {
+          // Load existing model if available
+          model = await this.model(userKey, modelKey);
+        }
+        catch (err) {
+        }
+
+        if (! model) {
+          // Create model if not found
+          model = await this.models.add(userKey, modelKey);
+        }
+
+        return model.releases.add(releaseKey, niemReleaseKey, version, status, baseURI);
+      },
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       */
+      get: async (userKey, modelKey, releaseKey) => {
+        let identifiers = Release.identifiers(userKey, modelKey, releaseKey);
+        return this.source.releases.get(identifiers);
+      },
+
+      /**
+       * @param {Release.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.releases.find(criteria);
+      },
+
+      niem: async (releaseKey) => {
+        return this.release("niem", "model", releaseKey);
+      }
+
     }
-    catch (err) {
+  }
+
+  get namespaces() {
+    return {
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} prefix
+       */
+      get: async (userKey, modelKey, releaseKey, prefix) => {
+        let identifiers = Namespace.identifiers(userKey, modelKey, releaseKey, prefix);
+        return this.source.namespaces.get(identifiers);
+      },
+
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.namespaces.find(criteria);
+      }
+
     }
+  }
 
-    if (! model) {
-      // Create model if not found
-      model = await this.models.add(userKey, modelKey);
+  get localTerms() {
+    return {
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} prefix
+       * @param {string} term
+       */
+      get: async (userKey, modelKey, releaseKey, prefix, term) => {
+        let identifiers = LocalTerm.identifiers(userKey, modelKey, releaseKey, prefix, term);
+        return this.source.localTerms.get(identifiers);
+      },
+
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.localTerms.find(criteria);
+      }
+
     }
-
-    return model.release_add(releaseKey, niemReleaseKey, version, status, baseURI);
   }
 
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   */
-  async release(userKey, modelKey, releaseKey) {
-    let identifiers = Release.identifiers(userKey, modelKey, releaseKey);
-    return this.source.releases.get(identifiers);
+  get properties() {
+    return {
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} qname
+       */
+      get: async (userKey, modelKey, releaseKey, qname) => {
+        let identifiers = Property.identifiers(userKey, modelKey, releaseKey, Property.getPrefix(qname), Property.getName(qname));
+        return this.source.properties.get(identifiers);
+      },
+
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.properties.find(criteria);
+      }
+
+    }
   }
 
-  /**
-   * @param {Release.CriteriaType} criteria
-   */
-  async releases(criteria={}) {
-    return this.source.releases.find(criteria);
+  get types() {
+    return {
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} qname
+       */
+      get: async (userKey, modelKey, releaseKey, qname) => {
+        let identifiers = Type.identifiers(userKey, modelKey, releaseKey, Type.getPrefix(qname), Type.getName(qname));
+        return this.source.types.get(identifiers);
+      },
+
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.types.find(criteria);
+      }
+
+    }
   }
 
-  async niemRelease(releaseKey) {
-    return this.release("niem", "model", releaseKey);
+  get facets() {
+    return {
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} typeQName
+       * @param {string} value
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       * @param {string} definition
+       */
+      get: async (userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) => {
+        let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style, definition);
+        return this.source.facets.get(identifiers);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.facets.find(criteria);
+      }
+
+    }
   }
 
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} prefix
-   */
-  async namespace(userKey, modelKey, releaseKey, prefix) {
-    let identifiers = Namespace.identifiers(userKey, modelKey, releaseKey, prefix);
-    return this.source.namespaces.get(identifiers);
-  }
+  get subProperties() {
+    return {
 
-  /**
-   * @param {Type.CriteriaType} criteria
-   */
-  async namespaces(criteria={}) {
-    return this.source.namespaces.find(criteria);
-  }
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
+       * @param {string} prefix
+       * @param {string} name
+       */
+      get: async (userKey, modelKey, releaseKey, typeQName, propertyQName) => {
+        let identifiers = SubProperty.identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName);
+        return this.source.subProperties.get(identifiers);
+      },
 
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} term
-   */
-  async localTerm(userKey, modelKey, releaseKey, prefix, term) {
-    let identifiers = LocalTerm.identifiers(userKey, modelKey, releaseKey, prefix, term);
-    return this.source.localTerms.get(identifiers);
-  }
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        return this.source.subProperties.find(criteria);
+      }
 
-  /**
-   * @param {LocalTerm.CriteriaType} criteria
-   */
-  async localTerms(criteria={}) {
-    return this.source.localTerms.find(criteria);
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} qname
-   */
-  async property(userKey, modelKey, releaseKey, qname) {
-    let identifiers = Property.identifiers(userKey, modelKey, releaseKey, Property.getPrefix(qname), Property.getName(qname));
-    return this.source.properties.get(identifiers);
-  }
-
-  /**
-   * @param {Property.CriteriaType} criteria
-   */
-  async properties(criteria={}) {
-    return this.source.properties.find(criteria);
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} qname
-   */
-  async type(userKey, modelKey, releaseKey, qname) {
-    let identifiers = Type.identifiers(userKey, modelKey, releaseKey, Type.getPrefix(qname), Type.getName(qname));
-    return this.source.types.get(identifiers);
-  }
-
-  /**
-   * @param {Type.CriteriaType} criteria
-   */
-  async types(criteria={}) {
-    return this.source.types.find(criteria);
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} typeQName
-   * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   * @param {string} definition
-   */
-  async facet(userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) {
-    let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style, definition);
-    return this.source.facets.get(identifiers);
-  }
-
-  /**
-   * @param {Facet.CriteriaType} criteria
-   */
-  async facets(criteria={}) {
-    return this.source.facets.find(criteria);
-  }
-
-  /**
-   * @param {string} userKey
-   * @param {string} modelKey
-   * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
-   */
-  async subProperty(userKey, modelKey, releaseKey, typeQName, propertyQName) {
-    let identifiers = SubProperty.identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName);
-    return this.source.subProperties.get(identifiers);
-  }
-
-  /**
-   * @param {SubProperty.CriteriaType} criteria
-   */
-  async subProperties(criteria={}) {
-    return this.source.subProperties.find(criteria);
+    }
   }
 
 }
