@@ -6,7 +6,7 @@ let testSource = require("./source");
  */
 function integrationTests() {
 
-  describe("NIEM integration tests", () => {
+  describe("NIEM Model integration tests", () => {
 
     testSource();
 

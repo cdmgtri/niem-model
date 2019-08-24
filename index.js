@@ -356,7 +356,8 @@ NIEM.Interfaces = {
 }
 
 NIEM.Tests = {
-  unitTests: require("./test/unit/index")
+  unitTests: require("./test/unit/index"),
+  integrationTests: require("./test/integration/index")
 }
 
 module.exports = NIEM;

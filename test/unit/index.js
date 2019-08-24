@@ -13,7 +13,7 @@ let testFacet = require("./facet");
  */
 function unitTests() {
 
-  describe("NIEM unit tests", () => {
+  describe("NIEM Model unit tests", () => {
 
     testModel();
     testRelease();
