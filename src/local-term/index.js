@@ -33,7 +33,7 @@ class LocalTerm extends ReleaseObject {
   }
 
   get namespace() {
-    return this.release.namespace(this.prefix);
+    return this.release.namespaces.get(this.prefix);
   }
 
   get route() {
@@ -110,5 +110,15 @@ class LocalTerm extends ReleaseObject {
 LocalTerm.CriteriaType = {};
 
 LocalTerm.CriteriaKeywordFields = ["term", "literal", "definition"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} prefix
+ * @property {string} term
+ */
+LocalTerm.IdentifiersType;
 
 module.exports = LocalTerm;

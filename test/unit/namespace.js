@@ -1,9 +1,12 @@
 
 function testNamespace() {
 
-  let { Model, Namespace } = require("../../index");
+  let NIEM = require("../../index");
+  let { Model, Namespace } = NIEM;
 
   let { CriteriaType } = Namespace;
+
+  let niem = new NIEM();
 
   /** @type {Namespace} */
   let namespace;
@@ -11,9 +14,8 @@ function testNamespace() {
   describe("Namespace", () => {
 
     beforeAll( async() => {
-      let model = new Model("user", "test");
-      let release = await model.releases.add("1.0");
-      namespace = await release.namespace_add("nc", "core");
+      let release = await niem.releases.add("user", "test", "1.0");
+      namespace = await release.namespaces.add("nc", "core");
     });
 
     let namespaces = [
@@ -54,7 +56,13 @@ function testNamespace() {
         modelKey: "test",
         releaseKey: "1.0",
         prefix: "nc",
-        style: "core"
+        style: "core",
+        previousIdentifiers: {
+          userKey: "user",
+          modelKey: "test",
+          releaseKey: "1.0",
+          prefix: "nc"
+        }
       };
 
       let receivedJSON = JSON.parse(JSON.stringify(namespace));

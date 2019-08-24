@@ -1,5 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
+let NIEMModelSourceInterface = require("../interfaces/source/index");
 
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.
@@ -32,6 +33,9 @@ class Release extends NIEMObject {
     this.branch = branch;
     this.description = description;
 
+    // Each release can potentially have a custom data source (e.g., local db vs NIEM release API)
+    this.source = new NIEMModelSourceInterface();
+
   }
 
   /**
@@ -48,235 +52,266 @@ class Release extends NIEMObject {
     return new Release(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI, branch, description);
   }
 
-   get source() {
-    return this.model.source;
-  }
-
   get sourceDataSet() {
     return this.source.releases;
   }
 
-  /**
-   * @param {string} prefix
-   * @param {Namespace.StyleType} style
-   * @param {string} uri
-   * @param {string} fileName
-   * @param {string} definition
-   * @param {string} version
-   */
-  async namespace_add(prefix, style, uri, fileName, definition, version) {
+  get namespaces() {
+    return {
 
-    // Use Namespace builder to return the right NDR-version of a namespace
-    let namespace = Namespace.create(this.ndrVersion, prefix, style, uri, fileName, definition, version);
+      /**
+       * @param {string} prefix
+       * @param {Namespace.StyleType} style
+       * @param {string} uri
+       * @param {string} fileName
+       * @param {string} definition
+       * @param {string} version
+       */
+      add: async (prefix, style, uri, fileName, definition, version) => {
+        // Use Namespace builder to return the right NDR-version of a namespace
+        let namespace = Namespace.create(this.ndrVersion, prefix, style, uri, fileName, definition, version);
+        namespace.release = this;
+        return namespace.add();
+      },
 
-    namespace.release = this;
+      /**
+       * @param {string} prefix
+       */
+      get: async (prefix) => {
+        return this.source.namespaces.get({...this.identifiers, prefix});
+      },
 
-    try {
-      await namespace.add();
+      /**
+       * @param {Namespace.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.namespaces.find(criteria);
+      },
+
+      /**
+       * @param {Namespace.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.namespaces.count(criteria);
+      }
+
     }
-    catch (err) {
+  }
+
+  get localTerms() {
+    return {
+
+      /**
+       * @param {string} prefix
+       * @param {string} term
+       * @param {string} literal
+       * @param {string} definition
+       */
+      add: async (prefix, term, literal, definition) => {
+        let localTerm = LocalTerm.create(this.ndrVersion, prefix, term, literal, definition);
+        localTerm.release = this;
+        return localTerm.add();
+      },
+
+      /**
+       * @param {string} prefix
+       * @param {string} term
+       */
+      get: async (prefix, term) => {
+        return this.source.localTerms.get({...this.identifiers, prefix, term});
+      },
+
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.localTerms.find(criteria);
+      },
+
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.localTerms.count(criteria);
+      }
+
     }
-
-    return namespace;
   }
 
-  /**
-   * @param {string} prefix
-   */
-  async namespace(prefix) {
-    return this.model.namespace(this.releaseKey, prefix);
-  }
+  get properties() {
+    return {
 
-  /**
-   * @param {Namespace.CriteriaType} criteria
-   */
-  async namespaces(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.namespaces(criteria);
-  }
+      /**
+       * @param {string} prefix
+       * @param {string} name
+       * @param {string} definition
+       * @param {string} typeQName
+       * @param {string} groupQName
+       * @param {boolean} [isElement=true] Defaults to true
+       * @param {boolean} [isAbstract=false] Defaults to false
+       */
+      add: async (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) => {
+        let property = Property.create(this.ndrVersion, prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+        property.release = this;
+        return property.add();
+      },
 
-  /**
-   * @param {string} prefix
-   * @param {string} term
-   * @param {string} literal
-   * @param {string} definition
-   */
-  async localTerm_add(prefix, term, literal, definition) {
+      /**
+       * @param {string} qname
+       */
+      get: async (qname) => {
+        return this.source.properties.get({
+          ...this.identifiers,
+          prefix: Component.getPrefix(qname),
+          name: Component.getName(qname)
+        });
+      },
 
-    let localTerm = LocalTerm.create(this.ndrVersion, prefix, term, literal, definition);
-    localTerm.release = this;
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.properties.find(criteria);
+      },
 
-    try {
-      await localTerm.add();
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.properties.count(criteria);
+      },
+
     }
-    catch (err) {
+  }
+
+  get types() {
+    return {
+
+      /**
+       * @param {string} prefix
+       * @param {string} name
+       * @param {string} definition
+       * @param {Type.StyleType} style
+       * @param {string} baseQName
+       */
+      add: async (prefix, name, definition, style, baseQName) => {
+        let type = Type.create(this.ndrVersion, prefix, name, definition, style, baseQName);
+        type.release = this;
+        return type.add();
+      },
+
+      /**
+       * @param {string} qname
+       */
+      get: async (qname) => {
+        return this.source.types.get({
+          ...this.identifiers,
+          prefix: Component.getPrefix(qname),
+          name: Component.getName(qname)
+        });
+      },
+
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.types.find(criteria);
+      },
+
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.types.count(criteria);
+      },
+
     }
-
-    return localTerm;
   }
 
-  /**
-   * @param {string} prefix
-   * @param {string} term
-   */
-  async localTerm(prefix, term) {
-    return this.model.localTerm(this.releaseKey, prefix, term);
-  }
+  get facets() {
+    return {
 
-  /**
-   * @param {LocalTerm.CriteriaType} criteria
-   */
-  async localTerms(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.localTerms(criteria);
-  }
+      /**
+       * @param {string} typeQName
+       * @param {string} value
+       * @param {string} definition
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       */
+      add: async (typeQName, value, definition, style="enumeration") => {
+        let facet = Facet.create(this.ndrVersion, typeQName, value, definition, style);
+        facet.release = this;
+        return facet.add();
+      },
 
-  /**
-   * @param {string} prefix
-   * @param {string} name
-   * @param {string} definition
-   * @param {string} typeQName
-   * @param {string} groupQName
-   * @param {boolean} [isElement=true] Defaults to true
-   * @param {boolean} [isAbstract=false] Defaults to false
-   */
-  async property_add(prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+      /**
+       * @param {string} qname
+       * @param {string} value
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       */
+      get: async (qname, value, style="enumeration") => {
+        return this.source.facets.get({...this.identifiers, qname, value, style});
+      },
 
-    let property = Property.create(this.ndrVersion, prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
-    property.release = this;
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.facets.count(criteria);
+      },
 
-    try {
-      await property.add();
     }
-    catch (err) {
+  }
+
+  get subProperties() {
+    return {
+
+      /**
+       * @param {string} typeQName
+       * @param {string} propertyQName
+       * @param {string} min
+       * @param {string} max
+       * @param {string} definition
+       */
+      add: async (typeQName, propertyQName, min, max, definition) => {
+        let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
+        subProperty.release = this;
+        return subProperty.add();
+      },
+
+      /**
+       * @param {string} typeQName
+       * @param {string} propertyQName
+       */
+      get: async (typeQName, propertyQName) => {
+        return this.source.subProperties.get({...this.identifiers, typeQName, propertyQName});
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.subProperties.find(criteria);
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.subProperties.count(criteria);
+      },
+
     }
-
-    return property;
-  }
-
-  /**
-   * @param {string} qname
-   */
-  async property(qname) {
-    return this.model.property(this.releaseKey, qname);
-  }
-
-  /**
-   * @param {Property.CriteriaType} criteria
-   */
-  async properties(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.properties(criteria);
-  }
-
-  /**
-   * @param {string} prefix
-   * @param {string} name
-   * @param {string} definition
-   * @param {Type.StyleType} style
-   * @param {string} baseQName
-   */
-  async type_add(prefix, name, definition, style, baseQName) {
-
-    let type = Type.create(this.ndrVersion, prefix, name, definition, style, baseQName);
-    type.release = this;
-
-    try {
-      await type.add();
-    }
-    catch (err) {
-    }
-
-    return type;
-  }
-
-  /**
-   * @param {string} qname
-   */
-  async type(qname) {
-    return this.model.type(this.releaseKey, qname);
-  }
-
-  /**
-   * @param {Type.CriteriaType} criteria
-   */
-  async types(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.types(criteria);
-  }
-
-  /**
-   * @param {string} typeQName
-   * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async facet_add(typeQName, value, definition, style="enumeration") {
-
-    let facet = Facet.create(this.ndrVersion, typeQName, value, definition, style);
-    facet.release = this;
-
-    try {
-      await facet.add();
-    }
-    catch (err) {
-    }
-
-    return facet;
-  }
-
-  /**
-   * @param {string} qname
-   * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async facet(qname, value, style="enumeration") {
-    return this.model.facet(this.releaseKey, qname, value, style);
-  }
-
-  /**
-   * @param {Facet.CriteriaType} criteria
-   */
-  async facets(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.facets(criteria);
-  }
-
-  /**
-   * @param {string} typeQName
-   * @param {string} propertyQName
-   * @param {string} min
-   * @param {string} max
-   * @param {string} definition
-   */
-  async subProperty_add(typeQName, propertyQName, min, max, definition) {
-
-    let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
-    subProperty.release = this;
-
-    try {
-      await subProperty.add();
-    }
-    catch (err) {
-    }
-
-    return subProperty;
-  }
-
-  /**
-   * @param {string} typeQName
-   * @param {string} propertyQName
-   */
-  async subProperty(typeQName, propertyQName) {
-    return this.model.subProperty(this.releaseKey, typeQName, propertyQName);
-  }
-
-  /**
-   * @param {SubProperty.CriteriaType} criteria
-   */
-  async subProperties(criteria={}) {
-    criteria.releaseKey = this.releaseKey;
-    return this.model.subProperties(criteria);
   }
 
   async dependents() {
@@ -364,6 +399,14 @@ Release.Statuses = ["draft", "published"];
  */
 Release.CriteriaType = {};
 
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ */
+Release.IdentifiersType;
+
 module.exports = Release;
 
 let Model = require("../model/index");
@@ -373,3 +416,4 @@ let Type = require("../type/index");
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
+let Component = require("../component/index");

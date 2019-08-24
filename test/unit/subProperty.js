@@ -1,7 +1,10 @@
 
 function testSubProperty() {
 
-  let { Model, Release, SubProperty } = require("../../index");
+  let NIEM = require("../../index");
+  let { Release, SubProperty } = NIEM;
+
+  let niem = new NIEM();
 
   /** @type {Release} */
   let release;
@@ -12,9 +15,8 @@ function testSubProperty() {
   describe("SubProperty", () => {
 
     beforeAll( async () => {
-      let model = new Model("user", "test");
-      release = await model.releases.add("1.0");
-      subProperty = await release.subProperty_add("nc:PersonType", "nc:PersonName");
+      release = await niem.releases.add("user", "test", "1.0");
+      subProperty = await release.subProperties.add("nc:PersonType", "nc:PersonName");
     });
 
     test("route", () => {
@@ -27,7 +29,7 @@ function testSubProperty() {
     });
 
     test("sub-attribute default values", async () => {
-      subProperty = await release.subProperty_add("nc:PersonType", "nc:attributeName");
+      subProperty = await release.subProperties.add("nc:PersonType", "nc:attributeName");
       expect(subProperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:attributeName");
       expect(subProperty.min).toBe("0");
       expect(subProperty.max).toBe("1");

@@ -10,20 +10,27 @@ import Type from "../../type/index"
 import Facet from "../../facet/index";
 import SubProperty from "../../subproperty/index";
 import LocalTerm from "../../local-term/index";
-
+import NIEMObject from "../../niem-object/index";
 
 export = NIEMModelSource;
 
 declare class NIEMModelSource {
 
-  models: DataSet<Model>;
-  releases: DataSet<Release>;
-  namespaces: DataSet<Namespace>;
-  properties: DataSet<Property>;
-  types: DataSet<Type>;
-  facets: DataSet<Facet>;
-  subProperties: DataSet<SubProperty>;
-  localTerms: DataSet<LocalTerm>;
+  models: DataSet<Model, Model.IdentifiersType, Model.CriteriaType>;
+
+  releases: DataSet<Release, Release.IdentifiersType, Release.CriteriaType>;
+
+  namespaces: DataSet<Namespace, Namespace.IdentifiersType, Namespace.CriteriaType>;
+
+  properties: DataSet<Property, Property.IdentifiersType, Property.CriteriaType>;
+
+  types: DataSet<Type, Type.IdentifiersType, Type.CriteriaType>;
+
+  facets: DataSet<Facet, Facet.IdentifiersType, Facet.CriteriaType>;
+
+  subProperties: DataSet<SubProperty, SubProperty.IdentifiersType, SubProperty.CriteriaType>;
+
+  localTerms: DataSet<LocalTerm, LocalTerm.IdentifiersType, LocalTerm.CriteriaType>;
 
   log: Transaction[];
 
@@ -31,7 +38,7 @@ declare class NIEMModelSource {
 
 }
 
-interface DataSet<T> {
+interface DataSet<T, U, V> {
 
   /**
    * @param input A new item to add
@@ -42,11 +49,11 @@ interface DataSet<T> {
 
   delete(input: T, change: Change): Promise<T>;
 
-  get(id: string): Promise<T>;
+  get(id: U): Promise<T>;
 
-  find(criteria: object): Promise<T[]>;
+  find(criteria: V): Promise<T[]>;
 
-  count(criteria: object): Promise<number>;
+  count(criteria: V): Promise<number>;
 
   /**
    * Object history for changes in the current release

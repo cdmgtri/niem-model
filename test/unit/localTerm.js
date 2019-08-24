@@ -1,18 +1,23 @@
 
 function testLocalTerm() {
 
-  let { Model, Release, LocalTerm } = require("../../index");
+  let NIEM = require("../../index");
+  let { Release, LocalTerm } = NIEM;
+
+  let niem = new NIEM();
+
+  /** @type {Release} */
+  let release;
 
   describe("Local Term", () => {
 
-    let model = new Model("user", "test");
-    let release = new Release("1.0");
-    release.model = model;
+    beforeAll( async () => {
+      release = await niem.releases.add("user", "test", "1.0");
+    });
 
-    let term = new LocalTerm("nc", "NIEM", "National Information Exchange Model");
-    term.release = release;
 
-    test("#route", () => {
+    test("#route", async () => {
+      let term = await release.localTerms.add("nc", "NIEM", "National Information Exchange Model");
       expect(term.route).toBe(release.route + "/namespaces/nc/terms/NIEM");
     });
 

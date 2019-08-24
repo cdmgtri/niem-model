@@ -1,4 +1,6 @@
 
+let NIEMModelSourceMemory = require("niem-model-source-memory");
+
 let NIEMModelSource = require("./src/interfaces/source/index");
 
 let Model = require("./src/model/index");
@@ -20,7 +22,8 @@ class NIEM {
    */
   constructor(source) {
 
-    this.source = source || new NIEMModelSource();
+    /** @type {NIEMModelSource} */
+    this.source = source || new NIEMModelSourceMemory();
 
     this.qa;
   }
@@ -38,18 +41,10 @@ class NIEM {
        * @param {string} repo
        */
       add: async (userKey, modelKey, style, description, website, repo) => {
-
         let model = Model.create(userKey, modelKey, style, description, website, repo);
         model.source = this.source;
         model.niem = this;
-
-        try {
-          await model.add();
-        }
-        catch(err) {
-        }
-
-        return model;
+        return model.add();
       },
 
       /**
@@ -69,7 +64,7 @@ class NIEM {
       },
 
       niem: async () => {
-        return this.model("niem", "model");
+        return this.models.get("niem", "model");
       }
 
     }
@@ -89,16 +84,7 @@ class NIEM {
        * @param {string} baseURI
        */
       add: async (userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) => {
-
-        /** @type {Model} */
-        let model;
-
-        try {
-          // Load existing model if available
-          model = await this.model(userKey, modelKey);
-        }
-        catch (err) {
-        }
+        let model = await this.models.get(userKey, modelKey);
 
         if (! model) {
           // Create model if not found

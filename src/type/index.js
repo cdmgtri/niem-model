@@ -145,93 +145,132 @@ class Type extends Component {
     return members;
   }
 
-  /**
-   * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async facet_add(value, definition, style="enumeration") {
+  get facets() {
+    return {
 
-    let facet = Facet.create(this.ndrVersion, this.qname, value, definition, style);
-    facet.release = this.release;
+      /**
+       * @param {string} value
+       * @param {string} definition
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       */
+      add: async (value, definition, style="enumeration") => {
+        return this.release.facets.add(this.qname, value, definition, style);
+      },
 
-    try {
-      await facet.add();
+      /**
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       * @param {string} value
+       */
+      get: async (value, style="enumeration") => {
+        return this.release.facets.get(this.qname, style, value);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      find: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.facets.find(criteria);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      count: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.facets.count(criteria);
+      },
+
     }
-    catch (err) {
+  }
+
+  get subProperties() {
+    return {
+
+      /**
+       * @param {string} propertyQName
+       * @param {string} [min="0"] Defaults to "0"
+       * @param {string} [max="unbounded"] Defaults to "unbounded"
+       * @param {string} definition
+       */
+      add: async (propertyQName, min="0", max="unbounded", definition) => {
+        return this.release.subProperties.add(this.qname, propertyQName, min, max, definition);
+      },
+
+      /**
+       * @param {string} propertyQName
+       */
+      get: async (propertyQName) => {
+        return this.release.subProperties.get(this.qname, propertyQName);
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.subProperties.find(criteria);
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      count: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.subProperties.count(criteria);
+      },
+
     }
-
-    return facet;
   }
 
-  /**
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   * @param {string} value
-   */
-  async facet(value, style="enumeration") {
-    return this.release.facet(this.qname, style, value);
-  }
+  get dataProperties() {
+    return {
 
-  /**
-   * @param {Facet.CriteriaType} criteria
-   */
-  async facets(criteria) {
-    criteria.prefix = this.prefix;
-    criteria.name = this.name;
-    return this.release.facets(criteria);
-  }
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      find: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.properties.find(criteria);
+      },
 
-  /**
-   * @param {string} propertyQName
-   * @param {string} [min="0"] Defaults to "0"
-   * @param {string} [max="unbounded"] Defaults to "unbounded"
-   * @param {string} definition
-   */
-  async subProperty_add(propertyQName, min="0", max="unbounded", definition) {
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      count: async (criteria) => {
+        criteria.typeQName = this.qname;
+        return this.release.properties.count(criteria);
+      },
 
-    let subProperty = SubProperty.create(this.ndrVersion, this.qname, propertyQName, min, max, definition);
-    subProperty.release = this.release;
-
-    try {
-      await subProperty.add();
     }
-    catch (err) {
-    }
-
-    return subProperty;
-  }
-
-  /**
-   * @param {string} propertyQName
-   */
-  async subProperty(propertyQName) {
-    return this.release.subProperty(this.qname, propertyQName);
-  }
-
-  /**
-   * @param {SubProperty.CriteriaType} criteria
-   */
-  async subProperties(criteria) {
-    criteria.typePrefix = this.prefix;
-    criteria.typeName = this.name;
-    return this.release.subProperties(criteria);
-  }
-
-  /**
-   * @param {Property.CriteriaType} criteria
-   */
-  async dataProperties(criteria) {
-    criteria.typePrefix = this.prefix;
-    criteria.typeName = this.name;
-    return this.release.properties(criteria);
   }
 
   /**
    * @param {CriteriaType} criteria
    */
-  async childTypes(criteria) {
+  async childTypes (criteria) {
     criteria.baseQName = this.qname;
-    return this.release.types(criteria);
+    return this.release.types.find(criteria);
+  }
+
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async childDescendantTypes(criteria) {
+    criteria.baseQName = this.qname;
+
+    let childTypes = await this.release.types.find(criteria);
+
+    /** @type {Type[]} */
+    let descendantTypes = [];
+
+    for (let childType of childTypes) {
+      criteria.baseQName = childType.qname;
+      let newDescendantTypes = await this.childDescendantTypes.find(criteria);
+      descendantTypes.push(childType, ...newDescendantTypes);
+    }
+
+    return descendantTypes;
   }
 
   async dependencies() {
@@ -247,10 +286,10 @@ class Type extends Component {
 
     let qname = current ? this.qname : this.previousIdentifiers.prefix + ":" + this.previousIdentifiers.name;
 
-    let childTypes = await this.release.types({ baseQName: qname });
-    let dataProperties = await this.release.properties({ typeQName: qname });
-    let subProperties = await this.release.subProperties({ typeQName: qname });
-    let facets = await this.release.facets({ typeQName: qname });
+    let childTypes = await this.release.types.find({ baseQName: qname });
+    let dataProperties = await this.release.properties.find({ typeQName: qname });
+    let subProperties = await this.release.subProperties.find({ typeQName: qname });
+    let facets = await this.release.facets.find({ typeQName: qname });
 
     let count = childTypes.length + subProperties.length + dataProperties.length + facets.length;
 
@@ -366,9 +405,20 @@ Type.CriteriaType = {};
 
 Type.CriteriaKeywordFields = ["name", "definition"];
 
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} prefix
+ * @property {string} name
+ */
+Type.IdentifiersType;
+
 module.exports = Type;
 
 let Facet = require("../facet/index");
+let Property = require("../property/index");
 let SubProperty = require("../subproperty/index");
 let Change = require("../interfaces/source/change/index");
 

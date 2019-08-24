@@ -101,163 +101,204 @@ class Namespace extends ReleaseObject {
     return this.source.namespaces;
   }
 
-  /**
-   * @param {string} term
-   * @param {string} literal
-   * @param {string} definition
-   */
-  async localTerm_add(term, literal, definition) {
+  get localTerms() {
+    return {
 
-    let localTerm = LocalTerm.create(this.ndrVersion, this.prefix, term, literal, definition);
-    localTerm.release = this.release;
+      /**
+       * @param {string} term
+       * @param {string} literal
+       * @param {string} definition
+       */
+      add: async (term, literal, definition) => {
+        return this.release.localTerms.add(this.prefix, term, literal, definition);
+      },
 
-    try {
-      await localTerm.add();
+      /**
+       * @param {string} term
+       */
+      get: async (term) => {
+        return this.release.localTerms.get(this.prefix, term);
+      },
+
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.localTerms.find(criteria);
+      },
+
+      /**
+       * @param {LocalTerm.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.localTerms.count(criteria);
+      },
+
     }
-    catch (err) {
+  }
+
+  get properties() {
+    return {
+
+      /**
+       * @param {string} name
+       * @param {string} definition
+       * @param {string} typeQName
+       * @param {string} groupQName
+       * @param {boolean} [isElement=true] Defaults to true
+       * @param {boolean} [isAbstract=false] Defaults to false
+       */
+      add: async (name, definition, typeQName, groupQName, isElement=true, isAbstract=false) => {
+        return this.release.properties.add(this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+      },
+
+      /**
+       * @param {string} name
+       */
+      get: async (name) => {
+        return this.release.properties.get(this.prefix + ":" + name);
+      },
+
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.properties.find(criteria);
+      },
+
+      /**
+       * @param {Property.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.properties.count(criteria);
+      },
+
     }
-
-    return localTerm;
   }
 
-  /**
-   * @param {string} term
-   */
-  async localTerm(term) {
-    return this.release.localTerm(this.prefix, term);
-  }
+  get types() {
+    return {
 
-  /**
-   * @param {LocalTerm.CriteriaType} criteria
-   */
-  async localTerms(criteria={}) {
-    criteria.prefix = this.prefix;
-    return this.release.localTerms(criteria);
-  }
+      /**
+       * @param {string} name
+       * @param {string} definition
+       * @param {Type.StyleType} style
+       * @param {string} baseQName
+       */
+      add: async (name, definition, style, baseQName) => {
+        return this.release.types.add(this.prefix, name, definition, style, baseQName);
+      },
 
-  /**
-   * @param {string} name
-   * @param {string} definition
-   * @param {string} typeQName
-   * @param {string} groupQName
-   * @param {boolean} [isElement=true] Defaults to true
-   * @param {boolean} [isAbstract=false] Defaults to false
-   */
-  async property_add(name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+      /**
+       * @param {string} name
+       */
+      get: async (name) => {
+        return this.release.types.get(this.prefix + ":" + name);
+      },
 
-    let property = Property.create(this.ndrVersion, this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
-    property.release = this.release;
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.types.find(criteria);
+      },
 
-    try {
-      await property.add();
+      /**
+       * @param {Type.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.types.count(criteria);
+      },
+
     }
-    catch (err) {
+  }
+
+  get facets() {
+    return {
+
+      /**
+       * @param {string} typeName
+       * @param {string} value
+       * @param {string} definition
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       */
+      add: async (typeName, value, definition, style="enumeration") => {
+        return this.release.facets.add(this.prefix + typeName, value, definition, style);
+      },
+
+      /**
+       * @param {string} name
+       * @param {string} value
+       * @param {Facet.StyleType} [style="enumeration]" Default "enumeration"
+       */
+      get: async (name, value, style="enumeration") => {
+        return this.release.facets.get(this.prefix + ":" + name, style, value);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.facets.find(criteria);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        criteria.prefix = this.prefix;
+        return this.release.facets.count(criteria);
+      },
+
     }
-
-    return property;
   }
 
-  /**
-   * @param {string} name
-   */
-  async property(name) {
-    return this.release.property(this.prefix + ":" + name);
-  }
+  get subProperties() {
+    return {
 
-  /**
-   * @param {Property.CriteriaType} criteria
-   */
-  async properties(criteria={}) {
-    criteria.prefix = this.prefix;
-    return this.release.properties(criteria);
-  }
+      /**
+       * @param {string} typeName
+       * @param {string} propertyQName
+       * @param {string} min
+       * @param {string} max
+       * @param {string} definition
+       */
+      add: async (typeName, propertyQName, min, max, definition) => {
+        return this.release.subProperties.add(this.prefix + typeName, propertyQName, min, max, definition);
+      },
 
-  /**
-   * @param {string} name
-   * @param {string} definition
-   * @param {Type.StyleType} style
-   * @param {string} baseQName
-   */
-  async type_add(name, definition, style, baseQName) {
+      /**
+       * @param {string} typeName
+       * @param {string} propertyQName
+       */
+      get: async (typeName, propertyQName) => {
+        return this.release.subProperties.get(this.prefix + typeName, propertyQName);
+      },
 
-    let type = Type.create(this.ndrVersion, this.prefix, name, definition, style, baseQName);
-    type.release = this.release;
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria={}) => {
+        criteria.typePrefix = this.prefix;
+        return this.release.subProperties.find(criteria);
+      },
 
-    try {
-      await type.add();
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
+        criteria.typePrefix = this.prefix;
+        return this.release.subProperties.count(criteria);
+      },
+
     }
-    catch (err) {
-    }
-
-    return type;
-  }
-
-  /**
-   * @param {string} name
-   */
-  async type(name) {
-    return this.release.type(this.prefix + ":" + name);
-  }
-
-  /**
-   * @param {Type.CriteriaType} criteria
-   */
-  async types(criteria={}) {
-    criteria.prefix = this.prefix;
-    return this.release.types(criteria);
-  }
-
-  /**
-   * @param {string} typeName
-   * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   */
-  async facet_add(typeName, value, definition, style="enumeration") {
-
-    let facet = Facet.create(this.ndrVersion, this.prefix + ":" + typeName, value, definition, style);
-    facet.release = this.release;
-
-    try {
-      await facet.add();
-    }
-    catch (err) {
-    }
-
-    return facet;
-  }
-
-  /**
-   * @param {string} name
-   * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration]" Default "enumeration"
-   */
-  async facet(name, value, style="enumeration") {
-    return this.release.facet(this.prefix + ":" + name, style, value);
-  }
-
-  /**
-   * @param {Facet.CriteriaType} criteria
-   */
-  async facets(criteria={}) {
-    criteria.prefix = this.prefix;
-    return this.release.facets(criteria);
-  }
-
-  /**
-   * @param {string} typeName
-   * @param {string} propertyQName
-   */
-  async subProperty(typeName, propertyQName) {
-    return this.release.subProperty(this.prefix + typeName, propertyQName);
-  }
-
-  /**
-   * @param {SubProperty.CriteriaType} criteria
-   */
-  async subProperties(criteria={}) {
-    criteria.typePrefix = this.prefix;
-    return this.release.subProperties(criteria);
   }
 
   /**
@@ -459,6 +500,15 @@ class Namespace extends ReleaseObject {
  * @property {boolean} conformanceRequired
  */
 Namespace.CriteriaType = {};
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string|RegExp} prefix
+ */
+Namespace.IdentifiersType;
 
 /** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} */
 Namespace.StyleType;

@@ -54,11 +54,11 @@ class Facet extends ReleaseObject {
   }
 
   async namespace() {
-    return this.release.namespace(this.typePrefix);
+    return this.release.namespaces.get(this.typePrefix);
   }
 
   async type() {
-    return this.release.type(this.typePrefix, this.typeName);
+    return this.release.types.get(this.typePrefix + ":" + this.typeName);
   }
 
   async dependencies() {
@@ -93,7 +93,7 @@ class Facet extends ReleaseObject {
   }
 
   get identifiers() {
-    return Facet.identifiers(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style, this.definition);
+    return Facet.identifiers(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style);
   }
 
   /**
@@ -105,8 +105,8 @@ class Facet extends ReleaseObject {
    * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    * @param {string} definition
    */
-  static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) {
-    return {userKey, modelKey, releaseKey, typeQName, style, value, definition};
+  static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
+    return {userKey, modelKey, releaseKey, typeQName, style, value};
   }
 
   toJSON() {
@@ -150,5 +150,16 @@ Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
 Facet.CriteriaType = {};
 
 Facet.CriteriaKeywordFields = ["value", "definition"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string|RegExp} typeQName
+ * @property {string|RegExp} value
+ * @property {string|RegExp} definition
+ */
+Facet.IdentifiersType;
 
 module.exports = Facet;

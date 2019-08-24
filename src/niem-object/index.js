@@ -1,8 +1,7 @@
 
 let Change = require("../interfaces/source/change/index");
 let NIEMModelSource = require("../interfaces/source/index");
-
-let { SourceDataSet } = NIEMModelSource;
+let SourceDataSet = require("../interfaces/source/dataSet/index");
 
 /**
  * Commonalities of NIEM components and other items.
@@ -157,13 +156,14 @@ class NIEMObject {
   /**
    * Check for values in all required identifier fields
    */
-  hasBaselineFields() {
+  get missingIdentifierFields() {
+    let results = [];
     for (let field in this.identifiers) {
       if (! this.identifiers[field]) {
-        return false;
+        results.push(field);
       }
     }
-    return true;
+    return results;
   }
 
   /**
@@ -174,8 +174,8 @@ class NIEMObject {
    * @throws {Error}
    */
   async checkBaselineFields() {
-    if (! this.hasBaselineFields()) {
-      throw new Error("Required fields are missing");
+    if (this.missingIdentifierFields.length > 0) {
+      throw new Error("Required fields are missing: " + this.missingIdentifierFields);
     }
   }
 
@@ -194,7 +194,8 @@ class NIEMObject {
     let match = await this.sourceDataSet.get(identifiers);
 
     if (expectedStatus == "available" && match) {
-      throw new Error("Required fields are not unique");
+      let json = JSON.stringify(identifiers, null, 2)
+      throw new Error("Required fields are not unique: " + json);
     }
 
     if (expectedStatus == "exists" && ! match ) {
@@ -265,7 +266,6 @@ class NIEMObject {
 
   /**
    * Deletes the object.
-   * @todo Remove release references
    * @param {Change} change
    */
   async delete(change) {
@@ -280,6 +280,14 @@ class NIEMObject {
     await this.updateDependents("delete");
 
     return this;
+  }
+
+  async history() {
+    return this.sourceDataSet.history(this);
+  }
+
+  async revisions() {
+    return this.sourceDataSet.revisions(this);
   }
 
   /**
@@ -374,6 +382,11 @@ NIEMObject.CriteriaKeywordFields = [];
 /**
  * @type {Object.<string, string|boolean|RegExp|string[]>}
  */
-let CriteriaType;
+NIEMObject.CriteriaType;
+
+/**
+ * @type {Object.<string, string|boolean|RegExp|string[]>}
+ */
+NIEMObject.IdentifiersType;
 
 module.exports = NIEMObject;

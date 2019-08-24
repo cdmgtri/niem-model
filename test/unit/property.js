@@ -14,7 +14,7 @@ function testProperty() {
     beforeAll( async () => {
       let release = await niem.releases.add("user", "test", "1.0");
 
-      property = await release.property_add("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
+      property = await release.properties.add("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
 
     });
 
@@ -31,7 +31,7 @@ function testProperty() {
       expect(property.isElement).toBe(true);
       expect(property.isAbstract).toBe(false);
       expect(property.label).toBe("nc:PersonName");
-      expect(property.previousRoute).toBe(undefined);
+      expect(property.previousRoute).toBe("/user/test/1.0/properties/nc:PersonName");
     });
 
     test("#toJSON", () => {
@@ -39,15 +39,22 @@ function testProperty() {
       // Check toJSON function, scoped to namespace
       let receivedJSON = JSON.parse(JSON.stringify(property));
       let expectedJSON = {
-        "userKey": "user",
-        "modelKey": "test",
-        "releaseKey": "1.0",
-        "prefix": "nc",
-        "name": "PersonName",
-        "definition": "A name of a person.",
-        "typeQName": "nc:PersonNameType",
-        "isAbstract": false,
-        "isElement": true
+        userKey: "user",
+        modelKey: "test",
+        releaseKey: "1.0",
+        prefix: "nc",
+        name: "PersonName",
+        definition: "A name of a person.",
+        typeQName: "nc:PersonNameType",
+        isAbstract: false,
+        isElement: true,
+        previousIdentifiers: {
+          userKey: "user",
+          modelKey: "test",
+          releaseKey: "1.0",
+          prefix: "nc",
+          name: "PersonName"
+        }
       };
       expect(receivedJSON).toEqual(expectedJSON);
     });

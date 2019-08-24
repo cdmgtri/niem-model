@@ -87,7 +87,7 @@ class Component extends ReleaseObject {
   }
 
   async namespace() {
-    return this.release.namespace(this.prefix);
+    return this.release.namespaces.get(this.prefix);
   }
 
   /**
@@ -161,5 +161,15 @@ class Component extends ReleaseObject {
   }
 
 }
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} prefix
+ * @property {string} name
+ */
+Component.IdentifiersType;
 
 module.exports = Component;

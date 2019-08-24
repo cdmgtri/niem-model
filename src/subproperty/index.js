@@ -72,15 +72,15 @@ class SubProperty extends ReleaseObject {
    * Namespace of the type
    */
   async namespace() {
-    return this.release.namespace(this.typePrefix);
+    return this.release.namespaces.get(this.typePrefix);
   }
 
   async type() {
-    return this.release.type(this.typePrefix, this.typeName);
+    return this.release.types.get(this.typePrefix + ":" + this.typeName);
   }
 
   async property() {
-    return this.release.property(this.propertyPrefix, this.propertyName);
+    return this.release.properties.get(this.propertyPrefix + ":" + this.propertyName);
   }
 
   async dependencies() {
@@ -168,6 +168,16 @@ class SubProperty extends ReleaseObject {
 SubProperty.CriteriaType = {};
 
 SubProperty.CriteriaKeywordFields = ["typeName", "propertyName"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string|RegExp} typeQName
+ * @property {string|RegExp} propertyQName
+ */
+SubProperty.IdentifiersType;
 
 module.exports = SubProperty;
 

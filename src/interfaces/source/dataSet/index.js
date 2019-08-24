@@ -3,7 +3,7 @@ let Change = require("../change/index");
 let Transaction = require("../transaction/index");
 
 /**
- * @template T
+ * @template {NIEMObject} T
  */
 class SourceDataSetInterface {
 
@@ -35,7 +35,7 @@ class SourceDataSetInterface {
   }
 
   /**
-   * @param {{[string: string]: string}} identifiers
+   * @param {U} identifiers
    * @returns {Promise<T>}
    */
   async get(identifiers) {
@@ -60,7 +60,7 @@ class SourceDataSetInterface {
 
   /**
    * @param {T} niemObject
-   * @returns {Promise<T[]>}
+   * @returns {Promise<Transaction[]>}
    */
   async revisions(niemObject) {
     notImplemented();
@@ -68,7 +68,7 @@ class SourceDataSetInterface {
 
   /**
    * @param {T} niemObject
-   * @returns {Promise<T[]>}
+   * @returns {Promise<Transaction[]>}
    */
   async history(niemObject) {
     notImplemented();
@@ -81,3 +81,5 @@ function notImplemented() {
 }
 
 module.exports = SourceDataSetInterface;
+
+let NIEMObject = require("../../../niem-object/index");

@@ -83,22 +83,68 @@ class Property extends Component {
   }
 
   async group() {
-    return this.release.property(this.groupPrefix, this.groupName);
+    return this.release.properties.get(this.groupPrefix + ":" + this.groupName);
+  }
+
+  async groupHead() {
+    let group = await this.group();
+
+    if (group && group.group) {
+      // The property's substitution group has its own substitution group
+      return this.release.properties.get(group.qname);
+    }
+
+    return group;
   }
 
   async type() {
-    return this.release.type(this.typePrefix, this.typeName);
+    return this.release.types.get(this.typePrefix + ":" + this.typeName);
   }
 
-  async substitutions() {
-    return this.release.properties({groupQName: this.qname});
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async substitutions(criteria) {
+    criteria.groupQName = this.qname;
+    return this.release.properties.find(criteria);
   }
 
-  async subProperties() {
-    return this.release.subProperties({
-      propertyPrefix: this.prefix,
-      propertyName: this.name
-    });
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async substitutionDescendants(criteria) {
+    criteria.groupQName = this.qname;
+
+    let substitutions = await this.release.properties.find(criteria);
+
+    /** @type {Property[]} */
+    let descendantSubstitutions = [];
+
+    for (let childSubstitution of substitutions) {
+      criteria.groupQName = childSubstitution.qname;
+      let newDescendantSubstitutions = await this.substitutionDescendants.find(criteria);
+      descendantSubstitutions.push(childSubstitution, ...newDescendantSubstitutions);
+    }
+
+    return descendantSubstitutions;
+  }
+
+  get subProperties() {
+    return {
+
+      add: async (typeQName, min, max, definition) => {
+        return this.release.subProperties.add(typeQName, this.qname, min, max, definition);
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria) => {
+        criteria.propertyQName = this.qname;
+        return this.release.subProperties.find(criteria);
+      },
+
+    }
   }
 
   async dependencies() {
@@ -121,8 +167,8 @@ class Property extends Component {
 
     let qname = current ? this.qname : this.previousIdentifiers.prefix + ":" + this.previousIdentifiers.name;
 
-    let substitutions = await this.release.properties({ groupQName: qname });
-    let subProperties = await this.release.subProperties({ propertyQName: qname });
+    let substitutions = await this.release.properties.find({ groupQName: qname });
+    let subProperties = await this.release.subProperties.find({ propertyQName: qname });
 
     let count = substitutions.length + subProperties.length;
 
@@ -220,6 +266,16 @@ class Property extends Component {
 Property.CriteriaType = {};
 
 Property.CriteriaKeywordFields = ["name", "definition"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} prefix
+ * @property {string} name
+ */
+Property.IdentifiersType = Component.IdentifiersType;
 
 /**
  * @typedef {Object} DependentsTypes
