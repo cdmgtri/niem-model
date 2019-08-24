@@ -1,6 +1,5 @@
 
 let NIEMObject = require("../niem-object/index");
-let NIEMModelSourceInterface = require("../interfaces/source/index");
 
 /**
  * @extends {NIEMObject<Model>}
@@ -19,6 +18,7 @@ class Model extends NIEMObject {
 
     super();
 
+    let NIEMModelSourceInterface = require("../interfaces/source/index");
     this.source = new NIEMModelSourceInterface();
 
     this.userKey = userKey;
@@ -58,16 +58,15 @@ class Model extends NIEMObject {
       },
 
       get: async (releaseKey) => {
-        return this.niem.release(this.userKey, this.modelKey, releaseKey);
+        return this.source.releases.get({...this.identifiers, releaseKey});
       },
 
       /**
        * @param {Release.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        criteria.userKey = this.userKey;
-        criteria.modelKey = this.modelKey;
-        return this.niem.releases(criteria);
+        Object.assign(criteria, this.identifiers);
+        return this.source.releases.find(criteria);
       }
 
     }

@@ -13,7 +13,7 @@ let Facet = require("./src/facet/index");
 let SubProperty = require("./src/subproperty/index");
 
 /**
- * @todo Add niem-model-source-memory as testing dependency
+ * @todo Handle lookups in multiple release sources (will need a release source setter)
  */
 class NIEM {
 

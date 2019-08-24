@@ -257,13 +257,21 @@ class Release extends NIEMObject {
        * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
        */
       get: async (qname, value, style="enumeration") => {
-        return this.source.facets.get({...this.identifiers, qname, value, style});
+        return this.source.facets.get({...this.identifiers, typeQName: qname, value, style});
       },
 
       /**
        * @param {Facet.CriteriaType} criteria
        */
       find: async (criteria={}) => {
+        Object.assign(criteria, this.identifiers);
+        return this.source.facets.find(criteria);
+      },
+
+      /**
+       * @param {Facet.CriteriaType} criteria
+       */
+      count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.facets.count(criteria);
       },
