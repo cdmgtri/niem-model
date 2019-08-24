@@ -22,8 +22,8 @@ class NIEM {
    */
   constructor(source) {
 
-    /** @type {NIEMModelSource} */
-    this.source = source || new NIEMModelSourceMemory();
+    /** @type {NIEMModelSource[]} */
+    this.sources = source ? [source] : [new NIEMModelSourceMemory()];
 
     this.qa;
   }
@@ -42,7 +42,7 @@ class NIEM {
        */
       add: async (userKey, modelKey, style, description, website, repo) => {
         let model = Model.create(userKey, modelKey, style, description, website, repo);
-        model.source = this.source;
+        model._source = this.sources[0];
         model.niem = this;
         return model.add();
       },
@@ -53,14 +53,22 @@ class NIEM {
        */
       get: async (userKey, modelKey) => {
         let identifiers = Model.identifiers(userKey, modelKey);
-        return this.source.models.get(identifiers);
+        for (let source of this.sources) {
+          let model = await source.models.get(identifiers);
+          if (model) return model;
+        }
       },
 
       /**
        * @param {Model.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.models.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let models = await source.models.find(criteria);
+          results.push(...models);
+        }
+        return results;
       },
 
       niem: async () => {
@@ -101,19 +109,27 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey) => {
         let identifiers = Release.identifiers(userKey, modelKey, releaseKey);
-        return this.source.releases.get(identifiers);
+        for (let source of this.sources) {
+          let release = await source.releases.get(identifiers);
+          if (release) return release;
+        }
       },
 
       /**
        * @param {Release.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.releases.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let releases = await source.releases.find(criteria);
+          results.push(...releases);
+        }
+        return results;
       },
 
       niem: async (releaseKey) => {
-        return this.release("niem", "model", releaseKey);
-      }
+        return this.releases.get("niem", "model", releaseKey);
+      },
 
     }
   }
@@ -129,14 +145,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, prefix) => {
         let identifiers = Namespace.identifiers(userKey, modelKey, releaseKey, prefix);
-        return this.source.namespaces.get(identifiers);
+        for (let source of this.sources) {
+          let namespace = await source.namespaces.get(identifiers);
+          if (namespace) return namespace;
+        }
       },
 
       /**
        * @param {Type.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.namespaces.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let namespaces = await source.namespaces.find(criteria);
+          results.push(...namespaces);
+        }
+        return results;
       }
 
     }
@@ -154,14 +178,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, prefix, term) => {
         let identifiers = LocalTerm.identifiers(userKey, modelKey, releaseKey, prefix, term);
-        return this.source.localTerms.get(identifiers);
+        for (let source of this.sources) {
+          let localTerm = await source.localTerms.get(identifiers);
+          if (localTerm) return localTerm;
+        }
       },
 
       /**
        * @param {LocalTerm.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.localTerms.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let localTerms = await source.localTerms.find(criteria);
+          results.push(...localTerms);
+        }
+        return results;
       }
 
     }
@@ -178,14 +210,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, qname) => {
         let identifiers = Property.identifiers(userKey, modelKey, releaseKey, Property.getPrefix(qname), Property.getName(qname));
-        return this.source.properties.get(identifiers);
+        for (let source of this.sources) {
+          let property = await source.properties.get(identifiers);
+          if (property) return property;
+        }
       },
 
       /**
        * @param {Property.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.properties.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let properties = await source.properties.find(criteria);
+          results.push(...properties);
+        }
+        return results;
       }
 
     }
@@ -202,14 +242,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, qname) => {
         let identifiers = Type.identifiers(userKey, modelKey, releaseKey, Type.getPrefix(qname), Type.getName(qname));
-        return this.source.types.get(identifiers);
+        for (let source of this.sources) {
+          let type = await source.types.get(identifiers);
+          if (type) return type;
+        }
       },
 
       /**
        * @param {Type.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.types.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let types = await source.types.find(criteria);
+          results.push(...types);
+        }
+        return results;
       }
 
     }
@@ -229,14 +277,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) => {
         let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style, definition);
-        return this.source.facets.get(identifiers);
+        for (let source of this.sources) {
+          let facet = await source.facets.get(identifiers);
+          if (facet) return facet;
+        }
       },
 
       /**
        * @param {Facet.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.facets.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let facets = await source.facets.find(criteria);
+          results.push(...facets);
+        }
+        return results;
       }
 
     }
@@ -254,14 +310,22 @@ class NIEM {
        */
       get: async (userKey, modelKey, releaseKey, typeQName, propertyQName) => {
         let identifiers = SubProperty.identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName);
-        return this.source.subProperties.get(identifiers);
+        for (let source of this.sources) {
+          let subProperty = await source.subProperties.get(identifiers);
+          if (subProperty) return subProperty;
+        }
       },
 
       /**
        * @param {SubProperty.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        return this.source.subProperties.find(criteria);
+        let results = [];
+        for (let source of this.sources) {
+          let subProperties = await source.subProperties.find(criteria);
+          results.push(...subProperties);
+        }
+        return results;
       }
 
     }

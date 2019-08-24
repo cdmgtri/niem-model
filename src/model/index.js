@@ -19,7 +19,7 @@ class Model extends NIEMObject {
     super();
 
     let NIEMModelSourceInterface = require("../interfaces/source/index");
-    this.source = new NIEMModelSourceInterface();
+    this._source = new NIEMModelSourceInterface();
 
     this.userKey = userKey;
     this.modelKey = modelKey;
@@ -33,8 +33,20 @@ class Model extends NIEMObject {
 
   }
 
+  get source() {
+    return this._source;
+  }
+
+  /**
+   * @param {NIEMModelSourceInterface} source
+   */
+  set source(source) {
+    this._source = source;
+    this.niem.sources.push(source);
+  }
+
   get sourceDataSet() {
-    return this.source.models;
+    return this._source.models;
   }
 
   get releases() {
@@ -53,12 +65,11 @@ class Model extends NIEMObject {
       add: async (releaseKey, niemReleaseKey, version, status, baseURI) => {
         let release = Release.create(releaseKey, niemReleaseKey, version, status, baseURI);
         release.model = this;
-        release.source = this.source;
         return release.add();
       },
 
       get: async (releaseKey) => {
-        return this.source.releases.get({...this.identifiers, releaseKey});
+        return this._source.releases.get({...this.identifiers, releaseKey});
       },
 
       /**
@@ -66,7 +77,7 @@ class Model extends NIEMObject {
        */
       find: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.releases.find(criteria);
+        return this._source.releases.find(criteria);
       }
 
     }
@@ -150,3 +161,4 @@ Model.IdentifiersType;
 module.exports = Model;
 
 let Release = require("../release/index");
+let NIEMModelSourceInterface = require("../interfaces/source/index");

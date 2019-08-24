@@ -33,9 +33,10 @@ class Release extends NIEMObject {
     this.branch = branch;
     this.description = description;
 
-    // Each release can potentially have a custom data source (e.g., local db vs NIEM release API)
-    this.source = new NIEMModelSourceInterface();
+  }
 
+  get source() {
+    return this.model.source;
   }
 
   /**
