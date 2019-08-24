@@ -19,7 +19,5 @@
     "jest": "^24.8.0",
     "jsdoc": "^3.6.3"
   },
-  "dependencies": {
-    "niem-model-source-memory": "github:cdmgtri/niem-model-source-memory#refactor"
-  }
+  "dependencies": {}
 }

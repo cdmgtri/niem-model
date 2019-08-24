@@ -1,7 +1,10 @@
 
 function testModel() {
 
-  let { Model } = require("../../index");
+  let NIEM = require("../../index");
+  let { Model } = NIEM;
+
+  let niem = new NIEM();
 
   let { CriteriaType } = Model;
 
@@ -45,6 +48,12 @@ function testModel() {
       expect(matches.length).toBe(2);
       expect(matches[0].userKey).toBe("niem");
       expect(matches[1].userKey).toBe("lapd");
+    });
+
+    test("#models.add", async () => {
+      let model = await niem.models.add("user", "model");
+      expect(model).toBeDefined();
+      expect(model.route).toBe("/user/model");
     });
 
   });

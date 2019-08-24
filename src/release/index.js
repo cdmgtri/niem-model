@@ -1,6 +1,5 @@
 
 let NIEMObject = require("../niem-object/index");
-let NIEMModelSourceInterface = require("../interfaces/source/index");
 
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.

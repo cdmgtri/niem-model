@@ -1,5 +1,5 @@
 
-let NIEMModelSourceMemory = require("niem-model-source-memory");
+let NIEMModelSourceMemory = require("./src/interfaces/source/impl/memory/index");
 
 let NIEMModelSource = require("./src/interfaces/source/index");
 

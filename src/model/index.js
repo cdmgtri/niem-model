@@ -18,8 +18,8 @@ class Model extends NIEMObject {
 
     super();
 
-    let NIEMModelSourceInterface = require("../interfaces/source/index");
-    this._source = new NIEMModelSourceInterface();
+    let NIEMModelSourceImpl = require("../interfaces/source/impl/memory/index");
+    this._source = new NIEMModelSourceImpl();
 
     this.userKey = userKey;
     this.modelKey = modelKey;
