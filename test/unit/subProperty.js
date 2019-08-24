@@ -1,28 +1,38 @@
 
 function testSubProperty() {
 
-  let { Model, Release, SubProperty } = require("../../index");
+  let NIEM = require("../../index");
+  let { Release, SubProperty } = NIEM;
+
+  let niem = new NIEM();
+
+  /** @type {Release} */
+  let release;
+
+  /** @type {SubProperty} */
+  let subProperty;
 
   describe("SubProperty", () => {
 
-    let model = new Model(null, "user", "test");
-    let release = new Release(model, "1.0");
-    let subproperty = new SubProperty(release, "nc:PersonType", "nc:PersonName");
+    beforeAll( async () => {
+      release = await niem.releases.add("user", "test", "1.0");
+      subProperty = await release.subProperties.add("nc:PersonType", "nc:PersonName");
+    });
 
     test("route", () => {
-      expect(subproperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:PersonName");
+      expect(subProperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:PersonName");
     });
 
     test("sub-element default values", () => {
-      expect(subproperty.min).toBe("0");
-      expect(subproperty.max).toBe("unbounded");
+      expect(subProperty.min).toBe("0");
+      expect(subProperty.max).toBe("unbounded");
     });
 
-    test("sub-attribute default values", () => {
-      subproperty = new SubProperty(release, "nc:PersonType", "nc:attributeName");
-      expect(subproperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:attributeName");
-      expect(subproperty.min).toBe("0");
-      expect(subproperty.max).toBe("1");
+    test("sub-attribute default values", async () => {
+      subProperty = await release.subProperties.add("nc:PersonType", "nc:attributeName");
+      expect(subProperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:attributeName");
+      expect(subProperty.min).toBe("0");
+      expect(subProperty.max).toBe("1");
     });
 
   });

@@ -1,19 +1,28 @@
 
 function testProperty() {
 
-  let { Model, Release, Property } = require("../../index");
+  let NIEM = require("../../index");
+  let { Property } = NIEM;
+
+  let niem = new NIEM();
+
+  /** @type {Property} */
+  let property;
 
   describe("Property", () => {
 
-    let model = new Model(null, "user", "test");
-    let release = new Release(model, "1.0");
+    beforeAll( async () => {
+      let release = await niem.releases.add("user", "test", "1.0");
 
-    let property = new Property(release, "nc", "PersonName", "A name of a person.", "nc:PersonNameType");
+      property = await release.properties.add("nc", "PersonName", "A name of a person.", "nc:PersonNameType");
+
+    });
+
 
     let properties = [
-      new Property(null, "nc", "Person"),
-      new Property(null, "nc", "Activity"),
-      new Property(null, "ext", "Person"),
+      new Property("nc", "Person"),
+      new Property("nc", "Activity"),
+      new Property("ext", "Person"),
     ];
 
     test("#constructor", () => {
@@ -22,50 +31,50 @@ function testProperty() {
       expect(property.isElement).toBe(true);
       expect(property.isAbstract).toBe(false);
       expect(property.label).toBe("nc:PersonName");
+      expect(property.previousRoute).toBe("/user/test/1.0/properties/nc:PersonName");
     });
 
-    test("#serialize", () => {
+    test("#toJSON", () => {
 
-      // Check serialize function, scoped to namespace
-      let receivedJSON = property.serialize("namespace");
+      // Check toJSON function, scoped to namespace
+      let receivedJSON = JSON.parse(JSON.stringify(property));
       let expectedJSON = {
-        "name": "PersonName",
-        "definition": "A name of a person.",
-        "typeQName": "nc:PersonNameType",
-        "isAbstract": false,
-        "isElement": true
+        userKey: "user",
+        modelKey: "test",
+        releaseKey: "1.0",
+        prefix: "nc",
+        name: "PersonName",
+        definition: "A name of a person.",
+        typeQName: "nc:PersonNameType",
+        isAbstract: false,
+        isElement: true,
+        previousIdentifiers: {
+          userKey: "user",
+          modelKey: "test",
+          releaseKey: "1.0",
+          prefix: "nc",
+          name: "PersonName"
+        }
       };
-      expect(receivedJSON).toEqual(expectedJSON);
-
-      // Check serialize function, scoped to release
-      receivedJSON = property.serialize("release");
-      expectedJSON.prefix = "nc";
-      expect(receivedJSON).toEqual(expectedJSON);
-
-      // Check serialize function, full scope
-      receivedJSON = property.serialize();
-      expectedJSON.userKey = "user";
-      expectedJSON.modelKey = "test";
-      expectedJSON.releaseKey = "1.0";
       expect(receivedJSON).toEqual(expectedJSON);
     });
 
     test("#terms", () => {
 
       // Check basic camel casing
-      let property = new Property(release, "nc", "PersonName");
+      let property = new Property("nc", "PersonName");
       expect(property.terms.join(" ")).toEqual("Person Name");
 
       // Check acronym
-      property = new Property(release, "nc", "LocationStateUSPSCode");
+      property = new Property("nc", "LocationStateUSPSCode");
       expect(property.terms.join(" ")).toEqual("Location State USPS Code");
 
       // Check acronym with a dash and digits
-      property = new Property(release, "nc", "LocationStateFIPS10-4Code");
+      property = new Property("nc", "LocationStateFIPS10-4Code");
       expect(property.terms.join(" ")).toEqual("Location State FIPS10-4 Code");
 
       // Check underscore as an acronym separator
-      property = new Property(release, "nc", "PersonABC_XYZCode");
+      property = new Property("nc", "PersonABC_XYZCode");
       expect(property.terms.join(" ")).toEqual("Person ABC XYZ Code");
 
     });
@@ -81,20 +90,51 @@ function testProperty() {
     });
 
     test("#group", () => {
-      let property = new Property(release, "nc", "StateCode", "", "",  "nc:StateCodeAbstract");
+      let property = new Property("nc", "StateCode", "", "",  "nc:StateCodeAbstract");
       expect(property.groupQName).toBe("nc:StateCodeAbstract");
       expect(property.groupName).toBe("StateCodeAbstract");
       expect(property.groupPrefix).toBe("nc");
 
-      let unqualifiedGroup = new Property(release, "nc", "StateCode", "", "", "StateCodeAbstract");
+      let unqualifiedGroup = new Property("nc", "StateCode", "", "", "StateCodeAbstract");
       expect(unqualifiedGroup.groupQName).toBe("StateCodeAbstract");
       expect(unqualifiedGroup.groupName).not.toBeDefined();
       expect(unqualifiedGroup.groupPrefix).not.toBeDefined();
 
-      let invalidGroup = new Property(release, "nc", "StateCode", "", "", ":StateCodeAbstract");
+      let invalidGroup = new Property("nc", "StateCode", "", "", ":StateCodeAbstract");
       expect(invalidGroup.groupQName).toBe(":StateCodeAbstract");
       expect(invalidGroup.groupName).not.toBeDefined();
       expect(invalidGroup.groupPrefix).not.toBeDefined();
+    });
+
+    test("#matches--regex", () => {
+      let properties = [
+        new Property("a", "Person", "A human being"),
+        new Property("b", "PersonName", "A name of a person"),
+        new Property("c", "personAttribute"),
+        new Property("d", "ContactLocation", "A contact location for a person"),
+        new Property("e", "ContactEmail", "A contact email for a PERSON"),
+        new Property("f", "Car", "A car"),
+        new Property("g", "truck", "Not a car"),
+        new Property("g", "truckContact", "Truck contact"),
+        new Property("h", "boat")
+      ];
+
+      let { CriteriaType } = Property;
+
+      /** @type {CriteriaType} */
+      let criteria = {
+        keyword: "PERSON"
+      }
+
+      /** @type {Property[]} */
+      let matches = Property.matches(properties, criteria);
+      let prefixes = matches.map( property => property.prefix ).join(" ");
+      expect(prefixes).toBe("a b c d e");
+
+      criteria.definition = /CONTACT/;
+      matches = Property.matches(properties, criteria);
+      prefixes = matches.map( property => property.prefix ).join(" ");
+      expect(prefixes).toBe("d e");
     });
 
   });

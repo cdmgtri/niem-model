@@ -1,98 +1,165 @@
 
-let NIEMObject = require("../niem-object/index");
+let ReleaseObject = require("../release-object/index");
+let Type = require("../type/index");
 
 /**
  * A NIEM Facet
  */
-class Facet extends NIEMObject {
+class Facet extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {String} typeQName
    * @param {string} value
    * @param {string} definition
-   * @param {KindShape} [kind="enumeration"]
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
    */
-  constructor(release, typeQName, value, definition, kind="enumeration") {
+  constructor(typeQName, value, definition, style="enumeration") {
     super();
 
-    this.release = release;
     this.typeQName = typeQName;
+    this.style = style;
     this.value = value;
     this.definition = definition;
-    this.kind = kind;
   }
 
-  get route() {
-    return Facet.buildRoute(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.kind, this.value);
+  /**
+   * @param {ReleaseObject.NDRVersionType} ndrVersion
+   * @param {String} typeQName
+   * @param {string} value
+   * @param {string} definition
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
+   */
+  static create(ndrVersion, typeQName, value, definition, style="enumeration") {
+    return new Facet(typeQName, value, definition, style);
   }
 
-  get label() {
-    return this.typeQName + " - " + this.kind + "=" + this.value;
-  }
-
-  static buildRoute(userKey, modelKey, releaseKey, typeQName, kind, value) {
-    let Type = require("../type/index");
-    return Type.buildRoute(userKey, modelKey, releaseKey, typeQName) + `/facets/${kind}/${value}`;
+  get isCode() {
+    return this.style == "enumeration";
   }
 
   get typePrefix() {
     if (this.typeQName && this.typeQName.includes(":")) {
       return this.typeQName.split(":")[0];
     }
-    return "";
   }
 
   get typeName() {
     if (this.typeQName && this.typeQName.includes(":")) {
       return this.typeQName.split(":")[1];
     }
-    if (this.typeQName) {
-      return this.typeQName;
-    }
-    return "";
+  }
+
+  get sourceDataSet() {
+    return this.source.facets;
+  }
+
+  async namespace() {
+    return this.release.namespaces.get(this.typePrefix);
+  }
+
+  async type() {
+    return this.release.types.get(this.typePrefix + ":" + this.typeName);
+  }
+
+  async dependencies() {
+    let type = await this.type();
+    return {type, count: 1};
   }
 
   get authoritativePrefix() {
     return this.typePrefix;
   }
 
+  get label() {
+    let shortStyle = this.style.replace("enumeration", "enum");
+    return this.typeQName + " - " + shortStyle + " " + this.value;
+  }
+
+  get route() {
+    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.value, this.style);
+  }
+
   /**
-   * @param {"full"|"release"|"type"|"kind"} [scope="full"]
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
-  serialize(scope) {
+  static route(userKey, modelKey, releaseKey, typePrefix, typeName, value, style="enumeration") {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typePrefix, typeName);
+    return typeRoute + `/facets/${style}/${value}`;
+  }
 
-    let object = {};
+  get identifiers() {
+    return Facet.identifiers(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style);
+  }
 
-    if (scope == "full") {
-      object = this.releaseIdentifiers;
-    }
+  /**
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} typeQName
+   * @param {string} value
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   * @param {string} definition
+   */
+  static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
+    return {userKey, modelKey, releaseKey, typeQName, style, value};
+  }
 
-    if (scope == "full" || scope == "release") {
-      object.typeQName = this.typeQName;
-    }
-
-    if (scope != "kind") {
-      object.kind = this.kind;
-    }
-
-    object.value = this.value;
-    object.definition = this.definition;
-
-    return object;
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      typeQName: this.typeQName,
+      style: this.style,
+      value: this.value,
+      definition: this.definition
+    };
   }
 
 }
 
 /** @type{"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"} */
-let KindShape;
+Facet.StyleType;
 
-Facet.KindShape = KindShape;
-
-Facet.KindValues = ["enumeration", "length", "minLength", "maxLength", "pattern",
+Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
   "whiteSpace", "maxInclusive", "minInclusive", "maxExclusive", "minExclusive",
   "totalDigits", "fractionDigits"];
 
-module.exports = Facet;
 
-let Release = require("../release/index");
+
+/**
+ * Search criteria options for facet find operations.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|RegExp} typeQName
+ * @property {string|string[]} typePrefix
+ * @property {string|RegExp} typeName
+ * @property {string|RegExp} value
+ * @property {string|RegExp} definition
+ * @property {Facet.StyleType[]} style
+ * @property {boolean} isCode True to return only enums; false to return non-enums
+ * @property {string|RegExp} keyword - value or definition
+ */
+Facet.CriteriaType = {};
+
+Facet.CriteriaKeywordFields = ["value", "definition"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string|RegExp} typeQName
+ * @property {string|RegExp} value
+ * @property {string|RegExp} definition
+ */
+Facet.IdentifiersType;
+
+module.exports = Facet;

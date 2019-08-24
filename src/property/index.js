@@ -3,13 +3,10 @@ const Component = require("../component/index");
 
 /**
  * A NIEM Property.
- *
- * @extends {Component}
  */
 class Property extends Component {
 
   /**
-   * @param {Release} release
    * @param {String} prefix
    * @param {String} name
    * @param {String} [definition]
@@ -18,9 +15,9 @@ class Property extends Component {
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
    */
-  constructor (release, prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+  constructor (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
 
-    super(release, prefix, name, definition);
+    super(prefix, name, definition);
 
     this.typeQName = typeQName;
     this.groupQName = groupQName;
@@ -29,27 +26,33 @@ class Property extends Component {
   }
 
   /**
-   * Name from the property group's qname field.
-   * Returns undefined if there is no qualified group.
+   * @param {NDRVersionType} ndrVersion
+   * @param {String} prefix
+   * @param {String} name
+   * @param {String} [definition]
+   * @param {String} [typeQName]
+   * @param {Property} [groupQName]
+   * @param {boolean} [isElement=true]
+   * @param {boolean} [isAbstract=false]
    */
-  get groupName() {
-    // Check that the groupQName contains both a prefix and a name
-    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
-      return this.groupQName.split(":")[1];
-    }
-    return undefined;
+  static create (ndrVersion, prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+    return new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
   }
 
-  /**
-   * Namespace prefix from the property group's qname field.
-   * Returns undefined if there is no qualified group.
-   */
+  get typePrefix() {
+    return Component.getPrefix(this.typeQName);
+  }
+
+  get typeName() {
+    return Component.getName(this.typeQName);
+  }
+
   get groupPrefix() {
-    // Check that the groupQName contains both a prefix and a name
-    if (this.groupQName && this.groupQName.match(/.+\:.+/)) {
-      return this.groupQName.split(":")[0];
-    }
-    return undefined;
+    return Component.getPrefix(this.groupQName);
+  }
+
+  get groupName() {
+    return Component.getName(this.groupQName);
   }
 
   get isAttribute() {
@@ -68,12 +71,141 @@ class Property extends Component {
     if (this.isAttribute) {
       return "attribute";
     }
+    if (this.groupQName) {
+      return "substitution";
+    }
     return "element";
 
   }
 
-  static buildRoute(userKey, modelKey, releaseKey, propertyQName) {
-    return Component.buildRoute(userKey, modelKey, releaseKey, "Property", propertyQName);
+  get sourceDataSet() {
+    if (this.source) return this.source.properties;
+  }
+
+  async group() {
+    return this.release.properties.get(this.groupPrefix + ":" + this.groupName);
+  }
+
+  async groupHead() {
+    let group = await this.group();
+
+    if (group && group.group) {
+      // The property's substitution group has its own substitution group
+      return this.release.properties.get(group.qname);
+    }
+
+    return group;
+  }
+
+  async type() {
+    return this.release.types.get(this.typePrefix + ":" + this.typeName);
+  }
+
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async substitutions(criteria) {
+    criteria.groupQName = this.qname;
+    return this.release.properties.find(criteria);
+  }
+
+  /**
+   * @param {CriteriaType} criteria
+   */
+  async substitutionDescendants(criteria) {
+    criteria.groupQName = this.qname;
+
+    let substitutions = await this.release.properties.find(criteria);
+
+    /** @type {Property[]} */
+    let descendantSubstitutions = [];
+
+    for (let childSubstitution of substitutions) {
+      criteria.groupQName = childSubstitution.qname;
+      let newDescendantSubstitutions = await this.substitutionDescendants.find(criteria);
+      descendantSubstitutions.push(childSubstitution, ...newDescendantSubstitutions);
+    }
+
+    return descendantSubstitutions;
+  }
+
+  get subProperties() {
+    return {
+
+      add: async (typeQName, min, max, definition) => {
+        return this.release.subProperties.add(typeQName, this.qname, min, max, definition);
+      },
+
+      /**
+       * @param {SubProperty.CriteriaType} criteria
+       */
+      find: async (criteria) => {
+        criteria.propertyQName = this.qname;
+        return this.release.subProperties.find(criteria);
+      },
+
+    }
+  }
+
+  async dependencies() {
+
+    let type = await this.type();
+    let group = await this.group();
+
+    let count = 0;
+    if (type) count++;
+    if (group) count++;
+
+    return { type, group, count };
+  }
+
+  /**
+   * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
+   * @returns {DependentsTypes}
+   */
+  async dependents(current=true) {
+
+    let qname = current ? this.qname : this.previousIdentifiers.prefix + ":" + this.previousIdentifiers.name;
+
+    let substitutions = await this.release.properties.find({ groupQName: qname });
+    let subProperties = await this.release.subProperties.find({ propertyQName: qname });
+
+    let count = substitutions.length + subProperties.length;
+
+    return { substitutions, subProperties, count };
+  }
+
+  /**
+   * @param {"edit"|"delete"} op
+   * @param {Change} change
+   */
+  async updateDependents(op, change) {
+
+    await super.updateDependents(op, change);
+
+    let newQName = op == "edit" ? this.qname : null;
+
+    let dependents = await this.dependents(false);
+
+    // Update or delete subproperties (these don't exist without the property)
+    for (let subProperty of dependents.subProperties) {
+      if (op == "edit") {
+        subProperty.propertyQName = newQName;
+        await subProperty.save(change);
+      }
+      else if (op == "delete") {
+        await subProperty.delete(change);
+      }
+    }
+
+    // Update substitutions
+    for (let substitution of dependents.substitutions) {
+      substitution.groupQName = newQName;
+      await substitution.save(change);
+    }
+
+    return dependents;
+
   }
 
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {
@@ -88,29 +220,74 @@ class Property extends Component {
     return new Property(release, prefix, name, definition, null, null, true, true);
   }
 
-  /**
-   * @param {"full"|"release"|"namespace"} [scope="full"]
-   */
-  serialize(scope="full") {
+  static route(userKey, modelKey, releaseKey, prefix, name) {
+    let releaseRoute = super.route(userKey, modelKey, releaseKey);
+    return releaseRoute + "/properties/" + prefix + ":" + name;
+  }
 
-    let object = super.serialize(scope);
+  get route() {
+    return Property.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+  }
 
-    if (this.typeQName) {
-      object.typeQName = this.typeQName;
-    }
-
-    if (this.groupQName) {
-      object.groupQName = this.groupQName;
-    }
-
-    object.isElement = this.isElement;
-    object.isAbstract = this.isAbstract;
-
-    return object;
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      typeQName: this.typeQName,
+      isElement: this.isElement,
+      isAbstract: this.isAbstract,
+      groupQName: this.groupQName
+    };
   }
 
 }
 
+/**
+ * Search criteria options for type find operations.
+ *
+ * String fields are for exact matches.
+ *
+ * @typedef {Object} CriteriaType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} niemReleaseKey
+ * @property {string|string[]} prefix
+ * @property {string|RegExp} name
+ * @property {string|RegExp} definition
+ * @property {string|string[]} typePrefix
+ * @property {string|RegExp} typeName
+ * @property {string|string[]|RegExp} typeQName
+ * @property {string|RegExp} groupQName
+ * @property {string|RegExp} groupPrefix
+ * @property {boolean} isElement
+ * @property {boolean} isAbstract
+ * @property {RegExp} keyword - Name, definition, or other text keyword fields
+ */
+Property.CriteriaType = {};
+
+Property.CriteriaKeywordFields = ["name", "definition"];
+
+/**
+ * @typedef {Object} IdentifiersType
+ * @property {string} userKey
+ * @property {string} modelKey
+ * @property {string} releaseKey
+ * @property {string} prefix
+ * @property {string} name
+ */
+Property.IdentifiersType = Component.IdentifiersType;
+
+/**
+ * @typedef {Object} DependentsTypes
+ * @property {Property[]} substitutions
+ * @property {SubProperty[]} subProperties
+ * @property {number} count
+ */
+Property.DependentsTypes;
+
 module.exports = Property;
 
-const Release = require("../release/index");
+let Change = require("../interfaces/source/change/index");
+let SubProperty = require("../subproperty/index");
+
+let { NDRVersionType } = Component;
