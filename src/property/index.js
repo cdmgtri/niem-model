@@ -104,7 +104,7 @@ class Property extends Component {
   /**
    * @param {CriteriaType} criteria
    */
-  async substitutions(criteria) {
+  async substitutions(criteria={}) {
     criteria.groupQName = this.qname;
     return this.release.properties.find(criteria);
   }
@@ -112,7 +112,7 @@ class Property extends Component {
   /**
    * @param {CriteriaType} criteria
    */
-  async substitutionDescendants(criteria) {
+  async substitutionDescendants(criteria={}) {
     criteria.groupQName = this.qname;
 
     let substitutions = await this.release.properties.find(criteria);

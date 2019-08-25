@@ -168,7 +168,7 @@ class Type extends Component {
       /**
        * @param {Facet.CriteriaType} criteria
        */
-      find: async (criteria) => {
+      find: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.facets.find(criteria);
       },
@@ -176,7 +176,7 @@ class Type extends Component {
       /**
        * @param {Facet.CriteriaType} criteria
        */
-      count: async (criteria) => {
+      count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.facets.count(criteria);
       },
@@ -207,7 +207,7 @@ class Type extends Component {
       /**
        * @param {SubProperty.CriteriaType} criteria
        */
-      find: async (criteria) => {
+      find: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.subProperties.find(criteria);
       },
@@ -215,7 +215,7 @@ class Type extends Component {
       /**
        * @param {SubProperty.CriteriaType} criteria
        */
-      count: async (criteria) => {
+      count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.subProperties.count(criteria);
       },
@@ -229,7 +229,7 @@ class Type extends Component {
       /**
        * @param {Property.CriteriaType} criteria
        */
-      find: async (criteria) => {
+      find: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.properties.find(criteria);
       },
@@ -237,7 +237,7 @@ class Type extends Component {
       /**
        * @param {Property.CriteriaType} criteria
        */
-      count: async (criteria) => {
+      count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.properties.count(criteria);
       },
