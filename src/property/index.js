@@ -208,16 +208,44 @@ class Property extends Component {
 
   }
 
+  /**
+   * @param {Release} release
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   * @param {string} typeQName
+   * @param {string} groupQName
+   * @param {boolean} [isAbstract=false]
+   */
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {
-    return new Property(release, prefix, name, definition, typeQName, groupQName, true, isAbstract);
+    let property = new Property(prefix, name, definition, typeQName, groupQName, true, isAbstract);
+    property.release = release;
+    return property;
   }
 
+  /**
+   * @param {Release} release
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   * @param {string} typeQName
+   */
   static createAttribute(release, prefix, name, definition, typeQName) {
-    return new Property(release, prefix, name, definition, typeQName, null, false, false);
+    let property = new Property(prefix, name, definition, typeQName, null, false, false);
+    property.release = release;
+    return property;
   }
 
+  /**
+   * @param {Release} release
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} definition
+   */
   static createAbstract(release, prefix, name, definition) {
-    return new Property(release, prefix, name, definition, null, null, true, true);
+    let property = new Property(prefix, name, definition, null, null, true, true);
+    property.release = release;
+    return property;
   }
 
   static route(userKey, modelKey, releaseKey, prefix, name) {
