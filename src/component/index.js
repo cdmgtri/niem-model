@@ -50,6 +50,8 @@ class Component extends ReleaseObject {
    */
   get terms() {
 
+    if (! this.name) return [];
+
     // Add a space between a lowercase letter (or number) and an uppercase letter
     let s = this.name.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
 
