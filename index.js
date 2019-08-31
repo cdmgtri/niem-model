@@ -12,9 +12,6 @@ let Type = require("./src/type/index");
 let Facet = require("./src/facet/index");
 let SubProperty = require("./src/subproperty/index");
 
-/**
- * @todo Handle lookups in multiple release sources (will need a release source setter)
- */
 class NIEM {
 
   /**
@@ -25,7 +22,6 @@ class NIEM {
     /** @type {NIEMModelSource[]} */
     this.sources = source ? [source] : [new NIEMModelSourceMemory()];
 
-    this.qa;
   }
 
   get models() {

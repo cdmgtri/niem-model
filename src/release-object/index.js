@@ -45,6 +45,10 @@ class ReleaseObject extends NIEMObject {
     if (this.release) return this.release.ndrVersion;
   }
 
+  get niem() {
+    if (this.release && this.release.model) return this.release.model.niem;
+  }
+
   static route(userKey, modelKey, releaseKey) {
     return Release.route(userKey, modelKey, releaseKey);
   }
