@@ -136,8 +136,8 @@ class SourceDataSet extends SourceDataSetInterface {
 
     for (let key of Object.keys(object)) {
 
-      // Skip null or undefined values
-      if (!object[key]) continue;
+      // Skip undefined values
+      if (object[key] == undefined) continue;
 
       if (["_source", "niem", "model", "release"].includes(key)) {
         // Copy by reference

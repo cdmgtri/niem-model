@@ -1,4 +1,5 @@
 
 module.exports = {
-  SourceInterface: require("./source/index")
+  SourceInterface: require("./source"),
+  FormatInterface: require("./format")
 };

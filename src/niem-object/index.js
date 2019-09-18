@@ -306,9 +306,9 @@ class NIEMObject {
       /** @type {String} */
       let niemObjectValue = niemObject[key];
 
-      if (!niemObjectValue) return false;
-
       let criteriaValue = criteria[key];
+
+      if (!niemObjectValue && niemObjectValue != criteriaValue) return false;
 
       if (criteriaValue instanceof RegExp) {
         // Make case insensitive and compare regular expression

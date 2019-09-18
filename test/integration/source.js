@@ -23,9 +23,9 @@ module.exports = () => {
     let namespace;
 
 
-    describe("NIEM", () => {
+    describe("niem.model", () => {
 
-      test("#models.add", async () => {
+      test("#add", async () => {
 
         model = await niem.models.add("test", "niem", "model");
 
@@ -35,7 +35,7 @@ module.exports = () => {
 
       });
 
-      test("#models.get", async () => {
+      test("#get", async () => {
         // Find the model
         let model = await niem.models.get("test", "niem");
         expect(model.userKey).toBe("test");
@@ -45,21 +45,21 @@ module.exports = () => {
     });
 
 
-    describe("Model", () => {
-      test("#createRelease", async () => {
+    describe("model.releases", () => {
+      test("#add", async () => {
         // Add a release
         release = await model.releases.add("4.1")
         expect(release.releaseKey).toBe("4.1");
         expect(release.route).toBe(model.route + "/4.1");
       });
 
-      test("#release", async () => {
+      test("#get", async () => {
         // Get the previously added release
         let release = await model.releases.get("4.1");
         expect(release.route).toBe(model.route + "/4.1");
       });
 
-      test("#releases", async () => {
+      test("#find", async () => {
         // Add an additional model and some extra releases
         release2 = await model.releases.add("4.2");
 
@@ -83,9 +83,9 @@ module.exports = () => {
     });
 
 
-    describe("Release", () => {
+    describe("release.namespaces", () => {
 
-      test("#namespaces.add", async () => {
+      test("#add", async () => {
 
         // Add a namespace
         namespace = await release.namespaces.add("nc", "core", "http://release.niem.gov/niem/4.0", "niem-core", "NIEM Core", "alpha1");
@@ -97,14 +97,14 @@ module.exports = () => {
         await release.namespaces.add("mo", "domain");
       });
 
-      test("#namespace", async () => {
+      test("#get", async () => {
         // Get a specific namespace
         let ns = await release.namespaces.get("nc");
         expect(ns.prefix).toBe("nc");
         expect(ns.style).toBe("core");
       });
 
-      test("#namespaces", async () => {
+      test("#find", async () => {
         // Find all domain namespaces
         let namespaces = await release.namespaces.find({style: "domain"});
         expect(namespaces.length).toBe(3);
@@ -118,14 +118,18 @@ module.exports = () => {
         expect(prefixes.includes("text")).toBe(false);
       });
 
-      test("#properties.add", async () => {
+    });
+
+    describe("release.properties", () => {
+
+      test("#add", async () => {
         // Add a new property
         let property = await release.properties.add("nc", "PersonGivenName", "A first name of a person", "nc:TextType");
         expect(property.qname).toBe("nc:PersonGivenName");
         expect(property.route).toBe(release.route + "/properties/nc:PersonGivenName");
       });
 
-      test("#property", async () => {
+      test("#get", async () => {
         // Get the added property
         let p = await release.properties.get("nc:PersonGivenName");
         expect(p.name).toEqual("PersonGivenName");
@@ -135,21 +139,29 @@ module.exports = () => {
         expect(p).toBe(undefined);
       });
 
-      test("#properties", async () => {
+      test("#find", async () => {
         // Find properties filtered on elements
         let properties = await release.properties.find({isElement: true});
         expect(properties.length).toBe(1);
+
+        // Test find function for a false boolean value
+        await release.properties.add("nc", "personNameInitialIndicator", "True if the name value is an initial; false otherwise.", "xs:boolean", undefined, false);
+        let attributes = await release.properties.find({isElement: false});
+        expect(attributes.length).toBe(1);
       });
 
+    });
 
-      test("#types.add", async () => {
+    describe("release.types", () => {
+
+      test("#add", async () => {
         // Add a type
         let type = await release.types.add("nc", "PersonType", "A data type for a human being", "object");
         expect(type.qname).toBe("nc:PersonType");
         expect(type.route).toBe("/test/niem/4.1/types/nc:PersonType");
       });
 
-      test("#type", async () => {
+      test("#get", async () => {
         // Get the added type
         t = await release.types.get("nc:PersonType");
         expect(t.name).toEqual("PersonType");
@@ -159,7 +171,7 @@ module.exports = () => {
         expect(t).toBe(undefined);
       });
 
-      test("#types", async () => {
+      test("#find", async () => {
         // Find an expected type
         let types = await release.types.find();
         expect(types.length).toBe(1);
@@ -174,16 +186,18 @@ module.exports = () => {
         expect(types.length).toBe(1);
       });
 
+    });
 
+    describe("release.localTerms", () => {
 
-      test("#localTerms.add", async () => {
+      test("#add", async () => {
         // Add a local term
         let term = await release.localTerms.add("nc", "NIEM", "National Information Exchange Model");
         expect(term.prefix).toBe("nc");
         expect(term.literal).toBe("National Information Exchange Model");
       });
 
-      test("#localTerm", async () => {
+      test("#get", async () => {
         // Add the same term to a different namespace
         await release.localTerms.add("ag", "NIEM", "National Information Exchange Model");
         let term = await release.localTerms.get("ag", "NIEM");
@@ -196,7 +210,7 @@ module.exports = () => {
         expect(term.term).toBe("NIEM");
       });
 
-      test("#localTerms", async () => {
+      test("#find", async () => {
         // Find all terms in the release
         let terms = await release.localTerms.find();
         expect(terms.length).toBe(2);
@@ -206,9 +220,11 @@ module.exports = () => {
         expect(terms.length).toBe(1);
       });
 
+    });
 
+    describe("release.subProperties", () => {
 
-      test("#subProperties.add", async () => {
+      test("#add", async () => {
         // Add an element to a type and check the default values
         let sub = await release.subProperties.add("nc:PersonType", "nc:PersonName");
         expect(sub.typeQName).toBe("nc:PersonType");
@@ -226,14 +242,14 @@ module.exports = () => {
         expect(sub.max).toBe("1");
       });
 
-      test("#subProperty", async () => {
+      test("#get", async () => {
         // Get a type-subProperty relationship
         let sub = await release.subProperties.get("nc:PersonType", "nc:PersonName");
         expect(sub.typeQName).toBe("nc:PersonType");
         expect(sub.propertyQName).toBe("nc:PersonName");
       });
 
-      test("#subProperties", async () => {
+      test("#find", async () => {
         // Find all type-subProperty relationships for a given type
         let subs = await release.subProperties.find({typeQName: "nc:PersonType"});
         expect(subs.length).toBe(2);
@@ -243,9 +259,11 @@ module.exports = () => {
         expect(subs.length).toBe(1);
       });
 
+    });
 
+    describe("release.facets", () => {
 
-      test("#facets.add", async () => {
+      test("#add", async () => {
         // Add an enum
         let facet = await release.facets.add("nc:HairColorCodeSimpleType", "BLK", "black");
         expect(facet.style).toBe("enumeration");
@@ -259,13 +277,13 @@ module.exports = () => {
         expect(facet.style).toBe("pattern");
       });
 
-      test("#facet", async () => {
+      test("#get", async () => {
         // Find a specific enum in a specific type
         let facet = await release.facets.get("nc:HairColorCodeSimpleType", "BRO");
         expect(facet.definition).toBe("brown");
       });
 
-      test("#facets", async () => {
+      test("#find", async () => {
         // Find all facets in a given type
         let facets = await release.facets.find({typeQName: "nc:HairColorCodeSimpleType"});
         expect(facets.length).toBe(2);
@@ -275,18 +293,17 @@ module.exports = () => {
         expect(facets.length).toBe(1);
       });
 
-
     });
 
 
-    describe("Namespace", () => {
+    describe("namespace.properties", () => {
 
-      test("#properties.add", async () => {
+      test("#add", async () => {
         let p = await namespace.properties.add("Location", "A place.", "nc:LocationType");
         expect(p.qname).toBe("nc:Location");
       });
 
-      test("#property", async () => {
+      test("#get", async () => {
         let p = await namespace.properties.get("Location");
         expect(p.qname).toBe("nc:Location");
 
@@ -294,40 +311,46 @@ module.exports = () => {
         expect(p).toBe(undefined);
       });
 
-      test("#properties", async () => {
+      test("#find", async () => {
         let properties = await namespace.properties.find({ isElement: true });
         expect(properties.length).toBe(2);
       });
 
+    });
 
-      test("#types.add", async () => {
+    describe("namespace.types", () => {
+
+      test("#add", async () => {
         let t = await namespace.types.add("LocationType", "", "object");
         expect(t.qname).toBe("nc:LocationType");
       });
 
-      test("#type", async () => {
+      test("#get", async () => {
         let t = await namespace.types.get("LocationType");
         expect(t.prefix).toBe("nc");
       });
 
-      test("#types", async () => {
+      test("#find", async () => {
         let types = await namespace.types.find();
         expect(types.length).toBe(2);
       });
 
+    });
 
-      test("#localTerms.add", async () => {
+    describe("namespace.localTerms", () => {
+
+      test("#add", async () => {
         let term = await namespace.localTerms.add("US", "United States");
         expect(term.prefix).toBe("nc");
         expect(term.term).toBe("US");
       });
 
-      test("#localTerm", async () => {
+      test("#get", async () => {
         let term = await namespace.localTerms.get("US");
         expect(term.prefix).toBe("nc");
       });
 
-      test("#localTerms", async () => {
+      test("#find", async () => {
         let terms = await namespace.localTerms.find();
         expect(terms.length).toBe(2);
       });

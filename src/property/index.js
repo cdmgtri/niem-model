@@ -14,8 +14,9 @@ class Property extends Component {
    * @param {Property} [groupQName]
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
+   * @param {boolean} [nillable=false]
    */
-  constructor (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
+  constructor (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false, nillable=false) {
 
     super(prefix, name, definition);
 
@@ -23,6 +24,8 @@ class Property extends Component {
     this.groupQName = groupQName;
     this.isElement = isElement;
     this.isAbstract = isAbstract;
+    this.nillable = nillable;
+
   }
 
   /**
