@@ -237,7 +237,11 @@ class NIEMObject {
 
     // Check required fields and that object is unique
     await this.checkBaselineFields();
-    await this.checkSourceID("available", this.identifiers);
+
+    // Facets might not be unique; other objects must be
+    if (this.constructor.name != "Facet") {
+      await this.checkSourceID("available", this.identifiers);
+    }
 
     // Add object
     await this.sourceDataSet.add(this, change);
