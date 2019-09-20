@@ -7,7 +7,8 @@
     "docs": "jsdoc index.js -r src -d docs -c jsdoc.json -R README.md -t node_modules/docdash",
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
-    "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true "
+    "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
+    "check": "tsc --allowJs --checkJs --noEmit --target esnext index.js"
   },
   "keywords": [],
   "author": "",

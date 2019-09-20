@@ -102,6 +102,28 @@ class NIEM {
        * @param {string} userKey
        * @param {string} modelKey
        * @param {string} releaseKey
+       * @param {string} niemReleaseKey
+       */
+      load: async (userKey, modelKey, releaseKey, niemReleaseKey) => {
+
+        // Find or initialize release
+        let release = await this.releases.get(userKey, modelKey, releaseKey);
+        if (!release) {
+          release = await this.releases.add(userKey, modelKey, releaseKey, niemReleaseKey);
+        }
+
+        // Return format-specific function that loads data
+        return {
+          xsd: async (input) => release.load.xsd(input),
+          json: async (input) => release.load.json(input)
+        }
+
+      },
+
+      /**
+       * @param {string} userKey
+       * @param {string} modelKey
+       * @param {string} releaseKey
        */
       get: async (userKey, modelKey, releaseKey) => {
         let identifiers = Release.identifiers(userKey, modelKey, releaseKey);
@@ -348,6 +370,10 @@ NIEM.Interfaces = {
     Change: require("./src/interfaces/source/change/index"),
     Transaction: require("./src/interfaces/source/transaction/index"),
     DataSet: require("./src/interfaces/source/dataSet/index")
+  },
+  NIEMFormat: {
+    NIEMModelFormatInterface: require("./src/interfaces/format"),
+    NIEMObjectFormatInterface: require("./src/interfaces/format/niem-object"),
   }
 }
 

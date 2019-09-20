@@ -97,6 +97,14 @@ class Namespace extends ReleaseObject {
     return undefined;
   }
 
+  get load() {
+    let x = await this.parse.xsd()
+    let y = this.test();
+    return {
+      xsd: async (xsdString) =>this.formats.xsd.namespace.load(xsdString, this.release)
+    }
+  }
+
   get sourceDataSet() {
     return this.source.namespaces;
   }
