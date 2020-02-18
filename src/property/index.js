@@ -11,7 +11,7 @@ class Property extends Component {
    * @param {String} name
    * @param {String} [definition]
    * @param {String} [typeQName]
-   * @param {Property} [groupQName]
+   * @param {String} [groupQName]
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
    * @param {boolean} [nillable=false]
@@ -29,12 +29,12 @@ class Property extends Component {
   }
 
   /**
-   * @param {NDRVersionType} ndrVersion
+   * @param {import("../release-object/index").NDRVersionType} ndrVersion
    * @param {String} prefix
    * @param {String} name
    * @param {String} [definition]
    * @param {String} [typeQName]
-   * @param {Property} [groupQName]
+   * @param {String} [groupQName]
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
    */
@@ -125,7 +125,7 @@ class Property extends Component {
 
     for (let childSubstitution of substitutions) {
       criteria.groupQName = childSubstitution.qname;
-      let newDescendantSubstitutions = await this.substitutionDescendants.find(criteria);
+      let newDescendantSubstitutions = await this.substitutionDescendants(criteria);
       descendantSubstitutions.push(childSubstitution, ...newDescendantSubstitutions);
     }
 
@@ -145,9 +145,9 @@ class Property extends Component {
       find: async (criteria) => {
         criteria.propertyQName = this.qname;
         return this.release.subProperties.find(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   async dependencies() {
@@ -164,7 +164,7 @@ class Property extends Component {
 
   /**
    * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
-   * @returns {DependentsTypes}
+   * @returns {Promise<DependentsTypes>}
    */
   async dependents(current=true) {
 
@@ -180,7 +180,7 @@ class Property extends Component {
 
   /**
    * @param {"edit"|"delete"} op
-   * @param {Change} change
+   * @param {Change} [change]
    */
   async updateDependents(op, change) {
 
@@ -278,23 +278,23 @@ class Property extends Component {
  * String fields are for exact matches.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|string[]} prefix
- * @property {string|RegExp} name
- * @property {string|RegExp} definition
- * @property {string|string[]} typePrefix
- * @property {string|RegExp} typeName
- * @property {string|string[]|RegExp} typeQName
- * @property {string|RegExp} groupQName
- * @property {string|RegExp} groupPrefix
- * @property {boolean} isElement
- * @property {boolean} isAbstract
- * @property {RegExp} keyword - Name, definition, or other text keyword fields
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|string[]} [prefix]
+ * @property {string|RegExp} [name]
+ * @property {string|RegExp} [definition]
+ * @property {string|string[]} [typePrefix]
+ * @property {string|RegExp} [typeName]
+ * @property {string|string[]|RegExp} [typeQName]
+ * @property {string|RegExp} [groupQName]
+ * @property {string|RegExp} [groupPrefix]
+ * @property {boolean} [isElement]
+ * @property {boolean} [isAbstract]
+ * @property {string|RegExp} [keyword] - Name, definition, or other text keyword fields
  */
-Property.CriteriaType = {};
+let PropertyCriteriaType;
 
 Property.CriteriaKeywordFields = ["name", "definition"];
 
@@ -314,11 +314,10 @@ Property.IdentifiersType = Component.IdentifiersType;
  * @property {SubProperty[]} subProperties
  * @property {number} count
  */
-Property.DependentsTypes;
+let PropertyDependentsTypes;
 
 module.exports = Property;
 
 let Change = require("../interfaces/source/change/index");
 let SubProperty = require("../subproperty/index");
-
-let { NDRVersionType } = Component;
+let Release = require("../release/index");

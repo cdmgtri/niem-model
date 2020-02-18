@@ -1,8 +1,8 @@
 
 function testModel() {
 
-  let NIEM = require("../../index");
-  let { Model } = NIEM;
+  let NIEM = require("../../src/index");
+  let Model = require("../../src/model/index");
 
   let niem = new NIEM();
 
@@ -43,7 +43,6 @@ function testModel() {
         modelKey: "model"
       };
 
-      /** @type {Model[]} */
       let matches = Model.matches(models, criteria);
       expect(matches.length).toBe(2);
       expect(matches[0].userKey).toBe("niem");

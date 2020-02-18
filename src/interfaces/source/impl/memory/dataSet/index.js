@@ -3,11 +3,13 @@ let SourceDataSetInterface = require("niem-model/src/interfaces/source/dataSet/i
 
 /**
  * @template {NIEMObject} T
+ * @template {Object<string, string>} IdentifiersType
+ * @template {Object<string, any>} CriteriaType
  */
 class SourceDataSet extends SourceDataSetInterface {
 
   /**
-   * @param {T} ObjectClass NIEM object class, e.g., Model, Property
+   * @param {typeof NIEMObject} ObjectClass NIEM object class, e.g., Model, Property
    * @param {Logger} logger
    */
   constructor(ObjectClass, logger) {
@@ -55,11 +57,16 @@ class SourceDataSet extends SourceDataSetInterface {
     return this.modify(object, change, "delete");
   }
 
+  /**
+   * @param {IdentifiersType} identifiers
+   */
   async get(identifiers) {
 
     if (!identifiers) return;
 
     // Drop definition from a Facet identifier if undefined (for non-unique enum support)
+    /** @type {CriteriaType} */
+    // @ts-ignore
     let updatedIdentifiers = Object.assign({}, identifiers);
 
     if (this.ObjectClass.name == "Facet" && updatedIdentifiers.definition === undefined) {
@@ -77,16 +84,18 @@ class SourceDataSet extends SourceDataSetInterface {
   }
 
   /**
+   * @param {CriteriaType} criteria
    * @returns {Promise<T[]>}
    */
   async find(criteria) {
 
     /** @type {T[]} */
+    // @ts-ignore
     let matches = this.ObjectClass.matches(this.data, criteria);
     this.logger.record(this.ObjectClass, "find", undefined, criteria, undefined, matches.length);
 
     let objects = matches.map( match => {
-      let newObject = Object.assign(new this.ObjectClass(), match)
+      let newObject = Object.assign(new this.ObjectClass(), match);
       this.updatePreviousIdentifiers(newObject);
       return newObject;
     });
@@ -95,7 +104,8 @@ class SourceDataSet extends SourceDataSetInterface {
   }
 
   /**
-   * @returns {Promise<T[]>}
+   * @param {CriteriaType} criteria
+   * @returns {Promise<number>}
    */
   async count(criteria) {
     let matches = this.ObjectClass.matches(this.data, criteria);
@@ -106,7 +116,7 @@ class SourceDataSet extends SourceDataSetInterface {
 
   /**
    * @param {NIEMObject} object
-   * @returns {Promise<T[]>}
+   * @returns {Promise<Transaction[]>}
    */
   async revisions(object) {
     this.logger.record(this.ObjectClass, "revisions", object);
@@ -117,7 +127,7 @@ class SourceDataSet extends SourceDataSetInterface {
   /**
    * @todo Returns objects or transactions?  Need functions for both?
    * @param {NIEMObject} object
-   * @returns {Promise<T[]>}
+   * @returns {Promise<Transaction<T>[]>}
    */
   async history(object) {
     this.logger.record(this.ObjectClass, "history", object);
@@ -131,7 +141,8 @@ class SourceDataSet extends SourceDataSetInterface {
    */
   copy(object) {
 
-    if (! object) return
+    if (! object) return;
+
     let copy = new this.ObjectClass();
 
     for (let key of Object.keys(object)) {
@@ -149,6 +160,7 @@ class SourceDataSet extends SourceDataSetInterface {
       }
     }
 
+    // @ts-ignore
     return copy;
 
   }
@@ -218,28 +230,28 @@ class SourceDataSet extends SourceDataSetInterface {
 
       if (this.ObjectClass.name == "Model") {
         json = Object.assign(new this.ObjectClass(), object);
-        json.source = niem.source;
+        json["source"] = object["source"];
       }
       else if (this.ObjectClass.name == "Release") {
         // Find the model object of the release and remove release getters
-        let model = await niem.models.get(object.userKey, object.modelKey);
-        delete object.userKey;
-        delete object.modelKey;
+        let model = await niem.models.get(object["userKey"], object["modelKey"]);
+        delete object["userKey"];
+        delete object["modelKey"];
 
         // Create release and attach the model
         json = Object.assign(new this.ObjectClass(), object);
-        json.model = model;
+        json["model"] = model;
       }
       else {
         // Find the release object and remove release getters
-        let release = await niem.releases.get(object.userKey, object.modelKey, object.releaseKey);
-        delete object.userKey;
-        delete object.modelKey;
-        delete object.releaseKey;
+        let release = await niem.releases.get(object["userKey"], object["modelKey"], object["releaseKey"]);
+        delete object["userKey"];
+        delete object["modelKey"];
+        delete object["releaseKey"];
 
         // Create the object and attach the release
         json = Object.assign(new this.ObjectClass(), object);
-        json.release = release;
+        json["release"] = release;
       }
 
       this.data.push(json);
@@ -253,6 +265,8 @@ class SourceDataSet extends SourceDataSetInterface {
 module.exports = SourceDataSet;
 
 let Logger = require("../logger/index");
+let Change = require("../../../change/index");
+let Transaction = require("../../../transaction/index");
 
-let NIEM = require("niem-model");
-let { NIEMObject } = NIEM;
+let NIEM = require("../../../../../index");
+let NIEMObject = require("../../../../../niem-object/index");

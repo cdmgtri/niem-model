@@ -1,8 +1,10 @@
 
+/* eslint-disable no-useless-escape */
+
 function testFacet() {
 
-  let NIEM = require("../../index");
-  let { Release } = NIEM;
+  let NIEM = require("../../src/index");
+  let Release = require("../../src/release/index");
 
   let niem = new NIEM();
 

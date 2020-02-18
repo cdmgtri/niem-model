@@ -1,6 +1,4 @@
 
-let NIEMObject = require("../../../niem-object");
-let Release = require("../../../release");
 
 /**
  * @template {NIEMObject} T
@@ -36,3 +34,6 @@ class NIEMObjectFormatInterface {
 }
 
 module.exports = NIEMObjectFormatInterface;
+
+let Release = require("../../../release/index");
+let NIEMObject = require("../../../niem-object/index");

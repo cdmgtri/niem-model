@@ -1,17 +1,20 @@
 
+/**
+ * @template {NIEMObject} T
+ */
 class Transaction {
 
   /**
-   * @param {Function} ObjectClass
-   * @param {"add"|"edit"|"delete"|"get"|"find"|"count"|"history"} operation
-   * @param {NIEMObject} niemObject
+   * @param {typeof NIEMObject} ObjectClass
+   * @param {OperationType} operation
+   * @param {T} niemObject
    * @param {Object} criteria NIEM object search criteria for find operations
    * @param {Change} change
    * @param {number} count
    */
   constructor(ObjectClass, operation, niemObject, criteria, change = new Change(), count) {
 
-    this.className = ObjectClass.name;
+    this.className = ObjectClass["name"];
     this.operation = operation;
     this.criteria = criteria;
     this.niemObject = niemObject;
@@ -19,6 +22,10 @@ class Transaction {
     this.count = count;
     this.timestamp = (new Date()).toLocaleString();
 
+  }
+
+  get id() {
+    if (this.niemObject) return this.niemObject.id;
   }
 
   toString() {
@@ -34,6 +41,9 @@ class Transaction {
   }
 
 }
+
+/** @typedef {"add"|"edit"|"delete"|"get"|"find"|"count"|"history"|"revisions"} OperationType */
+let TransactionOperationType;
 
 module.exports = Transaction;
 

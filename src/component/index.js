@@ -24,6 +24,7 @@ class Component extends ReleaseObject {
      * @private
      * @type {"Property"|"Type"}
      */
+    // @ts-ignore
     this.componentClass = this.constructor.name;
   }
 
@@ -71,7 +72,7 @@ class Component extends ReleaseObject {
    * @returns {string}
    */
   static getName(qname) {
-    if (qname && qname.match(/.+\:.+/)) {
+    if (qname && qname.match(/.+:.+/)) {
       return qname.split(":")[1];
     }
   }
@@ -83,7 +84,7 @@ class Component extends ReleaseObject {
    * @returns {string}
    */
   static getPrefix(qname) {
-    if (qname && qname.match(/.+\:.+/)) {
+    if (qname && qname.match(/.+:.+/)) {
       return qname.split(":")[0];
     }
   }
@@ -172,6 +173,6 @@ class Component extends ReleaseObject {
  * @property {string} prefix
  * @property {string} name
  */
-Component.IdentifiersType;
+let ComponentIdentifiersType;
 
 module.exports = Component;

@@ -3,59 +3,61 @@ let Change = require("../change/index");
 let Transaction = require("../transaction/index");
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObject<T>} T
+ * @template {Object<string, string>} IdentifiersType
+ * @template {Object<string, any>} CriteriaType
  */
 class SourceDataSetInterface {
 
   /**
    * @param {T} niemObject
-   * @param {Change} change
+   * @param {Change} [change]
    * @returns {Promise<T>}
    */
   async add(niemObject, change) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
    * @param {T} niemObject
-   * @param {Change} change
+   * @param {Change} [change]
    * @returns {Promise<T>}
    */
   async edit(niemObject, change) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
    * @param {T} niemObject
-   * @param {Change} change
+   * @param {Change} [change]
    * @returns {Promise<T>}
    */
   async delete(niemObject, change) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
-   * @param {U} identifiers
+   * @param {IdentifiersType} identifiers
    * @returns {Promise<T>}
    */
   async get(identifiers) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
-   * @param {object} criteria
+   * @param {CriteriaType} [criteria]
    * @returns {Promise<T[]>}
    */
   async find(criteria) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
-   * @param {object} criteria
-   * @returns {Promise<T[]>}
+   * @param {CriteriaType} [criteria]
+   * @returns {Promise<number>}
    */
   async count(criteria) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
@@ -63,7 +65,7 @@ class SourceDataSetInterface {
    * @returns {Promise<Transaction[]>}
    */
   async revisions(niemObject) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
   /**
@@ -71,13 +73,9 @@ class SourceDataSetInterface {
    * @returns {Promise<Transaction[]>}
    */
   async history(niemObject) {
-    notImplemented();
+    throw new Error("Data source not provided");
   }
 
-}
-
-function notImplemented() {
-  throw new Error("Data source not provided");
 }
 
 module.exports = SourceDataSetInterface;

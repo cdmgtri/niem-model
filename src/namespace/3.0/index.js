@@ -17,7 +17,7 @@ class Namespace_3_0 extends Namespace {
   }
 
   /**
-   * @type {"3.0"|"4.0"}
+   * @type {"3.0"|"4.0"|string}
    */
   get ndrVersion() {
     let target = this.ndrConformanceTargetIdentifier;
@@ -32,7 +32,7 @@ class Namespace_3_0 extends Namespace {
   }
 
   /**
-   * @type {"ReferenceSchemaDocument"|"ExtensionSchemaDocument"}
+   * @type {"ReferenceSchemaDocument"|"ExtensionSchemaDocument"|string}
    */
   get ndrConformanceTarget() {
     if (this.ndrVersion) {

@@ -1,5 +1,6 @@
 
 import Change from "./source/change/index";
+import Logger from "./impl/memory/logger";
 import Transaction from "./source/transaction/index";
 
 import Model from "../../model/index";
@@ -32,28 +33,32 @@ declare class NIEMModelSource {
 
   localTerms: DataSet<LocalTerm, LocalTerm.IdentifiersType, LocalTerm.CriteriaType>;
 
+  logger: Logger;
+
   log: Transaction[];
+
+  async load(niem: NIEM, json: Object);
 
   static DataSet: DataSet<T>;
 
 }
 
-interface DataSet<T, U, V> {
+interface DataSet<T, IdentifiersType, CriteriaType> {
 
   /**
    * @param input A new item to add
    */
-  add(input: T, change: Change): Promise<T>;
+  add(input: T, change?: Change): Promise<T>;
 
-  edit(input: T, change: Change): Promise<T>;
+  edit(input: T, change?: Change): Promise<T>;
 
-  delete(input: T, change: Change): Promise<T>;
+  delete(input: T, change?: Change): Promise<T>;
 
-  get(id: U): Promise<T>;
+  get(id: IdentifiersType): Promise<T>;
 
-  find(criteria: V): Promise<T[]>;
+  find(criteria?: CriteriaType): Promise<T[]>;
 
-  count(criteria: V): Promise<number>;
+  count(criteria?: CriteriaType): Promise<number>;
 
   /**
    * Object history for changes in the current release

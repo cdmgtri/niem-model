@@ -5,6 +5,7 @@ let Release = require("../release/index");
 /**
  * Commonalities of NIEM release components and other items.
  * @template T
+ * @extends {NIEMObject<ReleaseObject>}
  */
 class ReleaseObject extends NIEMObject {
 
@@ -12,7 +13,7 @@ class ReleaseObject extends NIEMObject {
 
     super();
 
-    this.release = new Release();
+    this.release = new Release("default", "default", "4.0");
 
   }
 
@@ -61,13 +62,6 @@ class ReleaseObject extends NIEMObject {
     return this.formats.xsd[this.constructor.name].generate(this);
   }
 
-  /**
-   * @returns {T}
-   */
-  test() {
-
-  }
-
   get parse() {
     return {
       /**
@@ -77,7 +71,7 @@ class ReleaseObject extends NIEMObject {
       xsd: async (input) => this.formats.xsd[this.constructor.name].parse(input),
 
       json: async (input) => this.formats.json[this.constructor.name].parse(input)
-    }
+    };
   }
 
   get load() {
@@ -85,10 +79,10 @@ class ReleaseObject extends NIEMObject {
       xsd: async (input) => this.formats.xsd[this.constructor.name].parse(input, this.release),
 
       json: async (input) => this.formats.json[this.constructor.name].parse(input, this.release)
-    }
+    };
   }
 
-  static route(userKey, modelKey, releaseKey) {
+  static route(userKey, modelKey, releaseKey, ...args) {
     return Release.route(userKey, modelKey, releaseKey);
   }
 
@@ -123,9 +117,9 @@ class ReleaseObject extends NIEMObject {
 
 }
 
-/** @type {"3.0"|"4.0"} */
-ReleaseObject.NDRVersionType;
+/** @typedef {"3.0"|"4.0"|string} NDRVersionType */
+let NDRVersion;
 
 module.exports = ReleaseObject;
 
-let NIEMObjectFormatInterface = require("../interfaces/format/niem-object");
+let NIEMObjectFormatInterface = require("../interfaces/format/niem-object/index");

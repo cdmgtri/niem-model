@@ -37,7 +37,7 @@ class LocalTerm extends ReleaseObject {
   }
 
   get route() {
-    return LocalTerm.route(this.release.userKey, this.release.modelKey, this.releaseKey, this.prefix, this.term) ;
+    return LocalTerm.route(this.release.userKey, this.release.modelKey, this.releaseKey, this.prefix, this.term);
   }
 
   /**
@@ -61,7 +61,7 @@ class LocalTerm extends ReleaseObject {
    * @example "nc - NIEM"
    */
   get label() {
-    return this.prefix + " - " + this.term
+    return this.prefix + " - " + this.term;
   }
 
   get identifiers() {
@@ -90,7 +90,7 @@ class LocalTerm extends ReleaseObject {
       term: this.term,
       literal: this.literal,
       definition: this.definition
-    }
+    };
   }
 
 }
@@ -100,12 +100,12 @@ class LocalTerm extends ReleaseObject {
  * Search criteria options for local term find operations.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|string[]} prefix
- * @property {string|RegExp} keyword
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|string[]} [prefix]
+ * @property {string|RegExp} [keyword]
  */
 LocalTerm.CriteriaType = {};
 

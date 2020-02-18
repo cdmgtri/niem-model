@@ -9,8 +9,8 @@ class Type extends Component {
   /**
    * @param {string} prefix
    * @param {string} name
-   * @param {string} definition
-   * @param {Type.StyleType} style
+   * @param {string} [definition]
+   * @param {StyleType} [style]
    * @param {string} [baseQName]
    */
   constructor(prefix, name, definition, style, baseQName) {
@@ -23,11 +23,13 @@ class Type extends Component {
   }
 
   /**
-   * @param {NDRVersionType} ndrVersion
+   * Testing
+   // @ts-ignore
+   * @param {import("../release-object/index").NDRVersionType} ndrVersion
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
-   * @param {Type.StyleType} style
+   * @param {StyleType} style
    * @param {string} [baseQName]
    */
   static create(ndrVersion, prefix, name, definition, style, baseQName) {
@@ -129,7 +131,7 @@ class Type extends Component {
   }
 
   async base() {
-    return this.release.type(this.basePrefix, this.baseName);
+    return this.release.types.get(this.baseQName);
   }
 
   async members() {
@@ -138,7 +140,7 @@ class Type extends Component {
     let members = [];
 
     for (let qname of this.memberQNames) {
-      let member = await this.release.type(Type.getPrefix(qname), Type.getName(qname));
+      let member = await this.release.types.get(qname);
       members.push(member);
     }
 
@@ -158,11 +160,11 @@ class Type extends Component {
       },
 
       /**
-       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
        * @param {string} value
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
        */
       get: async (value, style="enumeration") => {
-        return this.release.facets.get(this.qname, style, value);
+        return this.release.facets.get(this.qname, value, style);
       },
 
       /**
@@ -179,9 +181,9 @@ class Type extends Component {
       count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.facets.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get subProperties() {
@@ -218,9 +220,9 @@ class Type extends Component {
       count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.subProperties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get dataProperties() {
@@ -240,9 +242,9 @@ class Type extends Component {
       count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.properties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   /**
@@ -266,7 +268,7 @@ class Type extends Component {
 
     for (let childType of childTypes) {
       criteria.baseQName = childType.qname;
-      let newDescendantTypes = await this.childDescendantTypes.find(criteria);
+      let newDescendantTypes = await this.childDescendantTypes(criteria);
       descendantTypes.push(childType, ...newDescendantTypes);
     }
 
@@ -344,13 +346,13 @@ class Type extends Component {
 
   }
 
-  static route(userKey, modelKey, releaseKey, prefix, name) {
+  static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
-    return releaseRoute + "/types/" + prefix + ":" + name;
+    return releaseRoute + "/types/" + qname;
   }
 
   get route() {
-    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.prefix, this.name);
+    return Type.route(this.userKey, this.modelKey, this.releaseKey, this.qname);
   }
 
   toJSON() {
@@ -364,14 +366,12 @@ class Type extends Component {
 
 }
 
-/** @type {"object"|"adapter"|"association"|"augmentation"|"metadata"|"CSC"} */
-Type.ComplexStyleType;
+/** @typedef {"object"|"adapter"|"association"|"augmentation"|"metadata"|"CSC"} ComplexStyleType*/
 
-/** @type {"simple"|"list"|"union"} */
-Type.SimpleStyleType;
+/** @typedef {"simple"|"list"|"union"} SimpleStyleType*/
 
-/** @type {Type.ComplexStyleType | Type.SimpleStyleType} */
-Type.StyleType = "";
+/** @typedef {ComplexStyleType|SimpleStyleType} StyleType */
+let TypeStyleType;
 
 Type.ComplexStyles = ["object", "adapter", "association", "augmentation", "metadata", "CSC"];
 
@@ -386,22 +386,22 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
  * String fields are for exact matches.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|string[]} prefix
- * @property {string|RegExp} name
- * @property {string|RegExp} definition
- * @property {string|RegExp} keyword - Name, definition, or other type keyword fields
- * @property {string|RegExp} baseQName
- * @property {string|RegExp} baseName
- * @property {string|RegExp} basePrefix
- * @property {Type.StyleType[]} style
- * @property {boolean} isComplexType
- * @property {boolean} isComplexContent
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|string[]} [prefix]
+ * @property {string|RegExp} [name]
+ * @property {string|RegExp} [definition]
+ * @property {string|RegExp} [keyword] - Name, definition, or other type keyword fields
+ * @property {string|RegExp} [baseQName]
+ * @property {string|RegExp} [baseName]
+ * @property {string|RegExp} [basePrefix]
+ * @property {Type.StyleType[]} [style]
+ * @property {boolean} [isComplexType]
+ * @property {boolean} [isComplexContent]
  */
-Type.CriteriaType = {};
+let TypeCriteriaType;
 
 Type.CriteriaKeywordFields = ["name", "definition"];
 
@@ -421,5 +421,3 @@ let Facet = require("../facet/index");
 let Property = require("../property/index");
 let SubProperty = require("../subproperty/index");
 let Change = require("../interfaces/source/change/index");
-
-let { NDRVersionType } = Component;

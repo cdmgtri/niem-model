@@ -1,11 +1,10 @@
 
-let NIEM = require("../../../../../index");
+let NIEM = require("../../../../index");
 
 let SourceInterface = require("../../index");
 
 let DataSet = require("./dataSet/index");
 let Logger = require("./logger/index");
-
 
 class NIEMSourceMemory extends SourceInterface {
 
@@ -26,20 +25,28 @@ class NIEMSourceMemory extends SourceInterface {
 
     this.log = this.logger.log;
 
+    // @ts-ignore
     this.models = new DataSet(Model, this.logger);
 
+    // @ts-ignore
     this.releases = new DataSet(Release, this.logger);
 
+    // @ts-ignore
     this.namespaces = new DataSet(Namespace, this.logger);
 
+    // @ts-ignore
     this.properties = new DataSet(Property, this.logger);
 
+    // @ts-ignore
     this.types = new DataSet(Type, this.logger);
 
+    // @ts-ignore
     this.localTerms = new DataSet(LocalTerm, this.logger);
 
+    // @ts-ignore
     this.subProperties = new DataSet(SubProperty, this.logger);
 
+    // @ts-ignore
     this.facets = new DataSet(Facet, this.logger);
 
   }
@@ -63,14 +70,14 @@ class NIEMSourceMemory extends SourceInterface {
   /**
    * @param {NIEM} niem
    * @param {Object} json
-   * @param {Model[]} json.models
-   * @param {Release[]} json.releases
-   * @param {Namespace[]} json.namespaces
-   * @param {Property[]} json.properties
-   * @param {Type[]} json.types
-   * @param {LocalTerm[]} json.localTerms
-   * @param {SubProperty[]} json.subProperties
-   * @param {Facet[]} json.facets
+   * @param {NIEM.Model[]} json.models
+   * @param {NIEM.Release[]} json.releases
+   * @param {NIEM.Namespace[]} json.namespaces
+   * @param {NIEM.Property[]} json.properties
+   * @param {NIEM.Type[]} json.types
+   * @param {NIEM.LocalTerm[]} json.localTerms
+   * @param {NIEM.SubProperty[]} json.subProperties
+   * @param {NIEM.Facet[]} json.facets
    * @param {Transaction[]} json.log
    */
   async load(niem, json) {
@@ -82,7 +89,7 @@ class NIEMSourceMemory extends SourceInterface {
     await this.localTerms.load(niem, json.localTerms);
     await this.subProperties.load(niem, json.subProperties);
     await this.facets.load(niem, json.facets);
-    await this.log.push(niem, json.log);
+    await this.log.push(...json.log);
   }
 
 }

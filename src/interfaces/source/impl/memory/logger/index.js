@@ -1,4 +1,5 @@
 
+// @ts-ignore
 let debug = require("debug")("niem");
 
 let revisionOperations = ["add", "edit", "delete"];
@@ -18,13 +19,12 @@ class Logger {
   }
 
   /**
-   * @private
-   * @param {Function} ObjectClass
-   * @param {"add"|"edit"|"delete"|"get"|"find"|"count"|"revisions"|"history"} operation
+   * @param {typeof NIEMObject} ObjectClass
+   * @param {Transaction.OperationType} operation
    * @param {T} object
-   * @param {object} criteria
-   * @param {Change} change
-   * @param {number} count Number of objects found or affected
+   * @param {object} [criteria]
+   * @param {Change} [change]
+   * @param {number} [count] Number of objects found or affected
    */
   record(ObjectClass, operation, object, criteria, change, count) {
 
@@ -53,7 +53,7 @@ class Logger {
 
     if (! lookupRoute) return matches;
 
-    return [ ...this.objectUpdates(lookupRoute, lookupRouteField), ...matches ]
+    return [ ...this.objectUpdates(lookupRoute, lookupRouteField), ...matches ];
 
   }
 
@@ -62,6 +62,6 @@ class Logger {
 
 module.exports = Logger;
 
-let Change = require("niem-model/src/interfaces/source/change/index");
-let Transaction = require("niem-model/src/interfaces/source/transaction/index");
-let NIEMObject = require("niem-model").NIEMObject;
+let Change = require("../../../change/index");
+let Transaction = require("../../../transaction/index");
+let NIEMObject = require("../../../../../niem-object/index");

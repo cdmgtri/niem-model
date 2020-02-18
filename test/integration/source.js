@@ -1,9 +1,15 @@
 
+/* eslint-disable no-useless-escape */
+
 module.exports = () => {
 
-  let NIEM = require("../../index");
+  let NIEM = require("../../src/index");
 
-  let { Model, Release, Namespace, Property } = NIEM;
+  let Model = require("../../src/model/index");
+  let Release = require("../../src/release/index");
+  let Namespace = require("../../src/namespace/index");
+  let Property = require("../../src/property/index");
+  let Type = require("../../src/type/index");
 
   let niem = new NIEM();
   niem.sources[0].logger.loggingEnabled = true;
@@ -21,6 +27,9 @@ module.exports = () => {
 
     /** @type {Namespace} */
     let namespace;
+
+    /** @type {Type} */
+    let t;
 
 
     describe("niem.model", () => {
@@ -106,7 +115,7 @@ module.exports = () => {
 
       test("#find", async () => {
         // Find all domain namespaces
-        let namespaces = await release.namespaces.find({style: "domain"});
+        let namespaces = await release.namespaces.find({style: ["domain"]});
         expect(namespaces.length).toBe(3);
 
         // Make sure the domain namespaces include the expected values
@@ -235,7 +244,7 @@ module.exports = () => {
         expect(sub.max).toBe("unbounded");
 
         // Add an attribute to a type and check the default values
-        sub = await release.subProperties.add("nc:PersonType", "nc:personAttribute", undefined, 1);
+        sub = await release.subProperties.add("nc:PersonType", "nc:personAttribute", undefined, "1");
         expect(sub.typeQName).toBe("nc:PersonType");
         expect(sub.propertyQName).toBe("nc:personAttribute");
         expect(sub.min).toBe("0");
@@ -421,7 +430,7 @@ module.exports = () => {
       });
 
       test("#count", async () => {
-        let count = await release.source.namespaces.count({style: "domain"});
+        let count = await release.source.namespaces.count({style: ["domain"]});
         expect(count).toBe(3);
       });
 
@@ -504,6 +513,8 @@ module.exports = () => {
 
         let fs = require("fs");
         let text = fs.readFileSync("test/db.json");
+
+        // @ts-ignore
         let json = JSON.parse(text);
 
         let niem2 = new NIEM();

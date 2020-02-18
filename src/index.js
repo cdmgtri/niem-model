@@ -1,21 +1,21 @@
 
-let NIEMModelSourceMemory = require("./src/interfaces/source/impl/memory/index");
+let NIEMModelSourceMemory = require("./interfaces/source/impl/memory/index");
 
-let NIEMModelSource = require("./src/interfaces/source/index");
+let NIEMModelSource = require("./interfaces/source/index");
 
-let Model = require("./src/model/index");
-let Release = require("./src/release/index");
-let Namespace = require("./src/namespace/index");
-let LocalTerm = require("./src/local-term/index");
-let Property = require("./src/property/index");
-let Type = require("./src/type/index");
-let Facet = require("./src/facet/index");
-let SubProperty = require("./src/subproperty/index");
+let Model = require("./model/index");
+let Release = require("./release/index");
+let Namespace = require("./namespace/index");
+let LocalTerm = require("./local-term/index");
+let Property = require("./property/index");
+let Type = require("./type/index");
+let Facet = require("./facet/index");
+let SubProperty = require("./subproperty/index");
 
 class NIEM {
 
   /**
-   * @param {NIEMModelSource} source
+   * @param {NIEMModelSource} [source]
    */
   constructor(source) {
 
@@ -31,10 +31,10 @@ class NIEM {
       /**
        * @param {string} userKey
        * @param {string} modelKey
-       * @param {Model.StyleType} style
-       * @param {string} description
-       * @param {string} website
-       * @param {string} repo
+       * @param {Model.StyleType} [style]
+       * @param {string} [description]
+       * @param {string} [website]
+       * @param {string} [repo]
        */
       add: async (userKey, modelKey, style, description, website, repo) => {
         let model = Model.create(userKey, modelKey, style, description, website, repo);
@@ -71,7 +71,7 @@ class NIEM {
         return this.models.get("niem", "model");
       }
 
-    }
+    };
 
   }
 
@@ -82,12 +82,13 @@ class NIEM {
        * @param {string} userKey
        * @param {string} modelKey
        * @param {string} releaseKey
-       * @param {string} niemReleaseKey
-       * @param {string} version
-       * @param {Release.StatusType} status
-       * @param {string} baseURI
+       * @param {string} [niemReleaseKey]
+       * @param {"3.0"|"4.0"} [ndrVersion]
+       * @param {string} [version]
+       * @param {import("./release/index").StatusType} [status]
+       * @param {string} [baseURI]
        */
-      add: async (userKey, modelKey, releaseKey, niemReleaseKey, version, status, baseURI) => {
+      add: async (userKey, modelKey, releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI) => {
         let model = await this.models.get(userKey, modelKey);
 
         if (! model) {
@@ -95,7 +96,7 @@ class NIEM {
           model = await this.models.add(userKey, modelKey);
         }
 
-        return model.releases.add(releaseKey, niemReleaseKey, version, status, baseURI);
+        return model.releases.add(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI);
       },
 
       /**
@@ -116,7 +117,7 @@ class NIEM {
         return {
           xsd: async (input) => release.load.xsd(input),
           json: async (input) => release.load.json(input)
-        }
+        };
 
       },
 
@@ -147,9 +148,9 @@ class NIEM {
 
       niem: async (releaseKey) => {
         return this.releases.get("niem", "model", releaseKey);
-      },
+      }
 
-    }
+    };
   }
 
   get namespaces() {
@@ -170,7 +171,7 @@ class NIEM {
       },
 
       /**
-       * @param {Type.CriteriaType} criteria
+       * @param {Namespace.CriteriaType} criteria
        */
       find: async (criteria={}) => {
         let results = [];
@@ -181,7 +182,7 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
   get localTerms() {
@@ -214,7 +215,7 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
   get properties() {
@@ -246,7 +247,7 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
   get types() {
@@ -278,10 +279,11 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
   get facets() {
+
     return {
 
       /**
@@ -290,11 +292,12 @@ class NIEM {
        * @param {string} releaseKey
        * @param {string} typeQName
        * @param {string} value
-       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       * @param {import("./facet/index").StyleType} [style="enumeration"] Default "enumeration"
        * @param {string} definition
        */
       get: async (userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) => {
-        let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style, definition);
+        let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style);
+        identifiers.definition = definition;
         for (let source of this.sources) {
           let facet = await source.facets.get(identifiers);
           if (facet) return facet;
@@ -302,7 +305,7 @@ class NIEM {
       },
 
       /**
-       * @param {Facet.CriteriaType} criteria
+       * @param {import("./facet/index").CriteriaType} criteria
        */
       find: async (criteria={}) => {
         let results = [];
@@ -313,7 +316,7 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
   get subProperties() {
@@ -346,7 +349,7 @@ class NIEM {
         return results;
       }
 
-    }
+    };
   }
 
 }
@@ -355,32 +358,32 @@ NIEM.Model = Model;
 NIEM.Release = Release;
 NIEM.Namespace = Namespace;
 NIEM.LocalTerm = LocalTerm;
-NIEM.Component = require("./src/component/index");
+NIEM.Component = require("./component/index");
 NIEM.Property = Property;
 NIEM.Type = Type;
 NIEM.Facet = Facet;
 NIEM.SubProperty = SubProperty;
 
-NIEM.NIEMObject = require("./src/niem-object/index");
-NIEM.ReleaseObject = require("./src/release-object/index");
+NIEM.NIEMObject = require("./niem-object/index");
+NIEM.ReleaseObject = require("./release-object/index");
 
 NIEM.Interfaces = {
   NIEMSource: {
-    NIEMModelSource: require("./src/interfaces/index"),
-    Change: require("./src/interfaces/source/change/index"),
-    Transaction: require("./src/interfaces/source/transaction/index"),
-    DataSet: require("./src/interfaces/source/dataSet/index")
+    NIEMModelSource: require("./interfaces/index"),
+    Change: require("./interfaces/source/change/index"),
+    Transaction: require("./interfaces/source/transaction/index"),
+    DataSet: require("./interfaces/source/dataSet/index")
   },
   NIEMFormat: {
-    NIEMModelFormatInterface: require("./src/interfaces/format"),
-    NIEMObjectFormatInterface: require("./src/interfaces/format/niem-object"),
+    NIEMModelFormatInterface: require("./interfaces/format/index"),
+    NIEMObjectFormatInterface: require("./interfaces/format/niem-object/index")
   }
-}
+};
 
 NIEM.Tests = {
-  unitTests: require("./test/unit/index"),
-  integrationTests: require("./test/integration/index")
-}
+  unitTests: require("../test/unit/index"),
+  integrationTests: require("../test/integration/index")
+};
 
 module.exports = NIEM;
 

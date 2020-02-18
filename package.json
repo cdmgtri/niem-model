@@ -2,23 +2,29 @@
   "name": "niem-model",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "docs": "jsdoc index.js -r src -d docs -c jsdoc.json -R README.md -t node_modules/docdash",
+    "docs": "jsdoc src/index.js -r src -d docs -c jsdoc.json -R README.md -t node_modules/docdash",
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
     "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
-    "check": "tsc --allowJs --checkJs --noEmit --target esnext index.js"
+    "check": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^24.0.15",
+    "@types/node": "^13.7.2",
     "coveralls": "^3.0.5",
     "docdash": "^1.1.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.7.0",
     "jest": "^24.8.0",
-    "jsdoc": "^3.6.3"
+    "jsdoc": "^3.6.3",
+    "jsdoc-typeof-plugin": "^1.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "debug": "^4.1.1"
+  }
 }

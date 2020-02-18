@@ -18,7 +18,7 @@ class NIEMObject {
 
     /**
      * The corresponding object identifiers from the previous release.
-     * @type {string}
+     * @type {{[string: string]: string}}
      */
     this.migrationIdentifiers;
 
@@ -48,7 +48,7 @@ class NIEMObject {
   get previousRoute() {
     if (! this.previousIdentifiers) return undefined;
     let params = Object.values(this.previousIdentifiers);
-    return this.constructor.route(...params);
+    return this.constructor["route"](...params);
   }
 
   /**
@@ -57,7 +57,7 @@ class NIEMObject {
   get migrationRoute() {
     if (! this.migrationIdentifiers) return undefined;
     let params = Object.values(this.migrationIdentifiers);
-    return this.constructor.route(...params);
+    return this.constructor["route"](...params);
   }
 
   /**
@@ -66,11 +66,11 @@ class NIEMObject {
   get subsetRoute() {
     if (! this.subsetIdentifiers) return undefined;
     let params = Object.values(this.subsetIdentifiers);
-    return this.constructor.route(...params);
+    return this.constructor["route"](...params);
   }
 
   /**
-   * @type {SourceDataSet<T>}
+   * @type {SourceDataSet<NIEMObject>}
    */
   get sourceDataSet() {
     return undefined;
@@ -81,7 +81,7 @@ class NIEMObject {
    * May be overwritten to return a new kind of value, like a database id.
    */
   get id() {
-    return this.route;
+    return this["route"];
   }
 
   /**
@@ -99,7 +99,10 @@ class NIEMObject {
     return undefined;
   }
 
-  static route() {
+  /**
+   * @returns {string}
+   */
+  static route(...args) {
     return undefined;
   }
 
@@ -107,6 +110,7 @@ class NIEMObject {
    * An ID that distinguishes objects across different users, models, and releases.
    * Not unique for duplicate facets.
    *
+   * @type {string}
    * @example "/niem/model"
    * @example "/lapd/arrestReport"
    */
@@ -118,14 +122,18 @@ class NIEMObject {
     return {};
   }
 
-  static identifiers() {
+  /**
+   * @abstract
+   * @returns {Object<string, string>}
+   */
+  static identifiers(...args) {
     return {};
   }
 
   toJSON() {
     return {
-      userKey: this.userKey,
-      modelKey: this.modelKey,
+      userKey: this["userKey"],
+      modelKey: this["modelKey"],
       migrationIdentifiers: this.migrationIdentifiers,
       previousIdentifiers: this.previousIdentifiers,
       input_location: this.input_location,
@@ -137,9 +145,10 @@ class NIEMObject {
    * Creates a new class.
    * Used to support different versions of classes based on the NDR version.
    *
+   * @abstract
    * @example "Namespace.create('3.0', ...) returns a NDR 3.0-specific Namespace object"
    */
-  static create(ndrVersion) {
+  static create(ndrVersion, ...args) {
 
   }
 
@@ -185,7 +194,7 @@ class NIEMObject {
    */
   async checkSourceID(expectedStatus, identifiers) {
 
-    if (! this.source || ! this.sourceDataSet) {
+    if (! this["source"] || ! this.sourceDataSet) {
       throw new Error("No NIEM source data implementation");
     }
 
@@ -193,7 +202,7 @@ class NIEMObject {
     let match = await this.sourceDataSet.get(identifiers);
 
     if (expectedStatus == "available" && match) {
-      let json = JSON.stringify(identifiers, null, 2)
+      let json = JSON.stringify(identifiers, null, 2);
       throw new Error("Required fields are not unique: " + json);
     }
 
@@ -209,29 +218,33 @@ class NIEMObject {
   }
 
   /**
-   * @returns {{count: number}}
+   * @returns {Promise<Object>}
    */
   async dependencies() {
   }
 
   /**
+   * @abstract
    * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
-   * @returns {{count: number}}
+   * @returns {Promise<object>}
    */
   async dependents(current=true) {
   }
 
   /**
+   * @todo Review refUpdate
+   * @abstract
    * @param {"edit"|"delete"} op
    * @param {Change} change
+   * @returns {Promise<object>}
    */
   async updateDependents(op, change = new Change()) {
-    change.refUpdate = this.route;
+    change["refUpdate"] = this["route"];
   }
 
   /**
    * Save changes to the object.
-   * @param {Change} change
+   * @param {Change} [change]
    */
   async add(change) {
 
@@ -254,7 +267,7 @@ class NIEMObject {
 
   /**
    * Save changes to the object.
-   * @param {Change} change
+   * @param {Change} [change]
    */
   async save(change) {
 
@@ -269,7 +282,7 @@ class NIEMObject {
 
   /**
    * Deletes the object.
-   * @param {Change} change
+   * @param {Change} [change]
    */
   async delete(change) {
 
@@ -297,7 +310,7 @@ class NIEMObject {
    * True if the given object matches the given criteria.
    * @template T
    * @param {T} niemObject
-   * @param {CriteriaType} criteria
+   * @param {object} criteria
    * @returns {Boolean}
    */
   static match(niemObject, criteria) {
@@ -339,7 +352,7 @@ class NIEMObject {
     if (criteria && criteria.keyword) {
 
       // Get the list of fields to check for a keyword search
-      let keywordFields = niemObject.constructor.CriteriaKeywordFields;
+      let keywordFields = niemObject.constructor["CriteriaKeywordFields"];
 
       let regex = new RegExp(criteria.keyword, "i");
 
@@ -360,18 +373,19 @@ class NIEMObject {
 
   /**
    * True if the object matches the given criteria.
-   * @param {CriteriaType} criteria
+   * @param {object} criteria
    * @returns {Boolean}
    */
   match(criteria) {
-    return this.constructor.match(this, criteria);
+    return this.constructor["match"](this, criteria);
   }
 
   /**
    * An array of NIEM objects that match the given criteria.
-   * @param {NIEMObject[]} niemObjects
-   * @param {CriteriaType} criteria
-   * @returns {NIEMObject<T>[]}
+   * @template {NIEMObject} T
+   * @param {T[]} niemObjects
+   * @param {object} criteria
+   * @returns {T[]}
    */
   static matches(niemObjects, criteria) {
     if (!criteria) return niemObjects;
@@ -382,10 +396,7 @@ class NIEMObject {
 
 NIEMObject.CriteriaKeywordFields = [];
 
-/**
- * @type {Object.<string, string|boolean|RegExp|string[]>}
- */
-NIEMObject.CriteriaType;
+NIEMObject.CriteriaType = undefined;
 
 /**
  * @type {Object.<string, string|boolean|RegExp|string[]>}

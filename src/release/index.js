@@ -1,28 +1,32 @@
 
+// @ts-disable TS2749
+
 let NIEMObject = require("../niem-object/index");
-let NIEMModelFormatInterface = require("../interfaces/format");
+
+let NIEMModelFormatInterface = require("../interfaces/format/index");
 
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.
+ * @extends {NIEMObject<Release>}
  */
 class Release extends NIEMObject {
 
   /**
-   * @param {String} releaseKey
-   * @param {String} niemReleaseKey
-   * @param {"3.0"|"4.0"} [ndrVersion="4.0"] Defaults to "4.0"
-   * @param {String} version
-   * @param {"draft"|"published"} status
-   * @param {String} baseURI
-   * @param {String} branch
-   * @param {String} description
+   * @param {string} releaseKey
+   * @param {string} niemReleaseKey
+   * @param {import("../release-object/index").NDRVersionType} [ndrVersion="4.0"] Defaults to "4.0"
+   * @param {string} [version]
+   * @param {StatusType} [status]
+   * @param {string} [baseURI]
+   * @param {string} [branch]
+   * @param {string} [description]
    */
   constructor(releaseKey="default", niemReleaseKey, ndrVersion="4.0", version, status, baseURI, branch, description) {
 
     super();
 
     let Model = require("../model/index");
-    this.model = new Model();
+    this.model = new Model("default", "default");
 
     this.releaseKey = releaseKey;
     this.niemReleaseKey = niemReleaseKey;
@@ -35,11 +39,12 @@ class Release extends NIEMObject {
 
     // Set up interfaces. The niem-model-bundle project will wire in implementations.
     this.formats = {
+
       /** @type {NIEMModelFormatInterface<string>} */
       xsd: NIEMModelFormatInterface.create(this.ndrVersion),
 
       json: NIEMModelFormatInterface.create(this.ndrVersion)
-    }
+    };
 
   }
 
@@ -57,9 +62,9 @@ class Release extends NIEMObject {
 
   get load() {
     return {
-      xsd: async (xsdFiles) => this.formats.xsd.release.load(input, this),
-      json: async (jsonFile) => this.formats.json.release.load(input, this)
-    }
+      xsd: async (xsdFiles) => this.formats.xsd.release.load(xsdFiles, this),
+      json: async (jsonFile) => this.formats.json.release.load(jsonFile, this)
+    };
   }
 
   get source() {
@@ -67,14 +72,14 @@ class Release extends NIEMObject {
   }
 
   /**
-   * @param {String} releaseKey
-   * @param {String} niemReleaseKey
+   * @param {string} releaseKey
+   * @param {string} [niemReleaseKey]
    * @param {"3.0"|"4.0"} [ndrVersion="4.0"] Defaults to "4.0"
-   * @param {String} version
-   * @param {"draft"|"published"} status
-   * @param {String} baseURI
-   * @param {String} branch
-   * @param {String} description
+   * @param {string} [version]
+   * @param {"draft"|"published"} [status]
+   * @param {string} [baseURI]
+   * @param {string} [branch]
+   * @param {string} [description]
    */
   static create(releaseKey, niemReleaseKey, ndrVersion="4.0", version, status, baseURI, branch, description) {
     return new Release(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI, branch, description);
@@ -89,11 +94,12 @@ class Release extends NIEMObject {
 
       /**
        * @param {string} prefix
-       * @param {Namespace.StyleType} style
-       * @param {string} uri
-       * @param {string} fileName
-       * @param {string} definition
-       * @param {string} version
+       * @param {Namespace.StyleType} [style]
+       * @param {string} [uri]
+       * @param {string} [fileName]
+       * @param {string} [definition]
+       * @param {string} [version]
+       * @returns {Promise<Namespace>}
        */
       add: async (prefix, style, uri, fileName, definition, version) => {
         // Use Namespace builder to return the right NDR-version of a namespace
@@ -125,7 +131,7 @@ class Release extends NIEMObject {
         return this.source.namespaces.count(criteria);
       }
 
-    }
+    };
   }
 
   get localTerms() {
@@ -134,8 +140,9 @@ class Release extends NIEMObject {
       /**
        * @param {string} prefix
        * @param {string} term
-       * @param {string} literal
-       * @param {string} definition
+       * @param {string} [literal]
+       * @param {string} [definition]
+       * @returns {Promise<LocalTerm>}
        */
       add: async (prefix, term, literal, definition) => {
         let localTerm = LocalTerm.create(this.ndrVersion, prefix, term, literal, definition);
@@ -167,7 +174,7 @@ class Release extends NIEMObject {
         return this.source.localTerms.count(criteria);
       }
 
-    }
+    };
   }
 
   get properties() {
@@ -176,11 +183,12 @@ class Release extends NIEMObject {
       /**
        * @param {string} prefix
        * @param {string} name
-       * @param {string} definition
-       * @param {string} typeQName
-       * @param {string} groupQName
+       * @param {string} [definition]
+       * @param {string} [typeQName]
+       * @param {string} [groupQName]
        * @param {boolean} [isElement=true] Defaults to true
        * @param {boolean} [isAbstract=false] Defaults to false
+       * @returns {Promise<Property>}
        */
       add: async (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) => {
         let property = Property.create(this.ndrVersion, prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
@@ -213,9 +221,9 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.properties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get types() {
@@ -224,9 +232,10 @@ class Release extends NIEMObject {
       /**
        * @param {string} prefix
        * @param {string} name
-       * @param {string} definition
-       * @param {Type.StyleType} style
-       * @param {string} baseQName
+       * @param {string} [definition]
+       * @param {Type.StyleType} [style]
+       * @param {string} [baseQName]
+       * @returns {Promise<Type>}
        */
       add: async (prefix, name, definition, style, baseQName) => {
         let type = Type.create(this.ndrVersion, prefix, name, definition, style, baseQName);
@@ -259,9 +268,9 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.types.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get facets() {
@@ -270,8 +279,9 @@ class Release extends NIEMObject {
       /**
        * @param {string} typeQName
        * @param {string} value
-       * @param {string} definition
+       * @param {string} [definition]
        * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+       * @returns {Promise<Facet>}
        */
       add: async (typeQName, value, definition, style="enumeration") => {
         let facet = Facet.create(this.ndrVersion, typeQName, value, definition, style);
@@ -302,9 +312,9 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.facets.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get subProperties() {
@@ -313,9 +323,10 @@ class Release extends NIEMObject {
       /**
        * @param {string} typeQName
        * @param {string} propertyQName
-       * @param {string} min
-       * @param {string} max
-       * @param {string} definition
+       * @param {string} [min]
+       * @param {string} [max]
+       * @param {string} [definition]
+       * @returns {Promise<SubProperty>}
        */
       add: async (typeQName, propertyQName, min, max, definition) => {
         let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
@@ -345,13 +356,13 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.subProperties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   async dependents() {
-    let namespaces = await this.namespaces();
+    let namespaces = await this.namespaces.find();
     return { namespaces, count: namespaces.length };
   }
 
@@ -418,30 +429,30 @@ class Release extends NIEMObject {
 
 }
 
-/** @type {"draft"|"published"} */
-Release.StatusType;
+/** @typedef {"draft"|"published"} StatusType */
+let ReleaseStatusType;
 
 Release.Statuses = ["draft", "published"];
 
 /**
  * Search criteria for release find operations.
  *
- * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {"draft"|"published"}  status
+ * @typedef {object} CriteriaType
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {"draft"|"published"}  [status]
  */
-Release.CriteriaType = {};
+let ReleaseCriteriaType = {};
 
 /**
- * @typedef {Object} IdentifiersType
+ * @typedef {object} IdentifiersType
  * @property {string} userKey
  * @property {string} modelKey
  * @property {string} releaseKey
  */
-Release.IdentifiersType;
+let ReleaseIdentifiersType;
 
 module.exports = Release;
 

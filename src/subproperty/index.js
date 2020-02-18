@@ -9,7 +9,6 @@ let Type = require("../type/index");
 class SubProperty extends ReleaseObject {
 
   /**
-   * @param {Release} release
    * @param {String} typeQName
    * @param {String} propertyQName
    * @param {String} [min="0"] Default "0"
@@ -27,7 +26,7 @@ class SubProperty extends ReleaseObject {
     this.definition = definition;
 
     let propertyName = this.propertyName;
-    let firstChar = propertyName ? propertyName[0] : ""
+    let firstChar = propertyName ? propertyName[0] : "";
     if (firstChar && firstChar == firstChar.toLowerCase()) {
       // Set max to 1 for probable attribute (property name starts lower case)
       this.max = "1";
@@ -37,7 +36,6 @@ class SubProperty extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {Release} release
    * @param {String} typeQName
    * @param {String} propertyQName
    * @param {String} [min="0"] Default "0"
@@ -103,15 +101,15 @@ class SubProperty extends ReleaseObject {
   }
 
   get route() {
-    return SubProperty.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.propertyPrefix, this.propertyName);
+    return SubProperty.route(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.propertyQName);
   }
 
   /**
    * @example "/niem/model/4.1/types/nc:PersonType/properties/nc:PersonName"
    */
-  static route(userKey, modelKey, releaseKey, typePrefix, typeName, propertyPrefix, propertyName) {
-    let typeRoute = Type.route(userKey, modelKey, releaseKey, typePrefix, typeName);
-    return typeRoute + "/properties/" + propertyPrefix + ":" + propertyName;
+  static route(userKey, modelKey, releaseKey, typeQName, propertyQName) {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
+    return typeRoute + "/properties/" + propertyQName;
   }
 
   get identifiers() {
@@ -126,8 +124,8 @@ class SubProperty extends ReleaseObject {
    * @param {string} userKey
    * @param {string} modelKey
    * @param {string} releaseKey
-   * @param {string} prefix
-   * @param {string} name
+   * @param {string} typeQName
+   * @param {string} propertyQName
    */
   static identifiers(userKey, modelKey, releaseKey, typeQName, propertyQName) {
     return {userKey, modelKey, releaseKey, typeQName, propertyQName};
@@ -151,19 +149,19 @@ class SubProperty extends ReleaseObject {
  * Search criteria options for subProperty find operations.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|string[]} typePrefix
- * @property {string|RegExp} typeName
- * @property {string|RegExp} typeQName
- * @property {string|string[]} propertyPrefix
- * @property {string|RegExp} propertyName
- * @property {string|RegExp} propertyQName
- * @property {string|RegExp} min
- * @property {string|RegExp} max
- * @property {string|RegExp} keyword - Property and type names
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|string[]} [typePrefix]
+ * @property {string|RegExp} [typeName]
+ * @property {string|RegExp} [typeQName]
+ * @property {string|string[]} [propertyPrefix]
+ * @property {string|RegExp} [propertyName]
+ * @property {string|RegExp} [propertyQName]
+ * @property {string|RegExp} [min]
+ * @property {string|RegExp} [max]
+ * @property {string|RegExp} [keyword] - Property and type names
  */
 SubProperty.CriteriaType = {};
 
@@ -180,5 +178,3 @@ SubProperty.CriteriaKeywordFields = ["typeName", "propertyName"];
 SubProperty.IdentifiersType;
 
 module.exports = SubProperty;
-
-let Release = require("../release/index");

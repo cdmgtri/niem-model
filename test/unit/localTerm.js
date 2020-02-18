@@ -1,8 +1,8 @@
 
 function testLocalTerm() {
 
-  let NIEM = require("../../index");
-  let { Release, LocalTerm } = NIEM;
+  let NIEM = require("../../src/index");
+  let Release = require("../../src/release/index");
 
   let niem = new NIEM();
 

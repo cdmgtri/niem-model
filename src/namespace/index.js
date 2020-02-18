@@ -8,7 +8,7 @@ class Namespace extends ReleaseObject {
 
   /**
    * @param {String} prefix
-   * @param {Namespace.StyleType} [style]
+   * @param {StyleType} [style]
    * @param {String} [uri]
    * @param {String} [fileName]
    * @param {String} [definition]
@@ -37,7 +37,7 @@ class Namespace extends ReleaseObject {
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
    * @param {String} prefix
-   * @param {Namespace.StyleType} [style]
+   * @param {StyleType} [style]
    * @param {String} [uri]
    * @param {String} [fileName]
    * @param {String} [definition]
@@ -85,24 +85,24 @@ class Namespace extends ReleaseObject {
   }
 
   get conformanceRequired() {
-    /** @type {Namespace.StyleType[]} */
+    /** @type {StyleType[]} */
     let nonconformantStyles = ["built-in", "csv", "external", "utility"];
     return ! nonconformantStyles.includes(this.style);
   }
 
   /**
-   * @type {"3.0"|"4.0"}
+   * @type {"3.0"|"4.0"|string}
    */
   get ndrVersion() {
     return undefined;
   }
 
   get load() {
-    let x = await this.parse.xsd()
-    let y = this.test();
     return {
-      xsd: async (xsdString) =>this.formats.xsd.namespace.load(xsdString, this.release)
-    }
+      xsd: async (xsdString) => this.formats.xsd.namespace.load(xsdString, this.release),
+
+      json: async (jsonString) => this.formats.json.namespace.load(jsonString, this.release)
+    };
   }
 
   get sourceDataSet() {
@@ -114,8 +114,8 @@ class Namespace extends ReleaseObject {
 
       /**
        * @param {string} term
-       * @param {string} literal
-       * @param {string} definition
+       * @param {string} [literal]
+       * @param {string} [definition]
        */
       add: async (term, literal, definition) => {
         return this.release.localTerms.add(this.prefix, term, literal, definition);
@@ -142,9 +142,9 @@ class Namespace extends ReleaseObject {
       count: async (criteria={}) => {
         criteria.prefix = this.prefix;
         return this.release.localTerms.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get properties() {
@@ -153,8 +153,8 @@ class Namespace extends ReleaseObject {
       /**
        * @param {string} name
        * @param {string} definition
-       * @param {string} typeQName
-       * @param {string} groupQName
+       * @param {string} [typeQName]
+       * @param {string} [groupQName]
        * @param {boolean} [isElement=true] Defaults to true
        * @param {boolean} [isAbstract=false] Defaults to false
        */
@@ -183,9 +183,9 @@ class Namespace extends ReleaseObject {
       count: async (criteria={}) => {
         criteria.prefix = this.prefix;
         return this.release.properties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get types() {
@@ -195,7 +195,7 @@ class Namespace extends ReleaseObject {
        * @param {string} name
        * @param {string} definition
        * @param {Type.StyleType} style
-       * @param {string} baseQName
+       * @param {string} [baseQName]
        */
       add: async (name, definition, style, baseQName) => {
         return this.release.types.add(this.prefix, name, definition, style, baseQName);
@@ -222,9 +222,9 @@ class Namespace extends ReleaseObject {
       count: async (criteria={}) => {
         criteria.prefix = this.prefix;
         return this.release.types.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get facets() {
@@ -243,17 +243,17 @@ class Namespace extends ReleaseObject {
       /**
        * @param {string} name
        * @param {string} value
-       * @param {Facet.StyleType} [style="enumeration]" Default "enumeration"
+       * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
        */
       get: async (name, value, style="enumeration") => {
-        return this.release.facets.get(this.prefix + ":" + name, style, value);
+        return this.release.facets.get(this.prefix + ":" + name, value, style);
       },
 
       /**
        * @param {Facet.CriteriaType} criteria
        */
       find: async (criteria={}) => {
-        criteria.prefix = this.prefix;
+        criteria.typePrefix = this.prefix;
         return this.release.facets.find(criteria);
       },
 
@@ -261,11 +261,11 @@ class Namespace extends ReleaseObject {
        * @param {Facet.CriteriaType} criteria
        */
       count: async (criteria={}) => {
-        criteria.prefix = this.prefix;
+        criteria.typePrefix = this.prefix;
         return this.release.facets.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   get subProperties() {
@@ -304,9 +304,9 @@ class Namespace extends ReleaseObject {
       count: async (criteria={}) => {
         criteria.typePrefix = this.prefix;
         return this.release.subProperties.count(criteria);
-      },
+      }
 
-    }
+    };
   }
 
   /**
@@ -316,16 +316,16 @@ class Namespace extends ReleaseObject {
   async dependencies() {
 
     // Substitutions
-    let substitutions = await this.release.properties({ groupPrefix: this.prefix });
+    let substitutions = await this.release.properties.find({ groupPrefix: this.prefix });
 
     // Data properties
-    let dataProperties = await this.release.properties({ typePrefix: this.prefix });
+    let dataProperties = await this.release.properties.find({ typePrefix: this.prefix });
 
     // Child types
-    let childTypes = await this.release.types({ basePrefix: this.prefix });
+    let childTypes = await this.release.types.find({ basePrefix: this.prefix });
 
     // Sub-properties
-    let subProperties = await this.release.subProperties({ propertyName: this.prefix });
+    let subProperties = await this.release.subProperties.find({ propertyName: this.prefix });
 
     let count = substitutions.length + dataProperties.length + childTypes.length + subProperties.length;
 
@@ -338,16 +338,16 @@ class Namespace extends ReleaseObject {
    */
   async dependents() {
 
-    let localTerms = await this.localTerms();
-    let properties = await this.properties();
-    let types = await this.types();
+    let localTerms = await this.localTerms.find();
+    let properties = await this.properties.find();
+    let types = await this.types.find();
 
     return {
       count: localTerms.length + properties.length + types.length,
       localTerms,
       properties,
       types
-    }
+    };
   }
 
 
@@ -362,7 +362,7 @@ class Namespace extends ReleaseObject {
 
     await super.updateDependents(op, change);
 
-    let dependents = await this.dependents(false);
+    let dependents = await this.dependents();
 
     // Update or delete local terms
     for (let localTerm of dependents.localTerms) {
@@ -371,7 +371,7 @@ class Namespace extends ReleaseObject {
         await localTerm.save(change);
       }
       else {
-        await location.delete(change);
+        await localTerm.delete(change);
       }
     }
 
@@ -424,7 +424,7 @@ class Namespace extends ReleaseObject {
     return {
       ...super.identifiers,
       prefix: this.prefix
-    }
+    };
   }
 
   /**
@@ -499,15 +499,15 @@ class Namespace extends ReleaseObject {
  * Search criteria options for namespace find operations.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|RegExp} prefix
- * @property {Namespace.StyleType[]} style
- * @property {boolean} conformanceRequired
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|RegExp} [prefix]
+ * @property {StyleType[]} [style]
+ * @property {boolean} [conformanceRequired]
  */
-Namespace.CriteriaType = {};
+let NamespaceCriteriaType;
 
 /**
  * @typedef {Object} IdentifiersType
@@ -516,10 +516,10 @@ Namespace.CriteriaType = {};
  * @property {string} releaseKey
  * @property {string|RegExp} prefix
  */
-Namespace.IdentifiersType;
+let NamespaceIdentifiersType;
 
-/** @type {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} */
-Namespace.StyleType;
+/** @typedef {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} StyleType */
+let NamespaceStyleType;
 
 Namespace.Styles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "CS"];
 

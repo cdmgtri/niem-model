@@ -1,8 +1,8 @@
 
 function testProperty() {
 
-  let NIEM = require("../../index");
-  let { Property } = NIEM;
+  let NIEM = require("../../src/index");
+  let Property = require("../../src/property/index");
 
   let niem = new NIEM();
 
@@ -22,7 +22,7 @@ function testProperty() {
     let properties = [
       new Property("nc", "Person"),
       new Property("nc", "Activity"),
-      new Property("ext", "Person"),
+      new Property("ext", "Person")
     ];
 
     test("#constructor", () => {
@@ -121,10 +121,11 @@ function testProperty() {
 
       let { CriteriaType } = Property;
 
+
       /** @type {CriteriaType} */
       let criteria = {
         keyword: "PERSON"
-      }
+      };
 
       /** @type {Property[]} */
       let matches = Property.matches(properties, criteria);

@@ -1,5 +1,5 @@
 
-let SourceDataSet = require("./dataSet/index");
+let SourceDataSetInterface = require("./dataSet/index");
 let Transaction = require("./transaction/index");
 let Change = require("./change/index");
 
@@ -7,29 +7,29 @@ class NIEMModelSourceInterface {
 
   constructor() {
 
-    /** @type {SourceDataSet<Model>} */
-    this.models = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Model>} */
+    this.models = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<Release>} */
-    this.releases = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Release>} */
+    this.releases = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<Namespace>} */
-    this.namespaces = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Namespace>} */
+    this.namespaces = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<Property>} */
-    this.properties = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Property>} */
+    this.properties = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<Type>} */
-    this.types = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Type>} */
+    this.types = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<Facet>} */
-    this.facets = new SourceDataSet();
+    /** @type {SourceDataSetInterface<Facet>} */
+    this.facets = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<SubProperty>} */
-    this.subProperties = new SourceDataSet();
+    /** @type {SourceDataSetInterface<SubProperty>} */
+    this.subProperties = new SourceDataSetInterface();
 
-    /** @type {SourceDataSet<LocalTerm>} */
-    this.localTerms = new SourceDataSet();
+    /** @type {SourceDataSetInterface<LocalTerm>} */
+    this.localTerms = new SourceDataSetInterface();
 
     /** @type {Transaction[]} */
     this.log = [];
@@ -37,7 +37,7 @@ class NIEMModelSourceInterface {
   }
 
   static SourceDataSet() {
-    return SourceDataSet;
+    return SourceDataSetInterface;
   }
 
   static Transaction() {
@@ -52,11 +52,4 @@ class NIEMModelSourceInterface {
 
 module.exports = NIEMModelSourceInterface;
 
-let Model = require("../../model/index");
-let Release = require("../../release/index");
-let Namespace = require("../../namespace/index");
-let Property = require("../../property/index");
-let Type = require("../../type/index");
-let Facet = require("../../facet/index");
-let SubProperty = require("../../subproperty/index");
-let LocalTerm = require("../../local-term/index");
+let { Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty, NIEMObject } = require("../../index");

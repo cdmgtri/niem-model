@@ -2,23 +2,25 @@
 let NIEMObject = require("../niem-object/index");
 
 /**
- * @extends {NIEMObject<Model>}
+ * @extends {NIEMObject}
  */
 class Model extends NIEMObject {
 
   /**
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {Model.StyleType} style
-   * @param {String} description
-   * @param {String} website
-   * @param {String} repo
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {StyleType} [style]
+   * @param {string} [description]
+   * @param {string} [website]
+   * @param {string} [repo]
    */
   constructor(userKey, modelKey, style, description, website, repo) {
 
     super();
 
     let NIEMModelSourceImpl = require("../interfaces/source/impl/memory/index");
+
+    /** @type {NIEMModelSourceInterface} */
     this._source = new NIEMModelSourceImpl();
 
     this.userKey = userKey;
@@ -28,7 +30,7 @@ class Model extends NIEMObject {
     this.website = website;
     this.repo = repo;
 
-    let NIEM = require("../../index");
+    let NIEM = require("../index");
     this.niem = new NIEM();
 
   }
@@ -54,16 +56,17 @@ class Model extends NIEMObject {
 
       /**
        * @param {string} releaseKey
-       * @param {string} niemReleaseKey
-       * @param {string} version
-       * @param {Release.StatusType} status
-       * @param {string} baseURI
-       * @param {string} branch
-       * @param {string} description
-       * @param {string}
+       * @param {string} [niemReleaseKey]
+       * @param {"3.0"|"4.0"} [ndrVersion]
+       * @param {string} [version]
+       * @param {Release.StatusType} [status]
+       * @param {string} [baseURI]
+       * @param {string} [branch]
+       * @param {string} [description]
+       * @returns {Promise<Release>}
        */
-      add: async (releaseKey, niemReleaseKey, version, status, baseURI) => {
-        let release = Release.create(releaseKey, niemReleaseKey, version, status, baseURI);
+      add: async (releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI) => {
+        let release = Release.create(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI);
         release.model = this;
         return release.add();
       },
@@ -73,23 +76,24 @@ class Model extends NIEMObject {
       },
 
       /**
-       * @param {Release.CriteriaType} criteria
+       * @param {Release.CriteriaType} [criteria]
        */
+      // @ts-ignore
       find: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this._source.releases.find(criteria);
       }
 
-    }
+    };
   }
 
   /**
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {Model.StyleType} style
-   * @param {String} description
-   * @param {String} website
-   * @param {String} repo
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {StyleType} [style]
+   * @param {string} [description]
+   * @param {string} [website]
+   * @param {string} [repo]
    */
   static create(userKey, modelKey, style, description, website, repo) {
     return new Model(userKey, modelKey, style, description, website, repo);
@@ -129,13 +133,13 @@ class Model extends NIEMObject {
       description: this.description,
       website: this.website,
       repo: this.repo
-    }
+    };
   }
 
 }
 
-/** @type {"model"|"IEPD"|"other"} */
-Model.StyleType;
+/** @typedef {"model"|"IEPD"|"other"} StyleType */
+let TypeStyleType;  // Prevent typedef from attaching to following declaration
 
 Model.Styles = ["model", "IEPD", "other"];
 
@@ -144,15 +148,18 @@ Model.Styles = ["model", "IEPD", "other"];
  *
  * String fields are for exact matches.
  *
- * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {Model.StyleType} style
+ * @typedef {object} CriteriaType
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {StyleType} [style]
  */
+let TypeCriteriaType;
+
+/** @type {CriteriaType} */
 Model.CriteriaType;
 
 /**
- * @typedef {Object} IdentifiersType
+ * @typedef {object} IdentifiersType
  * @property {string} userKey
  * @property {string} modelKey
  */

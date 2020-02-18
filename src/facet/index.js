@@ -4,14 +4,15 @@ let Type = require("../type/index");
 
 /**
  * A NIEM Facet
+ * @extends {ReleaseObject<Facet>}
  */
 class Facet extends ReleaseObject {
 
   /**
    * @param {String} typeQName
    * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
+   * @param {string} [definition]
+   * @param {StyleType} [style="enumeration"] Defaults to enumeration
    */
   constructor(typeQName, value, definition, style="enumeration") {
     super();
@@ -26,8 +27,8 @@ class Facet extends ReleaseObject {
    * @param {ReleaseObject.NDRVersionType} ndrVersion
    * @param {String} typeQName
    * @param {string} value
-   * @param {string} definition
-   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
+   * @param {string} [definition]
+   * @param {StyleType} [style="enumeration"] Defaults to enumeration
    */
   static create(ndrVersion, typeQName, value, definition, style="enumeration") {
     return new Facet(typeQName, value, definition, style);
@@ -76,7 +77,7 @@ class Facet extends ReleaseObject {
   }
 
   get route() {
-    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typePrefix, this.typeName, this.value, this.style);
+    return Facet.route(this.userKey, this.modelKey, this.releaseKey, this.typeQName, this.value, this.style);
   }
 
   /**
@@ -85,10 +86,10 @@ class Facet extends ReleaseObject {
    * @param {string} releaseKey
    * @param {string} typeQName
    * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
+   * @param {StyleType} [style="enumeration"] Default "enumeration"
    */
-  static route(userKey, modelKey, releaseKey, typePrefix, typeName, value, style="enumeration") {
-    let typeRoute = Type.route(userKey, modelKey, releaseKey, typePrefix, typeName);
+  static route(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
+    let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
     return typeRoute + `/facets/${style}/${value}`;
   }
 
@@ -102,8 +103,7 @@ class Facet extends ReleaseObject {
    * @param {string} releaseKey
    * @param {string} typeQName
    * @param {string} value
-   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
-   * @param {string} definition
+   * @param {StyleType} [style="enumeration"] Default "enumeration"
    */
   static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
     return {userKey, modelKey, releaseKey, typeQName, style, value};
@@ -121,8 +121,8 @@ class Facet extends ReleaseObject {
 
 }
 
-/** @type{"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"} */
-Facet.StyleType;
+/** @typedef {"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"}  StyleType */
+let FacetStyleType;
 
 Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
   "whiteSpace", "maxInclusive", "minInclusive", "maxExclusive", "minExclusive",
@@ -134,20 +134,21 @@ Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
  * Search criteria options for facet find operations.
  *
  * @typedef {Object} CriteriaType
- * @property {string} userKey
- * @property {string} modelKey
- * @property {string} releaseKey
- * @property {string} niemReleaseKey
- * @property {string|RegExp} typeQName
- * @property {string|string[]} typePrefix
- * @property {string|RegExp} typeName
- * @property {string|RegExp} value
- * @property {string|RegExp} definition
- * @property {Facet.StyleType[]} style
- * @property {boolean} isCode True to return only enums; false to return non-enums
- * @property {string|RegExp} keyword - value or definition
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {string} [niemReleaseKey]
+ * @property {string|RegExp} [typeQName]
+ * @property {string|string[]} [typePrefix]
+ * @property {string|RegExp} [typeName]
+ * @property {string|RegExp} [value]
+ * @property {string|RegExp} [definition]
+ * @property {Facet.StyleType[]} [style]
+ * @property {boolean} [isCode] True to return only enums; false to return non-enums
+ * @property {string|RegExp} [keyword] - value or definition
  */
-Facet.CriteriaType = {};
+let FacetCriteriaType;
+
 
 Facet.CriteriaKeywordFields = ["value", "definition"];
 
@@ -156,10 +157,10 @@ Facet.CriteriaKeywordFields = ["value", "definition"];
  * @property {string} userKey
  * @property {string} modelKey
  * @property {string} releaseKey
- * @property {string|RegExp} typeQName
- * @property {string|RegExp} value
- * @property {string|RegExp} definition
+ * @property {string} typeQName
+ * @property {string} value
+ * @property {StyleType} [style="enumeration"]
  */
-Facet.IdentifiersType;
+let FacetIdentifiersType;
 
 module.exports = Facet;

@@ -1,5 +1,5 @@
 
-let NIEMObjectFormatInterface = require("./niem-object");
+let NIEMObjectFormatInterface = require("./niem-object/index");
 
 /**
  * @template U
@@ -8,7 +8,7 @@ class NIEMModelFormatInterface {
 
   constructor() {
 
-    /** @type {NIEMObjectFormatInterface<Release, U>} */
+    /** @type {NIEMObjectFormatInterface<Release>} */
     this.release = new NIEMObjectFormatInterface();
 
     /** @type {NIEMObjectFormatInterface<Namespace, U>} */
@@ -33,7 +33,7 @@ class NIEMModelFormatInterface {
   /**
    * Assign NDR-specific format classes as needed
    *
-   * @param {"3.0"|"4.0"} ndrVersion
+   * @param {"3.0"|"4.0"|string} ndrVersion
    */
   static create(ndrVersion) {
     return new NIEMModelFormatInterface();
@@ -43,4 +43,4 @@ class NIEMModelFormatInterface {
 
 module.exports = NIEMModelFormatInterface;
 
-let { Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } = require("../../../index");
+let { Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty, NIEMObject } = require("../../index");
