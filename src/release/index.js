@@ -361,6 +361,15 @@ class Release extends NIEMObject {
     };
   }
 
+  /**
+   * Save changes to the object.
+   * @param {Model} [model]
+   * @param {Change} [change]
+   */
+  async add(model, change) {
+    return super.add(model, change);
+  }
+
   async dependents() {
     let namespaces = await this.namespaces.find();
     return { namespaces, count: namespaces.length };
@@ -464,3 +473,4 @@ let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
 let Component = require("../component/index");
+let Change = require("../interfaces/source/change/index");

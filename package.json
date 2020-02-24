@@ -8,7 +8,8 @@
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
     "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
-    "check": "tsc"
+    "check": "tsc",
+    "defs": "rm -f index.d.ts && tsc -p tsconfig.json"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +23,8 @@
     "eslint-plugin-jest": "^23.7.0",
     "jest": "^24.8.0",
     "jsdoc": "^3.6.3",
-    "jsdoc-typeof-plugin": "^1.0.0"
+    "jsdoc-typeof-plugin": "^1.0.0",
+    "typescript": "^3.8.2"
   },
   "dependencies": {
     "debug": "^4.1.1"

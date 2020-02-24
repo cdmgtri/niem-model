@@ -55,8 +55,9 @@ class NIEM {
         }
       },
 
+      // * @param {Model.CriteriaType} criteria
       /**
-       * @param {Model.CriteriaType} criteria
+       * @param {{}} criteria
        */
       find: async (criteria={}) => {
         let results = [];

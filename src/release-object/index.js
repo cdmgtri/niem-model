@@ -82,6 +82,15 @@ class ReleaseObject extends NIEMObject {
     };
   }
 
+  /**
+   * Save changes to the object.
+   * @param {Release} [release]
+   * @param {Change} [change]
+   */
+  async add(release, change) {
+    return super.add(release, change);
+  }
+
   static route(userKey, modelKey, releaseKey, ...args) {
     return Release.route(userKey, modelKey, releaseKey);
   }
@@ -123,3 +132,4 @@ let NDRVersion;
 module.exports = ReleaseObject;
 
 let NIEMObjectFormatInterface = require("../interfaces/format/niem-object/index");
+let Change = require("../interfaces/source/change/index");

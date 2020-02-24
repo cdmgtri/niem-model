@@ -244,9 +244,17 @@ class NIEMObject {
 
   /**
    * Save changes to the object.
+   * @param {Model|Release} [modelOrRelease]
    * @param {Change} [change]
    */
-  async add(change) {
+  async add(modelOrRelease, change) {
+
+    if (modelOrRelease && modelOrRelease.constructor.name == "Model") {
+      this.model = modelOrRelease;
+    }
+    else if (modelOrRelease && modelOrRelease.constructor.name == "Release") {
+      this.release = modelOrRelease;
+    }
 
     // Check required fields and that object is unique
     await this.checkBaselineFields();
@@ -404,3 +412,6 @@ NIEMObject.CriteriaType = undefined;
 NIEMObject.IdentifiersType;
 
 module.exports = NIEMObject;
+
+let Model = require("../model/index");
+let Release = require("../release/index");
