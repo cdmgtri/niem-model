@@ -1,9 +1,7 @@
 
 function testSubProperty() {
 
-  let NIEM = require("../../src/index");
-  let Release = require("../../src/release/index");
-  let SubProperty = require("../../src/subproperty/index");
+  let { NIEM, Release, SubProperty } = require("../../src/index");
 
   let niem = new NIEM();
 

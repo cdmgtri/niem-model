@@ -76,6 +76,14 @@ class SourceDataSetInterface {
     throw new Error("Data source not provided");
   }
 
+  async load(...args) {
+    throw new Error("Data source not provided");
+  }
+
+  async export(...args) {
+    throw new Error("Data source not provided");
+  }
+
 }
 
 module.exports = SourceDataSetInterface;

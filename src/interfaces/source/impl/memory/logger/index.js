@@ -4,9 +4,6 @@ let debug = require("debug")("niem");
 
 let revisionOperations = ["add", "edit", "delete"];
 
-/**
- * @template {NIEMObject} T
- */
 class Logger {
 
   constructor(loggingEnabled=true) {
@@ -19,6 +16,7 @@ class Logger {
   }
 
   /**
+   * @template {NIEMObject} T
    * @param {typeof NIEMObject} ObjectClass
    * @param {Transaction.OperationType} operation
    * @param {T} object

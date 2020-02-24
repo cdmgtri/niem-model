@@ -3,8 +3,7 @@
 
 function testFacet() {
 
-  let NIEM = require("../../src/index");
-  let Release = require("../../src/release/index");
+  let { NIEM, Release } = require("../../src/index");
 
   let niem = new NIEM();
 

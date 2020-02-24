@@ -1,6 +1,4 @@
 
-let NIEM = require("../../../../index");
-
 let SourceInterface = require("../../index");
 
 let DataSet = require("./dataSet/index");
@@ -70,14 +68,14 @@ class NIEMSourceMemory extends SourceInterface {
   /**
    * @param {NIEM} niem
    * @param {Object} json
-   * @param {NIEM.Model[]} json.models
-   * @param {NIEM.Release[]} json.releases
-   * @param {NIEM.Namespace[]} json.namespaces
-   * @param {NIEM.Property[]} json.properties
-   * @param {NIEM.Type[]} json.types
-   * @param {NIEM.LocalTerm[]} json.localTerms
-   * @param {NIEM.SubProperty[]} json.subProperties
-   * @param {NIEM.Facet[]} json.facets
+   * @param {Model[]} json.models
+   * @param {Release[]} json.releases
+   * @param {Namespace[]} json.namespaces
+   * @param {Property[]} json.properties
+   * @param {Type[]} json.types
+   * @param {LocalTerm[]} json.localTerms
+   * @param {SubProperty[]} json.subProperties
+   * @param {Facet[]} json.facets
    * @param {Transaction[]} json.log
    */
   async load(niem, json) {
@@ -97,3 +95,5 @@ class NIEMSourceMemory extends SourceInterface {
 module.exports = NIEMSourceMemory;
 
 let Transaction = require("../../transaction/index");
+
+let { NIEM, Model, Release, Namespace, Property, Type, LocalTerm, SubProperty, Facet } = require("../../../../index");

@@ -2,10 +2,13 @@
 let SourceDataSetInterface = require("./dataSet/index");
 let Transaction = require("./transaction/index");
 let Change = require("./change/index");
+let Logger = require("./impl/memory/logger/index");
 
 class NIEMModelSourceInterface {
 
   constructor() {
+
+    this.logger = new Logger();
 
     /** @type {SourceDataSetInterface<Model>} */
     this.models = new SourceDataSetInterface();
@@ -34,6 +37,10 @@ class NIEMModelSourceInterface {
     /** @type {Transaction[]} */
     this.log = [];
 
+  }
+
+  async load(...args) {
+    throw new Error("Data source not provided");
   }
 
   static SourceDataSet() {

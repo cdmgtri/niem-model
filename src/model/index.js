@@ -30,7 +30,7 @@ class Model extends NIEMObject {
     this.website = website;
     this.repo = repo;
 
-    let NIEM = require("../index");
+    let { NIEM } = require("../index");
     this.niem = new NIEM();
 
   }

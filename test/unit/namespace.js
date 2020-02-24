@@ -1,8 +1,7 @@
 
 function testNamespace() {
 
-  let NIEM = require("../../src/index");
-  let Namespace = require("../../src/namespace/index");
+  let { NIEM, Namespace } = require("../../src/index");
 
   let { CriteriaType } = Namespace;
 

@@ -1,20 +1,17 @@
 
-// @ts-disable TS2749
-
 let NIEMObject = require("../niem-object/index");
 
 let NIEMModelFormatInterface = require("../interfaces/format/index");
 
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.
- * @extends {NIEMObject<Release>}
  */
 class Release extends NIEMObject {
 
   /**
    * @param {string} releaseKey
    * @param {string} niemReleaseKey
-   * @param {import("../release-object/index").NDRVersionType} [ndrVersion="4.0"] Defaults to "4.0"
+   * @param {ReleaseObject.NDRVersionType} [ndrVersion="4.0"] Defaults to "4.0"
    * @param {string} [version]
    * @param {StatusType} [status]
    * @param {string} [baseURI]
@@ -464,3 +461,5 @@ let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
 let Component = require("../component/index");
+
+let ReleaseObject = require("../release-object/index");
