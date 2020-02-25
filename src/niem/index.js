@@ -1,5 +1,5 @@
 
-let NIEMModelSourceMemory = require("../interfaces/source/impl/memory/index");
+let NIEMModelSourceMemory = require("../interfaces/source/index");
 
 let Model = require("../model/index");
 let Release = require("../release/index");
@@ -9,7 +9,7 @@ let Property = require("../property/index");
 let Type = require("../type/index");
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
-let NIEMModelSource = require("../interfaces/source/index");
+let NIEMModelSource = require("../interfaces/source/interface");
 
 class NIEM {
 

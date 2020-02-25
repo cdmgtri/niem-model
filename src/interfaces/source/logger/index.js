@@ -60,6 +60,6 @@ class Logger {
 
 module.exports = Logger;
 
-let Change = require("../../../change/index");
-let Transaction = require("../../../transaction/index");
-let NIEMObject = require("../../../../../niem-object/index");
+let Change = require("../change/index");
+let Transaction = require("../transaction/index");
+let NIEMObject = require("../../../niem-object/index");

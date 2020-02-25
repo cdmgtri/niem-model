@@ -18,7 +18,7 @@ class Model extends NIEMObject {
 
     super();
 
-    let NIEMModelSourceImpl = require("../interfaces/source/impl/memory/index");
+    let NIEMModelSourceImpl = require("../interfaces/source/index");
 
     /** @type {NIEMModelSourceInterface} */
     this._source = new NIEMModelSourceImpl();
@@ -168,4 +168,4 @@ Model.IdentifiersType;
 module.exports = Model;
 
 let Release = require("../release/index");
-let NIEMModelSourceInterface = require("../interfaces/source/index");
+let NIEMModelSourceInterface = require("../interfaces/source/interface");

@@ -17,13 +17,16 @@ module.exports = {
   ReleaseObject: require("./release-object/index"),
 
   Interfaces: {
-    Source: {
-      NIEMModelSource: require("./interfaces/source/index"),
+    SourceInterface: {
+      SourceInterface: require("./interfaces/source/interface"),
+      Source: require("./interfaces/source/index"),
+      DataSetInterface: require("./interfaces/source/dataSet/interface"),
+      DataSet: require("./interfaces/source/dataSet/index"),
       Change: require("./interfaces/source/change/index"),
       Transaction: require("./interfaces/source/transaction/index"),
-      DataSet: require("./interfaces/source/dataSet/index")
+      Logger: require("./interfaces/source/logger/index")
       },
-    Format: {
+    FormatInterface: {
       NIEMModelFormat: require("./interfaces/format/index"),
       NIEMObjectFormat: require("./interfaces/format/niem-object/index")
     }

@@ -17,6 +17,7 @@
     "@types/jest": "^24.0.15",
     "@types/node": "^13.7.2",
     "coveralls": "^3.0.5",
+    "debug": "^4.1.1",
     "docdash": "^1.1.1",
     "eslint": "^6.8.0",
     "eslint-plugin-jest": "^23.7.0",
@@ -24,7 +25,5 @@
     "jsdoc": "^3.6.3",
     "jsdoc-typeof-plugin": "^1.0.0"
   },
-  "dependencies": {
-    "debug": "^4.1.1"
-  }
+  "dependencies": {}
 }

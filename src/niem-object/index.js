@@ -1,6 +1,6 @@
 
 let Change = require("../interfaces/source/change/index");
-let SourceDataSet = require("../interfaces/source/dataSet/index");
+let SourceDataSet = require("../interfaces/source/dataSet/interface");
 
 /**
  * Commonalities of NIEM components and other items.

@@ -1,62 +1,98 @@
 
-let SourceDataSetInterface = require("./dataSet/index");
-let Transaction = require("./transaction/index");
-let Change = require("./change/index");
-let Logger = require("./impl/memory/logger/index");
+let SourceInterface = require("./interface");
+let DataSet = require("./dataSet/index");
+let Logger = require("./logger/index");
 
-class NIEMModelSourceInterface {
+class NIEMSourceMemory extends SourceInterface {
 
-  constructor() {
+  constructor(loggingEnabled=false) {
 
-    this.logger = new Logger();
+    let Model = require("../../model/index");
+    let Release = require("../../release/index");
+    let Namespace = require("../../namespace/index");
+    let LocalTerm = require("../../local-term/index");
+    let Property = require("../../property/index");
+    let Type = require("../../type/index");
+    let Facet = require("../../facet/index");
+    let SubProperty = require("../../subproperty/index");
 
-    /** @type {SourceDataSetInterface<Model>} */
-    this.models = new SourceDataSetInterface();
+    super();
 
-    /** @type {SourceDataSetInterface<Release>} */
-    this.releases = new SourceDataSetInterface();
+    this.logger = new Logger(loggingEnabled);
 
-    /** @type {SourceDataSetInterface<Namespace>} */
-    this.namespaces = new SourceDataSetInterface();
+    this.log = this.logger.log;
 
-    /** @type {SourceDataSetInterface<Property>} */
-    this.properties = new SourceDataSetInterface();
+    // @ts-ignore
+    this.models = new DataSet(Model, this.logger);
 
-    /** @type {SourceDataSetInterface<Type>} */
-    this.types = new SourceDataSetInterface();
+    // @ts-ignore
+    this.releases = new DataSet(Release, this.logger);
 
-    /** @type {SourceDataSetInterface<Facet>} */
-    this.facets = new SourceDataSetInterface();
+    // @ts-ignore
+    this.namespaces = new DataSet(Namespace, this.logger);
 
-    /** @type {SourceDataSetInterface<SubProperty>} */
-    this.subProperties = new SourceDataSetInterface();
+    // @ts-ignore
+    this.properties = new DataSet(Property, this.logger);
 
-    /** @type {SourceDataSetInterface<LocalTerm>} */
-    this.localTerms = new SourceDataSetInterface();
+    // @ts-ignore
+    this.types = new DataSet(Type, this.logger);
 
-    /** @type {Transaction[]} */
-    this.log = [];
+    // @ts-ignore
+    this.localTerms = new DataSet(LocalTerm, this.logger);
+
+    // @ts-ignore
+    this.subProperties = new DataSet(SubProperty, this.logger);
+
+    // @ts-ignore
+    this.facets = new DataSet(Facet, this.logger);
 
   }
 
-  async load(...args) {
-    throw new Error("Data source not provided");
+  toJSON() {
+    return {
+      timestamp: (new Date()).toLocaleString(),
+      models: this.models.data,
+      releases: this.releases.data,
+      namespaces: this.namespaces.data,
+      properties: this.properties.data,
+      types: this.types.data,
+      localTerms: this.localTerms.data,
+      subProperties: this.subProperties.data,
+      facets: this.facets.data,
+      log: this.log
+    };
+
   }
 
-  static SourceDataSet() {
-    return SourceDataSetInterface;
-  }
-
-  static Transaction() {
-    return Transaction;
-  }
-
-  static Change() {
-    return Change;
+  /**
+   * @param {NIEM} niem
+   * @param {Object} json
+   * @param {Model[]} json.models
+   * @param {Release[]} json.releases
+   * @param {Namespace[]} json.namespaces
+   * @param {Property[]} json.properties
+   * @param {Type[]} json.types
+   * @param {LocalTerm[]} json.localTerms
+   * @param {SubProperty[]} json.subProperties
+   * @param {Facet[]} json.facets
+   * @param {Transaction[]} json.log
+   */
+  async load(niem, json) {
+    await this.models.load(niem, json.models);
+    await this.releases.load(niem, json.releases);
+    await this.namespaces.load(niem, json.namespaces);
+    await this.properties.load(niem, json.properties);
+    await this.types.load(niem, json.types);
+    await this.localTerms.load(niem, json.localTerms);
+    await this.subProperties.load(niem, json.subProperties);
+    await this.facets.load(niem, json.facets);
+    await this.log.push(...json.log);
   }
 
 }
 
-module.exports = NIEMModelSourceInterface;
+module.exports = NIEMSourceMemory;
 
-let { Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty, NIEMObject } = require("../../index");
+let Transaction = require("./transaction/index");
+
+let { NIEM, Model, Release, Namespace, Property, Type, LocalTerm, SubProperty, Facet } = require("../../index");
