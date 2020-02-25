@@ -19,7 +19,15 @@ class Type extends Component {
 
     this.style = style;
     this.baseQName = baseQName;
+
+    /** @type {String[]} */
     this.memberQNames = [];
+
+    /** @type {String[]} */
+    this.appliesToPropertyQNames = [];
+
+    /** @type {String[]} */
+    this.appliesToTypeQNames = [];
   }
 
   /**
@@ -145,6 +153,32 @@ class Type extends Component {
     }
 
     return members;
+  }
+
+  async appliesToTypes() {
+
+    /** @type {Type[]} */
+    let types = [];
+
+    for (let qname of this.appliesToTypeQNames) {
+      let type = await this.release.types.get(qname);
+      types.push(type);
+    }
+
+    return types;
+  }
+
+  async appliesToProperties() {
+
+    /** @type {Property[]} */
+    let properties = [];
+
+    for (let qname of this.appliesToPropertyQNames) {
+      let property = await this.release.properties.get(qname);
+      properties.push(property);
+    }
+
+    return properties;
   }
 
   get facets() {
