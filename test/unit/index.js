@@ -18,11 +18,11 @@ function unitTests() {
     testModel();
     testRelease();
     testNamespace();
-    testLocalTerm();
-    testProperty();
+    // testLocalTerm();
+    // testProperty();
     testType();
-    testSubProperty();
-    testFacet();
+    // testSubProperty();
+    // testFacet();
 
   });
 

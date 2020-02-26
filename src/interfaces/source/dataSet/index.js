@@ -95,7 +95,9 @@ class DataSet extends DataSetInterface {
     this.logger.record(this.ObjectClass, "find", undefined, criteria, undefined, matches.length);
 
     let objects = matches.map( match => {
-      let newObject = Object.assign(new this.ObjectClass(), match);
+      // let newObject = Object.assign(new this.ObjectClass(), match);
+      let newObject = JSON.parse(JSON.stringify(match, this.replacer));
+      Object.setPrototypeOf(newObject, this.ObjectClass);
       this.updatePreviousIdentifiers(newObject);
       return newObject;
     });
@@ -137,32 +139,55 @@ class DataSet extends DataSetInterface {
   /**
    * Deep copies the object to avoid modification by reference
    * @private
+   * @param {Object} object
    * @returns {T}
    */
   copy(object) {
 
     if (! object) return;
 
-    let copy = new this.ObjectClass();
+    // let copy = new this.ObjectClass();
 
-    for (let key of Object.keys(object)) {
+    let keys = Object.keys(object);
+    let copy = JSON.parse(JSON.stringify(object, this.replacer));
+    Object.setPrototypeOf(copy, this.ObjectClass);
 
-      // Skip undefined values
-      if (object[key] == undefined) continue;
+    // let copy = Object.assign(new this.ObjectClass(), object);
 
-      if (["_source", "niem", "model", "release"].includes(key)) {
-        // Copy by reference
-        copy[key] = object[key];
-      }
-      else {
-        // Copy by value
-        copy[key] = JSON.parse(JSON.stringify(object[key]));
-      }
-    }
+    // Copy some fields by reference
+    // @ts-ignore
+    if (keys._source) copy._source = object._source;
+    // @ts-ignore
+    if (keys.niem) copy.niem = object.niem;
+    if (keys.model) copy.model = object.model;
+    if (keys.release) copy.release = object.release;
+
+    // for (let key of Object.keys(object)) {
+
+    //   // Skip undefined values
+    //   if (object[key] == undefined) continue;
+
+    //   if (["_source", "niem", "model", "release"].includes(key)) {
+    //     // Copy by reference
+    //     copy[key] = object[key];
+    //   }
+    //   else {
+    //     // Copy by value
+    //     // copy[key] = JSON.parse(JSON.stringify(object[key]));
+    //     copy[key] = object[key];
+    //   }
+    // }
 
     // @ts-ignore
     return copy;
 
+  }
+
+  replacer(key, value) {
+    if (["_source", "niem", "model", "release"].includes(key)) {
+      return undefined;
+    }
+    return value;
   }
 
   /**
