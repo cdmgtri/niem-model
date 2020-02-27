@@ -194,6 +194,14 @@ class Type extends Component {
       },
 
       /**
+       * @param {Facet[]} facets
+       */
+      addMultiple: async(facets) => {
+        facets.forEach( facet => facet.typeQName = this.qname );
+        return this.release.facets.addMultiple(facets);
+      },
+
+      /**
        * @param {string} value
        * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
        */
@@ -231,6 +239,14 @@ class Type extends Component {
        */
       add: async (propertyQName, min="0", max="unbounded", definition) => {
         return this.release.subProperties.add(this.qname, propertyQName, min, max, definition);
+      },
+
+      /**
+       * @param {SubProperty[]} subProperties
+       */
+      addMultiple: async(subProperties) => {
+        subProperties.forEach( subProperty => subProperty.typeQName = this.qname );
+        return this.release.subProperties.addMultiple(subProperties);
       },
 
       /**

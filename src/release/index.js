@@ -106,6 +106,14 @@ class Release extends NIEMObject {
       },
 
       /**
+       * @param {Namespace[]} namespaces
+       */
+      addMultiple: async(namespaces) => {
+        namespaces.forEach( namespace => namespace.release = this );
+        return Namespace.addMultiple(this.releaseKey, this.source.namespaces, namespaces);
+      },
+
+      /**
        * @param {string} prefix
        */
       get: async (prefix) => {
@@ -145,6 +153,14 @@ class Release extends NIEMObject {
         let localTerm = LocalTerm.create(this.ndrVersion, prefix, term, literal, definition);
         localTerm.release = this;
         return localTerm.add();
+      },
+
+      /**
+       * @param {LocalTerm[]} localTerms
+       */
+      addMultiple: async(localTerms) => {
+        localTerms.forEach( localTerm => localTerm.release = this );
+        return LocalTerm.addMultiple(this.releaseKey, this.source.localTerms, localTerms);
       },
 
       /**
@@ -191,6 +207,14 @@ class Release extends NIEMObject {
         let property = Property.create(this.ndrVersion, prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
         property.release = this;
         return property.add();
+      },
+
+      /**
+       * @param {Property[]} properties
+       */
+      addMultiple: async(properties) => {
+        properties.forEach( property => property.release = this );
+        return Property.addMultiple(this.releaseKey, this.source.properties, properties);
       },
 
       /**
@@ -241,6 +265,14 @@ class Release extends NIEMObject {
       },
 
       /**
+       * @param {Type[]} types
+       */
+      addMultiple: async(types) => {
+        types.forEach( type => type.release = this );
+        return Type.addMultiple(this.releaseKey, this.source.types, types);
+      },
+
+      /**
        * @param {string} qname
        */
       get: async (qname) => {
@@ -287,6 +319,14 @@ class Release extends NIEMObject {
       },
 
       /**
+       * @param {Facet[]} facets
+       */
+      addMultiple: async(facets) => {
+        facets.forEach( facet => facet.release = this );
+        return Facet.addMultiple(this.releaseKey, this.source.facets, facets);
+      },
+
+      /**
        * @param {string} qname
        * @param {string} value
        * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
@@ -329,6 +369,14 @@ class Release extends NIEMObject {
         let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
         subProperty.release = this;
         return subProperty.add();
+      },
+
+      /**
+       * @param {SubProperty[]} subProperties
+       */
+      addMultiple: async(subProperties) => {
+        subProperties.forEach( subProperty => subProperty.release = this );
+        return SubProperty.addMultiple(this.releaseKey, this.source.subProperties, subProperties);
       },
 
       /**

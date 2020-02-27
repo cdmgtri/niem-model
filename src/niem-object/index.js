@@ -1,6 +1,8 @@
 
+// @ts-ignore
+let _ = require("lodash");
 let Change = require("../interfaces/source/change/index");
-let SourceDataSet = require("../interfaces/source/dataSet/interface");
+let DataSet = require("../interfaces/source/dataSet/interface");
 
 /**
  * Commonalities of NIEM components and other items.
@@ -70,7 +72,7 @@ class NIEMObject {
   }
 
   /**
-   * @type {SourceDataSet<NIEMObject>}
+   * @type {DataSet<NIEMObject>}
    */
   get sourceDataSet() {
     return undefined;
@@ -273,6 +275,52 @@ class NIEMObject {
     this.previousIdentifiers = Object.assign({}, this.identifiers);
 
     return this;
+  }
+
+  /**
+   * @param {String} releaseKey
+   * @param {DataSet} dataSet
+   * @param {NIEMObject[]} newNIEMObjects
+   * @param {Change} [change]
+   */
+  static async addMultiple(releaseKey, dataSet, newNIEMObjects, change) {
+
+    /**
+     * Get all current objects in the release
+     * @type {NIEMObject[]}
+     */
+    let currentObjects = await dataSet.find({releaseKey});
+
+    // Get the routes of all current objects in the release and new objects to be added
+    let currentRoutes = new Set( currentObjects.map( object => object.route ) );
+    let newRoutes = new Set( newNIEMObjects.map( object => object.route ) );
+
+    // Compare the existing routes to the new routes to look for duplicate identifiers
+    let combinedRoutes = new Set([...currentRoutes, ...newRoutes]);
+
+    if (currentRoutes.size + newRoutes.size != combinedRoutes.size) {
+      // Find which routes are duplicates
+      let allRoutes = [...currentRoutes, ...newRoutes];
+      let duplicateRoutes = [];
+      _.values(_.groupBy(allRoutes)).forEach( d => {
+        if (d.length > 1) {
+          duplicateRoutes.push(d[0]);
+        }
+      });
+
+      // Duplicate identifiers exist.  Do not add new objects.
+      console.warn("Duplicate identifier fields found.  Cannot add new objects.", duplicateRoutes);
+      return;
+    }
+
+    for (let newObject of newNIEMObjects) {
+      // Add object and initialize previous identifiers in case of future updated fields
+      await dataSet.add(newObject, change);
+      newObject.previousIdentifiers = Object.assign({}, newObject.identifiers);
+    }
+
+    return newNIEMObjects;
+
   }
 
   /**

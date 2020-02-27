@@ -1,6 +1,9 @@
 
 let DataSetInterface = require("./interface");
 
+// @ts-ignore
+let _ = require("lodash");
+
 /**
  * @template {NIEMObject} T
  * @template {Object<string, string>} IdentifiersType
@@ -143,21 +146,21 @@ class DataSet extends DataSetInterface {
 
     if (! object) return;
 
-    let copy = new this.ObjectClass();
+    let copyByRef = ["_source", "niem", "model", "release"];
 
-    for (let key of Object.keys(object)) {
+    // Deep clone all object properties except in the exclude list above, to be handled below
+    let copy = _.cloneDeep(_.omit(object, copyByRef));
+    copy = Object.assign(new this.ObjectClass(), copy);
 
-      // Skip undefined values
-      if (object[key] == undefined) continue;
-
-      if (["_source", "niem", "model", "release"].includes(key)) {
-        // Copy by reference
-        copy[key] = object[key];
-      }
-      else {
-        // Copy by value
-        copy[key] = JSON.parse(JSON.stringify(object[key]));
-      }
+    if (object.constructor.name == "Model") {
+      copy.niem = object.niem;
+      copy._source = object._source;
+    }
+    else if (object.constructor.name == "Release") {
+      copy.model = object.model;
+    }
+    else {
+      copy.release = object.release;
     }
 
     // @ts-ignore

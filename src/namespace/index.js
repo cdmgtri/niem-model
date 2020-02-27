@@ -122,6 +122,14 @@ class Namespace extends ReleaseObject {
       },
 
       /**
+       * @param {LocalTerm[]} localTerms
+       */
+      addMultiple: async(localTerms) => {
+        localTerms.forEach( localTerm => localTerm.prefix = this.prefix );
+        return this.release.localTerms.addMultiple(localTerms);
+      },
+
+      /**
        * @param {string} term
        */
       get: async (term) => {
@@ -160,6 +168,14 @@ class Namespace extends ReleaseObject {
        */
       add: async (name, definition, typeQName, groupQName, isElement=true, isAbstract=false) => {
         return this.release.properties.add(this.prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+      },
+
+      /**
+       * @param {Property[]} properties
+       */
+      addMultiple: async(properties) => {
+        properties.forEach( property => property.prefix = this.prefix );
+        return this.release.properties.addMultiple(properties);
       },
 
       /**
@@ -202,6 +218,14 @@ class Namespace extends ReleaseObject {
       },
 
       /**
+       * @param {Type[]} types
+       */
+      addMultiple: async(types) => {
+        types.forEach( type => type.prefix = this.prefix );
+        return this.release.types.addMultiple(types);
+      },
+
+      /**
        * @param {string} name
        */
       get: async (name) => {
@@ -238,6 +262,14 @@ class Namespace extends ReleaseObject {
        */
       add: async (typeName, value, definition, style="enumeration") => {
         return this.release.facets.add(this.prefix + typeName, value, definition, style);
+      },
+
+      /**
+       * Does not set namespace information
+       * @param {Facet[]} facets
+       */
+      addMultiple: async(facets) => {
+        return this.release.facets.addMultiple(facets);
       },
 
       /**
@@ -280,6 +312,14 @@ class Namespace extends ReleaseObject {
        */
       add: async (typeName, propertyQName, min, max, definition) => {
         return this.release.subProperties.add(this.prefix + typeName, propertyQName, min, max, definition);
+      },
+
+      /**
+       * Does not set namespace information
+       * @param {SubProperty[]} subProperties
+       */
+      addMultiple: async(subProperties) => {
+        return this.release.subProperties.addMultiple(subProperties);
       },
 
       /**

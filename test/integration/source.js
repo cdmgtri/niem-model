@@ -132,6 +132,35 @@ module.exports = () => {
         expect(property.route).toBe(release.route + "/properties/nc:PersonGivenName");
       });
 
+      test("#addMultiple", async() => {
+        // Add multiple properties at once
+        let p1 = new Property("nc", "Name1");
+        let p2 = new Property("nc", "Name2");
+        let p3 = new Property("nc", "Name3");
+
+        let properties = await release.properties.addMultiple([p1, p2, p3]);
+
+        let added1 = await release.properties.get("nc:Name1");
+        expect(added1.qname).toBe("nc:Name1");
+
+        let added2 = await release.properties.get("nc:Name2");
+        expect(added2.qname).toBe("nc:Name2");
+
+        let added3 = await release.properties.get("nc:Name3");
+        expect(added3.qname).toBe("nc:Name3");
+
+        // Try to add a duplicate.  The full set should be rejected.
+        let p4 = new Property("nc", "Name1");  // duplicate property name in namespace nc
+        let p5 = new Property("nc", "Name5");
+
+        let newProperties = await release.properties.addMultiple([p4, p5]);
+        expect(newProperties).toBeUndefined();
+
+        let added5 = await release.properties.get("nc:Name5");
+        expect(added5).toBeUndefined();
+
+      });
+
       test("#get", async () => {
         // Get the added property
         let p = await release.properties.get("nc:PersonGivenName");
@@ -145,7 +174,7 @@ module.exports = () => {
       test("#find", async () => {
         // Find properties filtered on elements
         let properties = await release.properties.find({isElement: true});
-        expect(properties.length).toBe(1);
+        expect(properties.length).toBe(4);
 
         // Test find function for a false boolean value
         await release.properties.add("nc", "personNameInitialIndicator", "True if the name value is an initial; false otherwise.", "xs:boolean", undefined, false);
@@ -316,7 +345,7 @@ module.exports = () => {
 
       test("#find", async () => {
         let properties = await namespace.properties.find({ isElement: true });
-        expect(properties.length).toBe(2);
+        expect(properties.length).toBe(5);
       });
 
     });
