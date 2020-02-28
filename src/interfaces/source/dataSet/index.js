@@ -153,13 +153,18 @@ class DataSet extends DataSetInterface {
     copy = Object.assign(new this.ObjectClass(), copy);
 
     if (object.constructor.name == "Model") {
+      // @ts-ignore
       copy.niem = object.niem;
+
+      // @ts-ignore
       copy._source = object._source;
     }
     else if (object.constructor.name == "Release") {
+      // @ts-ignore
       copy.model = object.model;
     }
     else {
+      // @ts-ignore
       copy.release = object.release;
     }
 

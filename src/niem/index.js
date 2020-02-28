@@ -1,5 +1,5 @@
 
-let NIEMModelSourceMemory = require("../interfaces/source/index");
+let SourceDefault = require("../interfaces/source/index");
 
 let Model = require("../model/index");
 let Release = require("../release/index");
@@ -9,17 +9,17 @@ let Property = require("../property/index");
 let Type = require("../type/index");
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
-let NIEMModelSource = require("../interfaces/source/interface");
+
 
 class NIEM {
 
   /**
-   * @param {NIEMModelSource} [source]
+   * @param {SourceInterface} [source]
    */
   constructor(source) {
 
-    /** @type {NIEMModelSource[]} */
-    this.sources = source ? [source] : [new NIEMModelSourceMemory()];
+    /** @type {SourceInterface[]} */
+    this.sources = source ? [source] : [new SourceDefault()];
 
   }
 
@@ -351,6 +351,34 @@ class NIEM {
     };
   }
 
+  /**
+   * @param {string} jsonString - JSON containing one or more NIEM sources
+   */
+  async load(jsonString) {
+
+    /** @type {Object[]} */
+    let sources = JSON.parse(jsonString);
+
+    for (let i = 0; i < sources.length; i++) {
+      if (! this.sources[i]) {
+        this.sources[i] = new SourceDefault();
+      }
+      await this.sources[i].load(this, sources[i]);
+    }
+
+  }
+
+  /**
+   * @param {boolean} asJSON = Export
+   */
+  async export() {
+    let json = JSON.stringify(this.sources);
+    return json;
+  }
+
+
 }
 
 module.exports = NIEM;
+
+let SourceInterface = require("../interfaces/source/interface");

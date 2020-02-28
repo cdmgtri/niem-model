@@ -522,27 +522,25 @@ module.exports = () => {
       /**
        * @todo Compare previous and updated dbs.  Shouldn't change once stable.
        */
-      test("#save", () => {
+      test("#save", async () => {
         let fs = require("fs");
-        let json = JSON.stringify(niem.sources);
+        let json = await niem.export();
         fs.writeFileSync("test/db.json", json);
         expect(true).toBeTruthy();
       });
 
       test("#load", async () => {
 
+        // Check that a certain property exists
         let p = await niem.properties.get("test", "niem", "4.1", "nc:PersonGivenName");
         expect(p).toBeDefined();
 
-        let fs = require("fs");
-        let text = fs.readFileSync("test/db.json");
-
-        // @ts-ignore
-        let json = JSON.parse(text);
-
+        // Export the current sources and reload into a new NIEM instance
+        let jsonString = await niem.export();
         let niem2 = new NIEM();
-        await niem2.sources[0].load(niem2, json[0]);
+        await niem2.load(jsonString);
 
+        // Check that the property from the original NIEM instance still exists in the reloaded NIEM instance
         let p2 = await niem2.properties.get("test", "niem", "4.1", "nc:PersonGivenName");
         expect(p2).toBeDefined();
       });
