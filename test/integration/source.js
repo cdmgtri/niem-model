@@ -3,6 +3,9 @@
 
 module.exports = () => {
 
+  let fs = require("fs");
+  let path = require("path");
+
   let { NIEM, Model, Release, Namespace, Property, Type } = require("../../src/index");
 
   let niem = new NIEM();
@@ -522,11 +525,32 @@ module.exports = () => {
       /**
        * @todo Compare previous and updated dbs.  Shouldn't change once stable.
        */
-      test("#save", async () => {
-        let fs = require("fs");
-        let json = await niem.export();
-        fs.writeFileSync("test/db.json", json);
-        expect(true).toBeTruthy();
+      test("#export", async () => {
+
+        let filePath = path.resolve("test/db");
+
+        // Export source data as JSON string, file, and zip
+        let json = await niem.export(filePath, {saveFile: true, saveZip: true});
+
+        // Reload JSON string
+        let niem1 = new NIEM();
+        await niem1.load(json);
+        let p1 = await niem1.properties.get("test", "niem", "4.1", "nc:PersonGivenName");
+        expect(p1).toBeDefined();
+
+
+        // Reload JSON file
+        let niem2 = new NIEM();
+        await niem2.loadFile(filePath + ".json");
+        let p2 = await niem2.properties.get("test", "niem", "4.1", "nc:PersonGivenName");
+        expect(p2).toBeDefined();
+
+        // Reload zip file
+        let niem3 = new NIEM();
+        await niem3.loadFile(filePath + ".zip");
+        let p3 = await niem3.properties.get("test", "niem", "4.1", "nc:PersonGivenName");
+        expect(p3).toBeDefined();
+
       });
 
       test("#load", async () => {

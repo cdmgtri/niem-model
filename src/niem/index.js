@@ -1,4 +1,7 @@
 
+// @ts-ignore
+let JSZip = require("jszip");
+
 let SourceDefault = require("../interfaces/source/index");
 
 let Model = require("../model/index");
@@ -352,12 +355,19 @@ class NIEM {
   }
 
   /**
-   * @param {string} jsonString - JSON containing one or more NIEM sources
+   * @param {string|Object} json - JSON containing one or more NIEM sources
    */
-  async load(jsonString) {
+  async load(json) {
 
     /** @type {Object[]} */
-    let sources = JSON.parse(jsonString);
+    let sources;
+
+    if (typeof json == "string") {
+      sources = JSON.parse(json);
+    }
+    else {
+      sources = json;
+    }
 
     for (let i = 0; i < sources.length; i++) {
       if (! this.sources[i]) {
@@ -369,10 +379,55 @@ class NIEM {
   }
 
   /**
-   * @param {boolean} asJSON = Export
+   * Loads a sources JSON file or zip file
+   * @param {String} filePath
    */
-  async export() {
+  async loadFile(filePath) {
+
+    let fs = require("fs").promises;
+
+    // Load a JSON file
+    if (filePath.endsWith(".json")) {
+      let json = await fs.readFile(filePath, "utf8");
+      return this.load(json);
+    }
+
+    // Load a zip file
+    if (filePath.endsWith(".zip")) {
+      let data = await fs.readFile(filePath);
+      let zip = await JSZip.loadAsync(data);
+      let json = await zip.files["source.json"].async("string");
+      return this.load(json);
+    }
+
+  }
+
+  /**
+   * @param {String} [filePath]
+   * @param {Object} [options]
+   * @param {boolean} options.saveFile
+   * @param {boolean} options.saveZip
+   */
+  async export(filePath, options) {
+
     let json = JSON.stringify(this.sources);
+
+    if (filePath) {
+
+      if (options.saveFile) {
+        let fs = require("fs").promises;
+        await fs.writeFile(filePath + ".json", json);
+      }
+      if (options.saveZip) {
+        let fs = require("fs").promises;
+        let zip = new JSZip();
+        zip.file("source.json", json);
+        let zipContents = await zip.generateAsync({type: "uint8array", compression: "DEFLATE"});
+        await fs.writeFile(filePath + ".zip", zipContents);
+
+      }
+    }
+
     return json;
   }
 
