@@ -405,12 +405,20 @@ class NIEM {
   /**
    * @param {String} [filePath]
    * @param {Object} [options]
-   * @param {boolean} options.saveFile
-   * @param {boolean} options.saveZip
+   * @param {boolean} [options.saveFile]
+   * @param {boolean} [options.saveZip]
+   * @param {boolean} [options.log] True to in include the log in the export
    */
-  async export(filePath, options) {
+  async export(filePath, options={}) {
 
     let json = JSON.stringify(this.sources);
+
+    if (! options.log) {
+      /** @type {Object[]} */
+      let sources = JSON.parse(json);
+      sources.forEach( source => source.log = [] );
+      json = JSON.stringify(sources);
+    }
 
     if (filePath) {
 
