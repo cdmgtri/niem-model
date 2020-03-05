@@ -5,10 +5,12 @@
     "clonedeep",
     "jszip",
     "lapd",
+    "nocheck",
     "nodebuffer",
     "nonconformant",
     "serializers",
     "subproperties",
-    "subproperty"
+    "subproperty",
+    "ts"
   ]
 }

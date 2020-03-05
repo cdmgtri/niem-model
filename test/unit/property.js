@@ -44,6 +44,7 @@ function testProperty() {
         prefix: "nc",
         name: "PersonName",
         definition: "A name of a person.",
+        groupQName: "",
         typeQName: "nc:PersonNameType",
         isAbstract: false,
         isElement: true,

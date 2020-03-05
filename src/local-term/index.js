@@ -9,7 +9,7 @@ class LocalTerm extends ReleaseObject {
    * @param {String} literal
    * @param {String} definition
    */
-  constructor(prefix, term, literal, definition) {
+  constructor(prefix="", term="", literal="", definition="") {
     super();
     this.prefix = prefix;
     this.term = term;

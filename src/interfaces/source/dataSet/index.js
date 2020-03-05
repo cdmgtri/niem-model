@@ -23,7 +23,6 @@ class DataSet extends DataSetInterface {
     this.ObjectClass = ObjectClass;
 
     /**
-     * @private
      * @type {T[]}
       */
     this.data = [];

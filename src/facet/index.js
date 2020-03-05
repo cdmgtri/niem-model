@@ -14,7 +14,7 @@ class Facet extends ReleaseObject {
    * @param {string} [definition]
    * @param {StyleType} [style="enumeration"] Defaults to enumeration
    */
-  constructor(typeQName, value, definition, style="enumeration") {
+  constructor(typeQName, value, definition="", style="enumeration") {
     super();
 
     this.typeQName = typeQName;

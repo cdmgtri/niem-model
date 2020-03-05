@@ -25,7 +25,7 @@ function testType() {
       expect(type.isComplexContent).toBe(true);
       expect(type.style).toBe("object");
       expect(type.styleCategory).toBe("CCC");
-      expect(type.baseQName).toBe(undefined);
+      expect(type.baseQName).toBe("");
       expect(type.baseQNameDefault).toBe("structures:ObjectType");
       expect(type.label).toBe("nc:PersonType");
 

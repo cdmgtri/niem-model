@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 let SourceInterface = require("./interface");
 let DataSet = require("./dataSet/index");
@@ -22,28 +23,28 @@ class NIEMSourceMemory extends SourceInterface {
 
     this.log = this.logger.log;
 
-    // @ts-ignore
+    /** @type {DataSet<Model>} */
     this.models = new DataSet(Model, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<Release>} */
     this.releases = new DataSet(Release, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<Namespace>} */
     this.namespaces = new DataSet(Namespace, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<Property>} */
     this.properties = new DataSet(Property, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<Type>} */
     this.types = new DataSet(Type, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<LocalTerm>} */
     this.localTerms = new DataSet(LocalTerm, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<SubProperty>} */
     this.subProperties = new DataSet(SubProperty, this.logger);
 
-    // @ts-ignore
+    /** @type {DataSet<Facet>} */
     this.facets = new DataSet(Facet, this.logger);
 
   }

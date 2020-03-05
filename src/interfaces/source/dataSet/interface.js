@@ -3,7 +3,7 @@ let Change = require("../change/index");
 let Transaction = require("../transaction/index");
 
 /**
- * @template {NIEMObject<T>} T
+ * @template {NIEMObject} T
  * @template {Object<string, string>} IdentifiersType
  * @template {Object<string, any>} CriteriaType
  */

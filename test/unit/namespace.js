@@ -56,6 +56,10 @@ function testNamespace() {
         releaseKey: "1.0",
         prefix: "nc",
         style: "core",
+        definition: "",
+        fileName: "",
+        uri: "",
+        version: "",
         previousIdentifiers: {
           userKey: "user",
           modelKey: "test",

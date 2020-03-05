@@ -15,7 +15,7 @@ class SubProperty extends ReleaseObject {
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
    * @param {String} definition
    */
-  constructor(typeQName, propertyQName, min="0", max="unbounded", definition) {
+  constructor(typeQName, propertyQName, min="0", max="unbounded", definition="") {
 
     super();
 

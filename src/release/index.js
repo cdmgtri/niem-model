@@ -18,7 +18,7 @@ class Release extends NIEMObject {
    * @param {string} [branch]
    * @param {string} [description]
    */
-  constructor(releaseKey="default", niemReleaseKey, ndrVersion="4.0", version, status, baseURI, branch, description) {
+  constructor(releaseKey="default", niemReleaseKey="", ndrVersion="4.0", version="", status, baseURI="", branch="", description="") {
 
     super();
 

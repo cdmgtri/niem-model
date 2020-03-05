@@ -14,7 +14,7 @@ class Namespace extends ReleaseObject {
    * @param {String} [definition]
    * @param {String} [version]
    */
-  constructor(prefix, style, uri, fileName, definition, version) {
+  constructor(prefix, style, uri="", fileName="", definition="", version="") {
 
     super();
 

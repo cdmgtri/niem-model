@@ -13,7 +13,7 @@ class Type extends Component {
    * @param {StyleType} [style]
    * @param {string} [baseQName]
    */
-  constructor(prefix, name, definition, style, baseQName) {
+  constructor(prefix="", name="", definition="", style=undefined, baseQName="") {
 
     super(prefix, name, definition);
 
