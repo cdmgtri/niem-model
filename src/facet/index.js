@@ -119,7 +119,34 @@ class Facet extends ReleaseObject {
     };
   }
 
+  /**
+   *
+   *
+   * @static
+   * @param {Facet} facet1
+   * @param {Facet} facet2
+   * @returns {number}
+   * @memberof Facet
+   */
+  static sortFacetsByStyleValueDefinition(facet1, facet2) {
+
+    // Sort facet by style
+    if (facet1.style != facet2.style) return facet1.style.localeCompare(facet2.style);
+
+    // Sort facet by value
+    if (facet1.value != facet2.value) return facet1.value.localeCompare(facet2.value);
+
+    // Sort facet by definition
+    return facet1.definition.localeCompare(facet2.definition);
+
+  }
+
+  static sortFacetsByValue(facet1, facet2) {
+    return facet1.value.localeCompare(facet2.value);
+  }
+
 }
+
 
 /** @typedef {"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"}  StyleType */
 let FacetStyleType;
