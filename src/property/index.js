@@ -26,6 +26,11 @@ class Property extends Component {
     this.isAbstract = isAbstract;
     this.nillable = nillable;
 
+    /** @type {String[]} */
+    this.appliesToPropertyQNames = [];
+
+    /** @type {String[]} */
+    this.appliesToTypeQNames = [];
   }
 
   /**
@@ -130,6 +135,32 @@ class Property extends Component {
     }
 
     return descendantSubstitutions;
+  }
+
+  async appliesToTypes() {
+
+    /** @type {Type[]} */
+    let types = [];
+
+    for (let qname of this.appliesToTypeQNames) {
+      let type = await this.release.types.get(qname);
+      types.push(type);
+    }
+
+    return types;
+  }
+
+  async appliesToProperties() {
+
+    /** @type {Property[]} */
+    let properties = [];
+
+    for (let qname of this.appliesToPropertyQNames) {
+      let property = await this.release.properties.get(qname);
+      properties.push(property);
+    }
+
+    return properties;
   }
 
   get subProperties() {
@@ -321,3 +352,4 @@ module.exports = Property;
 let Change = require("../interfaces/source/change/index");
 let SubProperty = require("../subproperty/index");
 let Release = require("../release/index");
+let Type = require("../type/index");
