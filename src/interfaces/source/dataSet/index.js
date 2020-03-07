@@ -237,6 +237,7 @@ class DataSet extends DataSetInterface {
 
       if (this.ObjectClass.name == "Model") {
         json = Object.assign(new this.ObjectClass(), object);
+        json["niem"] = niem;
         json["source"] = object["source"];
       }
       else if (this.ObjectClass.name == "Release") {

@@ -40,8 +40,8 @@ class NIEM {
        */
       add: async (userKey, modelKey, style, description, website, repo) => {
         let model = Model.create(userKey, modelKey, style, description, website, repo);
-        model._source = this.sources[0];
         model.niem = this;
+        model._source = this.sources[0];
         return model.add();
       },
 

@@ -22,8 +22,8 @@ class Release extends NIEMObject {
 
     super();
 
-    let Model = require("../model/index");
-    this.model = new Model("default", "default");
+    /** @type {Model} */
+    this.model;
 
     this.releaseKey = releaseKey;
     this.niemReleaseKey = niemReleaseKey;

@@ -3,7 +3,6 @@
 
 module.exports = () => {
 
-  let fs = require("fs");
   let path = require("path");
 
   let { NIEM, Model, Release, Namespace, Property, Type } = require("../../src/index");

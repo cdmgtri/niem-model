@@ -18,10 +18,8 @@ class Model extends NIEMObject {
 
     super();
 
-    let NIEMModelSourceImpl = require("../interfaces/source/index");
-
     /** @type {NIEMModelSourceInterface} */
-    this._source = new NIEMModelSourceImpl();
+    this._source;
 
     this.userKey = userKey;
     this.modelKey = modelKey;
@@ -30,8 +28,11 @@ class Model extends NIEMObject {
     this.website = website;
     this.repo = repo;
 
-    let { NIEM } = require("../index");
-    this.niem = new NIEM();
+    // let { NIEM } = require("../index");
+    // this.niem = new NIEM();
+
+    /** @type {NIEM} */
+    this.niem;
 
   }
 
@@ -167,5 +168,6 @@ Model.IdentifiersType;
 
 module.exports = Model;
 
+let NIEM = require("../niem/index");
 let Release = require("../release/index");
 let NIEMModelSourceInterface = require("../interfaces/source/interface");

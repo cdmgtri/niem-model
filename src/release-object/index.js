@@ -13,7 +13,8 @@ class ReleaseObject extends NIEMObject {
 
     super();
 
-    this.release = new Release("default", "default", "4.0");
+    /** @type {Release} */
+    this.release;
 
   }
 
