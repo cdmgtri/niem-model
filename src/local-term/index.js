@@ -83,6 +83,33 @@ class LocalTerm extends ReleaseObject {
     return {userKey, modelKey, releaseKey, prefix, term};
   }
 
+  /**
+   * Custom sort function to sort an array of local terms by term.
+   * @param {LocalTerm} term1
+   * @param {LocalTerm} term2
+   */
+  static sortByTerm(term1, term2) {
+    if (!term1 || !term2) return 0;
+    return term1.term.localeCompare(term2.term);
+  }
+
+  /**
+   * Custom sort function to sort an array of local terms by qualified term.
+   * @param {LocalTerm} term1
+   * @param {LocalTerm} term2
+   */
+  static sortByPrefixTerm(term1, term2) {
+    if (!term1 || !term2) return 0;
+
+    // Sort by prefix
+    if (term1.prefix != term2.prefix) {
+      return term1.prefix.localeCompare(term2.prefix);
+    }
+
+    // Sort by term
+    return term1.term.localeCompare(term2.term);
+  }
+
   toJSON() {
     return {
       ...super.toJSON(),
