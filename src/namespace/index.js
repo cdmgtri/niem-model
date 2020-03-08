@@ -478,6 +478,30 @@ class Namespace extends ReleaseObject {
   }
 
   /**
+   * @todo Identify supplements in Namespace.defaultStyle()
+   * @param {string} uri
+   * @param {string} [base]
+   * @returns {StyleType}
+   */
+  static defaultStyle(uri, base) {
+    let niemBase = "http://release.niem.gov/niem/";
+    if (uri.includes(niemBase)) {
+      if (uri.includes("codes")) return "code";
+      if (uri.includes("domains")) return "domain";
+      if (uri.includes("niem-core")) return "core";
+      if (uri.includes("adapters")) return "adapter";
+      if (uri.includes("proxy")) return "proxy";
+      if (uri.includes("structures")) return "utility";
+      if (uri.includes("appinfo")) return "utility";
+      if (uri.includes("specification")) return "utility";
+    }
+    else if (base && uri.includes(base)) {
+      return "extension";
+    }
+    return "external";
+  }
+
+  /**
    * Custom sort function to order an array of namespaces by prefix.
    *
    * @static
