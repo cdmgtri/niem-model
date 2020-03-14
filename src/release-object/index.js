@@ -122,5 +122,3 @@ class ReleaseObject extends NIEMObject {
 let NDRVersion;
 
 module.exports = ReleaseObject;
-
-let NIEMObjectFormatInterface = require("../interfaces/format/niem-object/index");

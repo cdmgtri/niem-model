@@ -1,8 +1,6 @@
 
 let NIEMObject = require("../niem-object/index");
 
-let NIEMModelFormatInterface = require("../interfaces/format/index");
-
 /**
  * A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.
  */
@@ -34,34 +32,10 @@ class Release extends NIEMObject {
     this.branch = branch;
     this.description = description;
 
-    // Set up interfaces. The niem-model-bundle project will wire in implementations.
-    this.formats = {
-
-      /** @type {NIEMModelFormatInterface<string>} */
-      xsd: NIEMModelFormatInterface.create(this.ndrVersion),
-
-      json: NIEMModelFormatInterface.create(this.ndrVersion)
-    };
-
   }
 
   get niem() {
     return this.model.niem;
-  }
-
-  async xsd() {
-    return this.formats.xsd.release.generate(this);
-  }
-
-  async json() {
-    return this.formats.json.release.generate(this);
-  }
-
-  get load() {
-    return {
-      xsd: async (xsdFiles) => this.formats.xsd.release.load(xsdFiles, this),
-      json: async (jsonFile) => this.formats.json.release.load(jsonFile, this)
-    };
   }
 
   get source() {

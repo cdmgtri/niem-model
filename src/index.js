@@ -27,8 +27,8 @@ module.exports = {
       Logger: require("./interfaces/source/logger/index")
       },
     FormatInterface: {
-      NIEMModelFormat: require("./interfaces/format/index"),
-      NIEMObjectFormat: require("./interfaces/format/niem-object/index")
+      NIEMFormatInterface: require("./interfaces/format/interface"),
+      NIEMObjectFormatInterface: require("./interfaces/format/niem-object/interface")
     }
   },
 
