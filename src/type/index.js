@@ -108,6 +108,13 @@ class Type extends Component {
     return undefined;
   }
 
+  get baseQNameDefaultPrefix() {
+    let qname = this.baseQNameDefault;
+    if (qname) {
+      return Component.getPrefix(qname);
+    }
+  }
+
   /**
    * The general type style - CCC, CSC, or S.
    * @returns {"CCC"|"CSC"|"S"}

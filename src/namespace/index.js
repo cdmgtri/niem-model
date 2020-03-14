@@ -349,6 +349,201 @@ class Namespace extends ReleaseObject {
     };
   }
 
+
+  /**
+   * References to components in other namespaces from this namespace
+   */
+  async dependencyReferences() {
+
+    /** @type {{source: Component, relationship: string, reference: Component, referenceStyle: "type"|"property", referenceQName?: string, sourceQName?: string}[]} */
+    let dependency;
+
+    let results = {
+
+      /** @type {dependency} */
+      dependencyList: [],
+
+      /** @type {Namespace[]} */
+      namespaces: [],
+
+      /** @type {Property[]} */
+      properties: [],
+
+      /** @type {Type[]} */
+      types: []
+    };
+
+    // Properties and types from this namespace
+    let namespaceProperties = await this.properties.find();
+    let namespaceTypes = await this.types.find();
+    let namespaceSubProperties = await this.subProperties.find();
+
+
+    // *** Add type references ***********
+
+    // Property data types
+    namespaceProperties
+    .filter( property => property.typePrefix && property.typePrefix != this.prefix )
+    .forEach( property => {
+      results.dependencyList.push( {
+        source: property,
+        relationship: "data type",
+        reference: undefined,
+        referenceQName: property.typeQName,
+        referenceStyle: "type"
+      });
+    });
+
+    // Type bases (get default base from structures if base is undefined)
+    namespaceTypes
+    .filter( type => type.baseQNameDefaultPrefix && type.baseQNameDefaultPrefix != this.prefix )
+    .forEach( type => {
+      results.dependencyList.push({
+        source: type,
+        relationship: "base type",
+        reference: undefined,
+        referenceQName: type.baseQNameDefault,
+        referenceStyle: "type"
+      });
+    });
+
+    // Type unions
+    namespaceTypes
+    .filter( type => type.memberQNames.length > 0 )
+    .forEach( type => {
+      type.memberQNames.forEach( qname => {
+        if (!qname.startsWith(this.prefix + ":")) {
+          results.dependencyList.push({
+            source: type,
+            relationship: "union member",
+            reference: undefined,
+            referenceQName: qname,
+            referenceStyle: "type"
+          });
+        }
+      });
+    });
+
+    // Property appliesToTypes
+    namespaceProperties
+    .filter( property => property.appliesToTypeQNames.length > 0 )
+    .forEach( property => {
+      property.appliesToTypeQNames.forEach( qname => {
+        if (!qname.startsWith(this.prefix + ":")) {
+          results.dependencyList.push({
+            source: property,
+            relationship: "metadata appliesToType",
+            reference: undefined,
+            referenceQName: qname,
+            referenceStyle: "type"
+          });
+        }
+      });
+    });
+
+
+
+    // *** Add property references ***********
+
+    // Property substitution group heads
+    namespaceProperties
+    .filter( property => property.groupPrefix && property.groupPrefix != this.prefix )
+    .forEach( property => {
+      results.dependencyList.push({
+        source: property,
+        relationship: "substitution group",
+        reference: undefined,
+        referenceQName: property.groupQName,
+        referenceStyle: "property"
+      });
+     });
+
+    // Property appliesToTypes
+    namespaceProperties
+    .filter( property => property.appliesToPropertyQNames.length > 0 )
+    .forEach( property => {
+      property.appliesToPropertyQNames.forEach( qname => {
+        if (!qname.startsWith(this.prefix + ":")) {
+          results.dependencyList.push({
+            source: property,
+            relationship: "metadata appliesToProperty",
+            reference: undefined,
+            referenceQName: qname,
+            referenceStyle: "property"
+          });
+        }
+      });
+    });
+
+    // Type sub-properties
+    namespaceSubProperties
+    .filter( subProperty => subProperty.propertyPrefix && subProperty.propertyPrefix != this.prefix )
+    .forEach( subProperty => {
+      results.dependencyList.push({
+        source: undefined,
+        sourceQName: subProperty.typeQName,
+        relationship: "contains property",
+        reference: undefined,
+        referenceQName: subProperty.propertyQName,
+        referenceStyle: "property"
+      });
+    } );
+
+
+
+    // Add the full components matching the dependency qnames
+    for (let dependency of results.dependencyList) {
+      if (dependency.referenceStyle == "property") {
+        dependency.reference = await this.release.properties.get(dependency.referenceQName);
+      }
+      else {
+        dependency.reference = await this.release.types.get(dependency.referenceQName);
+      }
+
+      if (dependency.sourceQName) {
+        dependency.source = await this.release.properties.get(dependency.sourceQName);
+      }
+    }
+
+
+    // *** Add unique namespace references ***********
+
+    let prefixes = results.dependencyList
+    .filter( dependency => dependency.reference)
+    .map( dependency => dependency.reference.prefix );
+
+    let prefixSet = new Set(prefixes);
+
+    for (let prefix of prefixSet) {
+      let namespace = await this.release.namespaces.get(prefix);
+      results.namespaces.push(namespace);
+    }
+
+
+    // *** Add unique property and type references ***********
+    results.dependencyList
+    .filter( dependency => dependency.referenceStyle == "property" )
+    .forEach( dependency => {
+      if (!results.properties.find( property => property.qname == dependency.reference.qname )) {
+        // @ts-ignore
+        results.properties.push( dependency.reference );
+      }
+    });
+
+    results.dependencyList
+    .filter( dependency => dependency.referenceStyle == "type" )
+    .forEach( dependency => {
+      if (!results.types.find( type => type.qname == dependency.reference.qname )) {
+        // @ts-ignore
+        results.types.push( dependency.reference );
+      }
+    });
+
+
+    return results;
+
+  }
+
   /**
    * @example `For Core, dependents j:PersonEyeColorCode (substitutes for
      nc:PersonEyeColorAbstract) and hs:ServiceType (extends nc:ActivityType)`
@@ -591,6 +786,7 @@ module.exports = Namespace;
 
 let Property = require("../property/index");
 let Type = require("../type/index");
+let Component = require("../component/index");
 let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
