@@ -70,12 +70,14 @@ class Release extends NIEMObject {
        * @param {string} [fileName]
        * @param {string} [definition]
        * @param {string} [version]
+       * @param {string} [relativePath]
        * @returns {Promise<Namespace>}
        */
-      add: async (prefix, style, uri, fileName, definition, version) => {
+      add: async (prefix, style, uri, fileName, definition, version, relativePath) => {
         // Use Namespace builder to return the right NDR-version of a namespace
         let namespace = Namespace.create(this.ndrVersion, prefix, style, uri, fileName, definition, version);
         namespace.release = this;
+        namespace.relativePath = relativePath;
         return namespace.add();
       },
 
@@ -383,6 +385,64 @@ class Release extends NIEMObject {
   async dependents() {
     let namespaces = await this.namespaces.find();
     return { namespaces, count: namespaces.length };
+  }
+
+  async loadBuiltIns() {
+
+    // Add XML schema namespace
+    let xs = await this.namespaces.add("xs", "built-in", "http://www.w3.org/2001/XMLSchema");
+
+    // Add XML schema simple types
+    await xs.types.add("base64Binary", "A data type for Base64-encoded binary data.", "simple");
+    await xs.types.add("boolean", "A data type for binary-valued logic (true/false).", "simple");
+    await xs.types.add("byte", "A data type that is  is derived from short by setting the value of maxInclusive to be 127 and minInclusive to be -128.", "simple");
+    await xs.types.add("anyURI", "anyURI represents a Uniform Resource Identifier Reference (URI).", "simple");
+    await xs.types.add("double", "The double datatype is patterned after the IEEE double-precision 64-bit floating point type [IEEE 754-1985].", "simple");
+    await xs.types.add("gDay", "gDay is a gregorian day that recurs, specifically a day of the month such as the 5th of the month.", "simple");
+    await xs.types.add("date", "A data type for a calendar date with the format CCYY-MM-DD.", "simple");
+    await xs.types.add("dateTime", "dateTime values may be viewed as objects with integer-valued year, month, day, hour and minute properties, a decimal-valued second property, and a boolean timezoned property.", "simple");
+    await xs.types.add("decimal", "A data type for arbitrary precision decimal numbers.", "simple");
+    await xs.types.add("duration", "A data type for a duration of time with the format PnYnMnDTnHnMnS, where nY is the number of years, nM is the number of months, nD is the number of days, nH is the number of hours, nM is the number of minutes, and nS is the number of seconds.", "simple");
+    await xs.types.add("gYear", "A data type for a Gregorian calendar year with the format CCYY.", "simple");
+    await xs.types.add("gYearMonth", "A data type for a specific gregorian month in a specific gregorian year.", "simple");
+    await xs.types.add("float", "A data type that is patterned after the IEEE single-precision 32-bit floating point type [IEEE 754-1985]. The basic value space of float consists of the values m x 2^e, where m is an integer whose absolute value is less than 2^24, and e is an integer between -149 and 104, inclusive. In addition to the basic value space described above, the value space of float also contains the following three special values: positive and negative infinity and not-a-number (NaN).", "simple");
+    await xs.types.add("gMonth", "A data type for a Gregorian month with the format --MM--.", "simple");
+    await xs.types.add("gMonthDay", "A data type for a gregorian date that recurs, specifically a day of the year such as the third of May. Arbitrary recurring dates are not supported by this datatype. The value space of gMonthDay is the set of calendar dates, as defined in Section 3 of [ISO 8601]. Specifically, it is a set of one-day long, annually periodic instances.", "simple");
+    await xs.types.add("language", "A data type that represents natural language identifiers as defined by by [RFC 3066].", "simple");
+    await xs.types.add("hexBinary", "A data type for hex-encoded binary data.", "simple");
+    await xs.types.add("int", "A data type that is  is derived from long by setting the value of maxInclusive to be 2147483647 and minInclusive to be -2147483648.", "simple");
+    await xs.types.add("integer", "A data type for the standard mathematical concept of integer numbers.", "simple");
+    await xs.types.add("long", "A data type that is derived from integer by setting the value of maxInclusive to be 9223372036854775807 and minInclusive to be -9223372036854775808.", "simple");
+    await xs.types.add("negativeInteger", "A data type that is derived from nonPositiveInteger by setting the value of maxInclusive to be -1.", "simple");
+    await xs.types.add("nonNegativeInteger", "A data type for an integer with a minimum value of 0.", "simple");
+    await xs.types.add("nonPositiveInteger", "A data type for a lexical representation consisting of an optional preceding sign followed by a finite-length sequence of decimal digits.", "simple");
+    await xs.types.add("normalizedString", "A data type that represents white space normalized strings. The value space of normalizedString is the set of strings that do not contain the carriage return, line feed nor tab characters.", "simple");
+    await xs.types.add("token", "A data type for tokenized strings.", "simple");
+    await xs.types.add("positiveInteger", "positiveInteger is derived from nonNegativeInteger by setting the value of minInclusive to be 1.", "simple");
+    await xs.types.add("short", "A data type that is derived from int by setting the value of maxInclusive to be 32767 and minInclusive to be -32768.", "simple");
+    await xs.types.add("time", "A data type for an instant of time with the format hh:mm:ss.sss.", "simple");
+    await xs.types.add("string", "A data type for character strings in XML.", "simple");
+    await xs.types.add("unsignedByte", "A data type that is derived from unsignedShort by setting the value of maxInclusive to be 255.", "simple");
+    await xs.types.add("unsignedInt", "A data type that is derived from unsignedLong by setting the value of maxInclusive to be 4294967295.", "simple");
+    await xs.types.add("unsignedLong", "A data type that is derived from nonNegativeInteger by setting the value of maxInclusive to be 18446744073709551615.", "simple");
+    await xs.types.add("unsignedShort", "A data type that is derived from unsignedInt by setting the value of maxInclusive to be 65535.", "simple");
+
+    // Add XML namespace
+    let xml = await this.namespaces.add("xml", "built-in", "");
+
+    // Add attribute xml:lang
+    await xml.properties.add("lang", "A human language used in the scope of the element to which it's attached.", undefined, undefined, false);
+
+  }
+
+  async loadUtilities() {
+
+    let structures = await this.namespaces.add("structures", "utility", "", "structures", "");
+
+    await structures.types.add("ObjectType", undefined, "object");
+    await structures.types.add("AssociationType", "", "augmentation");
+    await structures.types.add("AugmentationType", undefined, "augmentation");
+
   }
 
   get modelKey() {

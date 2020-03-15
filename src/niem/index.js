@@ -369,12 +369,13 @@ class NIEM {
       sources = json;
     }
 
-    for (let i = 0; i < sources.length; i++) {
-      if (! this.sources[i]) {
-        this.sources[i] = new SourceDefault();
-      }
-      await this.sources[i].load(this, sources[i]);
-    }
+    await this.sources[0].load(this, sources[0]);
+    // for (let i = 0; i < sources.length; i++) {
+      //   if (! this.sources[i]) {
+        //     this.sources[i] = new SourceDefault();
+        //   }
+        // await this.sources[i].load(this, sources[i]);
+    // }
 
   }
 

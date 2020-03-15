@@ -487,7 +487,7 @@ class Namespace extends ReleaseObject {
         referenceQName: subProperty.propertyQName,
         referenceStyle: "property"
       });
-    } );
+    });
 
 
 
@@ -513,6 +513,9 @@ class Namespace extends ReleaseObject {
     .map( dependency => dependency.reference.prefix );
 
     let prefixSet = new Set(prefixes);
+
+    // Make sure structures is in the dependency list
+    prefixSet.add("structures");
 
     for (let prefix of prefixSet) {
       let namespace = await this.release.namespaces.get(prefix);

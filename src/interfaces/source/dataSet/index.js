@@ -238,7 +238,7 @@ class DataSet extends DataSetInterface {
       if (this.ObjectClass.name == "Model") {
         json = Object.assign(new this.ObjectClass(), object);
         json["niem"] = niem;
-        json["source"] = object["source"];
+        json["source"] = niem.sources[0];
       }
       else if (this.ObjectClass.name == "Release") {
         // Find the model object of the release and remove release getters
