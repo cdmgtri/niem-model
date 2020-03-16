@@ -12,9 +12,10 @@ class Namespace extends ReleaseObject {
    * @param {String} [uri]
    * @param {String} [fileName]
    * @param {String} [definition]
-   * @param {String} [version]
+   * @param {String} [version] e.g., "4.2"
+   * @param {String} [draft] e.g., "alpha1", "beta1", "1"
    */
-  constructor(prefix, style, uri="", fileName="", definition="", version="") {
+  constructor(prefix, style, uri="", fileName="", definition="", version="", draft="") {
 
     super();
 
@@ -24,6 +25,7 @@ class Namespace extends ReleaseObject {
     this.fileName = fileName;
     this.definition = definition;
     this.version = version;
+    this.draft = draft;
 
     this.conformanceTargets = [];
 
@@ -748,6 +750,7 @@ class Namespace extends ReleaseObject {
       fileName: this.fileName,
       definition: this.definition,
       version: this.version,
+      draft: this.draft,
       style: this.style,
       conformanceTargets: this.conformanceTargets.length > 0 ? this.conformanceTargets : undefined,
       relativePath: this.relativePath,

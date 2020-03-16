@@ -57,6 +57,7 @@ function testNamespace() {
         prefix: "nc",
         style: "core",
         definition: "",
+        draft: "",
         fileName: "",
         uri: "",
         version: "",
