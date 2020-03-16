@@ -141,6 +141,29 @@ class Facet extends ReleaseObject {
 
   }
 
+  /**
+   * Sorts by facet style descending (so min facets appear before max facets),
+   * and then facet value and definition.
+   *
+   * @static
+   * @param {Facet} facet1
+   * @param {Facet} facet2
+   * @returns {number}
+   * @memberof Facet
+   */
+  static sortFacetsByStyleDescValueDefinition(facet1, facet2) {
+
+    // Sort facet by style DESC
+    if (facet1.style != facet2.style) return facet2.style.localeCompare(facet1.style);
+
+    // Sort facet by value
+    if (facet1.value != facet2.value) return facet1.value.localeCompare(facet2.value);
+
+    // Sort facet by definition
+    return facet1.definition.localeCompare(facet2.definition);
+
+  }
+
   static sortFacetsByValue(facet1, facet2) {
     return facet1.value.localeCompare(facet2.value);
   }
