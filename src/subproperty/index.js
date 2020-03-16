@@ -55,7 +55,7 @@ class SubProperty extends ReleaseObject {
   }
 
   get propertyPrefix() {
-    return Component.getPrefix(this.typeQName);
+    return Component.getPrefix(this.propertyQName);
   }
 
   get propertyName() {
