@@ -382,6 +382,11 @@ class Release extends NIEMObject {
     };
   }
 
+  get majorDigit() {
+    if (!this.releaseKey) return;
+    return Number(this.releaseKey[0]);
+  }
+
   async dependents() {
     let namespaces = await this.namespaces.find();
     return { namespaces, count: namespaces.length };

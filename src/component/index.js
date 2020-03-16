@@ -127,6 +127,37 @@ class Component extends ReleaseObject {
     return component1.name.localeCompare(component2.name);
   }
 
+  /**
+   * Custom sort function to order an array of components by name, and then by prefix.
+   *
+   * @example "nc:Activity would appear before ag:ProducerShare"
+   *
+   * @param {Component} component1
+   * @param {Component} component2
+   */
+  static sortByNameCaseSensitive(component1, component2) {
+
+    if (!component1 || ! component2) return 0;
+
+    // Sort by prefix if names match
+    if (component1.name == component2.name) {
+      return component1.prefix < component2.prefix ? -1 : 1;
+    }
+
+    // Sort by name
+    return component1.name < component2.name ? -1 : 1;
+  }
+
+  /**
+   * @param {Release} release
+   */
+  static sortByNameFunction(release) {
+    if (release.majorDigit < 5) {
+      return Component.sortByNameCaseSensitive;
+    }
+    return Component.sortByName;
+  }
+
   get authoritativePrefix() {
     return this.prefix;
   }
@@ -176,3 +207,5 @@ class Component extends ReleaseObject {
 let ComponentIdentifiersType;
 
 module.exports = Component;
+
+let Release = require("../release/index");
