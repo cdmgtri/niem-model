@@ -142,8 +142,10 @@ class Facet extends ReleaseObject {
   }
 
   /**
-   * Sorts by facet style descending (so min facets appear before max facets),
+   * Sorts by facet style, adjusted so that min facets appear before max facets,
    * and then facet value and definition.
+   *
+   * @example "enumeration, length, minValue, maxValue, pattern"
    *
    * @static
    * @param {Facet} facet1
@@ -151,10 +153,21 @@ class Facet extends ReleaseObject {
    * @returns {number}
    * @memberof Facet
    */
-  static sortFacetsByStyleDescValueDefinition(facet1, facet2) {
+  static sortFacetsByStyleAdjustedValueDefinition(facet1, facet2) {
 
-    // Sort facet by style DESC
-    if (facet1.style != facet2.style) return facet2.style.localeCompare(facet1.style);
+    // Sort facet by style adjusted
+    if (facet1.style != facet2.style) {
+      if (facet1.style.startsWith("min") && facet2.style.startsWith("max")) {
+        // Sort min before max styles
+        return -1;
+      }
+      if (facet1.style.startsWith("max") && facet2.style.startsWith("min")) {
+        // Sort max after min
+        return 1;
+      }
+      // Other sort style alphabetically
+      return facet1.style.localeCompare(facet2.style);
+    }
 
     // Sort facet by value
     if (facet1.value != facet2.value) return facet1.value.localeCompare(facet2.value);
