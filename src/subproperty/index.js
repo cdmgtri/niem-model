@@ -25,13 +25,6 @@ class SubProperty extends ReleaseObject {
     this.max = max;
     this.definition = definition;
 
-    let propertyName = this.propertyName;
-    let firstChar = propertyName ? propertyName[0] : "";
-    if (firstChar && firstChar == firstChar.toLowerCase()) {
-      // Set max to 1 for probable attribute (property name starts lower case)
-      this.max = "1";
-    }
-
   }
 
   /**

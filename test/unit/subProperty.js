@@ -28,7 +28,7 @@ function testSubProperty() {
     });
 
     test("sub-attribute default values", async () => {
-      subProperty = await release.subProperties.add("nc:PersonType", "nc:attributeName");
+      subProperty = await release.subProperties.add("nc:PersonType", "nc:attributeName", "0", "1");
       expect(subProperty.route).toBe("/user/test/1.0/types/nc:PersonType/properties/nc:attributeName");
       expect(subProperty.min).toBe("0");
       expect(subProperty.max).toBe("1");
