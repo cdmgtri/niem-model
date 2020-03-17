@@ -297,7 +297,9 @@ class Property extends Component {
       typeQName: this.typeQName,
       isElement: this.isElement,
       isAbstract: this.isAbstract,
-      groupQName: this.groupQName
+      groupQName: this.groupQName,
+      appliesToTypeQNames: this.appliesToTypeQNames && this.appliesToTypeQNames.length > 0 ? this.appliesToTypeQNames : undefined,
+      appliesToPropertyQNames: this.appliesToPropertyQNames &&this.appliesToPropertyQNames.length > 0 ? this.appliesToPropertyQNames : undefined
     };
   }
 

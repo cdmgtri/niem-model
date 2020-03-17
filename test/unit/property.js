@@ -59,6 +59,16 @@ function testProperty() {
       expect(receivedJSON).toEqual(expectedJSON);
     });
 
+    test("#appliesTo", () => {
+      let property = new Property("nc", "Metadata", "Information about data", "nc:MetadataType");
+      property.appliesToTypeQNames = ["structures:ObjectType", "structures:MetadataType"];
+
+      let json = JSON.parse(JSON.stringify(property));
+
+      expect(json.appliesToTypeQNames[0]).toBe("structures:ObjectType");
+      expect(json.appliesToTypeQNames[1]).toBe("structures:MetadataType");
+    });
+
     test("#terms", () => {
 
       // Check basic camel casing
