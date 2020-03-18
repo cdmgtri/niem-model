@@ -339,10 +339,11 @@ class Release extends NIEMObject {
        * @param {string} [min]
        * @param {string} [max]
        * @param {string} [definition]
+       * @param {"element"|"attribute"} [style]
        * @returns {Promise<SubProperty>}
        */
-      add: async (typeQName, propertyQName, min, max, definition) => {
-        let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition);
+      add: async (typeQName, propertyQName, min, max, definition, style) => {
+        let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition, style);
         subProperty.release = this;
         return subProperty.add();
       },

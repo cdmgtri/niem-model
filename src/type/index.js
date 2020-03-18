@@ -211,9 +211,10 @@ class Type extends Component {
        * @param {string} [min="0"] Defaults to "0"
        * @param {string} [max="unbounded"] Defaults to "unbounded"
        * @param {string} definition
+       * @param {"element"|"attribute"} style
        */
-      add: async (propertyQName, min="0", max="unbounded", definition) => {
-        return this.release.subProperties.add(this.qname, propertyQName, min, max, definition);
+      add: async (propertyQName, min="0", max="unbounded", definition, style) => {
+        return this.release.subProperties.add(this.qname, propertyQName, min, max, definition, style);
       },
 
       /**

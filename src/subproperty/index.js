@@ -14,13 +14,15 @@ class SubProperty extends ReleaseObject {
    * @param {String} [min="0"] Default "0"
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
    * @param {String} definition
+   * @param {"element"|"attribute"} style
    */
-  constructor(typeQName, propertyQName, min="0", max="unbounded", definition="") {
+  constructor(typeQName, propertyQName, min="0", max="unbounded", definition="", style="element") {
 
     super();
 
     this.typeQName = typeQName;
     this.propertyQName = propertyQName;
+    this.style = style;
     this.min = min;
     this.max = max;
     this.definition = definition;
@@ -34,9 +36,10 @@ class SubProperty extends ReleaseObject {
    * @param {String} [min="0"] Default "0"
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
    * @param {String} definition
+   * @param {"element"|"attribute"} style
    */
-  static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition) {
-    return new SubProperty(typeQName, propertyQName, min, max, definition);
+  static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition, style) {
+    return new SubProperty(typeQName, propertyQName, min, max, definition, style);
   }
 
   get typePrefix() {
@@ -131,7 +134,8 @@ class SubProperty extends ReleaseObject {
       propertyQName: this.propertyQName,
       min: this.min,
       max: this.max,
-      definition: this.definition
+      definition: this.definition,
+      style: this.style
     };
   }
 

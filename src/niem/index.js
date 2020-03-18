@@ -115,12 +115,6 @@ class NIEM {
           release = await this.releases.add(userKey, modelKey, releaseKey, niemReleaseKey);
         }
 
-        // Return format-specific function that loads data
-        return {
-          xsd: async (input) => release.load.xsd(input),
-          json: async (input) => release.load.json(input)
-        };
-
       },
 
       /**
