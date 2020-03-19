@@ -48,6 +48,8 @@ function testProperty() {
         typeQName: "nc:PersonNameType",
         isAbstract: false,
         isElement: true,
+        appliesToTypeQNames: [],
+        appliesToPropertyQNames: [],
         previousIdentifiers: {
           userKey: "user",
           modelKey: "test",

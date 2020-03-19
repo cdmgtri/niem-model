@@ -298,8 +298,8 @@ class Property extends Component {
       isElement: this.isElement,
       isAbstract: this.isAbstract,
       groupQName: this.groupQName,
-      appliesToTypeQNames: this.appliesToTypeQNames && this.appliesToTypeQNames.length > 0 ? this.appliesToTypeQNames : undefined,
-      appliesToPropertyQNames: this.appliesToPropertyQNames &&this.appliesToPropertyQNames.length > 0 ? this.appliesToPropertyQNames : undefined
+      appliesToTypeQNames: this.appliesToTypeQNames,
+      appliesToPropertyQNames: this.appliesToPropertyQNames
     };
   }
 

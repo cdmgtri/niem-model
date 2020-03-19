@@ -428,7 +428,7 @@ class Namespace extends ReleaseObject {
 
     // Property appliesToTypes
     namespaceProperties
-    .filter( property => property.appliesToTypeQNames.length > 0 )
+    .filter( property => property.appliesToTypeQNames && property.appliesToTypeQNames.length > 0 )
     .forEach( property => {
       property.appliesToTypeQNames.forEach( qname => {
         if (!qname.startsWith(this.prefix + ":")) {
@@ -460,9 +460,9 @@ class Namespace extends ReleaseObject {
       });
      });
 
-    // Property appliesToTypes
+    // Property appliesToProperties
     namespaceProperties
-    .filter( property => property.appliesToPropertyQNames.length > 0 )
+    .filter( property => property.appliesToPropertyQNames && property.appliesToPropertyQNames.length > 0 )
     .forEach( property => {
       property.appliesToPropertyQNames.forEach( qname => {
         if (!qname.startsWith(this.prefix + ":")) {
