@@ -26,6 +26,10 @@ class Property extends Component {
     this.isAbstract = isAbstract;
     this.nillable = nillable;
 
+    if (!this.isElement || this.isAbstract) {
+      this.nillable = false;
+    }
+
     /** @type {String[]} */
     this.appliesToPropertyQNames = [];
 
