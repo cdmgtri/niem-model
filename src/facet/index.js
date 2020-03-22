@@ -120,8 +120,6 @@ class Facet extends ReleaseObject {
   }
 
   /**
-   *
-   *
    * @static
    * @param {Facet} facet1
    * @param {Facet} facet2
@@ -129,6 +127,11 @@ class Facet extends ReleaseObject {
    * @memberof Facet
    */
   static sortFacetsByStyleValueDefinition(facet1, facet2) {
+
+    // Sort facet by type qname
+    if (facet1.typeQName != facet2.typeQName) {
+      return facet1.typeQName.localeCompare(facet2.typeQName);
+    }
 
     // Sort facet by style
     if (facet1.style != facet2.style) return facet1.style.localeCompare(facet2.style);
@@ -142,7 +145,7 @@ class Facet extends ReleaseObject {
   }
 
   /**
-   * Sorts by facet style, adjusted so that min facets appear before max facets,
+   * Sorts by facet type qname, style, adjusted so that min facets appear before max facets,
    * and then facet value and definition.
    *
    * @example "enumeration, length, minValue, maxValue, pattern"
@@ -154,6 +157,11 @@ class Facet extends ReleaseObject {
    * @memberof Facet
    */
   static sortFacetsByStyleAdjustedValueDefinition(facet1, facet2) {
+
+    // Sort facet by type qname
+    if (facet1.typeQName != facet2.typeQName) {
+      return facet1.typeQName.localeCompare(facet2.typeQName);
+    }
 
     // Sort facet by style adjusted
     if (facet1.style != facet2.style) {
@@ -177,8 +185,20 @@ class Facet extends ReleaseObject {
 
   }
 
+  /**
+   * @param {Facet} facet1
+   * @param {Facet} facet2
+   */
   static sortFacetsByValue(facet1, facet2) {
+
+    // Sort facet by type qname
+    if (facet1.typeQName != facet2.typeQName) {
+      return facet1.typeQName.localeCompare(facet2.typeQName);
+    }
+
+    // Sort facet by value
     return facet1.value.localeCompare(facet2.value);
+
   }
 
 }
