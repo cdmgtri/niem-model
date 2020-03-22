@@ -568,6 +568,16 @@ module.exports = () => {
         expect(p2).toBeDefined();
       });
 
+      test("#5.0 release", async () => {
+
+        let niem = new NIEM();
+        await niem.loadFile("test/integration/niem-release-5.0.json");
+
+        let release = await niem.releases.get("niem", "model", "5.0");
+        let property = await release.properties.get("nc:PersonGivenName");
+        expect(property).toBeDefined();
+      });
+
     });
 
   });
