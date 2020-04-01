@@ -34,6 +34,18 @@ class Namespace extends ReleaseObject {
 
     /** @type {String} */
     this.xsdString;
+
+    this.origin = {
+      source: "",
+      publication: "",
+      version: "",
+      date: "",
+      updateInfo: "",
+      website: "",
+      updateURI: "",
+      comment: ""
+    }
+
   }
 
   /**
