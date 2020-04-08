@@ -83,6 +83,13 @@ class Type extends Component {
     return Component.getPrefix(this.baseQName);
   }
 
+  get baseLabel() {
+    if (this.style == "list") return `${this.baseQName} list`;
+    if (this.style == "union") return `union of ${this.memberQNames.join(", ")}`;
+    if (this.style == "simple" && this.basePrefix == "xs") return `restricts ${this.baseQName}`;
+    return `extends ${this.baseQName}`;
+  }
+
   get baseQNameDefault() {
     if (this.baseQName) {
       return this.baseQName;
