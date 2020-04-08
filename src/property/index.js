@@ -246,6 +246,18 @@ class Property extends Component {
 
   }
 
+  async contents() {
+
+    if (this.isAbstract) {
+      let substitutions = await this.release.properties.find({groupQName: this.qname});
+      return { substitutions: substitutions.sort(Property.sortByQName) };
+    }
+
+    let type = await this.type();
+    return type.contents();
+
+  }
+
   /**
    * @param {Release} release
    * @param {string} prefix

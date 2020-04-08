@@ -372,6 +372,59 @@ class Type extends Component {
 
   }
 
+  async contents() {
+
+    if (this.style == "union") {
+      // Return concatenation of all member type facets
+
+      /** @type {Facet[]} */
+      let facets = [];
+
+      let members = await this.members();
+      for (let member of members) {
+        let memberFacets = await member.facets.find();
+        facets.push(...memberFacets);
+      }
+      return { facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition) };
+    }
+
+    if (this.isSimpleType) {
+      // Return facets
+      let facets = await this.facets.find();
+      return { facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition) };
+    }
+
+    if (this.isSimpleContent && this.name.endsWith("CodeType")) {
+      // Return facets
+      let type = await this.base();
+      let facets = await type.facets.find();
+      return {
+        base: this.baseQName,
+        facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition)
+      };
+    }
+
+    let subProperties = await this.subProperties.find();
+    let properties = [];
+
+    for (let subProperty of subProperties) {
+      let property = await subProperty.property();
+      properties.push(property);
+    }
+
+    if (this.isSimpleContent) {
+      // Return base + sub-properties
+      return {
+        base: this.baseQName,
+        properties
+      }
+    }
+
+    // Return sub-properties
+    return { properties };
+
+  }
+
   static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
     return releaseRoute + "/types/" + qname;

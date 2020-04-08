@@ -93,6 +93,10 @@ class Component extends ReleaseObject {
     return this.release.namespaces.get(this.prefix);
   }
 
+  async contents() {
+    return undefined;
+  }
+
   /**
    * Custom sort function to order an array of components by qualified name.
    *
