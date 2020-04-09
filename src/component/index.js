@@ -162,6 +162,41 @@ class Component extends ReleaseObject {
     return Component.sortByName;
   }
 
+  /**
+   * Custom sort function to order an array of components by namespace style
+   * (Core, then domains, etc), and then name.
+   *
+   * @example "nc:PersonName would appear before scr:PersonAugmentation"
+   *
+   * @param {Release} release
+   * @param {Component[]} components
+   */
+  static async sortListByNamespaceStyle(release, components) {
+
+    /** @type {Component[]} */
+    let results = [];
+
+    let prefixes = new Set( components.map( component => component.prefix ) );
+
+    /** @type {Namespace[]} */
+    let namespaces = [];
+
+    for (let prefix of prefixes) {
+      let namespace = await release.namespaces.get(prefix);
+      namespaces.push(namespace);
+    }
+
+    namespaces = namespaces.sort(Namespace.sortByStyle);
+
+    for (let namespace of namespaces) {
+      let namespaceComponents = components.filter( component => component.prefix == namespace.prefix );
+      results = results.concat( namespaceComponents.sort(Component.sortByName) );
+    }
+
+    return results;
+
+  }
+
   get authoritativePrefix() {
     return this.prefix;
   }
@@ -213,3 +248,4 @@ let ComponentIdentifiersType;
 module.exports = Component;
 
 let Release = require("../release/index");
+let Namespace = require("../namespace/index");
