@@ -194,7 +194,7 @@ class DataSet extends DataSetInterface {
       return JSON.stringify(row.identifiers) == JSON.stringify(object.previousIdentifiers);
     });
 
-    if (!index) {
+    if (index == -1) {
       this.logger.record(this.ObjectClass, op, copy, undefined, change, 0);
       throw new Error("Object " + copy.id + " not found");
     }
@@ -236,19 +236,22 @@ class DataSet extends DataSetInterface {
       let json = JSON.parse(JSON.stringify(object));
 
       if (this.ObjectClass.name == "Model") {
-        json = Object.assign(new this.ObjectClass(), object);
-        json["niem"] = niem;
-        json["source"] = niem.sources[0];
+        let model = await niem.models.add(json["userKey"], json["modelKey"]);
+        model = Object.assign(model, json);
+        await model.save();
+        continue;
       }
       else if (this.ObjectClass.name == "Release") {
         // Find the model object of the release and remove release getters
         let model = await niem.models.get(object["userKey"], object["modelKey"]);
+        let release = await model.releases.add(object["releaseKey"]);
+
         delete object["userKey"];
         delete object["modelKey"];
 
-        // Create release and attach the model
-        json = Object.assign(new this.ObjectClass(), object);
-        json["model"] = model;
+        release = Object.assign(release, object);
+        await release.save();
+        continue;
       }
       else {
         // Find the release object and remove release getters
