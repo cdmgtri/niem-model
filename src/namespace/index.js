@@ -766,7 +766,8 @@ class Namespace extends ReleaseObject {
       style: this.style,
       conformanceTargets: this.conformanceTargets.length > 0 ? this.conformanceTargets : undefined,
       relativePath: this.relativePath,
-      xsdString: this.xsdString
+      xsdString: this.xsdString,
+      origin: this.origin
     };
   }
 
