@@ -406,13 +406,13 @@ class NIEM {
    */
   async export(filePath, options={}) {
 
-    let json = JSON.stringify(this.sources);
+    let json = JSON.stringify(this.sources, null, 2);
 
     if (! options.log) {
       /** @type {Object[]} */
       let sources = JSON.parse(json);
       sources.forEach( source => source.log = [] );
-      json = JSON.stringify(sources);
+      json = JSON.stringify(sources, null, 2);
     }
 
     if (filePath) {
