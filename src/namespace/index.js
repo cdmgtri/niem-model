@@ -569,15 +569,19 @@ class Namespace extends ReleaseObject {
 
     // Substitutions
     let substitutions = await this.release.properties.find({ groupPrefix: this.prefix });
+    substitutions = substitutions.filter( substitution => substitution.prefix != this.prefix );
 
     // Data properties
     let dataProperties = await this.release.properties.find({ typePrefix: this.prefix });
+    dataProperties = dataProperties.filter( property => property.prefix != this.prefix );
 
     // Child types
     let childTypes = await this.release.types.find({ basePrefix: this.prefix });
+    childTypes = childTypes.filter( type => type.prefix != this.prefix );
 
     // Sub-properties
     let subProperties = await this.release.subProperties.find({ propertyName: this.prefix });
+    subProperties = subProperties.filter( subProperty => subProperty.typePrefix != this.prefix );
 
     let count = substitutions.length + dataProperties.length + childTypes.length + subProperties.length;
 
