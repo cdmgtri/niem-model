@@ -177,7 +177,7 @@ class Property extends Component {
       /**
        * @param {SubProperty.CriteriaType} criteria
        */
-      find: async (criteria) => {
+      find: async (criteria={}) => {
         criteria.propertyQName = this.qname;
         return this.release.subProperties.find(criteria);
       }
