@@ -83,6 +83,24 @@ class SubProperty extends ReleaseObject {
     return { type, property, count: 2 };
   }
 
+  /**
+   * Custom sort function to order an array of components by qualified name.
+   *
+   * @example "ag:ProducerShare would appear before nc:Activity"
+   *
+   * @param {SubProperty} subProperty1
+   * @param {SubProperty} subProperty2
+   */
+  static sortByTypeProperty(subProperty1, subProperty2) {
+    if (!subProperty1 || ! subProperty2) return 0;
+
+    if (subProperty1.typeQName != subProperty2.typeQName) {
+      return subProperty1.typeQName.localeCompare(subProperty2.typeQName);
+    }
+
+    return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
+  }
+
   async isElement() {
     let property = await this.property();
     if (property) return property.isElement;

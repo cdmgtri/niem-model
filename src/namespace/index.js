@@ -568,20 +568,24 @@ class Namespace extends ReleaseObject {
   async dependencies() {
 
     // Substitutions
-    let substitutions = await this.release.properties.find({ groupPrefix: this.prefix });
-    substitutions = substitutions.filter( substitution => substitution.prefix != this.prefix );
+    let substitutions = (await this.release.properties.find({ groupPrefix: this.prefix }))
+    .filter( substitution => substitution.prefix != this.prefix )
+    .sort( Component.sortByQName );
 
     // Data properties
-    let dataProperties = await this.release.properties.find({ typePrefix: this.prefix });
-    dataProperties = dataProperties.filter( property => property.prefix != this.prefix );
+    let dataProperties = (await this.release.properties.find({ typePrefix: this.prefix }))
+    .filter( property => property.prefix != this.prefix )
+    .sort( Component.sortByQName );
 
     // Child types
-    let childTypes = await this.release.types.find({ basePrefix: this.prefix });
-    childTypes = childTypes.filter( type => type.prefix != this.prefix );
+    let childTypes = (await this.release.types.find({ basePrefix: this.prefix }))
+    .filter( type => type.prefix != this.prefix )
+    .sort ( Component.sortByQName );
 
     // Sub-properties
-    let subProperties = await this.release.subProperties.find({ propertyName: this.prefix });
-    subProperties = subProperties.filter( subProperty => subProperty.typePrefix != this.prefix );
+    let subProperties = (await this.release.subProperties.find({ propertyName: this.prefix }))
+    .filter( subProperty => subProperty.typePrefix != this.prefix )
+    .sort( SubProperty.sortByTypeProperty );
 
     let count = substitutions.length + dataProperties.length + childTypes.length + subProperties.length;
 
