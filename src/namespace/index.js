@@ -583,7 +583,7 @@ class Namespace extends ReleaseObject {
     .sort ( Component.sortByQName );
 
     // Sub-properties
-    let subProperties = (await this.release.subProperties.find({ propertyName: this.prefix }))
+    let subProperties = (await this.release.subProperties.find({ propertyPrefix: this.prefix }))
     .filter( subProperty => subProperty.typePrefix != this.prefix )
     .sort( SubProperty.sortByTypeProperty );
 
