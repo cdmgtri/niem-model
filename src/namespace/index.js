@@ -77,6 +77,8 @@ class Namespace extends ReleaseObject {
         return 1;
       case "domain":
         return 5;
+      case "auxiliary":
+        return 8;
       case "code":
       case "csv":
         return 10;
@@ -804,10 +806,10 @@ let NamespaceCriteriaType;
  */
 let NamespaceIdentifiersType;
 
-/** @typedef {"core"|"domain"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} StyleType */
+/** @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} StyleType */
 let NamespaceStyleType;
 
-Namespace.Styles = ["core", "domain", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "CS"];
+Namespace.Styles = ["core", "domain", "auxiliary", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "CS"];
 
 module.exports = Namespace;
 
