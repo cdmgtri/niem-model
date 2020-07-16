@@ -97,11 +97,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {Namespace.CriteriaType} criteria
+       * @param {Namespace.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.namespaces.find(criteria);
+        return this.source.namespaces.find(criteria, sortFunction);
       },
 
       /**
@@ -148,11 +149,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {LocalTerm.CriteriaType} criteria
+       * @param {LocalTerm.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.localTerms.find(criteria);
+        return this.source.localTerms.find(criteria, sortFunction);
       },
 
       /**
@@ -205,11 +207,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {Property.CriteriaType} criteria
+       * @param {Property.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.properties.find(criteria);
+        return this.source.properties.find(criteria, sortFunction);
       },
 
       /**
@@ -260,11 +263,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {Type.CriteriaType} criteria
+       * @param {Type.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.types.find(criteria);
+        return this.source.types.find(criteria, sortFunction);
       },
 
       /**
@@ -312,11 +316,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {Facet.CriteriaType} criteria
+       * @param {Facet.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.facets.find(criteria);
+        return this.source.facets.find(criteria, sortFunction);
       },
 
       /**
@@ -365,11 +370,12 @@ class Release extends NIEMObject {
       },
 
       /**
-       * @param {SubProperty.CriteriaType} criteria
+       * @param {SubProperty.CriteriaType} [criteria]
+       * @param {Function} [sortFunction]
        */
-      find: async (criteria={}) => {
+      find: async (criteria={}, sortFunction) => {
         Object.assign(criteria, this.identifiers);
-        return this.source.subProperties.find(criteria);
+        return this.source.subProperties.find(criteria, sortFunction);
       },
 
       /**

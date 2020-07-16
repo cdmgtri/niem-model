@@ -86,10 +86,11 @@ class DataSet extends DataSetInterface {
   }
 
   /**
-   * @param {CriteriaType} criteria
+   * @param {CriteriaType} [criteria]
+   * @param {Function} [sortFunction]
    * @returns {Promise<T[]>}
    */
-  async find(criteria) {
+  async find(criteria, sortFunction) {
 
     /** @type {T[]} */
     // @ts-ignore
@@ -101,6 +102,9 @@ class DataSet extends DataSetInterface {
       this.updatePreviousIdentifiers(newObject);
       return newObject;
     });
+
+    // @ts-ignore
+    if (sortFunction) objects = objects.sort(sortFunction);
 
     return objects;
   }

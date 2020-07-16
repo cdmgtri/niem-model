@@ -175,7 +175,7 @@ module.exports = () => {
 
       test("#find", async () => {
         // Find properties filtered on elements
-        let properties = await release.properties.find({isElement: true});
+        let properties = await release.properties.find({isElement: true}, Property.sortByQName);
         expect(properties.length).toBe(4);
 
         // Test find function for a false boolean value

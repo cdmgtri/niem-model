@@ -46,9 +46,10 @@ class DataSetInterface {
 
   /**
    * @param {CriteriaType} [criteria]
+   * @param {Function} [sortFunction]
    * @returns {Promise<T[]>}
    */
-  async find(criteria) {
+  async find(criteria, sortFunction) {
     throw new Error("Data source not provided");
   }
 

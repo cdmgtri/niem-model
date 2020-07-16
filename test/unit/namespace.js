@@ -66,6 +66,16 @@ function testNamespace() {
           modelKey: "test",
           releaseKey: "1.0",
           prefix: "nc"
+        },
+        origin: {
+          comment: "",
+          date: "",
+          publication: "",
+          source: "",
+          updateInfo: "",
+          updateURI: "",
+          version: "",
+          website: ""
         }
       };
 
