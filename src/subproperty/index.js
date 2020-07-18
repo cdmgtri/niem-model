@@ -15,8 +15,9 @@ class SubProperty extends ReleaseObject {
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
    * @param {String} definition
    * @param {"element"|"attribute"} style
+   * @param {number} [sequence]
    */
-  constructor(typeQName, propertyQName, min="0", max="unbounded", definition="", style="element") {
+  constructor(typeQName, propertyQName, min="0", max="unbounded", definition="", style="element", sequence) {
 
     super();
 
@@ -26,6 +27,7 @@ class SubProperty extends ReleaseObject {
     this.min = min;
     this.max = max;
     this.definition = definition;
+    this.sequence = sequence;
 
   }
 
@@ -37,9 +39,10 @@ class SubProperty extends ReleaseObject {
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
    * @param {String} definition
    * @param {"element"|"attribute"} style
+   * @param {number} sequence
    */
-  static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition, style) {
-    return new SubProperty(typeQName, propertyQName, min, max, definition, style);
+  static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition, style, sequence) {
+    return new SubProperty(typeQName, propertyQName, min, max, definition, style, sequence);
   }
 
   get typePrefix() {
@@ -84,7 +87,7 @@ class SubProperty extends ReleaseObject {
   }
 
   /**
-   * Custom sort function to order an array of components by qualified name.
+   * Custom sort function to order an array of subProperties by qualified type, then qualified property.
    *
    * @example "ag:ProducerShare would appear before nc:Activity"
    *
@@ -96,6 +99,27 @@ class SubProperty extends ReleaseObject {
 
     if (subProperty1.typeQName != subProperty2.typeQName) {
       return subProperty1.typeQName.localeCompare(subProperty2.typeQName);
+    }
+
+    return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
+  }
+
+  /**
+   * Custom sort function to order an array of subProperties by qualified type, the sequence,
+   * then qualified property (if needed for duplicate sequence IDs).
+   *
+   * @param {SubProperty} subProperty1
+   * @param {SubProperty} subProperty2
+   */
+  static sortByTypeSequence(subProperty1, subProperty2) {
+    if (!subProperty1 || ! subProperty2) return 0;
+
+    if (subProperty1.typeQName != subProperty2.typeQName) {
+      return subProperty1.typeQName.localeCompare(subProperty2.typeQName);
+    }
+
+    if (subProperty1.sequence != subProperty2.sequence) {
+      return subProperty1.sequence < subProperty2.sequence;
     }
 
     return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
