@@ -118,6 +118,24 @@ function testType() {
       expect(receivedJSON).toEqual(expectedJSON);
     });
 
+    test("#parents", async () => {
+
+      let type = await release.types.get("nc:PersonHairColorCodeSimpleType");
+      let parents = await type.parents();
+      expect(parents.length).toBe(0);
+
+      await release.types.add("my", "ItemType");
+      await release.types.add("my", "ConveyanceType", "", "object", "my:ItemType");
+      await release.types.add("my", "VehicleType", "", "object", "my:ConveyanceType");
+
+      type = await release.types.add("my", "TrainType", "", "object", "my:VehicleType");
+      parents = await type.parents();
+
+      expect(parents.length).toBe(3);
+      expect(parents.map( parent => parent.qname ).join(" ")).toBe("my:ItemType my:ConveyanceType my:VehicleType");
+
+    });
+
   });
 
 

@@ -308,6 +308,10 @@ class Type extends Component {
     return descendantTypes;
   }
 
+  async parents() {
+    return getParents(this);
+  }
+
   async dependencies() {
     let base = await this.base();
     let count = base ? 2 : 1;
@@ -449,6 +453,26 @@ class Type extends Component {
       memberQNames: this.memberQNames.length > 0 ? this.memberQNames : undefined
     };
   }
+
+}
+
+/**
+ * @param {Type} type
+ * @param {Type[]} [parents]
+ * @returns {Promise<Type[]>}
+ */
+async function getParents(type, parents=[]) {
+
+  let parent = await type.base();
+
+  if (parent) {
+    // Add new parent to the beginning of the array and look for the next parent
+    parents.unshift(parent);
+    return getParents(parent, parents);
+  }
+
+  // No more parents, return the array
+  return parents;
 
 }
 
