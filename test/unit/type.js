@@ -91,6 +91,9 @@ function testType() {
       expect(invalidBase.baseQName).toBe(":ObjectType");
       expect(invalidBase.baseName).not.toBeDefined();
       expect(invalidBase.basePrefix).not.toBeDefined();
+
+      let structuresType = new Type("structures", "ObjectType");
+      expect(structuresType.baseQName).toBe("");
     });
 
     test("#toJSON", async () => {
