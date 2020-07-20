@@ -91,9 +91,9 @@ class Type extends Component {
   }
 
   get baseQNameDefault() {
-    if (this.baseQName) {
-      return this.baseQName;
-    }
+
+    if (this.baseQName) return this.baseQName;
+    if (this.prefix == "structures" || this.prefix == "xs") return undefined;
 
     // Return defaults if an explicit base type is not set
     if (this.style == "object" || this.style == "adapter") {
