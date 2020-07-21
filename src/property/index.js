@@ -254,22 +254,22 @@ class Property extends Component {
 
       async facets() {
         let type = await self.type();
-        return type.contents.facets();
+        return type ? type.contents.facets() : [];
       },
 
       async containedProperties() {
         let type = await self.type();
-        return type.contents.containedProperties();
+        return type ? type.contents.containedProperties() : [];
       },
 
       async inheritedProperties() {
         let type = await self.type();
-        return type.contents.inheritedProperties();
+        return type ? type.contents.inheritedProperties() : {};
       },
 
       async base() {
         let type = await self.type();
-        return type.base();
+        if (type) return type.base();
       }
 
     }
