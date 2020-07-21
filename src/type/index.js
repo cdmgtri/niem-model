@@ -447,7 +447,10 @@ class Type extends Component {
             let property = await subProperty.property();
             properties.push(property);
           }
-          obj[parent.qname] = properties;
+
+          if (properties.length > 0) {
+            obj[parent.qname] = properties;
+          }
         }
 
         return obj;
