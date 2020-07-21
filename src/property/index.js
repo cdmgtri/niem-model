@@ -246,15 +246,33 @@ class Property extends Component {
 
   }
 
-  async contents() {
+  get contents() {
 
-    if (this.isAbstract) {
-      let substitutions = await this.release.properties.find({groupQName: this.qname});
-      return { substitutions: substitutions.sort(Property.sortByQName) };
+    let self = this;
+
+    return {
+
+      async facets() {
+        let type = await self.type();
+        return type.contents.facets();
+      },
+
+      async containedProperties() {
+        let type = await self.type();
+        return type.contents.containedProperties();
+      },
+
+      async inheritedProperties() {
+        let type = await self.type();
+        return type.contents.inheritedProperties();
+      },
+
+      async base() {
+        let type = await self.type();
+        return type.base();
+      }
+
     }
-
-    let type = await this.type();
-    return type.contents();
 
   }
 

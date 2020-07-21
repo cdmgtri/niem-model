@@ -93,7 +93,7 @@ class Component extends ReleaseObject {
     return this.release.namespaces.get(this.prefix);
   }
 
-  async contents() {
+  get contents() {
     return undefined;
   }
 

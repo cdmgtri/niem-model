@@ -383,56 +383,83 @@ class Type extends Component {
 
   }
 
-  async contents() {
+  get contents() {
 
-    if (this.style == "union") {
-      // Return concatenation of all member type facets
+    let self = this;
 
-      /** @type {Facet[]} */
-      let facets = [];
+    return {
 
-      let members = await this.members();
-      for (let member of members) {
-        let memberFacets = await member.facets.find();
-        facets.push(...memberFacets);
+      async facets() {
+
+        /** @type {Facet[]} */
+        let facets = [];
+
+        if (self.style == "union") {
+          // Return concatenation of all member type facets
+          let members = await self.members();
+          for (let member of members) {
+            let memberFacets = await member.facets.find();
+            facets.push(...memberFacets);
+          }
+        }
+        else if (self.isSimpleType) {
+          // Find facets on this type
+          facets = await self.facets.find();
+        }
+        else if (self.isSimpleContent && self.name.endsWith("CodeType")) {
+          // Return facets on this CSC type's simple base type
+          let base = await self.base();
+          facets = await base.facets.find();
+        }
+
+        return facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition);
+      },
+
+      async containedProperties() {
+
+        let subProperties = await self.subProperties.find();
+
+        /** @type {Property[]} */
+        let properties = [];
+
+        for (let subProperty of subProperties) {
+          let property = await subProperty.property();
+          properties.push(property);
+        }
+
+        // Return sub-properties
+        return properties;
+
+      },
+
+      async inheritedProperties() {
+
+        let parents = await self.parents();
+
+        /** @type {Object.<string, Property[]>} */
+        let obj = {};
+
+        for (let parent of parents) {
+          let subProperties = await parent.subProperties.find();
+          let properties = [];
+
+          for (let subProperty of subProperties) {
+            let property = await subProperty.property();
+            properties.push(property);
+          }
+          obj[parent.qname] = properties;
+        }
+
+        return obj;
+
       }
-      return { facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition) };
+
     }
+  }
 
-    if (this.isSimpleType) {
-      // Return facets
-      let facets = await this.facets.find();
-      return { facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition) };
-    }
+  async contents1() {
 
-    if (this.isSimpleContent && this.name.endsWith("CodeType")) {
-      // Return facets
-      let type = await this.base();
-      let facets = await type.facets.find();
-      return {
-        base: this.baseQName,
-        facets: facets.sort(Facet.sortFacetsByStyleAdjustedValueDefinition)
-      };
-    }
 
-    let subProperties = await this.subProperties.find();
-    let properties = [];
-
-    for (let subProperty of subProperties) {
-      let property = await subProperty.property();
-      properties.push(property);
-    }
-
-    if (this.isSimpleContent) {
-      // Return base + sub-properties
-      return {
-        base: this.baseQName,
-        properties
-      }
-    }
-
-    // Return sub-properties
-    return { properties };
 
   }
 
