@@ -77,14 +77,11 @@ class Property extends Component {
 
   get style() {
 
-    if (this.isAbstract) {
+    if (this.isAbstract == true) {
       return "abstract";
     }
-    if (this.isAttribute) {
+    if (this.isAttribute == true) {
       return "attribute";
-    }
-    if (this.groupQName) {
-      return "substitution";
     }
     return "element";
 
