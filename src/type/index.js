@@ -460,12 +460,6 @@ class Type extends Component {
     }
   }
 
-  async contents1() {
-
-
-
-  }
-
   static route(userKey, modelKey, releaseKey, qname) {
     let releaseRoute = super.route(userKey, modelKey, releaseKey);
     return releaseRoute + "/types/" + qname;

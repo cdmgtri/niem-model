@@ -111,6 +111,27 @@ class Component extends ReleaseObject {
   }
 
   /**
+   * Custom sort function to order an array of components by qualified name.
+   *
+   * @example "ag:ProducerShare would appear before nc:Activity"
+   *
+   * @param {Component} component1
+   * @param {Component} component2
+   */
+  static sortByCoreQName(component1, component2) {
+    if (!component1 || ! component2) return 0;
+
+    // Sort prefixes starting with "nc" first
+    if (component1.prefix != component2.prefix) {
+      if (component1.prefix.startsWith("nc")) return -1;
+      else if (component2.prefix.startsWith("nc")) return 1;
+    }
+
+    // Otherwise sort by qname
+    return component1.qname.localeCompare(component2.qname);
+  }
+
+  /**
    * Custom sort function to order an array of components by name, and then by prefix.
    *
    * @example "nc:Activity would appear before ag:ProducerShare"
