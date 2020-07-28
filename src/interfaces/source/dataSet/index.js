@@ -230,48 +230,96 @@ class DataSet extends DataSetInterface {
 
   /**
    * @param {NIEM} niem
-   * @param {T[]} objects
+   * @param {T[]} dataSetJSON
    */
-  async load(niem, objects) {
+  async load(niem, dataSetJSON) {
 
-    for (let object of objects) {
+    if (!dataSetJSON || dataSetJSON.length == 0) return;
 
-      /** @type {T} */
-      let json = JSON.parse(JSON.stringify(object));
+    // Deep copy to avoid linking to or modifying input values
+    let jsonObjects = JSON.parse(JSON.stringify(dataSetJSON));
 
-      if (this.ObjectClass.name == "Model") {
+    let className = this.ObjectClass.name;
+
+    if (className == "Model") {
+      for (let json of jsonObjects) {
         let model = await niem.models.add(json["userKey"], json["modelKey"]);
         model = Object.assign(model, json);
         await model.save();
-        continue;
       }
-      else if (this.ObjectClass.name == "Release") {
-        // Find the model object of the release and remove release getters
-        let model = await niem.models.get(object["userKey"], object["modelKey"]);
-        let release = await model.releases.add(object["releaseKey"]);
-
-        delete object["userKey"];
-        delete object["modelKey"];
-
-        release = Object.assign(release, object);
-        await release.save();
-        continue;
-      }
-      else {
-        // Find the release object and remove release getters
-        let release = await niem.releases.get(object["userKey"], object["modelKey"], object["releaseKey"]);
-        delete object["userKey"];
-        delete object["modelKey"];
-        delete object["releaseKey"];
-
-        // Create the object and attach the release
-        json = Object.assign(new this.ObjectClass(), object);
-        json["release"] = release;
-      }
-
-      this.data.push(json);
-
     }
+    else if (className == "Release") {
+      for (let json of jsonObjects) {
+        // Find the model object of the release
+        let model = await niem.models.get(json["userKey"], json["modelKey"]);
+        let release = await model.releases.add(json["releaseKey"]);
+
+        // Remove release getters
+        delete json["userKey"];
+        delete json["modelKey"];
+        delete json["releaseKey"];
+
+        release = Object.assign(release, json);
+        await release.save();
+      }
+    }
+    else {
+      let releases = await niem.releases.find();
+
+      for (let release of releases) {
+        let jsonReleaseObjects = jsonObjects.filter( json => json["userKey"] == release.userKey
+          && json["modelKey"] == release.modelKey && json["releaseKey"] == release.releaseKey);
+
+        for (let json of jsonReleaseObjects) {
+          delete json["userKey"];
+          delete json["modelKey"];
+          delete json["releaseKey"];
+
+          let object = Object.assign(new this.ObjectClass(), json, {release});
+          this.data.push(object);
+        }
+      }
+    }
+
+
+    // for (let object of jsonObjects) {
+
+    //   /** @type {T} */
+    //   let json = JSON.parse(JSON.stringify(object));
+
+    //   if (this.ObjectClass.name == "Model") {
+    //     let model = await niem.models.add(json["userKey"], json["modelKey"]);
+    //     model = Object.assign(model, json);
+    //     await model.save();
+    //     continue;
+    //   }
+    //   else if (this.ObjectClass.name == "Release") {
+    //     // Find the model object of the release and remove release getters
+    //     let model = await niem.models.get(object["userKey"], object["modelKey"]);
+    //     let release = await model.releases.add(object["releaseKey"]);
+
+    //     delete object["userKey"];
+    //     delete object["modelKey"];
+
+    //     release = Object.assign(release, object);
+    //     await release.save();
+    //     continue;
+    //   }
+    //   else {
+    //     // Find the release object and remove release getters
+    //     let release = await niem.releases.get(object["userKey"], object["modelKey"], object["releaseKey"]);
+    //     delete object["userKey"];
+    //     delete object["modelKey"];
+    //     delete object["releaseKey"];
+
+    //     // Create the object and attach the release
+    //     json = Object.assign(new this.ObjectClass(), object);
+    //     json["release"] = release;
+    //   }
+
+    //   this.data.push(json);
+
+    // }
 
   }
 

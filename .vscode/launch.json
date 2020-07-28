@@ -58,7 +58,22 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--config",
-        "jest.config.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Load 5.0 Release",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "load.test.js",
+        "--config",
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
