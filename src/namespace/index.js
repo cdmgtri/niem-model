@@ -806,10 +806,10 @@ let NamespaceCriteriaType;
  */
 let NamespaceIdentifiersType;
 
-/** @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"CS"} StyleType */
+/** @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"core supplement"|"domain update"} StyleType */
 let NamespaceStyleType;
 
-Namespace.Styles = ["core", "domain", "auxiliary", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "CS"];
+Namespace.Styles = ["core", "domain", "auxiliary", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "core supplement", "domain update"];
 
 module.exports = Namespace;
 
