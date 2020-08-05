@@ -53,6 +53,7 @@ class ReleaseObject extends NIEMObject {
   }
 
   async mapping() {
+    // @ts-ignore
     return this.source.mappings.get(this.constructor.name, this.identifiers);
   }
 

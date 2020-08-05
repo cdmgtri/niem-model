@@ -796,6 +796,18 @@ class Release extends NIEMObject {
     return {
 
       /**
+       * @param {Mapping.OperationType} operation
+       * @param {Mapping.ClassNameType} className
+       * @param {String} previousID
+       * @param {String} id
+       * @param {Change[]} changes
+       */
+      insert: async(operation, className, previousID, id, changes) => {
+        let dataSet = getDataSet(this.source, className);
+        return this.source.mappings.add(dataSet, this.userKey, this.modelKey, this.releaseKey, operation, className, previousID, id, changes);
+      },
+
+      /**
        * @param {Object} criteria
        * @param {Mapping.ClassNameType} [criteria.className]
        * @param {Mapping.OperationType} [criteria.operation]
@@ -941,6 +953,28 @@ class Release extends NIEMObject {
 
 }
 
+/**
+ * @param {SourceInterface} source
+ * @param {Mapping.ClassNameType} className
+ */
+function getDataSet(source, className) {
+  switch (className) {
+    case "Namespace":
+      return source.namespaces;
+    case "LocalTerm":
+      return source.localTerms;
+    case "Property":
+      return source.properties;
+    case "Type":
+      return source.types;
+    case "Facet":
+      return source.facets;
+    case "SubProperty":
+      return source.subProperties;
+  }
+
+}
+
 /** @typedef {"draft"|"published"} StatusType */
 let ReleaseStatusType;
 
@@ -981,3 +1015,4 @@ let Mapping = require("../interfaces/source/mapping/index");
 let Mappings = require("../interfaces/source/mappings/index");
 
 let ReleaseObject = require("../release-object/index");
+let SourceInterface = require("../interfaces/source/interface");
