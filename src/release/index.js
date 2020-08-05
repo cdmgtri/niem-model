@@ -31,6 +31,7 @@ class Release extends NIEMObject {
     this.baseURI = baseURI;
     this.branch = branch;
     this.description = description;
+    this.previousReleaseKey = "";
 
   }
 
@@ -111,12 +112,76 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.namespaces.count(criteria);
+      },
+
+
+      mappings: {
+
+        /**
+         * @param {String} newPrefix
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Namespace>>}
+         */
+        add: async (newPrefix="", changes=[]) => {
+          let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, newPrefix);
+
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "add", "Namespace", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldPrefix
+         * @param {String} newPrefix
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Namespace>>}
+         */
+        edit: async (oldPrefix="", newPrefix="", changes=[]) => {
+          let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix);
+          let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, newPrefix);
+
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "edit", "Namespace", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldPrefix
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Namespace>>}
+         */
+        delete: async (oldPrefix="", changes=[]) => {
+          let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix);
+
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "delete", "Namespace", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} prefix
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Namespace>>}
+         */
+        load: async (prefix="", changes=[]) => {
+          let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix);
+          let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, prefix);
+
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "load", "Namespace", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<Namespace>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "Namespace";
+          return this.source.mappings.find(criteria);
+        }
+
       }
 
     };
   }
 
   get localTerms() {
+
     return {
 
       /**
@@ -163,6 +228,72 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.localTerms.count(criteria);
+      },
+
+      mappings: {
+
+        /**
+         * @param {String} newPrefix
+         * @param {String} newTerm
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<LocalTerm>>}
+         */
+        add: async (newPrefix="", newTerm="", changes=[]) => {
+          let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newTerm);
+
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "add", "LocalTerm", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldPrefix
+         * @param {String} oldTerm
+         * @param {String} newPrefix
+         * @param {String} newTerm
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<LocalTerm>>}
+         */
+        edit: async (oldPrefix="", oldTerm="", newPrefix="", newTerm="", changes=[]) => {
+          let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldTerm);
+          let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newTerm);
+
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "edit", "LocalTerm", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldPrefix
+         * @param {String} oldTerm
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<LocalTerm>>}
+         */
+        delete: async (oldPrefix="", oldTerm="", changes=[]) => {
+          let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldTerm);
+
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "delete", "LocalTerm", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} prefix
+         * @param {String} term
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<LocalTerm>>}
+         */
+        load: async (prefix="", term="", changes=[]) => {
+          let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, term);
+          let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, prefix, term);
+
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "load", "LocalTerm", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<LocalTerm>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "LocalTerm";
+          return this.source.mappings.find(criteria);
+        }
       }
 
     };
@@ -221,6 +352,74 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.properties.count(criteria);
+      },
+
+      mappings: {
+
+        /**
+         * @param {String} newQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Property>>}
+         */
+        add: async (newQName="", changes=[]) => {
+          let [newPrefix, newName] = newQName.split(":") || ["", ""];
+          let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newName);
+
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "add", "Property", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {String} newQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Property>>}
+         */
+        edit: async (oldQName="", newQName="", changes=[]) => {
+          let [oldPrefix, oldName] = oldQName.split(":") || ["", ""];
+          let [newPrefix, newName] = newQName.split(":") || ["", ""];
+
+          let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldName);
+          let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newName);
+
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "edit", "Property", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Property>>}
+         */
+        delete: async (oldQName="", changes=[]) => {
+          let [oldPrefix, oldName] = oldQName.split(":") || ["", ""];
+          let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldName);
+
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "delete", "Property", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} qname
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Property>>}
+         */
+        load: async (qname="", changes=[]) => {
+          let [prefix, name] = qname.split(":") || ["", ""];
+          let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, name);
+          let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, prefix, name);
+
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "load", "Property", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<Property>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "Property";
+          return this.source.mappings.find(criteria);
+        }
+
       }
 
     };
@@ -277,7 +476,70 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.types.count(criteria);
+      },
+
+      mappings: {
+
+        /**
+         * @param {String} newQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Type>>}
+         */
+        add: async (newQName="", changes=[]) => {
+          let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, newQName);
+
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "add", "Type", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {String} newQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Type>>}
+         */
+        edit: async (oldQName="", newQName="", changes=[]) => {
+          let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName);
+          let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, newQName);
+
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "edit", "Type", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Type>>}
+         */
+        delete: async (oldQName="", changes=[]) => {
+          let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName);
+
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "delete", "Type", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} qname
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Type>>}
+         */
+        load: async (qname="", changes=[]) => {
+          let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, qname);
+          let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, qname);
+
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "load", "Type", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<Type>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "Type";
+          return this.source.mappings.find(criteria);
+        }
+
       }
+
 
     };
   }
@@ -330,7 +592,79 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.facets.count(criteria);
+      },
+
+      mappings: {
+
+        /**
+         * @param {String} newQName
+         * @param {String} newValue
+         * @param {Facet.StyleType} newStyle
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Facet>>}
+         */
+        add: async (newQName="", newValue="", newStyle="enumeration", changes=[]) => {
+          let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, newQName, newValue, newStyle);
+
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "add", "Facet", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {String} oldValue
+         * @param {Facet.StyleType} oldStyle
+         * @param {String} newQName
+         * @param {String} newValue
+         * @param {Facet.StyleType} newStyle
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Facet>>}
+         */
+        edit: async (oldQName="", oldValue="", oldStyle="enumeration", newQName="", newValue="", newStyle="enumeration", changes=[]) => {
+          let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName, oldValue, oldStyle);
+          let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, newQName, newValue, newStyle);
+
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "edit", "Facet", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldQName
+         * @param {String} oldValue
+         * @param {Facet.StyleType} oldStyle
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Facet>>}
+         */
+        delete: async (oldQName="", oldValue="", oldStyle="enumeration", changes=[]) => {
+          let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName, oldValue, oldStyle);
+
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "delete", "Facet", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} qname
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<Facet>>}
+         */
+        load: async (qname="", changes=[]) => {
+          let [prefix, name] = qname.split(":") || ["", ""];
+          let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, name);
+          let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, prefix, name);
+
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "load", "Facet", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<Facet>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "Facet";
+          return this.source.mappings.find(criteria);
+        }
+
       }
+
 
     };
   }
@@ -345,10 +679,11 @@ class Release extends NIEMObject {
        * @param {string} [max]
        * @param {string} [definition]
        * @param {"element"|"attribute"} [style]
+       * @param {Number} [sequence]
        * @returns {Promise<SubProperty>}
        */
-      add: async (typeQName, propertyQName, min, max, definition, style) => {
-        let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition, style);
+      add: async (typeQName, propertyQName, min, max, definition, style, sequence) => {
+        let subProperty = SubProperty.create(this.ndrVersion, typeQName, propertyQName, min, max, definition, style, sequence);
         subProperty.release = this;
         return subProperty.add();
       },
@@ -384,9 +719,95 @@ class Release extends NIEMObject {
       count: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this.source.subProperties.count(criteria);
+      },
+
+      mappings: {
+
+        /**
+         * @param {String} newTypeQName
+         * @param {String} newPropertyQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<SubProperty>>}
+         */
+        add: async (newTypeQName="", newPropertyQName="", changes=[]) => {
+          let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, newTypeQName, newPropertyQName);
+
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "add", "SubProperty", "", newID, changes);
+        },
+
+        /**
+         * @param {String} oldTypeQName
+         * @param {String} oldPropertyQName
+         * @param {String} newTypeQName
+         * @param {String} newPropertyQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<SubProperty>>}
+         */
+        edit: async (oldTypeQName="", oldPropertyQName="", newTypeQName="", newPropertyQName="", changes=[]) => {
+          let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, oldTypeQName, oldPropertyQName);
+          let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, newTypeQName, newPropertyQName);
+
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "edit", "SubProperty", oldID, newID, changes);
+        },
+
+        /**
+         * @param {String} oldTypeQName
+         * @param {String} oldPropertyQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<SubProperty>>}
+         */
+        delete: async (oldTypeQName="", oldPropertyQName="", changes=[]) => {
+          let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, oldTypeQName, oldPropertyQName);
+
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "delete", "SubProperty", oldID, "", changes);
+        },
+
+        /**
+         * @param {String} typeQName
+         * @param {String} propertyQName
+         * @param {Change[]} [changes]
+         * @returns {Promise<Mapping<SubProperty>>}
+         */
+        load: async (typeQName="", propertyQName="", changes=[]) => {
+          let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, typeQName, propertyQName);
+          let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, typeQName, propertyQName);
+
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "load", "SubProperty", oldID, newID, changes);
+        },
+
+        /**
+         * @param {Mapping.OperationType} [operation]
+         * @returns {Promise<Mapping<SubProperty>[]>}
+         */
+        find: async (operation) => {
+          /** @type {Mappings.CriteriaType} */
+          let criteria = Object.assign({}, this.identifiers, {operation});
+          criteria.className = "SubProperty";
+          return this.source.mappings.find(criteria);
+        }
+
       }
 
+
     };
+  }
+
+  get mappings() {
+    return {
+
+      /**
+       * @param {Object} criteria
+       * @param {Mapping.ClassNameType} [criteria.className]
+       * @param {Mapping.OperationType} [criteria.operation]
+       */
+      find: async (criteria) => {
+        criteria["userKey"] = this.userKey;
+        criteria["modelKey"] = this.modelKey;
+        criteria["releaseKey"] = this.releaseKey;
+        return this.source.mappings.find(criteria);
+      }
+
+    }
   }
 
   get majorDigit() {
@@ -555,5 +976,8 @@ let Facet = require("../facet/index");
 let SubProperty = require("../subproperty/index");
 let LocalTerm = require("../local-term/index");
 let Component = require("../component/index");
+let Change = require("../interfaces/source/change/index");
+let Mapping = require("../interfaces/source/mapping/index");
+let Mappings = require("../interfaces/source/mappings/index");
 
 let ReleaseObject = require("../release-object/index");

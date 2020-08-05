@@ -24,7 +24,9 @@ module.exports = {
       DataSet: require("./interfaces/source/dataSet/index"),
       Change: require("./interfaces/source/change/index"),
       Transaction: require("./interfaces/source/transaction/index"),
-      Logger: require("./interfaces/source/logger/index")
+      Logger: require("./interfaces/source/logger/index"),
+      Mapping: require("./interfaces/source/mapping/index"),
+      Mappings: require("./interfaces/source/mappings/index")
       },
     FormatInterface: {
       NIEMFormatInterface: require("./interfaces/format/interface"),

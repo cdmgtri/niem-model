@@ -4,6 +4,8 @@ let ReleaseObject = require("../release-object/index");
 /**
  * A root class for commonalities between properties and types.
  * @abstract
+ * @template T
+ * @extends ReleaseObject<T>
  */
 class Component extends ReleaseObject {
 

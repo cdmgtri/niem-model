@@ -5,7 +5,7 @@ let DataSetInterface = require("./interface");
 let _ = require("lodash");
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObject<T>} T
  * @template {Object<string, string>} IdentifiersType
  * @template {Object<string, any>} CriteriaType
  */
@@ -57,6 +57,13 @@ class DataSet extends DataSetInterface {
    */
   async delete(object, change) {
     return this.modify(object, change, "delete");
+  }
+
+  /**
+   * @param {String} id
+   */
+  async id(id) {
+    return this.data.find( item => item.id == id );
   }
 
   /**
@@ -280,46 +287,6 @@ class DataSet extends DataSetInterface {
         }
       }
     }
-
-
-    // for (let object of jsonObjects) {
-
-    //   /** @type {T} */
-    //   let json = JSON.parse(JSON.stringify(object));
-
-    //   if (this.ObjectClass.name == "Model") {
-    //     let model = await niem.models.add(json["userKey"], json["modelKey"]);
-    //     model = Object.assign(model, json);
-    //     await model.save();
-    //     continue;
-    //   }
-    //   else if (this.ObjectClass.name == "Release") {
-    //     // Find the model object of the release and remove release getters
-    //     let model = await niem.models.get(object["userKey"], object["modelKey"]);
-    //     let release = await model.releases.add(object["releaseKey"]);
-
-    //     delete object["userKey"];
-    //     delete object["modelKey"];
-
-    //     release = Object.assign(release, object);
-    //     await release.save();
-    //     continue;
-    //   }
-    //   else {
-    //     // Find the release object and remove release getters
-    //     let release = await niem.releases.get(object["userKey"], object["modelKey"], object["releaseKey"]);
-    //     delete object["userKey"];
-    //     delete object["modelKey"];
-    //     delete object["releaseKey"];
-
-    //     // Create the object and attach the release
-    //     json = Object.assign(new this.ObjectClass(), object);
-    //     json["release"] = release;
-    //   }
-
-    //   this.data.push(json);
-
-    // }
 
   }
 

@@ -3,6 +3,7 @@ const Component = require("../component/index");
 
 /**
  * A NIEM Property.
+ * @extends Component<Property>
  */
 class Property extends Component {
 
@@ -35,6 +36,7 @@ class Property extends Component {
 
     /** @type {String[]} */
     this.appliesToTypeQNames = [];
+
   }
 
   /**

@@ -5,7 +5,7 @@ let Release = require("../release/index");
 /**
  * Commonalities of NIEM release components and other items.
  * @template T
- * @extends {NIEMObject<ReleaseObject>}
+ * @extends {NIEMObject<T>}
  */
 class ReleaseObject extends NIEMObject {
 
@@ -52,35 +52,8 @@ class ReleaseObject extends NIEMObject {
     if (this.release && this.release.model) return this.release.model.niem;
   }
 
-  get formats() {
-    return this.release.formats;
-  }
-
-  /**
-   * @returns {Promise<string>}
-   */
-  async xsd() {
-    return this.formats.xsd[this.constructor.name].generate(this);
-  }
-
-  get parse() {
-    return {
-      /**
-       * @param {string} input
-       * @returns {Promise<T>}
-       */
-      xsd: async (input) => this.formats.xsd[this.constructor.name].parse(input),
-
-      json: async (input) => this.formats.json[this.constructor.name].parse(input)
-    };
-  }
-
-  get load() {
-    return {
-      xsd: async (input) => this.formats.xsd[this.constructor.name].parse(input, this.release),
-
-      json: async (input) => this.formats.json[this.constructor.name].parse(input, this.release)
-    };
+  async mapping() {
+    return this.source.mappings.get(this.constructor.name, this.identifiers);
   }
 
   static route(userKey, modelKey, releaseKey, ...args) {

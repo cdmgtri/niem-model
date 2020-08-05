@@ -3,7 +3,7 @@ let Change = require("../change/index");
 let Transaction = require("../transaction/index");
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObject<T>} T
  * @template {Object<string, string>} IdentifiersType
  * @template {Object<string, any>} CriteriaType
  */
@@ -33,6 +33,14 @@ class DataSetInterface {
    * @returns {Promise<T>}
    */
   async delete(niemObject, change) {
+    throw new Error("Data source not provided");
+  }
+
+  /**
+   * @param {String} id
+   * @returns {Promise<T>}
+   */
+  async id(id) {
     throw new Error("Data source not provided");
   }
 

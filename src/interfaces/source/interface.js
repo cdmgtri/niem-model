@@ -34,6 +34,8 @@ class SourceInterface {
     /** @type {DataSetInterface<LocalTerm>} */
     this.localTerms = new DataSetInterface();
 
+    this.mappings = new Mappings();
+
     /** @type {Transaction[]} */
     this.log = [];
 
@@ -64,3 +66,4 @@ class SourceInterface {
 module.exports = SourceInterface;
 
 let { Model, Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } = require("../../index");
+let Mappings = require("./mappings/index");

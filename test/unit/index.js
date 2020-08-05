@@ -7,6 +7,7 @@ let testProperty = require("./property");
 let testType = require("./type");
 let testSubProperty = require("./subProperty");
 let testFacet = require("./facet");
+let testMappings = require("./mapping");
 
 /**
  * Jest unit tests for NIEM Model objects
@@ -23,6 +24,7 @@ function unitTests() {
     testType();
     testSubProperty();
     testFacet();
+    testMappings();
 
   });
 

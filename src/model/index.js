@@ -88,6 +88,17 @@ class Model extends NIEMObject {
     };
   }
 
+  get mappings() {
+    return {
+
+      find: async (releaseKey) => {
+        let criteria = {userKey: this.userKey, modelKey: this.modelKey, releaseKey};
+        return this.niem.mappings.find(criteria);
+      }
+
+    }
+  }
+
   /**
    * @param {string} userKey
    * @param {string} modelKey

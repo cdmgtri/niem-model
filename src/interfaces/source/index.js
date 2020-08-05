@@ -47,6 +47,8 @@ class NIEMSourceMemory extends SourceInterface {
     /** @type {DataSet<Facet>} */
     this.facets = new DataSet(Facet, this.logger);
 
+    this.mappings = new Mappings();
+
   }
 
   toJSON() {
@@ -60,6 +62,7 @@ class NIEMSourceMemory extends SourceInterface {
       localTerms: this.localTerms.data,
       subProperties: this.subProperties.data,
       facets: this.facets.data,
+      mappings: this.mappings.data,
       log: this.log
     };
 
@@ -76,6 +79,7 @@ class NIEMSourceMemory extends SourceInterface {
    * @param {LocalTerm[]} json.localTerms
    * @param {SubProperty[]} json.subProperties
    * @param {Facet[]} json.facets
+   * @param {Mapping[]} json.mappings
    * @param {Transaction[]} json.log
    */
   async load(niem, json) {
@@ -87,6 +91,7 @@ class NIEMSourceMemory extends SourceInterface {
     await this.localTerms.load(niem, json.localTerms);
     await this.subProperties.load(niem, json.subProperties);
     await this.facets.load(niem, json.facets);
+    await this.mappings.load(niem, json.mappings);
     await this.log.push(...json.log);
   }
 
@@ -94,6 +99,8 @@ class NIEMSourceMemory extends SourceInterface {
 
 module.exports = NIEMSourceMemory;
 
+let Mappings = require("./mappings/index");
+let Mapping = require("./mapping/index");
 let Transaction = require("./transaction/index");
 
 let { NIEM, Model, Release, Namespace, Property, Type, LocalTerm, SubProperty, Facet } = require("../../index");

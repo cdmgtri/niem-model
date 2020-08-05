@@ -348,6 +348,16 @@ class NIEM {
     };
   }
 
+  get mappings() {
+    return {
+
+      find: async (criteria={}) => {
+        return this.sources[0].mappings.find(criteria);
+      }
+
+    }
+  }
+
   /**
    * @param {string|Object} json - JSON containing one or more NIEM sources
    */
