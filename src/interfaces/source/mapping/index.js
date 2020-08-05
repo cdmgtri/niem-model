@@ -19,10 +19,10 @@ class Mapping {
     /** @type {DataSetInterface<T, any, any>} */
     this.dataSet;
 
+    this.operation = operation;
     this.userKey = userKey;
     this.modelKey = modelKey;
     this.releaseKey = releaseKey;
-    this.operation = operation;
     this.className = className;
     this.previousID = previousID;
     this.id = id;
@@ -77,6 +77,20 @@ class Mapping {
     this.differentFields = differentFields;
     return differentFields;
 
+  }
+
+  toJSON() {
+    return {
+      userKey: this.userKey,
+      modelKey: this.modelKey,
+      releaseKey: this.releaseKey,
+      operation: this.operation,
+      className: this.className,
+      previousID: this.previousID,
+      id: this.id,
+      changes: this.changes,
+      differentFields: this.differentFields
+    };
   }
 
 

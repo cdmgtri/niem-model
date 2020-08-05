@@ -812,7 +812,7 @@ class Release extends NIEMObject {
        * @param {Mapping.ClassNameType} [criteria.className]
        * @param {Mapping.OperationType} [criteria.operation]
        */
-      find: async (criteria) => {
+      find: async (criteria={}) => {
         criteria["userKey"] = this.userKey;
         criteria["modelKey"] = this.modelKey;
         criteria["releaseKey"] = this.releaseKey;
