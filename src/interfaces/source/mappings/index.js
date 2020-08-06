@@ -57,13 +57,14 @@ class Mappings {
   }
 
   /**
+   * @param {DataSetInterface} dataSet
    * @param {Mapping.ClassNameType} className
    * @param {Object.<string, any>} oldObject
    * @param {Object.<string, any>} newObject
    * @param {String[]} ignoredFields
    * @param {Change[]} changes
    */
-  calculate(className, oldObject, newObject, ignoredFields=[], changes) {
+  calculate(dataSet, className, oldObject, newObject, ignoredFields=[], changes) {
 
     /** @type {Mapping.OperationType} */
     let operation;
@@ -79,7 +80,11 @@ class Mappings {
       operation = (differentFields.length === 0) ? "load" : "edit";
     }
 
-    return new Mapping(newObject.userKey, newObject.modelKey, newObject.releaseKey, operation, className, oldObject.id, newObject.id, differentFields, changes);
+    let mapping = new Mapping(newObject.userKey, newObject.modelKey, newObject.releaseKey, operation, className, oldObject.id, newObject.id, differentFields, changes);
+
+    mapping.dataSet = dataSet;
+
+    return mapping;
 
   }
 

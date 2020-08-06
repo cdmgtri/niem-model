@@ -816,7 +816,8 @@ class Release extends NIEMObject {
        * @param {Change[]} changes
        */
       calculate: (className, oldObject, newObject, ignoredFields, changes) => {
-        return this.source.mappings.calculate(className, oldObject, newObject, ignoredFields, changes);
+        let dataSet = getDataSet(this.source, className);
+        return this.source.mappings.calculate(dataSet, className, oldObject, newObject, ignoredFields, changes);
       },
 
       /**
