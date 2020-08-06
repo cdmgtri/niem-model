@@ -125,7 +125,7 @@ class Release extends NIEMObject {
         add: async (newPrefix="", changes=[]) => {
           let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, newPrefix);
 
-          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "add", "Namespace", "", newID, changes);
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "add", "Namespace", "", newID, undefined, changes);
         },
 
         /**
@@ -138,7 +138,7 @@ class Release extends NIEMObject {
           let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix);
           let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, newPrefix);
 
-          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "edit", "Namespace", oldID, newID, changes);
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "edit", "Namespace", oldID, newID, undefined, changes);
         },
 
         /**
@@ -149,7 +149,7 @@ class Release extends NIEMObject {
         delete: async (oldPrefix="", changes=[]) => {
           let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix);
 
-          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "delete", "Namespace", oldID, "", changes);
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "delete", "Namespace", oldID, "", undefined, changes);
         },
 
         /**
@@ -161,7 +161,7 @@ class Release extends NIEMObject {
           let oldID = Namespace.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix);
           let newID = Namespace.route(this.userKey, this.modelKey, this.releaseKey, prefix);
 
-          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "load", "Namespace", oldID, newID, changes);
+          return this.source.mappings.add(this.source.namespaces, this.userKey, this.modelKey, this.releaseKey, "load", "Namespace", oldID, newID, undefined, changes);
         },
 
         /**
@@ -241,7 +241,7 @@ class Release extends NIEMObject {
         add: async (newPrefix="", newTerm="", changes=[]) => {
           let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newTerm);
 
-          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "add", "LocalTerm", "", newID, changes);
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "add", "LocalTerm", "", newID, undefined, changes);
         },
 
         /**
@@ -256,7 +256,7 @@ class Release extends NIEMObject {
           let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldTerm);
           let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newTerm);
 
-          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "edit", "LocalTerm", oldID, newID, changes);
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "edit", "LocalTerm", oldID, newID, undefined, changes);
         },
 
         /**
@@ -268,7 +268,7 @@ class Release extends NIEMObject {
         delete: async (oldPrefix="", oldTerm="", changes=[]) => {
           let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldTerm);
 
-          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "delete", "LocalTerm", oldID, "", changes);
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "delete", "LocalTerm", oldID, "", undefined, changes);
         },
 
         /**
@@ -281,7 +281,7 @@ class Release extends NIEMObject {
           let oldID = LocalTerm.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, term);
           let newID = LocalTerm.route(this.userKey, this.modelKey, this.releaseKey, prefix, term);
 
-          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "load", "LocalTerm", oldID, newID, changes);
+          return this.source.mappings.add(this.source.localTerms, this.userKey, this.modelKey, this.releaseKey, "load", "LocalTerm", oldID, newID, undefined, changes);
         },
 
         /**
@@ -365,7 +365,7 @@ class Release extends NIEMObject {
           let [newPrefix, newName] = newQName.split(":") || ["", ""];
           let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newName);
 
-          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "add", "Property", "", newID, changes);
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "add", "Property", "", newID, undefined, changes);
         },
 
         /**
@@ -381,7 +381,7 @@ class Release extends NIEMObject {
           let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldName);
           let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, newPrefix, newName);
 
-          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "edit", "Property", oldID, newID, changes);
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "edit", "Property", oldID, newID, undefined, changes);
         },
 
         /**
@@ -393,7 +393,7 @@ class Release extends NIEMObject {
           let [oldPrefix, oldName] = oldQName.split(":") || ["", ""];
           let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, oldPrefix, oldName);
 
-          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "delete", "Property", oldID, "", changes);
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "delete", "Property", oldID, "", undefined, changes);
         },
 
         /**
@@ -406,7 +406,7 @@ class Release extends NIEMObject {
           let oldID = Property.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, name);
           let newID = Property.route(this.userKey, this.modelKey, this.releaseKey, prefix, name);
 
-          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "load", "Property", oldID, newID, changes);
+          return this.source.mappings.add(this.source.properties, this.userKey, this.modelKey, this.releaseKey, "load", "Property", oldID, newID, undefined, changes);
         },
 
         /**
@@ -488,7 +488,7 @@ class Release extends NIEMObject {
         add: async (newQName="", changes=[]) => {
           let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, newQName);
 
-          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "add", "Type", "", newID, changes);
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "add", "Type", "", newID, undefined, changes);
         },
 
         /**
@@ -501,7 +501,7 @@ class Release extends NIEMObject {
           let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName);
           let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, newQName);
 
-          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "edit", "Type", oldID, newID, changes);
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "edit", "Type", oldID, newID, undefined, changes);
         },
 
         /**
@@ -512,7 +512,7 @@ class Release extends NIEMObject {
         delete: async (oldQName="", changes=[]) => {
           let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName);
 
-          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "delete", "Type", oldID, "", changes);
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "delete", "Type", oldID, "", undefined, changes);
         },
 
         /**
@@ -524,7 +524,7 @@ class Release extends NIEMObject {
           let oldID = Type.route(this.userKey, this.modelKey, this.previousReleaseKey, qname);
           let newID = Type.route(this.userKey, this.modelKey, this.releaseKey, qname);
 
-          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "load", "Type", oldID, newID, changes);
+          return this.source.mappings.add(this.source.types, this.userKey, this.modelKey, this.releaseKey, "load", "Type", oldID, newID, undefined, changes);
         },
 
         /**
@@ -606,7 +606,7 @@ class Release extends NIEMObject {
         add: async (newQName="", newValue="", newStyle="enumeration", changes=[]) => {
           let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, newQName, newValue, newStyle);
 
-          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "add", "Facet", "", newID, changes);
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "add", "Facet", "", newID, undefined, changes);
         },
 
         /**
@@ -623,7 +623,7 @@ class Release extends NIEMObject {
           let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName, oldValue, oldStyle);
           let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, newQName, newValue, newStyle);
 
-          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "edit", "Facet", oldID, newID, changes);
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "edit", "Facet", oldID, newID, undefined, changes);
         },
 
         /**
@@ -636,7 +636,7 @@ class Release extends NIEMObject {
         delete: async (oldQName="", oldValue="", oldStyle="enumeration", changes=[]) => {
           let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, oldQName, oldValue, oldStyle);
 
-          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "delete", "Facet", oldID, "", changes);
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "delete", "Facet", oldID, "", undefined, changes);
         },
 
         /**
@@ -649,7 +649,7 @@ class Release extends NIEMObject {
           let oldID = Facet.route(this.userKey, this.modelKey, this.previousReleaseKey, prefix, name);
           let newID = Facet.route(this.userKey, this.modelKey, this.releaseKey, prefix, name);
 
-          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "load", "Facet", oldID, newID, changes);
+          return this.source.mappings.add(this.source.facets, this.userKey, this.modelKey, this.releaseKey, "load", "Facet", oldID, newID, undefined, changes);
         },
 
         /**
@@ -732,7 +732,7 @@ class Release extends NIEMObject {
         add: async (newTypeQName="", newPropertyQName="", changes=[]) => {
           let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, newTypeQName, newPropertyQName);
 
-          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "add", "SubProperty", "", newID, changes);
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "add", "SubProperty", "", newID, undefined, changes);
         },
 
         /**
@@ -747,7 +747,7 @@ class Release extends NIEMObject {
           let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, oldTypeQName, oldPropertyQName);
           let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, newTypeQName, newPropertyQName);
 
-          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "edit", "SubProperty", oldID, newID, changes);
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "edit", "SubProperty", oldID, newID, undefined, changes);
         },
 
         /**
@@ -759,7 +759,7 @@ class Release extends NIEMObject {
         delete: async (oldTypeQName="", oldPropertyQName="", changes=[]) => {
           let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, oldTypeQName, oldPropertyQName);
 
-          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "delete", "SubProperty", oldID, "", changes);
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "delete", "SubProperty", oldID, "", undefined, changes);
         },
 
         /**
@@ -772,7 +772,7 @@ class Release extends NIEMObject {
           let oldID = SubProperty.route(this.userKey, this.modelKey, this.previousReleaseKey, typeQName, propertyQName);
           let newID = SubProperty.route(this.userKey, this.modelKey, this.releaseKey, typeQName, propertyQName);
 
-          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "load", "SubProperty", oldID, newID, changes);
+          return this.source.mappings.add(this.source.subProperties, this.userKey, this.modelKey, this.releaseKey, "load", "SubProperty", oldID, newID, undefined, changes);
         },
 
         /**
@@ -800,11 +800,23 @@ class Release extends NIEMObject {
        * @param {Mapping.ClassNameType} className
        * @param {String} previousID
        * @param {String} id
+       * @param {String[]} differentFields
        * @param {Change[]} changes
        */
-      insert: async(operation, className, previousID, id, changes) => {
+      insert: async(operation, className, previousID, id, differentFields=undefined, changes) => {
         let dataSet = getDataSet(this.source, className);
-        return this.source.mappings.add(dataSet, this.userKey, this.modelKey, this.releaseKey, operation, className, previousID, id, changes);
+        return this.source.mappings.add(dataSet, this.userKey, this.modelKey, this.releaseKey, operation, className, previousID, id, differentFields, changes);
+      },
+
+      /**
+       * @param {Mapping.ClassNameType} className
+       * @param {Object.<string, any>} oldObject
+       * @param {Object.<string, any>} newObject
+       * @param {String[]} ignoredFields
+       * @param {Change[]} changes
+       */
+      calculate: (className, oldObject, newObject, ignoredFields, changes) => {
+        return this.source.mappings.calculate(className, oldObject, newObject, ignoredFields, changes);
       },
 
       /**

@@ -12,9 +12,10 @@ class Mapping {
    * @param {Mapping.ClassNameType} className
    * @param {String} previousID
    * @param {String} id
+   * @param {String[]} differentFields
    * @param {Change[]} changes
    */
-  constructor(userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, changes=[]) {
+  constructor(userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, differentFields=undefined, changes=[]) {
 
     /** @type {DataSetInterface<T, any, any>} */
     this.dataSet;
@@ -26,10 +27,8 @@ class Mapping {
     this.className = className;
     this.previousID = previousID;
     this.id = id;
+    this.differentFields = differentFields;
     this.changes = changes;
-
-    /** @type {String[]} */
-    this.differentFields;
 
   }
 

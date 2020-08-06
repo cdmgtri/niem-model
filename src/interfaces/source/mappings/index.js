@@ -20,14 +20,20 @@ class Mappings {
    * @param {Mapping.ClassNameType} className
    * @param {String} previousID
    * @param {String} id
+   * @param {String[]} differentFields
    * @param {Change[]} changes
    * @returns {Promise<Mapping<T>>}
    */
-  async add(dataSet, userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, changes=[]) {
+  async add(dataSet, userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, differentFields=undefined, changes=[]) {
 
-    let mapping = new Mapping(userKey, modelKey, releaseKey, operation, className, previousID, id, changes);
+    let mapping = new Mapping(userKey, modelKey, releaseKey, operation, className, previousID, id, differentFields, changes);
+
     mapping.dataSet = dataSet;
-    await mapping.computeDiffs();
+
+    if (differentFields == undefined) {
+      await mapping.computeDiffs();
+    }
+
     this.data.push(mapping);
     // @ts-ignore
     return mapping;
@@ -42,10 +48,39 @@ class Mappings {
   async addMultiple(dataSet, mappings) {
     for (let mapping of mappings) {
       mapping.dataSet = dataSet;
-      await mapping.computeDiffs();
+      if (mapping.differentFields == undefined) {
+        await mapping.computeDiffs();
+      }
     }
     this.data.push(...mappings);
     return mappings;
+  }
+
+  /**
+   * @param {Mapping.ClassNameType} className
+   * @param {Object.<string, any>} oldObject
+   * @param {Object.<string, any>} newObject
+   * @param {String[]} ignoredFields
+   * @param {Change[]} changes
+   */
+  calculate(className, oldObject, newObject, ignoredFields=[], changes) {
+
+    /** @type {Mapping.OperationType} */
+    let operation;
+
+    let differentFields = [];
+
+    if (!newObject) {
+      operation = "delete";
+      newObject = {};
+    }
+    else {
+      differentFields = compareObject(oldObject, newObject, ignoredFields);
+      operation = (differentFields.length === 0) ? "load" : "edit";
+    }
+
+    return new Mapping(newObject.userKey, newObject.modelKey, newObject.releaseKey, operation, className, oldObject.id, newObject.id, differentFields, changes);
+
   }
 
   /**
@@ -84,17 +119,66 @@ class Mappings {
     /** @type {Mapping[]}] */
     let mappings = jsonMappings.map( jsonMapping => Object.assign(new Mapping(), jsonMapping) );
 
-    this.addMultiple(source.namespaces, mappings.filter( mapping => mapping.className == "Namespace") );
-    this.addMultiple(source.localTerms, mappings.filter( mapping => mapping.className == "LocalTerm") );
-    this.addMultiple(source.properties, mappings.filter( mapping => mapping.className == "Property") );
-    this.addMultiple(source.types, mappings.filter( mapping => mapping.className == "Type") );
-    this.addMultiple(source.subProperties, mappings.filter( mapping => mapping.className == "SubProperty") );
-    this.addMultiple(source.facets, mappings.filter( mapping => mapping.className == "Facet") );
+    /**
+     * @param {Mapping[]} data
+     * @param {Mapping[]} allMappings
+     * @param {DataSetInterface} dataSet
+     * @param {Mapping.ClassNameType} className
+     */
+    function addObjectMappings(data, allMappings, dataSet, className) {
+      let mappings = allMappings.filter( mapping => mapping.className == className );
+      mappings.forEach( mapping => {
+        mapping.dataSet = dataSet
+        data.push(mapping);
+      });
+    }
+
+    addObjectMappings(this.data, mappings, source.namespaces, "Namespace");
+    addObjectMappings(this.data, mappings, source.localTerms, "LocalTerm");
+    addObjectMappings(this.data, mappings, source.properties, "Property");
+    addObjectMappings(this.data, mappings, source.types, "Type");
+    addObjectMappings(this.data, mappings, source.subProperties, "SubProperty");
+    addObjectMappings(this.data, mappings, source.facets, "Facet");
 
     return mappings;
   }
 
 }
+
+
+/**
+ * @param {Object} oldObject
+ * @param {Object} newObject
+ * @param {String[]} ignoredFields
+ */
+function compareObject(oldObject, newObject, ignoredFields=[]) {
+
+  let differentFields = [];
+
+  let allIgnoredFields = ["release", "origin", "previousIdentifiers", ...ignoredFields];
+
+  let keys = Object.keys(newObject || oldObject);
+  keys = keys.filter( key => ! allIgnoredFields.includes(key) );
+
+  for (let key of keys) {
+    if (Array.isArray(oldObject[key])) {
+      // Compare arrays
+      if (oldObject[key].sort().join(", ") != newObject[key].sort().join(", ")) {
+        differentFields.push(key);
+      }
+    }
+    else if ((oldObject[key] || "") != (newObject[key] || "")) {
+      // Compare strings, booleans, ...
+      differentFields.push(key);
+    }
+  }
+
+  return differentFields;
+
+}
+
+
+
 
 /**
  * @type {{userKey?: String, modelKey?: String, releaseKey?: String, className?: Mapping.ClassNameType, operation?: Mapping.OperationType}}
