@@ -26,6 +26,19 @@ class NIEM {
 
   }
 
+  get userKeys() {
+
+    return {
+
+      find: async (criteria={}) => {
+        let models = await this.models.find(criteria);
+        let userKeys = models.map( model => model.userKey );
+        return Array.from( new Set(userKeys) );
+      }
+    }
+
+  }
+
   get models() {
 
     return {

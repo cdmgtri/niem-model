@@ -84,7 +84,7 @@ class Namespace extends ReleaseObject {
         return 10;
       case "extension":
         return 15;
-      case "CS":
+      case "core supplement":
         return 20;
       case "adapter":
         return 25;
@@ -111,14 +111,6 @@ class Namespace extends ReleaseObject {
    */
   get ndrVersion() {
     return undefined;
-  }
-
-  get load() {
-    return {
-      xsd: async (xsdString) => this.formats.xsd.namespace.load(xsdString, this.release),
-
-      json: async (jsonString) => this.formats.json.namespace.load(jsonString, this.release)
-    };
   }
 
   get sourceDataSet() {
