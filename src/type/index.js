@@ -253,6 +253,15 @@ class Type extends Component {
       count: async (criteria={}) => {
         criteria.typeQName = this.qname;
         return this.release.subProperties.count(criteria);
+      },
+
+      /**
+       * Augmentation point property for this type
+       */
+      augmentationPoint: async () => {
+        let augmentationPointQName = this.qname.replace("Type", "AugmentationPoint");
+        let subProperty = await this.release.subProperties.get(this.qname, augmentationPointQName);
+        if (subProperty) return subProperty.property();
       }
 
     };
