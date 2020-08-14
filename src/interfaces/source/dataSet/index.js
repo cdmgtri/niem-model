@@ -250,24 +250,35 @@ class DataSet extends DataSetInterface {
 
     if (className == "Model") {
       for (let json of jsonObjects) {
-        let model = await niem.models.add(json["userKey"], json["modelKey"]);
-        model = Object.assign(model, json);
-        await model.save();
+        try {
+          let model = await niem.models.add(json["userKey"], json["modelKey"]);
+          model = Object.assign(model, json);
+          await model.save();
+        }
+        catch (err) {
+          // Do nothing - allow releases to be split over multiple files, each with model info
+        }
       }
     }
     else if (className == "Release") {
       for (let json of jsonObjects) {
         // Find the model object of the release
         let model = await niem.models.get(json["userKey"], json["modelKey"]);
-        let release = await model.releases.add(json["releaseKey"]);
 
-        // Remove release getters
-        delete json["userKey"];
-        delete json["modelKey"];
-        delete json["releaseKey"];
+        try {
+          let release = await model.releases.add(json["releaseKey"]);
 
-        release = Object.assign(release, json);
-        await release.save();
+          // Remove release getters
+          delete json["userKey"];
+          delete json["modelKey"];
+          delete json["releaseKey"];
+
+          release = Object.assign(release, json);
+          await release.save();
+        }
+        catch (err) {
+          // Do nothing - allow release metadata to be overwritten with the actual release
+        }
       }
     }
     else {

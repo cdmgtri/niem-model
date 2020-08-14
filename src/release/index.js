@@ -33,6 +33,11 @@ class Release extends NIEMObject {
     this.description = description;
     this.previousReleaseKey = "";
 
+    /** @type {"major"|"minor"|"micro"|"core supplement"|"domain update"|"patch"|"other"} */
+    this.style = "";
+
+    this.date = "";
+
   }
 
   get niem() {
