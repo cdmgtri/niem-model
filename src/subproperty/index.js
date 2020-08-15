@@ -105,6 +105,34 @@ class SubProperty extends ReleaseObject {
   }
 
   /**
+   * Custom sort function to order an array of subProperties by qualified type, then qualified property.
+   *
+   * @example "ag:ProducerShare would appear before nc:Activity"
+   *
+   * @param {SubProperty} subProperty1
+   * @param {SubProperty} subProperty2
+   */
+  static sortByCoreTypeProperty(subProperty1, subProperty2) {
+    if (!subProperty1 || ! subProperty2) return 0;
+
+    if (subProperty1.typePrefix != subProperty2.typePrefix) {
+      if (subProperty1.typePrefix == "nc") return -1;
+      if (subProperty2.typePrefix == "nc") return 1;
+    }
+
+    if (subProperty1.typeQName != subProperty2.typeQName) {
+      return subProperty1.typeQName.localeCompare(subProperty2.typeQName);
+    }
+
+    if (subProperty1.propertyPrefix != subProperty2.propertyPrefix) {
+      if (subProperty1.propertyPrefix == "nc") return -1;
+      if (subProperty2.propertyPrefix == "nc") return 1;
+    }
+
+    return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
+  }
+
+  /**
    * Custom sort function to order an array of subProperties by qualified type, the sequence,
    * then qualified property (if needed for duplicate sequence IDs).
    *
@@ -120,6 +148,37 @@ class SubProperty extends ReleaseObject {
 
     if (subProperty1.sequence != subProperty2.sequence) {
       return subProperty1.sequence < subProperty2.sequence;
+    }
+
+    return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
+  }
+
+  /**
+   * Custom sort function to order an array of subProperties by qualified type, the sequence,
+   * then qualified property (if needed for duplicate sequence IDs).
+   *
+   * @param {SubProperty} subProperty1
+   * @param {SubProperty} subProperty2
+   */
+  static sortByCoreTypeSequence(subProperty1, subProperty2) {
+    if (!subProperty1 || ! subProperty2) return 0;
+
+    if (subProperty1.typePrefix != subProperty2.typePrefix) {
+      if (subProperty1.typePrefix == "nc") return -1;
+      if (subProperty2.typePrefix == "nc") return 1;
+    }
+
+    if (subProperty1.typeQName != subProperty2.typeQName) {
+      return subProperty1.typeQName.localeCompare(subProperty2.typeQName);
+    }
+
+    if (subProperty1.sequence != subProperty2.sequence) {
+      return subProperty1.sequence < subProperty2.sequence;
+    }
+
+    if (subProperty1.propertyPrefix != subProperty2.propertyPrefix) {
+      if (subProperty1.propertyPrefix == "nc") return -1;
+      if (subProperty2.propertyPrefix == "nc") return 1;
     }
 
     return subProperty1.propertyQName.localeCompare(subProperty2.propertyQName);
