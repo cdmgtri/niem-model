@@ -292,29 +292,32 @@ class Type extends Component {
   /**
    * @param {CriteriaType} criteria
    */
-  async childTypes (criteria) {
+  async childTypes (criteria={}) {
     criteria.baseQName = this.qname;
-    return this.release.types.find(criteria);
+    let types = await this.release.types.find(criteria);
+    return types.sort(Type.sortByCoreQName);
   }
 
   /**
-   * @param {CriteriaType} criteria
+   * @param {Boolean} includeImmediateChildren - True to include immediate children in results
    */
-  async childDescendantTypes(criteria) {
-    criteria.baseQName = this.qname;
-
-    let childTypes = await this.release.types.find(criteria);
+  async descendantTypes(includeImmediateChildren=true) {
 
     /** @type {Type[]} */
-    let descendantTypes = [];
+    let results = [];
+    let children = await this.childTypes();
 
-    for (let childType of childTypes) {
-      criteria.baseQName = childType.qname;
-      let newDescendantTypes = await this.childDescendantTypes(criteria);
-      descendantTypes.push(childType, ...newDescendantTypes);
+    if (includeImmediateChildren) {
+      results.push(...children);
     }
 
-    return descendantTypes;
+    for (let child of children) {
+      let grandchildren = await child.descendantTypes();
+      results.push(...grandchildren);
+    }
+
+    return results;
+
   }
 
   async parents() {
