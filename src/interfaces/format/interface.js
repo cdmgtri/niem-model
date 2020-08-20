@@ -37,4 +37,10 @@ class NIEMFormatInterface {
 
 module.exports = NIEMFormatInterface;
 
-let { Release, Namespace, LocalTerm, Property, Type, Facet, SubProperty } = require("../../index");
+let Release = require("../../release/index");
+let Namespace = require("../../namespace/index");
+let LocalTerm = require("../../local-term/index");
+let Property = require("../../property/index");
+let Type = require("../../type/index");
+let Facet = require("../../facet/index");
+let SubProperty = require("../../subproperty/index");

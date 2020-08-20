@@ -103,4 +103,12 @@ let Mappings = require("./mappings/index");
 let Mapping = require("./mapping/index");
 let Transaction = require("./transaction/index");
 
-let { NIEM, Model, Release, Namespace, Property, Type, LocalTerm, SubProperty, Facet } = require("../../index");
+let NIEM = require("../../niem/index");
+let Model = require("../../model/index");
+let Release = require("../../release/index");
+let Namespace = require("../../namespace/index");
+let LocalTerm = require("../../local-term/index");
+let Property = require("../../property/index");
+let Type = require("../../type/index");
+let Facet = require("../../facet/index");
+let SubProperty = require("../../subproperty/index");
