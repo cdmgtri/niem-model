@@ -406,9 +406,11 @@ class Type extends Component {
         /** @type {Facet[]} */
         let facets = [];
 
-        if (self.style == "union") {
+        let base = await self.base();
+
+        if (self.style == "union" || base.style == "union") {
           // Return concatenation of all member type facets
-          let members = await self.members();
+          let members = (self.style == "union") ? await self.members() : await base.members();
           for (let member of members) {
             let memberFacets = await member.facets.find();
             facets.push(...memberFacets);
@@ -420,7 +422,6 @@ class Type extends Component {
         }
         else if (self.isSimpleContent && self.name.endsWith("CodeType")) {
           // Return facets on this CSC type's simple base type
-          let base = await self.base();
           facets = await base.facets.find();
         }
 
