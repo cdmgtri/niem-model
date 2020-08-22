@@ -263,7 +263,7 @@ class SubProperty extends ReleaseObject {
  */
 SubProperty.CriteriaType = {};
 
-SubProperty.CriteriaKeywordFields = ["typeName", "propertyName"];
+SubProperty.CriteriaKeywordFields = ["typeName", "typeQName", "propertyName", "propertyQName"];
 
 /**
  * @typedef {Object} IdentifiersType
