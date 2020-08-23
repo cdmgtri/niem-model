@@ -361,25 +361,10 @@ class Namespace extends ReleaseObject {
   /**
    * References to components in other namespaces from this namespace
    */
-  async dependencyReferences() {
+  async dependencyList() {
 
-    /** @type {{source: Component, relationship: string, reference: Component, referenceStyle: "type"|"property", referenceQName?: string, sourceQName?: string}[]} */
-    let dependency;
-
-    let results = {
-
-      /** @type {dependency} */
-      dependencyList: [],
-
-      /** @type {Namespace[]} */
-      namespaces: [],
-
-      /** @type {Property[]} */
-      properties: [],
-
-      /** @type {Type[]} */
-      types: []
-    };
+    /** @type {DependencyType[]} */
+    let results = [];
 
     // Properties and types from this namespace
     let namespaceProperties = await this.properties.find();
@@ -393,7 +378,7 @@ class Namespace extends ReleaseObject {
     namespaceProperties
     .filter( property => property.typePrefix && property.typePrefix != this.prefix )
     .forEach( property => {
-      results.dependencyList.push( {
+      results.push( {
         source: property,
         relationship: "data type",
         reference: undefined,
@@ -406,7 +391,7 @@ class Namespace extends ReleaseObject {
     namespaceTypes
     .filter( type => type.baseQNameDefaultPrefix && type.baseQNameDefaultPrefix != this.prefix )
     .forEach( type => {
-      results.dependencyList.push({
+      results.push({
         source: type,
         relationship: "base type",
         reference: undefined,
@@ -421,7 +406,7 @@ class Namespace extends ReleaseObject {
     .forEach( type => {
       type.memberQNames.forEach( qname => {
         if (!qname.startsWith(this.prefix + ":")) {
-          results.dependencyList.push({
+          results.push({
             source: type,
             relationship: "union member",
             reference: undefined,
@@ -438,7 +423,7 @@ class Namespace extends ReleaseObject {
     .forEach( property => {
       property.appliesToTypeQNames.forEach( qname => {
         if (!qname.startsWith(this.prefix + ":")) {
-          results.dependencyList.push({
+          results.push({
             source: property,
             relationship: "metadata appliesToType",
             reference: undefined,
@@ -457,7 +442,7 @@ class Namespace extends ReleaseObject {
     namespaceProperties
     .filter( property => property.groupPrefix && property.groupPrefix != this.prefix )
     .forEach( property => {
-      results.dependencyList.push({
+      results.push({
         source: property,
         relationship: "substitution group",
         reference: undefined,
@@ -472,7 +457,7 @@ class Namespace extends ReleaseObject {
     .forEach( property => {
       property.appliesToPropertyQNames.forEach( qname => {
         if (!qname.startsWith(this.prefix + ":")) {
-          results.dependencyList.push({
+          results.push({
             source: property,
             relationship: "metadata appliesToProperty",
             reference: undefined,
@@ -487,7 +472,7 @@ class Namespace extends ReleaseObject {
     namespaceSubProperties
     .filter( subProperty => subProperty.propertyPrefix && subProperty.propertyPrefix != this.prefix )
     .forEach( subProperty => {
-      results.dependencyList.push({
+      results.push({
         source: undefined,
         sourceQName: subProperty.typeQName,
         relationship: "contains property",
@@ -497,7 +482,59 @@ class Namespace extends ReleaseObject {
       });
     });
 
+    return results;
 
+  }
+
+  /**
+   * Returns the namespaces that this namespace is dependent upon
+   */
+  async dependencyNamespaces() {
+
+    let dependencyList = await this.dependencyList();
+
+    let prefixes = dependencyList.map( dependency => dependency.referenceQName.split(":")[0] );
+    let prefixSet = new Set(prefixes);
+
+    // Make sure structures is in the dependency list
+    prefixSet.add("structures");
+
+    /** @type {Namespace[]} */
+    let namespaces = [];
+
+    for (let prefix of prefixSet) {
+      let namespace = await this.release.namespaces.get(prefix);
+      namespaces.push(namespace);
+    }
+
+    return namespaces;
+
+  }
+
+
+  /**
+   * References to components in other namespaces from this namespace
+   */
+  async dependencyReferences() {
+
+
+    let results = {
+
+      /** @type {DependencyType[]} */
+      dependencyList: [],
+
+      /** @type {Namespace[]} */
+      namespaces: [],
+
+      /** @type {Property[]} */
+      properties: [],
+
+      /** @type {Type[]} */
+      types: []
+    };
+
+
+    results.dependencyList = await this.dependencyList();
 
     // Add the full components matching the dependency qnames
     for (let dependency of results.dependencyList) {
@@ -797,6 +834,17 @@ let NamespaceCriteriaType;
  * @property {string|RegExp} prefix
  */
 let NamespaceIdentifiersType;
+
+/**
+ * @typedef {Object} DependencyType
+ * @property {Component} source
+ * @property {string} relationship
+ * @property {Component} reference
+ * @property {"type"|"property"} referenceStyle
+ * @property {string} [referenceQName]
+ * @property {string} [sourceQName]
+ */
+let NamespaceDependencyType;
 
 /** @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"core supplement"|"domain update"} StyleType */
 let NamespaceStyleType;
