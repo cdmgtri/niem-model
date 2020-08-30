@@ -482,6 +482,21 @@ class Namespace extends ReleaseObject {
       });
     });
 
+    // Code Lists
+    namespaceTypes
+    .filter( type => type.codeListURI )
+    .forEach( type => {
+      results.push({
+        source: type,
+        sourceQName: type.qname,
+        relationship: "code lists schema appinfo",
+        reference: undefined,
+        referenceQName: "clsa",
+        referenceStyle: "namespace"
+
+      })
+    });
+
     return results;
 
   }
@@ -840,7 +855,7 @@ let NamespaceIdentifiersType;
  * @property {Component} source
  * @property {string} relationship
  * @property {Component} reference
- * @property {"type"|"property"} referenceStyle
+ * @property {"type"|"property"|"namespace"} referenceStyle
  * @property {string} [referenceQName]
  * @property {string} [sourceQName]
  */

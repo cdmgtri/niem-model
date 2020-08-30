@@ -22,6 +22,10 @@ class Type extends Component {
 
     /** @type {String[]} */
     this.memberQNames = [];
+
+    /** @type {String} */
+    this.codeListURI;
+
   }
 
   /**
@@ -487,7 +491,8 @@ class Type extends Component {
       ...super.toJSON(),
       style: this.style,
       baseQName: this.baseQName,
-      memberQNames: this.memberQNames.length > 0 ? this.memberQNames : undefined
+      memberQNames: this.memberQNames.length > 0 ? this.memberQNames : undefined,
+      codeListURI: this.codeListURI
     };
   }
 
