@@ -5,7 +5,12 @@ module.exports = () => {
 
   let path = require("path");
 
-  let { NIEM, Model, Release, Namespace, Property, Type } = require("../../src/index");
+  let NIEM = require("../../src/niem/index");
+  let Model = require("../../src/model/index");
+  let Release = require("../../src/release/index");
+  let Namespace = require("../../src/namespace/index");
+  let Property = require("../../src/property/index");
+  let Type = require("../../src/type/index");
 
   let niem = new NIEM();
   niem.sources[0].logger.loggingEnabled = true;

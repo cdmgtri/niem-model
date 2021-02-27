@@ -1,12 +1,14 @@
 
+let Change = require("./change/index");
 let DataSetInterface = require("./dataSet/interface");
 let Transaction = require("./transaction/index");
-let Change = require("./change/index");
 let Logger = require("./logger/index");
 
 class SourceInterface {
 
   constructor() {
+
+    let Mappings = require("./mappings/index");
 
     this.logger = new Logger();
 
@@ -73,4 +75,3 @@ let Property = require("../../property/index");
 let Type = require("../../type/index");
 let Facet = require("../../facet/index");
 let SubProperty = require("../../subproperty/index");
-let Mappings = require("./mappings/index");

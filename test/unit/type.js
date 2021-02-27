@@ -1,7 +1,9 @@
 
 function testType() {
 
-  let { NIEM, Release, Type } = require("../../src/index");
+  let NIEM = require("../../src/niem/index");
+  let Release = require("../../src/release/index");
+  let Type = require("../../src/type/index");
 
   let niem = new NIEM();
 

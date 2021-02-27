@@ -1,4 +1,6 @@
 
+let Change = require("../change/index");
+
 /**
  * @template {NIEMObject} T
  */
@@ -48,4 +50,3 @@ let TransactionOperationType;
 module.exports = Transaction;
 
 let NIEMObject = require("../../../niem-object/index");
-let Change = require("../change/index");

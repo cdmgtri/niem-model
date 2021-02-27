@@ -2,8 +2,7 @@
 
 function testRelease() {
 
-  let { NIEM } = require("../../src/index");
-
+  let NIEM = require("../../src/niem/index");
   let niem = new NIEM();
 
   describe("Release", () => {

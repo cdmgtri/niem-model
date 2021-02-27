@@ -114,7 +114,7 @@ class Mappings {
   }
 
   /**
-   * @param {NIEM} niem
+   * @param {import("../../../niem/index")} niem
    * @param {Object[]} jsonMappings
    * @returns {Promise<Mapping<T>[]>}
    */
@@ -190,8 +190,6 @@ function compareObject(oldObject, newObject, ignoredFields=[]) {
  */
 Mappings.CriteriaType;
 
-
-let NIEM = require("../../../niem/index");
 let Change = require("../change/index");
 let DataSetInterface = require("../dataSet/interface");
 

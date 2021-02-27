@@ -9,7 +9,7 @@ class Release extends NIEMObject {
   /**
    * @param {string} releaseKey
    * @param {string} niemReleaseKey
-   * @param {ReleaseObject.NDRVersionType} [ndrVersion="4.0"] Defaults to "4.0"
+   * @param {import("../release-object/index").NDRVersionType} [ndrVersion="4.0"] Defaults to "4.0"
    * @param {string} [version]
    * @param {StatusType} [status]
    * @param {string} [baseURI]
@@ -67,6 +67,7 @@ class Release extends NIEMObject {
   }
 
   get namespaces() {
+    let Namespace = require("../namespace/index");
     return {
 
       /**
@@ -187,6 +188,8 @@ class Release extends NIEMObject {
 
   get localTerms() {
 
+    let LocalTerm = require("../local-term/index");
+
     return {
 
       /**
@@ -305,6 +308,9 @@ class Release extends NIEMObject {
   }
 
   get properties() {
+
+    let Property = require("../property/index");
+
     return {
 
       /**
@@ -431,6 +437,9 @@ class Release extends NIEMObject {
   }
 
   get types() {
+
+    let Type = require("../type/index");
+
     return {
 
       /**
@@ -550,6 +559,9 @@ class Release extends NIEMObject {
   }
 
   get facets() {
+
+    let Facet = require("../facet/index");
+
     return {
 
       /**
@@ -675,6 +687,9 @@ class Release extends NIEMObject {
   }
 
   get subProperties() {
+
+    let SubProperty = require("../subproperty/index");
+
     return {
 
       /**
@@ -946,6 +961,7 @@ class Release extends NIEMObject {
    * @param {string} releaseKey
    */
   static route(userKey, modelKey, releaseKey) {
+    let Model = require("../model/index");
     return Model.route(userKey, modelKey) + "/" + releaseKey;
   }
 
@@ -972,7 +988,7 @@ class Release extends NIEMObject {
 }
 
 /**
- * @param {SourceInterface} source
+ * @param {import("../interfaces/source/interface")} source
  * @param {Mapping.ClassNameType} className
  */
 function getDataSet(source, className) {
@@ -1020,17 +1036,7 @@ let ReleaseIdentifiersType;
 
 module.exports = Release;
 
-let Model = require("../model/index");
-let Namespace = require("../namespace/index");
-let Property = require("../property/index");
-let Type = require("../type/index");
-let Facet = require("../facet/index");
-let SubProperty = require("../subproperty/index");
-let LocalTerm = require("../local-term/index");
 let Component = require("../component/index");
 let Change = require("../interfaces/source/change/index");
 let Mapping = require("../interfaces/source/mapping/index");
 let Mappings = require("../interfaces/source/mappings/index");
-
-let ReleaseObject = require("../release-object/index");
-let SourceInterface = require("../interfaces/source/interface");

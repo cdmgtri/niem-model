@@ -1,7 +1,8 @@
 
 function testProperty() {
 
-  let { NIEM, Property } = require("../../src/index");
+  let NIEM = require("../../src/niem/index");
+  let Property = require("../../src/property/index");
 
   let niem = new NIEM();
 

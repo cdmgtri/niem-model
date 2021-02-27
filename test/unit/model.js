@@ -1,7 +1,8 @@
 
 function testModel() {
 
-  let { NIEM, Model } = require("../../src/index");
+  let NIEM = require("../../src/niem/index");
+  let Model = require("../../src/model/index");
 
   let niem = new NIEM();
 

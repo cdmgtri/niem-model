@@ -2,26 +2,16 @@
 // @ts-ignore
 let JSZip = require("jszip");
 
-let SourceDefault = require("../interfaces/source/index");
-
-let Model = require("../model/index");
-let Release = require("../release/index");
-let Namespace = require("../namespace/index");
-let LocalTerm = require("../local-term/index");
-let Property = require("../property/index");
-let Type = require("../type/index");
-let Facet = require("../facet/index");
-let SubProperty = require("../subproperty/index");
-
 
 class NIEM {
 
   /**
-   * @param {SourceInterface} [source]
+   * @param {import("../interfaces/source/interface")} [source]
    */
   constructor(source) {
 
-    /** @type {SourceInterface[]} */
+    let SourceDefault = require("../interfaces/source/index");
+
     this.sources = source ? [source] : [new SourceDefault()];
 
   }
@@ -40,6 +30,8 @@ class NIEM {
   }
 
   get models() {
+
+    let Model = require("../model/index");
 
     return {
 
@@ -91,6 +83,9 @@ class NIEM {
   }
 
   get releases() {
+
+    let Release = require("../release/index");
+
     return {
 
       /**
@@ -163,6 +158,9 @@ class NIEM {
   }
 
   get namespaces() {
+
+    let Namespace = require("../namespace/index");
+
     return {
 
       /**
@@ -195,6 +193,9 @@ class NIEM {
   }
 
   get localTerms() {
+
+    let LocalTerm = require("../local-term/index");
+
     return {
 
       /**
@@ -228,6 +229,9 @@ class NIEM {
   }
 
   get properties() {
+
+    let Property = require("../property/index");
+
     return {
 
       /**
@@ -260,6 +264,9 @@ class NIEM {
   }
 
   get types() {
+
+    let Type = require("../type/index");
+
     return {
 
       /**
@@ -292,6 +299,8 @@ class NIEM {
   }
 
   get facets() {
+
+    let Facet = require("../facet/index");
 
     return {
 
@@ -329,6 +338,9 @@ class NIEM {
   }
 
   get subProperties() {
+
+    let SubProperty = require("../subproperty/index");
+
     return {
 
       /**
@@ -461,5 +473,3 @@ class NIEM {
 }
 
 module.exports = NIEM;
-
-let SourceInterface = require("../interfaces/source/interface");
