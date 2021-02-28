@@ -37,9 +37,9 @@ class SubProperty extends ReleaseObject {
    * @param {String} propertyQName
    * @param {String} [min="0"] Default "0"
    * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
-   * @param {String} definition
-   * @param {"element"|"attribute"} style
-   * @param {number} sequence
+   * @param {String} [definition]
+   * @param {"element"|"attribute"} [style="element"]
+   * @param {number} [sequence]
    */
   static create(ndrVersion, typeQName, propertyQName, min="0", max="unbounded", definition, style, sequence) {
     return new SubProperty(typeQName, propertyQName, min, max, definition, style, sequence);

@@ -8,7 +8,7 @@
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
     "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
-    "check": "tsc"
+    "test:js": "tsc --allowJs --checkJs --noEmit --skipLibCheck --target ESNext **/*.js"
   },
   "keywords": [],
   "author": "",

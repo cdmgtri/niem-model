@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "outDir": "build",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "watch": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "coverage",
+    "docs"
+  ]
+}

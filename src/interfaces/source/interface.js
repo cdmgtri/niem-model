@@ -63,6 +63,10 @@ class SourceInterface {
     return Change;
   }
 
+  toJSON() {
+    return {}
+  }
+
 }
 
 module.exports = SourceInterface;

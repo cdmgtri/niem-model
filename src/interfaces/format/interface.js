@@ -4,9 +4,9 @@ let NIEMObjectFormatInterface = require("./niem-object/interface");
 class NIEMFormatInterface {
 
   /**
-   * @param {"3.0"|"4.0"|"5.0"} ndrVersion
+   * @param {"3.0"|"4.0"|"5.0"} [ndrVersion="5.0"]
    */
-  constructor(ndrVersion) {
+  constructor(ndrVersion="5.0") {
 
     this.ndrVersion = ndrVersion;
 

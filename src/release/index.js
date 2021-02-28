@@ -20,7 +20,7 @@ class Release extends NIEMObject {
 
     super();
 
-    /** @type {Model} */
+    /** @type {import("../model/index")} */
     this.model;
 
     this.releaseKey = releaseKey;
@@ -33,7 +33,7 @@ class Release extends NIEMObject {
     this.description = description;
     this.previousReleaseKey = "";
 
-    /** @type {"major"|"minor"|"micro"|"core supplement"|"domain update"|"patch"|"other"} */
+    /** @type {"major"|"minor"|"micro"|"core supplement"|"domain update"|"patch"|"other"|""} */
     this.style = "";
 
     this.date = "";

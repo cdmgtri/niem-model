@@ -12,7 +12,7 @@ class Facet extends ReleaseObject {
    * @param {String} typeQName
    * @param {string} value
    * @param {string} [definition]
-   * @param {StyleType} [style="enumeration"] Defaults to enumeration
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
    */
   constructor(typeQName, value, definition="", style="enumeration") {
     super();
@@ -28,7 +28,7 @@ class Facet extends ReleaseObject {
    * @param {String} typeQName
    * @param {string} value
    * @param {string} [definition]
-   * @param {StyleType} [style="enumeration"] Defaults to enumeration
+   * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
    */
   static create(ndrVersion, typeQName, value, definition, style="enumeration") {
     return new Facet(typeQName, value, definition, style);
@@ -86,7 +86,7 @@ class Facet extends ReleaseObject {
    * @param {string} releaseKey
    * @param {string} typeQName
    * @param {string} value
-   * @param {StyleType} [style="enumeration"] Default "enumeration"
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
   static route(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
     let typeRoute = Type.route(userKey, modelKey, releaseKey, typeQName);
@@ -103,7 +103,7 @@ class Facet extends ReleaseObject {
    * @param {string} releaseKey
    * @param {string} typeQName
    * @param {string} value
-   * @param {StyleType} [style="enumeration"] Default "enumeration"
+   * @param {Facet.StyleType} [style="enumeration"] Default "enumeration"
    */
   static identifiers(userKey, modelKey, releaseKey, typeQName, value, style="enumeration") {
     return {userKey, modelKey, releaseKey, typeQName, style, value};
@@ -204,8 +204,8 @@ class Facet extends ReleaseObject {
 }
 
 
-/** @typedef {"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"}  StyleType */
-let FacetStyleType;
+/** @type {"enumeration"|"length"|"minLength"|"maxLength"|"pattern"|"whiteSpace"|"maxInclusive"|"minInclusive"|"maxExclusive"|"minExclusive"|"totalDigits"|"fractionDigits"} */
+Facet.StyleType;
 
 Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
   "whiteSpace", "maxInclusive", "minInclusive", "maxExclusive", "minExclusive",
@@ -242,7 +242,7 @@ Facet.CriteriaKeywordFields = ["value", "definition"];
  * @property {string} releaseKey
  * @property {string} typeQName
  * @property {string} value
- * @property {StyleType} [style="enumeration"]
+ * @property {Facet.StyleType} [style="enumeration"]
  */
 let FacetIdentifiersType;
 

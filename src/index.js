@@ -47,16 +47,16 @@ module.exports = {
   ReleaseObject,
 
   // For Intellisense support
-  ModelInstance: new Model(),
+  ModelInstance: new Model("test", "test"),
   ReleaseInstance: new Release(),
-  NamespaceInstance: new Namespace(),
+  NamespaceInstance: new Namespace("test"),
   LocalTermInstance: new LocalTerm(),
   PropertyInstance: new Property(),
   TypeInstance: new Type(),
-  FacetInstance: new Facet(),
-  SubPropertyInstance: new SubProperty(),
+  FacetInstance: new Facet("test:TestSimpleType", "test"),
+  SubPropertyInstance: new SubProperty("test:TestType", "test:TestProperty"),
 
-  ComponentInstance: new Component(),
+  ComponentInstance: new Component("test", "Test", "Test def"),
   NIEMObjectInstance: new NIEMObject(),
   ReleaseObjectInstance: new ReleaseObject(),
 
@@ -80,9 +80,9 @@ module.exports = {
   SourceInterfaceInstance: new SourceInterface(),
   SourceInstance: new Source(),
   DataSetInterfaceInstance: new DataSetInterface(),
-  DataSetInstance: new DataSet(),
+  DataSetInstance: new DataSet(Property, new Logger()),
   ChangeInstance: new Change(),
-  TransactionInstance: new Transaction(),
+  TransactionInstance: new Transaction(Property, "add", new Property("test", "Test", "Test def"), {prefix: "test"}, new Change(), 2),
   LoggerInstance: new Logger(),
   MappingInstance: new Mapping(),
   MappingsInstance: new Mappings(),

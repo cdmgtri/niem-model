@@ -311,7 +311,7 @@ class NIEM {
        * @param {string} typeQName
        * @param {string} value
        * @param {import("../facet/index").StyleType} [style="enumeration"] Default "enumeration"
-       * @param {string} definition
+       * @param {string} [definition]
        */
       get: async (userKey, modelKey, releaseKey, typeQName, value, style="enumeration", definition) => {
         let identifiers = Facet.identifiers(userKey, modelKey, releaseKey, typeQName, value, style);
@@ -451,13 +451,12 @@ class NIEM {
     }
 
     if (filePath) {
+      let fs = require("fs").promises;
 
       if (options.saveFile) {
-        let fs = require("fs").promises;
         await fs.writeFile(filePath + ".json", json);
       }
       if (options.saveZip) {
-        let fs = require("fs").promises;
         let zip = new JSZip();
         zip.file("source.json", json);
         let zipContents = await zip.generateAsync({type: "uint8array", compression: "DEFLATE"});
