@@ -28,5 +28,10 @@
     "debug": "^4.3.1",
     "jszip": "^3.6.0",
     "lodash": "^4.17.21"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "build/*"
+    ]
   }
 }

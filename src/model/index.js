@@ -58,7 +58,7 @@ class Model extends NIEMObject {
       /**
        * @param {string} releaseKey
        * @param {string} [niemReleaseKey]
-       * @param {"3.0"|"4.0"} [ndrVersion]
+       * @param {"3.0"|"4.0"|"5.0"} [ndrVersion]
        * @param {string} [version]
        * @param {Release.StatusType} [status]
        * @param {string} [baseURI]

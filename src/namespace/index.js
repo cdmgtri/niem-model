@@ -67,6 +67,9 @@ class Namespace extends ReleaseObject {
     else if (ndrVersion == "4.0") {
       versionedNamespace = require("./4.0/index");
     }
+    else if (ndrVersion == "5.0") {
+      versionedNamespace = require("./5.0/index");
+    }
 
     return new versionedNamespace(prefix, style, uri, fileName, definition, version);
   }
@@ -107,7 +110,7 @@ class Namespace extends ReleaseObject {
   }
 
   /**
-   * @type {"3.0"|"4.0"|string}
+   * @type {"3.0"|"4.0"|"5.0"|string}
    */
   get ndrVersion() {
     return undefined;

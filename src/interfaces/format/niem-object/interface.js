@@ -1,6 +1,6 @@
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObjectInstance} T
  */
 class NIEMObjectFormatInterface {
 
@@ -24,7 +24,7 @@ class NIEMObjectFormatInterface {
    * Adds the new object to the given release.
 
    * @param {any} input
-   * @param {Release} release
+   * @param {ReleaseInstance} release
    * @returns {Promise<T>}
    */
   async load(input, release) {
@@ -40,15 +40,15 @@ class NIEMObjectFormatInterface {
    * @returns {Promise<string>}
    */
   async write(niemObject) {
-    let node = await this.export(null, niemObject);
+    let node = await this.export(niemObject);
     return this.stringify(node);
   }
 
   /**
-   * @param {any} output
    * @param {T} niemObject
+   * @returns {Promise<Object>}
    */
-  async export(output, niemObject) {
+  async export(niemObject, ...args) {
     throw new Error("NIEM format exporter is not defined.");
   }
 
@@ -76,3 +76,6 @@ module.exports = NIEMObjectFormatInterface;
 
 let Release = require("../../../release/index");
 let NIEMObject = require("../../../niem-object/index");
+
+let ReleaseInstance = new Release();
+let NIEMObjectInstance = new NIEMObject();

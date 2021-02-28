@@ -17,7 +17,7 @@ class Namespace_3_0 extends Namespace {
   }
 
   /**
-   * @type {"3.0"|"4.0"|string}
+   * @type {"3.0"|"4.0"|"5.0"|string}
    */
   get ndrVersion() {
     let target = this.ndrConformanceTargetIdentifier;
