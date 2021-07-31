@@ -5,7 +5,7 @@ let ReleaseObject = require("../release-object/index");
  * A root class for commonalities between properties and types.
  * @abstract
  * @template T
- * @extends ReleaseObject<T>
+ * @extends {ReleaseObject<T>}
  */
 class Component extends ReleaseObject {
 
@@ -18,6 +18,10 @@ class Component extends ReleaseObject {
 
     super();
 
+    /**
+     * Prefix of the namespace in which the property is defined
+     * @type {string}
+     */
     this.prefix = prefix;
     this.name = name;
     this.definition = definition;
@@ -26,8 +30,7 @@ class Component extends ReleaseObject {
      * @private
      * @type {"Property"|"Type"}
      */
-    // @ts-ignore
-    this.componentClass = this.constructor.name;
+    this.componentClass = /** @type {"Property"|"Type"} */ (this.constructor.name);
   }
 
   /**
@@ -49,7 +52,7 @@ class Component extends ReleaseObject {
    * An array of terms inferred from the name of the component based on camel casing.
    *
    * @readonly
-   * @type {String[]}
+   * @type {string[]}
    */
   get terms() {
 
@@ -91,10 +94,16 @@ class Component extends ReleaseObject {
     }
   }
 
+  /**
+   * Gets the namespace object of the component.
+   */
   async namespace() {
     return this.release.namespaces.get(this.prefix);
   }
 
+  /**
+   * @abstract
+   */
   get contents() {
     return undefined;
   }
@@ -176,7 +185,7 @@ class Component extends ReleaseObject {
   }
 
   /**
-   * @param {Release} release
+   * @param {import("../typedefs").Release} release
    */
   static sortByNameFunction(release) {
     if (release.majorDigit < 5) {
@@ -191,7 +200,7 @@ class Component extends ReleaseObject {
    *
    * @example "nc:PersonName would appear before scr:PersonAugmentation"
    *
-   * @param {Release} release
+   * @param {import("../typedefs").Release} release
    * @param {Component[]} components
    */
   static async sortListByNamespaceStyle(release, components) {
@@ -266,9 +275,13 @@ class Component extends ReleaseObject {
  * @property {string} prefix
  * @property {string} name
  */
+/**
+ * @type {IdentifiersType}
+ */
 let ComponentIdentifiersType;
+
+Component.ComponentIdentifiersType = ComponentIdentifiersType;
 
 module.exports = Component;
 
-let Release = require("../release/index");
 let Namespace = require("../namespace/index");

@@ -5,15 +5,16 @@ let Type = require("../type/index");
 
 /**
  * A usage of a property by a type.
+ * @extends {ReleaseObject<SubProperty>}
  */
 class SubProperty extends ReleaseObject {
 
   /**
-   * @param {String} typeQName
-   * @param {String} propertyQName
-   * @param {String} [min="0"] Default "0"
-   * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
-   * @param {String} definition
+   * @param {string} [typeQName]
+   * @param {string} [propertyQName]
+   * @param {string} [min="0"] Default "0"
+   * @param {string} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
+   * @param {string} definition
    * @param {"element"|"attribute"} style
    * @param {number} [sequence]
    */
@@ -33,11 +34,11 @@ class SubProperty extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {String} typeQName
-   * @param {String} propertyQName
-   * @param {String} [min="0"] Default "0"
-   * @param {String} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
-   * @param {String} [definition]
+   * @param {string} typeQName
+   * @param {string} propertyQName
+   * @param {string} [min="0"] Default "0"
+   * @param {string} [max="unbounded"] Default "unbounded"; or "1" if property name begins with a lower case letter
+   * @param {string} [definition]
    * @param {"element"|"attribute"} [style="element"]
    * @param {number} [sequence]
    */
@@ -261,6 +262,9 @@ class SubProperty extends ReleaseObject {
  * @property {string|RegExp} [max]
  * @property {string|RegExp} [keyword] - Property and type names
  */
+/**
+ * @type {CriteriaType}
+ */
 SubProperty.CriteriaType = {};
 
 SubProperty.CriteriaKeywordFields = ["typeName", "typeQName", "propertyName", "propertyQName"];
@@ -272,6 +276,9 @@ SubProperty.CriteriaKeywordFields = ["typeName", "typeQName", "propertyName", "p
  * @property {string} releaseKey
  * @property {string|RegExp} typeQName
  * @property {string|RegExp} propertyQName
+ */
+/**
+ * @type {IdentifiersType}
  */
 SubProperty.IdentifiersType;
 

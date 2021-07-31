@@ -4,10 +4,10 @@ let ReleaseObject = require("../release-object/index");
 class LocalTerm extends ReleaseObject {
 
   /**
-   * @param {String} prefix
-   * @param {String} term
-   * @param {String} literal
-   * @param {String} definition
+   * @param {string} prefix
+   * @param {string} term
+   * @param {string} literal
+   * @param {string} definition
    */
   constructor(prefix="", term="", literal="", definition="") {
     super();
@@ -19,10 +19,10 @@ class LocalTerm extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {String} prefix
-   * @param {String} term
-   * @param {String} literal
-   * @param {String} definition
+   * @param {string} prefix
+   * @param {string} term
+   * @param {string} literal
+   * @param {string} definition
    */
   static create(ndrVersion, prefix, term, literal, definition) {
     return new LocalTerm(prefix, term, literal, definition);
@@ -41,11 +41,11 @@ class LocalTerm extends ReleaseObject {
   }
 
   /**
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
-   * @param {String} prefix
-   * @param {String} term
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} term
    */
   static route(userKey, modelKey, releaseKey, prefix, term) {
     let Namespace = require("../namespace/index");
@@ -73,11 +73,11 @@ class LocalTerm extends ReleaseObject {
   }
 
   /**
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
-   * @param {String} prefix
-   * @param {String} term
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
+   * @param {string} prefix
+   * @param {string} term
    */
   static identifiers(userKey, modelKey, releaseKey, prefix, term) {
     return {userKey, modelKey, releaseKey, prefix, term};
@@ -134,6 +134,9 @@ class LocalTerm extends ReleaseObject {
  * @property {string|string[]} [prefix]
  * @property {string|RegExp} [keyword]
  */
+/**
+ * @type {CriteriaType}
+ */
 LocalTerm.CriteriaType = {};
 
 LocalTerm.CriteriaKeywordFields = ["term", "literal", "definition"];
@@ -145,6 +148,9 @@ LocalTerm.CriteriaKeywordFields = ["term", "literal", "definition"];
  * @property {string} releaseKey
  * @property {string} prefix
  * @property {string} term
+ */
+/**
+ * @type {IdentifiersType}
  */
 LocalTerm.IdentifiersType;
 

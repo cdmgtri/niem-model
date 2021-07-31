@@ -9,7 +9,7 @@ class Namespace_3_0 extends Namespace {
    * (The namespace may contain additional non-NDR target identifiers.)
    *
    * @example http://reference.niem.gov/niem/specification/naming-and-design-rules/4.0/#ReferenceSchemaDocument
-   * @type {String}
+   * @type {string}
    */
   get ndrConformanceTargetIdentifier() {
     let ndrTargetBase = "http://reference.niem.gov/niem/specification/naming-and-design-rules/";

@@ -1,11 +1,12 @@
 
 function testProperty() {
 
-  let { NIEM, Property, PropertyInstance } = require("../../src/index");
+  let { NIEM, Property, TypeDefs } = require("../../src/index");
+  let { PropertyDef } = TypeDefs;
 
   let niem = new NIEM();
 
-  /** @type {PropertyInstance} */
+  /** @type {PropertyDef} */
   let property;
 
   describe("Property", () => {
@@ -139,7 +140,7 @@ function testProperty() {
         keyword: "PERSON"
       };
 
-      /** @type {PropertyInstance[]} */
+      /** @type {PropertyDef[]} */
       let matches = Property.matches(properties, criteria);
       let prefixes = matches.map( property => property.prefix ).join(" ");
       expect(prefixes).toBe("a b c d e");

@@ -2,6 +2,7 @@
   "cSpell.words": [
     "Humann",
     "aamva",
+    "braintree",
     "ccyy",
     "clonedeep",
     "clsa",
@@ -19,7 +20,9 @@
     "subproperties",
     "subproperty",
     "timezoned",
+    "tmpl",
     "ts",
+    "tsimport",
     "typeof"
   ]
 }

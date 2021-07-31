@@ -10,25 +10,25 @@ class NIEMFormatInterface {
 
     this.ndrVersion = ndrVersion;
 
-    /** @type {NIEMObjectFormatInterface<Release>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").Release>} */
     this.release = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<Namespace>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").Namespace>} */
     this.namespace = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<LocalTerm>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").LocalTerm>} */
     this.localTerm = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<Property>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").Property>} */
     this.property = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<Type>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").Type>} */
     this.type = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<Facet>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").Facet>} */
     this.facet = new NIEMObjectFormatInterface();
 
-    /** @type {NIEMObjectFormatInterface<SubProperty>} */
+    /** @type {NIEMObjectFormatInterface<import("../../typedefs").SubProperty>} */
     this.subProperty = new NIEMObjectFormatInterface();
 
   }
@@ -36,11 +36,3 @@ class NIEMFormatInterface {
 }
 
 module.exports = NIEMFormatInterface;
-
-let Release = require("../../release/index");
-let Namespace = require("../../namespace/index");
-let LocalTerm = require("../../local-term/index");
-let Property = require("../../property/index");
-let Type = require("../../type/index");
-let Facet = require("../../facet/index");
-let SubProperty = require("../../subproperty/index");

@@ -1,23 +1,23 @@
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObject<T>} T
  */
 class Mapping {
 
   /**
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
    * @param {Mapping.OperationType} operation
    * @param {Mapping.ClassNameType} className
-   * @param {String} previousID
-   * @param {String} id
-   * @param {String[]} differentFields
-   * @param {Change[]} changes
+   * @param {string} previousID
+   * @param {string} id
+   * @param {string[]} differentFields
+   * @param {Array<import("../../../typedefs").Change>} changes
    */
   constructor(userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, differentFields=undefined, changes=[]) {
 
-    /** @type {DataSetInterface<T, any, any>} */
+    /** @type {DataSetInterface<T, Object<string, string|RegExp>, Object<string, any>>} */
     this.dataSet;
 
     this.operation = operation;
@@ -105,6 +105,5 @@ Mapping.ClassNameType;
 
 let NIEMObject = require("../../../niem-object/index");
 let DataSetInterface = require("../dataSet/interface");
-let Change = require("../change/index");
 
 module.exports = Mapping;

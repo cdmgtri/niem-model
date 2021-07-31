@@ -1,5 +1,4 @@
 
-// @ts-ignore
 let JSZip = require("jszip");
 
 
@@ -410,7 +409,7 @@ class NIEM {
 
   /**
    * Loads a sources JSON file or zip file
-   * @param {String} filePath
+   * @param {string} filePath
    */
   async loadFile(filePath) {
 
@@ -433,7 +432,7 @@ class NIEM {
   }
 
   /**
-   * @param {String} [filePath]
+   * @param {string} [filePath]
    * @param {Object} [options]
    * @param {boolean} [options.saveFile]
    * @param {boolean} [options.saveZip]

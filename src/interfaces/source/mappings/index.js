@@ -2,30 +2,31 @@
 let Mapping = require("../mapping/index");
 
 /**
- * @template T
+ * @template {NIEMObject<T>} T
  */
 class Mappings {
 
   constructor() {
-    /** @type {Mapping[]} */
+    /** @type {Array<Mapping<T>>} */
     this.data = [];
   }
 
   /**
-   * @param {DataSetInterface} dataSet
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
+   * @param {DataSetInterface<T, Object<string, string|RegExp>, Object<string, any>>} dataSet
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
    * @param {Mapping.OperationType} operation
    * @param {Mapping.ClassNameType} className
-   * @param {String} previousID
-   * @param {String} id
-   * @param {String[]} differentFields
-   * @param {Change[]} changes
+   * @param {string} previousID
+   * @param {string} id
+   * @param {string[]} differentFields
+   * @param {Array<import("../../../typedefs").Change>} changes
    * @returns {Promise<Mapping<T>>}
    */
   async add(dataSet, userKey=undefined, modelKey=undefined, releaseKey=undefined, operation=undefined, className=undefined, previousID=undefined, id=undefined, differentFields=undefined, changes=[]) {
 
+    /** @type {Mapping<T>} */
     let mapping = new Mapping(userKey, modelKey, releaseKey, operation, className, previousID, id, differentFields, changes);
 
     mapping.dataSet = dataSet;
@@ -35,15 +36,15 @@ class Mappings {
     }
 
     this.data.push(mapping);
-    // @ts-ignore
+
     return mapping;
 
   }
 
   /**
-   * @param {DataSetInterface} dataSet
-   * @param {Mapping[]} mappings
-   * @returns {Promise<Mapping<T>[]>}
+   * @param {DataSetInterface<T, Object<string, string|RegExp>, Object<string, any>>} dataSet
+   * @param {Array<Mapping<T>>} mappings
+   * @returns {Promise<Array<Mapping<T>>>}
    */
   async addMultiple(dataSet, mappings) {
     for (let mapping of mappings) {
@@ -61,7 +62,7 @@ class Mappings {
    * @param {Mapping.ClassNameType} className
    * @param {Object.<string, any>} oldObject
    * @param {Object.<string, any>} newObject
-   * @param {String[]} ignoredFields
+   * @param {string[]} ignoredFields
    * @param {Change[]} changes
    */
   calculate(dataSet, className, oldObject, newObject, ignoredFields=[], changes) {
@@ -99,7 +100,7 @@ class Mappings {
 
   /**
    * @param {Mappings.CriteriaType} criteria
-   * @returns {Promise<Mapping<T>[]>}
+   * @returns {Promise<Array<Mapping<T>>>}
    */
   async find(criteria={}) {
     let keys = Object.keys(criteria);
@@ -116,7 +117,7 @@ class Mappings {
   /**
    * @param {import("../../../niem/index")} niem
    * @param {Object[]} jsonMappings
-   * @returns {Promise<Mapping<T>[]>}
+   * @returns {Promise<Array<Mapping<T>>>}
    */
   async load(niem, jsonMappings=[]) {
     let source = niem.sources[0];
@@ -154,7 +155,7 @@ class Mappings {
 /**
  * @param {Object} oldObject
  * @param {Object} newObject
- * @param {String[]} ignoredFields
+ * @param {string[]} ignoredFields
  */
 function compareObject(oldObject, newObject, ignoredFields=[]) {
 
@@ -183,14 +184,22 @@ function compareObject(oldObject, newObject, ignoredFields=[]) {
 }
 
 
-
+/**
+ * @typedef {Object} CriteriaType
+ * @property {string} [userKey]
+ * @property {string} [modelKey]
+ * @property {string} [releaseKey]
+ * @property {Mapping.ClassNameType} [className]
+ * @property {Mapping.OperationType} [operation]
+ */
 
 /**
- * @type {{userKey?: String, modelKey?: String, releaseKey?: String, className?: Mapping.ClassNameType, operation?: Mapping.OperationType}}
+ * @type {CriteriaType}
  */
 Mappings.CriteriaType;
 
 let Change = require("../change/index");
 let DataSetInterface = require("../dataSet/interface");
+let NIEMObject = require("../../../niem-object/index");
 
 module.exports = Mappings;

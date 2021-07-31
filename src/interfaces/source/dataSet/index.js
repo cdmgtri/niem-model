@@ -1,12 +1,11 @@
 
 let DataSetInterface = require("./interface");
 
-// @ts-ignore
 let _ = require("lodash");
 
 /**
  * @template {NIEMObject<T>} T
- * @template {Object<string, string>} IdentifiersType
+ * @template {Object<string, string|RegExp>} IdentifiersType
  * @template {Object<string, any>} CriteriaType
  */
 class DataSet extends DataSetInterface {
@@ -31,6 +30,10 @@ class DataSet extends DataSetInterface {
     this.logger = logger;
   }
 
+  get className() {
+    return this.ObjectClass.name;
+  }
+
   /**
    * @param {T} object
    * @param {Change} change
@@ -38,7 +41,7 @@ class DataSet extends DataSetInterface {
   async add(object, change) {
     let copy = this.copy(object);
     this.data.push(copy);
-    this.logger.record(this.ObjectClass, "add", copy, undefined, change, 1);
+    this.logger.record(this.className, "add", copy, undefined, change, 1);
     this.updatePreviousIdentifiers(object);
     return object;
   }
@@ -60,7 +63,7 @@ class DataSet extends DataSetInterface {
   }
 
   /**
-   * @param {String} id
+   * @param {string} id
    */
   async id(id) {
     return this.data.find( item => item.id == id );
@@ -78,31 +81,30 @@ class DataSet extends DataSetInterface {
     // @ts-ignore
     let updatedIdentifiers = Object.assign({}, identifiers);
 
-    if (this.ObjectClass.name == "Facet" && updatedIdentifiers.definition === undefined) {
+    if (this.className == "Facet" && updatedIdentifiers.definition === undefined) {
       delete updatedIdentifiers.definition;
     }
 
     let matches = await this.find(updatedIdentifiers);
     if (matches && matches.length > 0) {
-      this.logger.record(this.ObjectClass, "get", undefined, identifiers, undefined, matches.length);
+      this.logger.record(this.className, "get", undefined, identifiers, undefined, matches.length);
       return matches[matches.length - 1];
     }
 
-    this.logger.record(this.ObjectClass, "get", undefined, identifiers, undefined, 0);
+    this.logger.record(this.className, "get", undefined, identifiers, undefined, 0);
 
   }
 
   /**
    * @param {CriteriaType} [criteria]
-   * @param {Function} [sortFunction]
+   * @param {function(T, T): number} [sortFunction]
    * @returns {Promise<T[]>}
    */
   async find(criteria, sortFunction) {
 
     /** @type {T[]} */
-    // @ts-ignore
     let matches = this.ObjectClass.matches(this.data, criteria);
-    this.logger.record(this.ObjectClass, "find", undefined, criteria, undefined, matches.length);
+    this.logger.record(this.className, "find", undefined, criteria, undefined, matches.length);
 
     let objects = matches.map( match => {
       let newObject = Object.assign(new this.ObjectClass(), match);
@@ -110,7 +112,6 @@ class DataSet extends DataSetInterface {
       return newObject;
     });
 
-    // @ts-ignore
     if (sortFunction) objects = objects.sort(sortFunction);
 
     return objects;
@@ -123,7 +124,7 @@ class DataSet extends DataSetInterface {
   async count(criteria) {
     let matches = this.ObjectClass.matches(this.data, criteria);
     let count = matches.length;
-    this.logger.record(this.ObjectClass, "find", undefined, criteria, undefined, count);
+    this.logger.record(this.className, "find", undefined, criteria, undefined, count);
     return count;
   }
 
@@ -132,7 +133,7 @@ class DataSet extends DataSetInterface {
    * @returns {Promise<Transaction[]>}
    */
   async revisions(object) {
-    this.logger.record(this.ObjectClass, "revisions", object);
+    this.logger.record(this.className, "revisions", object);
     return this.logger.objectUpdates(object.route, "previousRoute");
   }
 
@@ -140,10 +141,10 @@ class DataSet extends DataSetInterface {
   /**
    * @todo Returns objects or transactions?  Need functions for both?
    * @param {NIEMObject} object
-   * @returns {Promise<Transaction<T>[]>}
+   * @returns {Promise<Array<Transaction<T>>>}
    */
   async history(object) {
-    this.logger.record(this.ObjectClass, "history", object);
+    this.logger.record(this.className, "history", object);
     return this.logger.objectUpdates(object.route, "migrationRoute");
   }
 
@@ -163,22 +164,16 @@ class DataSet extends DataSetInterface {
     copy = Object.assign(new this.ObjectClass(), copy);
 
     if (object.constructor.name == "Model") {
-      // @ts-ignore
       copy.niem = object.niem;
-
-      // @ts-ignore
       copy._source = object._source;
     }
     else if (object.constructor.name == "Release") {
-      // @ts-ignore
       copy.model = object.model;
     }
     else {
-      // @ts-ignore
       copy.release = object.release;
     }
 
-    // @ts-ignore
     return copy;
 
   }
@@ -206,7 +201,7 @@ class DataSet extends DataSetInterface {
     });
 
     if (index == -1) {
-      this.logger.record(this.ObjectClass, op, copy, undefined, change, 0);
+      this.logger.record(this.className, op, copy, undefined, change, 0);
       throw new Error("Object " + copy.id + " not found");
     }
 
@@ -227,7 +222,7 @@ class DataSet extends DataSetInterface {
       await object.updateDependents("edit");
     }
 
-    this.logger.record(this.ObjectClass, op, copy, undefined, change, 1);
+    this.logger.record(this.className, op, copy, undefined, change, 1);
 
     // Reset previous identifiers
     this.updatePreviousIdentifiers(object);
@@ -246,7 +241,7 @@ class DataSet extends DataSetInterface {
     // Deep copy to avoid linking to or modifying input values
     let jsonObjects = JSON.parse(JSON.stringify(dataSetJSON));
 
-    let className = this.ObjectClass.name;
+    let className = this.className;
 
     if (className == "Model") {
       for (let json of jsonObjects) {

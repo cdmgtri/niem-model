@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "outDir": "build",
     "skipLibCheck": true,
+    "strictFunctionTypes": false,
     "sourceMap": true,
     "target": "ESNext",
     "watch": true

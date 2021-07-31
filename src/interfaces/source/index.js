@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 let SourceInterface = require("./interface");
 let DataSet = require("./dataSet/index");
@@ -8,43 +7,34 @@ class NIEMSourceMemory extends SourceInterface {
 
   constructor(loggingEnabled=false) {
 
-    let Model = require("../../model/index");
-    let Release = require("../../release/index");
-    let Namespace = require("../../namespace/index");
-    let LocalTerm = require("../../local-term/index");
-    let Property = require("../../property/index");
-    let Type = require("../../type/index");
-    let Facet = require("../../facet/index");
-    let SubProperty = require("../../subproperty/index");
-
     super();
 
     this.logger = new Logger(loggingEnabled);
 
     this.log = this.logger.log;
 
-    /** @type {DataSet<Model>} */
+    /** @type {DataSet<Model, Model.IdentifiersType, Model.CriteriaType>} */
     this.models = new DataSet(Model, this.logger);
 
-    /** @type {DataSet<Release>} */
+    /** @type {DataSet<Release, Release.IdentifiersType, Release.CriteriaType>} */
     this.releases = new DataSet(Release, this.logger);
 
-    /** @type {DataSet<Namespace>} */
+    /** @type {DataSet<Namespace, Namespace.IdentifiersType, Namespace.CriteriaType>} */
     this.namespaces = new DataSet(Namespace, this.logger);
 
-    /** @type {DataSet<Property>} */
+    /** @type {DataSet<Property, Property.IdentifiersType, Property.CriteriaType>} */
     this.properties = new DataSet(Property, this.logger);
 
-    /** @type {DataSet<Type>} */
+    /** @type {DataSet<Type, Type.IdentifiersType, Type.CriteriaType>} */
     this.types = new DataSet(Type, this.logger);
 
-    /** @type {DataSet<LocalTerm>} */
+    /** @type {DataSet<LocalTerm, LocalTerm.IdentifiersType, LocalTerm.CriteriaType>} */
     this.localTerms = new DataSet(LocalTerm, this.logger);
 
-    /** @type {DataSet<SubProperty>} */
+    /** @type {DataSet<SubProperty, SubProperty.IdentifiersType, SubProperty.CriteriaType>} */
     this.subProperties = new DataSet(SubProperty, this.logger);
 
-    /** @type {DataSet<Facet>} */
+    /** @type {DataSet<Facet, Facet.IdentifiersType, Facet.CriteriaType>} */
     this.facets = new DataSet(Facet, this.logger);
 
     this.mappings = new Mappings();

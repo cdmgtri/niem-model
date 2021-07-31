@@ -9,8 +9,8 @@ let Type = require("../type/index");
 class Facet extends ReleaseObject {
 
   /**
-   * @param {String} typeQName
-   * @param {string} value
+   * @param {string} [typeQName]
+   * @param {string} [value]
    * @param {string} [definition]
    * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
    */
@@ -25,7 +25,7 @@ class Facet extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {String} typeQName
+   * @param {string} typeQName
    * @param {string} value
    * @param {string} [definition]
    * @param {Facet.StyleType} [style="enumeration"] Defaults to enumeration
@@ -230,7 +230,10 @@ Facet.Styles = ["enumeration", "length", "minLength", "maxLength", "pattern",
  * @property {boolean} [isCode] True to return only enums; false to return non-enums
  * @property {string|RegExp} [keyword] - value or definition
  */
-let FacetCriteriaType;
+/**
+ * @type {CriteriaType}
+ */
+Facet.FacetCriteriaType;
 
 
 Facet.CriteriaKeywordFields = ["value", "definition"];
@@ -244,6 +247,9 @@ Facet.CriteriaKeywordFields = ["value", "definition"];
  * @property {string} value
  * @property {Facet.StyleType} [style="enumeration"]
  */
-let FacetIdentifiersType;
+/**
+ * @type {IdentifiersType}
+ */
+Facet.FacetIdentifiersType;
 
 module.exports = Facet;

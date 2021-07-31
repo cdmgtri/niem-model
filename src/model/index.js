@@ -2,13 +2,13 @@
 let NIEMObject = require("../niem-object/index");
 
 /**
- * @extends {NIEMObject}
+ * @extends {NIEMObject<Model>}
  */
 class Model extends NIEMObject {
 
   /**
-   * @param {string} userKey
-   * @param {string} modelKey
+   * @param {string} [userKey]
+   * @param {string} [modelKey]
    * @param {StyleType} [style]
    * @param {string} [description]
    * @param {string} [website]
@@ -18,7 +18,7 @@ class Model extends NIEMObject {
 
     super();
 
-    /** @type {NIEMModelSourceInterface} */
+    /** @type {import("../typedefs").SourceInterface} */
     this._source;
 
     this.userKey = userKey;
@@ -28,10 +28,7 @@ class Model extends NIEMObject {
     this.website = website;
     this.repo = repo;
 
-    // let { NIEM } = require("../index");
-    // this.niem = new NIEM();
-
-    /** @type {NIEM} */
+    /** @type {import("../typedefs").NIEM} */
     this.niem;
 
   }
@@ -41,7 +38,7 @@ class Model extends NIEMObject {
   }
 
   /**
-   * @param {NIEMModelSourceInterface} source
+   * @param {import("../typedefs").SourceInterface} source
    */
   set source(source) {
     this._source = source;
@@ -79,7 +76,6 @@ class Model extends NIEMObject {
       /**
        * @param {Release.CriteriaType} [criteria]
        */
-      // @ts-ignore
       find: async (criteria={}) => {
         Object.assign(criteria, this.identifiers);
         return this._source.releases.find(criteria);
@@ -165,9 +161,9 @@ Model.Styles = ["model", "IEPD", "other"];
  * @property {string} [modelKey]
  * @property {StyleType} [style]
  */
-let TypeCriteriaType;
-
-/** @type {CriteriaType} */
+/**
+ * @type {CriteriaType}
+ */
 Model.CriteriaType;
 
 /**
@@ -175,10 +171,11 @@ Model.CriteriaType;
  * @property {string} userKey
  * @property {string} modelKey
  */
+/**
+ * @type {IdentifiersType}
+ */
 Model.IdentifiersType;
 
 module.exports = Model;
 
-let NIEM = require("../niem/index");
 let Release = require("../release/index");
-let NIEMModelSourceInterface = require("../interfaces/source/interface");

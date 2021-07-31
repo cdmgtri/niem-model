@@ -1,6 +1,6 @@
 
 /**
- * @template {NIEMObjectInstance} T
+ * @template {import("../../../typedefs").NIEMObject} T
  */
 class NIEMObjectFormatInterface {
 
@@ -24,12 +24,11 @@ class NIEMObjectFormatInterface {
    * Adds the new object to the given release.
 
    * @param {any} input
-   * @param {ReleaseInstance} release
+   * @param {import("../../../typedefs").Release} release
    * @returns {Promise<T>}
    */
   async load(input, release) {
     let object = await this.read(input, release);
-    // @ts-ignore
     return object.add(release);
   }
 
@@ -73,9 +72,3 @@ class NIEMObjectFormatInterface {
 }
 
 module.exports = NIEMObjectFormatInterface;
-
-let Release = require("../../../release/index");
-let NIEMObject = require("../../../niem-object/index");
-
-let ReleaseInstance = new Release();
-let NIEMObjectInstance = new NIEMObject();

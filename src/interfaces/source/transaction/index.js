@@ -2,21 +2,21 @@
 let Change = require("../change/index");
 
 /**
- * @template {NIEMObject} T
+ * @template {NIEMObject<T>} T
  */
 class Transaction {
 
   /**
-   * @param {typeof NIEMObject} ObjectClass
+   * @param {string} className
    * @param {OperationType} operation
    * @param {T} niemObject
    * @param {Object} criteria NIEM object search criteria for find operations
    * @param {Change} change
    * @param {number} count
    */
-  constructor(ObjectClass, operation, niemObject, criteria, change = new Change(), count) {
+  constructor(className, operation, niemObject, criteria, change = new Change(), count) {
 
-    this.className = ObjectClass["name"];
+    this.className = className;
     this.operation = operation;
     this.criteria = criteria;
     this.niemObject = niemObject;
@@ -44,8 +44,11 @@ class Transaction {
 
 }
 
-/** @typedef {"add"|"edit"|"delete"|"get"|"find"|"count"|"history"|"revisions"} OperationType */
-let TransactionOperationType;
+/**
+ * @typedef {"add"|"edit"|"delete"|"get"|"find"|"count"|"history"|"revisions"} OperationType
+ * @type {OperationType}
+*/
+Transaction.TransactionOperationType;
 
 module.exports = Transaction;
 

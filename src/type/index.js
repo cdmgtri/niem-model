@@ -20,17 +20,15 @@ class Type extends Component {
     this.style = style;
     this.baseQName = baseQName;
 
-    /** @type {String[]} */
+    /** @type {string[]} */
     this.memberQNames = [];
 
-    /** @type {String} */
+    /** @type {string} */
     this.codeListURI;
 
   }
 
   /**
-   * Testing
-   // @ts-ignore
    * @param {import("../release-object/index").NDRVersionType} ndrVersion
    * @param {string} prefix
    * @param {string} name
@@ -44,7 +42,7 @@ class Type extends Component {
 
   /**
    * True if the type is complex and capable of carrying attributes.
-   * @type {Boolean}
+   * @type {boolean}
    */
   get isComplexType() {
     return this.style ? Type.ComplexStyles.includes(this.style) : false;
@@ -59,7 +57,7 @@ class Type extends Component {
 
   /**
    * True if the type is simple and carries a value only.
-   * @type {Boolean}
+   * @type {boolean}
    */
   get isSimpleType() {
     return this.style ? Type.SimpleStyles.includes(this.style) : false;
@@ -303,7 +301,7 @@ class Type extends Component {
   }
 
   /**
-   * @param {Boolean} includeImmediateChildren - True to include immediate children in results
+   * @param {boolean} includeImmediateChildren - True to include immediate children in results
    */
   async descendantTypes(includeImmediateChildren=true) {
 
@@ -522,8 +520,11 @@ async function getParents(type, parents=[]) {
 
 /** @typedef {"simple"|"list"|"union"} SimpleStyleType*/
 
-/** @typedef {ComplexStyleType|SimpleStyleType} StyleType */
-let TypeStyleType;
+/**
+ * @typedef {ComplexStyleType|SimpleStyleType} StyleType
+ * @type {StyleType}
+ */
+Type.TypeStyleType;
 
 Type.ComplexStyles = ["object", "adapter", "association", "augmentation", "metadata", "CSC"];
 
@@ -553,7 +554,10 @@ Type.Styles = [...Type.ComplexStyles, ...Type.SimpleStyles];
  * @property {boolean} [isComplexType]
  * @property {boolean} [isComplexContent]
  */
-let TypeCriteriaType;
+/**
+ * @type {CriteriaType}
+ */
+Type.TypeCriteriaType;
 
 Type.CriteriaKeywordFields = ["name", "definition"];
 
@@ -564,6 +568,9 @@ Type.CriteriaKeywordFields = ["name", "definition"];
  * @property {string} releaseKey
  * @property {string} prefix
  * @property {string} name
+ */
+/**
+ * @type {IdentifiersType}
  */
 Type.IdentifiersType;
 

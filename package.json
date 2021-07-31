@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "docs": "jsdoc src/index.js -r src -d docs -c jsdoc.json -R README.md -t node_modules/docdash",
+    "docs": "jsdoc src/index.js -r src -d docs -c jsdoc.json -R README.md -t node_modules/braintree-jsdoc-template",
+    "docs:watch": "npx nodemon --watch src --watch assets/docs/styles/custom.css --exec \"npm run docs\"",
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
     "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
@@ -14,19 +15,22 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.31",
-    "coveralls": "^3.1.0",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.8",
+    "braintree-jsdoc-template": "^3.3.0",
+    "coveralls": "^3.1.1",
     "docdash": "^1.2.0",
-    "eslint": "^7.21.0",
-    "eslint-plugin-jest": "^24.1.5",
-    "jest": "^26.6.3",
-    "jsdoc": "^3.6.6",
-    "jsdoc-typeof-plugin": "^1.0.0"
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6",
+    "jsdoc": "^3.6.7",
+    "jsdoc-tsimport-plugin": "^1.0.5",
+    "jsdoc-typeof-plugin": "^1.0.0",
+    "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "debug": "^4.3.1",
-    "jszip": "^3.6.0",
+    "debug": "^4.3.2",
+    "jszip": "^3.7.0",
     "lodash": "^4.17.21"
   },
   "jest": {

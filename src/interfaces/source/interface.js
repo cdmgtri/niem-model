@@ -12,28 +12,28 @@ class SourceInterface {
 
     this.logger = new Logger();
 
-    /** @type {DataSetInterface<Model>} */
+    /** @type {DataSetInterface<Model, Model.IdentifiersType, Model.CriteriaType>} */
     this.models = new DataSetInterface();
 
-    /** @type {DataSetInterface<Release>} */
+    /** @type {DataSetInterface<Release, Release.IdentifiersType, Release.CriteriaType>} */
     this.releases = new DataSetInterface();
 
-    /** @type {DataSetInterface<Namespace>} */
+    /** @type {DataSetInterface<Namespace, Namespace.IdentifiersType, Namespace.CriteriaType>} */
     this.namespaces = new DataSetInterface();
 
-    /** @type {DataSetInterface<Property>} */
+    /** @type {DataSetInterface<Property, Property.IdentifiersType, Property.CriteriaType>} */
     this.properties = new DataSetInterface();
 
-    /** @type {DataSetInterface<Type>} */
+    /** @type {DataSetInterface<Type, Type.IdentifiersType, Type.CriteriaType>} */
     this.types = new DataSetInterface();
 
-    /** @type {DataSetInterface<Facet>} */
+    /** @type {DataSetInterface<Facet, Facet.IdentifiersType, Facet.CriteriaType>} */
     this.facets = new DataSetInterface();
 
-    /** @type {DataSetInterface<SubProperty>} */
+    /** @type {DataSetInterface<SubProperty, SubProperty.IdentifiersType, SubProperty.CriteriaType>} */
     this.subProperties = new DataSetInterface();
 
-    /** @type {DataSetInterface<LocalTerm>} */
+    /** @type {DataSetInterface<LocalTerm, LocalTerm.IdentifiersType, LocalTerm.CriteriaType>} */
     this.localTerms = new DataSetInterface();
 
     this.mappings = new Mappings();

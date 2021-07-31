@@ -4,7 +4,7 @@ let Transaction = require("../transaction/index");
 
 /**
  * @template {NIEMObject<T>} T
- * @template {Object<string, string>} IdentifiersType
+ * @template {Object<string, string|RegExp>} IdentifiersType
  * @template {Object<string, any>} CriteriaType
  */
 class DataSetInterface {
@@ -37,7 +37,7 @@ class DataSetInterface {
   }
 
   /**
-   * @param {String} id
+   * @param {string} id
    * @returns {Promise<T>}
    */
   async id(id) {

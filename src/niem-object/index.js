@@ -1,5 +1,4 @@
 
-// @ts-ignore
 let _ = require("lodash");
 let Change = require("../interfaces/source/change/index");
 let DataSet = require("../interfaces/source/dataSet/interface");
@@ -14,13 +13,13 @@ class NIEMObject {
 
     /**
      * The object identifiers from the latest source transaction.
-     * @type {{[string: string]: string}}
+     * @type {Object<string, string>}
      */
     this.previousIdentifiers;
 
     /**
      * The corresponding object identifiers from the previous release.
-     * @type {{[string: string]: string}}
+     * @type {Object<string, string>}
      */
     this.migrationIdentifiers;
 
@@ -32,20 +31,20 @@ class NIEMObject {
 
     /**
      * A file name, a spreadsheet tab, etc.
-     * @type {String}
+     * @type {string}
      */
     this.input_location;
 
     /**
      * A line number, a spreadsheet row, etc.
-     * @type {String}
+     * @type {string}
      */
     this.input_line;
 
   }
 
   /**
-   * @type {String}
+   * @type {string}
    */
   get previousRoute() {
     if (! this.previousIdentifiers) return undefined;
@@ -54,7 +53,7 @@ class NIEMObject {
   }
 
   /**
-   * @type {String}
+   * @type {string}
    */
   get migrationRoute() {
     if (! this.migrationIdentifiers) return undefined;
@@ -63,7 +62,7 @@ class NIEMObject {
   }
 
   /**
-   * @type {String}
+   * @type {string}
    */
   get subsetRoute() {
     if (! this.subsetIdentifiers) return undefined;
@@ -155,8 +154,8 @@ class NIEMObject {
   }
 
   /**
-   * @param {String} location
-   * @param {String} line
+   * @param {string} location
+   * @param {string} line
    */
   updateSource(location, line) {
     this.input_location = location;
@@ -246,7 +245,7 @@ class NIEMObject {
 
   /**
    * Save changes to the object.
-   * @param {Model|Release} [modelOrRelease] Adds a release to the given model, or a release-object to the given release
+   * @param {import("../typedefs").Model|import("../typedefs").Release} [modelOrRelease] Adds a release to the given model, or a release-object to the given release
    * @param {Change} [change]
    */
   async add(modelOrRelease, change) {
@@ -278,7 +277,7 @@ class NIEMObject {
   }
 
   /**
-   * @param {String} releaseKey
+   * @param {string} releaseKey
    * @param {DataSet} dataSet
    * @param {NIEMObject[]} newNIEMObjects
    * @param {Change} [change]
@@ -369,7 +368,7 @@ class NIEMObject {
    * @template T
    * @param {T} niemObject
    * @param {object} criteria
-   * @returns {Boolean}
+   * @returns {boolean}
    */
   static match(niemObject, criteria) {
 
@@ -378,7 +377,7 @@ class NIEMObject {
       // Evaluate keyword separately
       if (key == "keyword") continue;
 
-      /** @type {String} */
+      /** @type {string} */
       let niemObjectValue = niemObject[key];
 
       let criteriaValue = criteria[key];
@@ -432,7 +431,7 @@ class NIEMObject {
   /**
    * True if the object matches the given criteria.
    * @param {object} criteria
-   * @returns {Boolean}
+   * @returns {boolean}
    */
   match(criteria) {
     return this.constructor["match"](this, criteria);
@@ -457,11 +456,8 @@ NIEMObject.CriteriaKeywordFields = [];
 NIEMObject.CriteriaType = undefined;
 
 /**
- * @type {Object.<string, string|boolean|RegExp|string[]>}
+ * @type {Object}
  */
 NIEMObject.IdentifiersType;
 
 module.exports = NIEMObject;
-
-let Model = require("../model/index");
-let Release = require("../release/index");

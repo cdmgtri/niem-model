@@ -3,17 +3,18 @@ let ReleaseObject = require("../release-object/index");
 
 /**
  * A NIEM Namespace
+ * @extends {ReleaseObject<Namespace>}
  */
 class Namespace extends ReleaseObject {
 
   /**
-   * @param {String} prefix
+   * @param {string} [prefix]
    * @param {StyleType} [style]
-   * @param {String} [uri]
-   * @param {String} [fileName]
-   * @param {String} [definition]
-   * @param {String} [version] e.g., "4.2"
-   * @param {String} [draft] e.g., "alpha1", "beta1", "1"
+   * @param {string} [uri]
+   * @param {string} [fileName]
+   * @param {string} [definition]
+   * @param {string} [version] e.g., "4.2"
+   * @param {string} [draft] e.g., "alpha1", "beta1", "1"
    */
   constructor(prefix, style, uri="", fileName="", definition="", version="", draft="") {
 
@@ -29,10 +30,10 @@ class Namespace extends ReleaseObject {
 
     this.conformanceTargets = [];
 
-    /** @type {String} */
+    /** @type {string} */
     this.relativePath;
 
-    /** @type {String} */
+    /** @type {string} */
     this.xsdString;
 
     this.origin = {
@@ -50,12 +51,12 @@ class Namespace extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {String} prefix
+   * @param {string} prefix
    * @param {StyleType} [style]
-   * @param {String} [uri]
-   * @param {String} [fileName]
-   * @param {String} [definition]
-   * @param {String} [version]
+   * @param {string} [uri]
+   * @param {string} [fileName]
+   * @param {string} [definition]
+   * @param {string} [version]
    */
   static create(ndrVersion, prefix, style, uri, fileName, definition, version) {
 
@@ -591,8 +592,7 @@ class Namespace extends ReleaseObject {
     .filter( dependency => dependency.referenceStyle == "property" )
     .forEach( dependency => {
       if (!results.properties.find( property => property.qname == dependency.reference.qname )) {
-        // @ts-ignore
-        results.properties.push( dependency.reference );
+        results.properties.push( /** @type {Property} */ (dependency.reference) );
       }
     });
 
@@ -600,8 +600,7 @@ class Namespace extends ReleaseObject {
     .filter( dependency => dependency.referenceStyle == "type" )
     .forEach( dependency => {
       if (!results.types.find( type => type.qname == dependency.reference.qname )) {
-        // @ts-ignore
-        results.types.push( dependency.reference );
+        results.types.push( /** @type {Type} */ (dependency.reference) );
       }
     });
 
@@ -611,8 +610,8 @@ class Namespace extends ReleaseObject {
   }
 
   /**
-   * @example `For Core, dependents j:PersonEyeColorCode (substitutes for
-     nc:PersonEyeColorAbstract) and hs:ServiceType (extends nc:ActivityType)`
+   * @example For Core, dependents j:PersonEyeColorCode (substitutes for
+   * nc:PersonEyeColorAbstract) and hs:ServiceType (extends nc:ActivityType)
    */
   async dependencies() {
 
@@ -842,7 +841,10 @@ class Namespace extends ReleaseObject {
  * @property {StyleType[]} [style]
  * @property {boolean} [conformanceRequired]
  */
-let NamespaceCriteriaType;
+/**
+ * @type {CriteriaType}
+ */
+Namespace.NamespaceCriteriaType;
 
 /**
  * @typedef {Object} IdentifiersType
@@ -851,7 +853,10 @@ let NamespaceCriteriaType;
  * @property {string} releaseKey
  * @property {string|RegExp} prefix
  */
-let NamespaceIdentifiersType;
+/**
+ * @type {IdentifiersType}
+ */
+Namespace.NamespaceIdentifiersType;
 
 /**
  * @typedef {Object} DependencyType
@@ -862,10 +867,16 @@ let NamespaceIdentifiersType;
  * @property {string} [referenceQName]
  * @property {string} [sourceQName]
  */
-let NamespaceDependencyType;
+/**
+ * @type {DependencyType}
+ */
+Namespace.NamespaceDependencyType;
 
-/** @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"core supplement"|"domain update"} StyleType */
-let NamespaceStyleType;
+/**
+ * @typedef {"core"|"domain"|"auxiliary"|"code"|"extension"|"adapter"|"external"|"proxy"|"utility"|"csv"|"built-in"|"core supplement"|"domain update"} StyleType
+ * @type {StyleType}
+*/
+Namespace.NamespaceStyleType;
 
 Namespace.Styles = ["core", "domain", "auxiliary", "code", "extension", "adapter", "external", "proxy", "utility", "csv", "built-in", "core supplement", "domain update"];
 

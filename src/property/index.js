@@ -2,81 +2,130 @@
 const Component = require("../component/index");
 
 /**
- * A NIEM Property.
- * @extends Component<Property>
+ * A property represents a concept, idea, or thing. It defines specific semantics and appears in
+ * exchanges as the tag or label for a field.
+ *
+ * Properties may be more commonly known as as elements, attributes, fields, tags, keys, or keywords.
+ *
+ * @extends {Component<Property>}
  */
 class Property extends Component {
 
   /**
-   * @param {String} prefix
-   * @param {String} name
-   * @param {String} [definition]
-   * @param {String} [typeQName]
-   * @param {String} [groupQName]
-   * @param {boolean} [isElement=true]
-   * @param {boolean} [isAbstract=false]
-   * @param {boolean} [nillable=true]
+   * @param {string} [prefix] - Prefix of the namespace in which the property is defined
+   * @param {string} [name] - Name of the property
+   * @param {string} [definition] - Definition of the property
+   * @param {string} [typeQName] - Qualified name of the property's data type
+   * @param {string} [groupQName] - Qualified name of the property's substitution group head
+   * @param {boolean} [isElement=true] - True if element (default); false if attribute
+   * @param {boolean} [isAbstract=false] - True if concrete (default); false if abstract
+   * @param {boolean} [nillable=true] - True if property can be assigned an explicit null value (default)
    */
   constructor (prefix="", name="", definition="", typeQName="", groupQName="", isElement=true, isAbstract=false, nillable=true) {
 
     super(prefix, name, definition);
 
+    /**
+     * Qualified name of the property's data type
+     * @type {string}
+     */
     this.typeQName = typeQName;
+
+    /**
+     * Qualified name of the property's substitution group head
+     * @type {string}
+     */
     this.groupQName = groupQName;
+
+    /**
+     * True if the property is an element; false if attribute
+     * @type {boolean}
+     */
     this.isElement = isElement;
+
+    /**
+     * True if the property is concrete; false if abstract
+     * @type {boolean}
+     */
     this.isAbstract = isAbstract;
+
+    /**
+     * True if the property can be assigned an explicit null value
+     * @type {boolean}
+     */
     this.nillable = nillable;
 
+    // Update nillable to false if property is an attribute or an abstract element
     if (!this.isElement || this.isAbstract) {
       this.nillable = false;
     }
 
-    /** @type {String[]} */
+    /**
+     * Specially-designated properties to which a metadata property may be applied.
+     * @type {string[]}
+     */
     this.appliesToPropertyQNames = [];
 
-    /** @type {String[]} */
+    /**
+     * Specially-designated types to which a metadata property may be applied.
+     * @type {string[]}
+     */
     this.appliesToTypeQNames = [];
 
   }
 
   /**
-   * @param {import("../release-object/index").NDRVersionType} ndrVersion
-   * @param {String} prefix
-   * @param {String} name
-   * @param {String} [definition]
-   * @param {String} [typeQName]
-   * @param {String} [groupQName]
-   * @param {boolean} [isElement=true]
-   * @param {boolean} [isAbstract=false]
+   * Namespace prefix of the property's data type
+   * @type {string}
    */
-  static create (ndrVersion, prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false) {
-    return new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
-  }
-
   get typePrefix() {
     return Component.getPrefix(this.typeQName);
   }
 
+  /**
+   * Name of the property's data type, without the namespace prefix
+   * @type {string}
+   */
   get typeName() {
     return Component.getName(this.typeQName);
   }
 
+  /**
+   * Namespace prefix of the property's substitution group head
+   * @type {string}
+   */
   get groupPrefix() {
     return Component.getPrefix(this.groupQName);
   }
 
+  /**
+   * Name of the property's substitution group head, without the namespace prefix
+   * @type {string}
+   */
   get groupName() {
     return Component.getName(this.groupQName);
   }
 
+  /**
+   * True if the property is an attribute; false if the property is an element.
+   * @type {boolean}
+   */
   get isAttribute() {
     return ! this.isElement;
   }
 
+  /**
+   * True if the property is a concrete element; false if the property is an abstract element or an attribute.
+   * @type {boolean}
+   */
   get isConcrete() {
     return ! this.isAbstract;
   }
 
+  /**
+   * Style of the property
+   * @type {"abstract"|"attribute"|"element"}
+   */
   get style() {
 
     if (this.isAbstract == true) {
@@ -93,10 +142,19 @@ class Property extends Component {
     if (this.source) return this.source.properties;
   }
 
+  /**
+   * Gets the substitution group head property for this property.
+   * @returns {Promise<Property>}
+   */
   async group() {
     return this.release.properties.get(this.groupPrefix + ":" + this.groupName);
   }
 
+  /**
+   * Gets the substitution group or substitution group grandparent property
+   * @todo Substitution group lookup should recurse to be able to go up multiple levels
+   * @returns {Promise<Property>}
+   */
   async groupHead() {
     let group = await this.group();
 
@@ -108,12 +166,18 @@ class Property extends Component {
     return group;
   }
 
+  /**
+   * Gets the type object for this property's data type, based on the typeQName value.
+   * @returns {Promise<import("../typedefs").Type>}
+   */
   async type() {
-    return this.release.types.get(this.typePrefix + ":" + this.typeName);
+    return this.release.types.get(this.typeQName);
   }
 
   /**
-   * @param {CriteriaType} criteria
+   * Gets properties that can be substituted for this property.
+   * @param {CriteriaType} [criteria] Optional criteria to filter the results
+   * @returns {Promise<Property[]>}
    */
   async substitutions(criteria={}) {
     criteria.groupQName = this.qname;
@@ -121,7 +185,9 @@ class Property extends Component {
   }
 
   /**
-   * @param {CriteriaType} criteria
+   * Gets immediate and second-level properties that can be substituted for this property.
+   * @param {CriteriaType} criteria Optional criteria to filter the results
+   * @returns {Promise<Property[]>}
    */
   async substitutionDescendants(criteria={}) {
     criteria.groupQName = this.qname;
@@ -140,9 +206,13 @@ class Property extends Component {
     return descendantSubstitutions;
   }
 
+  /**
+   * Specially-designated types to which a metadata property may be applied.
+   * @returns {Promise<import("../typedefs").Type[]>}
+   */
   async appliesToTypes() {
 
-    /** @type {Type[]} */
+    /** @type {import("../typedefs").Type[]} */
     let types = [];
 
     for (let qname of this.appliesToTypeQNames) {
@@ -153,7 +223,11 @@ class Property extends Component {
     return types;
   }
 
-  async appliesToProperties() {
+  /**
+   * Specially-designated properties to which a metadata property may be applied.
+   * @returns {Promise<Property[]>}
+   */
+   async appliesToProperties() {
 
     /** @type {Property[]} */
     let properties = [];
@@ -166,24 +240,50 @@ class Property extends Component {
     return properties;
   }
 
+  /**
+   * Sub-property functions for this property as it may occur under one or more types.
+   * - async add(typeQName, [min], [max], [definition]) => SubProperty
+   * - async find(criteria) => SubProperty[]
+   */
   get subProperties() {
+
     return {
 
+      /**
+       * Adds this property to the specified type.
+       * @param {string} typeQName
+       * @param {string} [min]
+       * @param {string} [max]
+       * @param {string} [definition]
+       */
       add: async (typeQName, min, max, definition) => {
         return this.release.subProperties.add(typeQName, this.qname, min, max, definition);
       },
 
       /**
-       * @param {SubProperty.CriteriaType} criteria
+       * Finds all sub-property relationships for which this property participates.
+       * @param {import("../subproperty/index").CriteriaType} [criteria] - Optional criteria by which to filter the results
+       * @returns {Promise<import("../typedefs").SubProperty[]>}
        */
       find: async (criteria={}) => {
         criteria.propertyQName = this.qname;
+        let d = await this.dependencies();
+        d.type
         return this.release.subProperties.find(criteria);
       }
 
-    };
+    }
   }
 
+  /**
+   * Gets an object containing the other objects that this property directly refers to.
+   *
+   * Useful in helping to determine which namespaces will need to be imported in this property's schema.
+   *
+   * - type: Data type of this property
+   * - group: Substitution group head for this property
+   * - count: Number of dependencies (between 0 and 2)
+   */
   async dependencies() {
 
     let type = await this.type();
@@ -197,6 +297,14 @@ class Property extends Component {
   }
 
   /**
+   * Gets an object containing the other objects that refer to this property.
+   *
+   * Useful in cascading changes when this property is updated or deleted.
+   *
+   * - substitutions: Properties that may substitute for this property
+   * - subProperties: Sub-property relationships that this property is a part of
+   * - count:  Number of dependents
+   *
    * @param {boolean} [current=true] Defaults to true; false for last saved identifiers
    * @returns {Promise<DependentsTypes>}
    */
@@ -213,8 +321,13 @@ class Property extends Component {
   }
 
   /**
-   * @param {"edit"|"delete"} op
-   * @param {Change} [change]
+   * Cascades changes when a property is updated or deleted.
+   *
+   * - edit: Updates the property's qname in references by other components
+   * - delete: Deletes the reference to this property from other components
+   *
+   * @param {"edit"|"delete"} op - Change operation
+   * @param {import("../typedefs").Change} [change] - Change description information
    */
   async updateDependents(op, change) {
 
@@ -245,22 +358,39 @@ class Property extends Component {
 
   }
 
+  /**
+   * Gets an object with functions that will find any contents that this property may contain or carry.
+   *
+   * - async facets() - Finds any codes or other facets that this property may contain
+   * - async containedProperties() - Finds any properties that this property directly contains
+   * - async inheritedProperties() - Finds parent types and the properties those types contain
+   * - async base() - Finds the base or parent of this property's data type
+   */
   get contents() {
 
     let self = this;
 
     return {
 
+      /**
+       * Finds any codes or other facets that this property may contain
+       */
       async facets() {
         let type = await self.type();
         return type ? type.contents.facets() : [];
       },
 
+      /**
+       * Finds any sub-properties that this property may directly contain
+       */
       async containedProperties() {
         let type = await self.type();
         return type ? type.contents.containedProperties() : [];
       },
 
+      /**
+       * Finds parent types and the properties those types contain, e.g., {parentTypeQName: subProperty[]}
+       */
       async inheritedProperties() {
         let type = await self.type();
         return type ? type.contents.inheritedProperties() : {};
@@ -276,12 +406,28 @@ class Property extends Component {
   }
 
   /**
-   * @param {Release} release
+   * Creates a new property.
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} [definition]
+   * @param {string} [typeQName]
+   * @param {string} [groupQName]
+   * @param {boolean} [isElement=true]
+   * @param {boolean} [isAbstract=false]
+   * @param {import("../release-object/index").NDRVersionType} [ndrVersion]
+   * @returns {Property}
+   */
+   static create (prefix, name, definition, typeQName, groupQName, isElement=true, isAbstract=false, ndrVersion) {
+    return new Property(prefix, name, definition, typeQName, groupQName, isElement, isAbstract);
+  }
+
+  /**
+   * @param {import("../typedefs").Release} release
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
-   * @param {string} typeQName
-   * @param {string} groupQName
+   * @param {string} [typeQName]
+   * @param {string} [groupQName]
    * @param {boolean} [isAbstract=false]
    */
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {
@@ -291,7 +437,7 @@ class Property extends Component {
   }
 
   /**
-   * @param {Release} release
+   * @param {import("../typedefs").Release} release
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
@@ -304,7 +450,7 @@ class Property extends Component {
   }
 
   /**
-   * @param {Release} release
+   * @param {import("../typedefs").Release} release
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
@@ -360,7 +506,10 @@ class Property extends Component {
  * @property {boolean} [isAbstract]
  * @property {string|RegExp} [keyword] - Name, definition, or other text keyword fields
  */
-let PropertyCriteriaType;
+/**
+ * @type {CriteriaType}
+ */
+Property.PropertyCriteriaType;
 
 Property.CriteriaKeywordFields = ["name", "definition"];
 
@@ -372,19 +521,20 @@ Property.CriteriaKeywordFields = ["name", "definition"];
  * @property {string} prefix
  * @property {string} name
  */
-Property.IdentifiersType = Component.IdentifiersType;
+/**
+ * @type {IdentifiersType}
+ */
+Property.IdentifiersType;
 
 /**
  * @typedef {Object} DependentsTypes
  * @property {Property[]} substitutions
- * @property {SubProperty[]} subProperties
+ * @property {Array<import("../subproperty/index")>} subProperties
  * @property {number} count
  */
-let PropertyDependentsTypes;
+/**
+ * @type {DependentsTypes}
+ */
+ Property.PropertyDependentsTypes;
 
 module.exports = Property;
-
-let Change = require("../interfaces/source/change/index");
-let SubProperty = require("../subproperty/index");
-let Release = require("../release/index");
-let Type = require("../type/index");

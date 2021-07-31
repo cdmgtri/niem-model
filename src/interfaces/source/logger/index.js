@@ -1,5 +1,4 @@
 
-// @ts-ignore
 let debug = require("debug")("niem");
 
 let revisionOperations = ["add", "edit", "delete"];
@@ -16,17 +15,17 @@ class Logger {
   }
 
   /**
-   * @template {NIEMObject} T
-   * @param {typeof NIEMObject} ObjectClass
+   * @template {NIEMObject<T>} T
+   * @param {string} className
    * @param {Transaction.OperationType} operation
    * @param {T} object
    * @param {object} [criteria]
-   * @param {Change} [change]
+   * @param {import("../../../typedefs").Change} [change]
    * @param {number} [count] Number of objects found or affected
    */
-  record(ObjectClass, operation, object, criteria, change, count) {
+  record(className, operation, object, criteria, change, count) {
 
-    let transaction = new Transaction(ObjectClass, operation, object, criteria, change, count);
+    let transaction = new Transaction(className, operation, object, criteria, change, count);
     debug(transaction.toString());
 
     if (this.loggingEnabled) {
@@ -60,6 +59,5 @@ class Logger {
 
 module.exports = Logger;
 
-let Change = require("../change/index");
 let Transaction = require("../transaction/index");
 let NIEMObject = require("../../../niem-object/index");
