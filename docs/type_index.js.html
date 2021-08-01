@@ -115,10 +115,10 @@ class Type extends Component {
     this.style = style;
     this.baseQName = baseQName;
 
-    /** @type {String[]} */
+    /** @type {string[]} */
     this.memberQNames = [];
 
-    /** @type {String} */
+    /** @type {string} */
     this.codeListURI;
 
   }
@@ -137,7 +137,7 @@ class Type extends Component {
 
   /**
    * True if the type is complex and capable of carrying attributes.
-   * @type {Boolean}
+   * @type {boolean}
    */
   get isComplexType() {
     return this.style ? Type.ComplexStyles.includes(this.style) : false;
@@ -152,7 +152,7 @@ class Type extends Component {
 
   /**
    * True if the type is simple and carries a value only.
-   * @type {Boolean}
+   * @type {boolean}
    */
   get isSimpleType() {
     return this.style ? Type.SimpleStyles.includes(this.style) : false;
@@ -396,7 +396,7 @@ class Type extends Component {
   }
 
   /**
-   * @param {Boolean} includeImmediateChildren - True to include immediate children in results
+   * @param {boolean} includeImmediateChildren - True to include immediate children in results
    */
   async descendantTypes(includeImmediateChildren=true) {
 

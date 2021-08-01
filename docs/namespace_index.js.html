@@ -103,13 +103,13 @@ let ReleaseObject = require("../release-object/index");
 class Namespace extends ReleaseObject {
 
   /**
-   * @param {String} [prefix]
+   * @param {string} [prefix]
    * @param {StyleType} [style]
-   * @param {String} [uri]
-   * @param {String} [fileName]
-   * @param {String} [definition]
-   * @param {String} [version] e.g., "4.2"
-   * @param {String} [draft] e.g., "alpha1", "beta1", "1"
+   * @param {string} [uri]
+   * @param {string} [fileName]
+   * @param {string} [definition]
+   * @param {string} [version] e.g., "4.2"
+   * @param {string} [draft] e.g., "alpha1", "beta1", "1"
    */
   constructor(prefix, style, uri="", fileName="", definition="", version="", draft="") {
 
@@ -125,10 +125,10 @@ class Namespace extends ReleaseObject {
 
     this.conformanceTargets = [];
 
-    /** @type {String} */
+    /** @type {string} */
     this.relativePath;
 
-    /** @type {String} */
+    /** @type {string} */
     this.xsdString;
 
     this.origin = {
@@ -146,12 +146,12 @@ class Namespace extends ReleaseObject {
 
   /**
    * @param {ReleaseObject.NDRVersionType} ndrVersion
-   * @param {String} prefix
+   * @param {string} prefix
    * @param {StyleType} [style]
-   * @param {String} [uri]
-   * @param {String} [fileName]
-   * @param {String} [definition]
-   * @param {String} [version]
+   * @param {string} [uri]
+   * @param {string} [fileName]
+   * @param {string} [definition]
+   * @param {string} [version]
    */
   static create(ndrVersion, prefix, style, uri, fileName, definition, version) {
 

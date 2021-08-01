@@ -108,14 +108,14 @@ class Mappings {
 
   /**
    * @param {DataSetInterface&lt;T, Object&lt;string, string|RegExp>, Object&lt;string, any>>} dataSet
-   * @param {String} userKey
-   * @param {String} modelKey
-   * @param {String} releaseKey
+   * @param {string} userKey
+   * @param {string} modelKey
+   * @param {string} releaseKey
    * @param {Mapping.OperationType} operation
    * @param {Mapping.ClassNameType} className
-   * @param {String} previousID
-   * @param {String} id
-   * @param {String[]} differentFields
+   * @param {string} previousID
+   * @param {string} id
+   * @param {string[]} differentFields
    * @param {Array&lt;import("../../../typedefs").Change>} changes
    * @returns {Promise&lt;Mapping&lt;T>>}
    */
@@ -157,7 +157,7 @@ class Mappings {
    * @param {Mapping.ClassNameType} className
    * @param {Object.&lt;string, any>} oldObject
    * @param {Object.&lt;string, any>} newObject
-   * @param {String[]} ignoredFields
+   * @param {string[]} ignoredFields
    * @param {Change[]} changes
    */
   calculate(dataSet, className, oldObject, newObject, ignoredFields=[], changes) {
@@ -250,7 +250,7 @@ class Mappings {
 /**
  * @param {Object} oldObject
  * @param {Object} newObject
- * @param {String[]} ignoredFields
+ * @param {string[]} ignoredFields
  */
 function compareObject(oldObject, newObject, ignoredFields=[]) {
 

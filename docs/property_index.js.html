@@ -107,11 +107,11 @@ const Component = require("../component/index");
 class Property extends Component {
 
   /**
-   * @param {String} [prefix] - Prefix of the namespace in which the property is defined
-   * @param {String} [name] - Name of the property
-   * @param {String} [definition] - Definition of the property
-   * @param {String} [typeQName] - Qualified name of the property's data type
-   * @param {String} [groupQName] - Qualified name of the property's substitution group head
+   * @param {string} [prefix] - Prefix of the namespace in which the property is defined
+   * @param {string} [name] - Name of the property
+   * @param {string} [definition] - Definition of the property
+   * @param {string} [typeQName] - Qualified name of the property's data type
+   * @param {string} [groupQName] - Qualified name of the property's substitution group head
    * @param {boolean} [isElement=true] - True if element (default); false if attribute
    * @param {boolean} [isAbstract=false] - True if concrete (default); false if abstract
    * @param {boolean} [nillable=true] - True if property can be assigned an explicit null value (default)
@@ -122,31 +122,31 @@ class Property extends Component {
 
     /**
      * Qualified name of the property's data type
-     * @type {String}
+     * @type {string}
      */
     this.typeQName = typeQName;
 
     /**
      * Qualified name of the property's substitution group head
-     * @type {String}
+     * @type {string}
      */
     this.groupQName = groupQName;
 
     /**
      * True if the property is an element; false if attribute
-     * @type {Boolean}
+     * @type {boolean}
      */
     this.isElement = isElement;
 
     /**
      * True if the property is concrete; false if abstract
-     * @type {Boolean}
+     * @type {boolean}
      */
     this.isAbstract = isAbstract;
 
     /**
      * True if the property can be assigned an explicit null value
-     * @type {Boolean}
+     * @type {boolean}
      */
     this.nillable = nillable;
 
@@ -157,13 +157,13 @@ class Property extends Component {
 
     /**
      * Specially-designated properties to which a metadata property may be applied.
-     * @type {String[]}
+     * @type {string[]}
      */
     this.appliesToPropertyQNames = [];
 
     /**
      * Specially-designated types to which a metadata property may be applied.
-     * @type {String[]}
+     * @type {string[]}
      */
     this.appliesToTypeQNames = [];
 
@@ -502,11 +502,11 @@ class Property extends Component {
 
   /**
    * Creates a new property.
-   * @param {String} prefix
-   * @param {String} name
-   * @param {String} [definition]
-   * @param {String} [typeQName]
-   * @param {String} [groupQName]
+   * @param {string} prefix
+   * @param {string} name
+   * @param {string} [definition]
+   * @param {string} [typeQName]
+   * @param {string} [groupQName]
    * @param {boolean} [isElement=true]
    * @param {boolean} [isAbstract=false]
    * @param {import("../release-object/index").NDRVersionType} [ndrVersion]
@@ -521,8 +521,8 @@ class Property extends Component {
    * @param {string} prefix
    * @param {string} name
    * @param {string} definition
-   * @param {string} typeQName
-   * @param {string} groupQName
+   * @param {string} [typeQName]
+   * @param {string} [groupQName]
    * @param {boolean} [isAbstract=false]
    */
   static createElement(release, prefix, name, definition, typeQName, groupQName, isAbstract=false) {

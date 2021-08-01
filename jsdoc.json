@@ -1,33 +1,28 @@
 {
   "source": {
+    "include": ["src"],
     "exclude": [
       "src/typedefs"
     ]
   },
-  "options": {
-    "access": ["public", "protected", "undefined"]
+  "opts": {
+    "access": ["public", "undefined"],
+    "destination": "docs",
+    "readme": "README.md",
+    "recurse": true,
+    "template": "node_modules/jsdoc-template"
   },
   "plugins": [
-    "node_modules/jsdoc-tsimport-plugin/index.js",
-    "node_modules/jsdoc-typeof-plugin",
-    "plugins/markdown"
+    "plugins/markdown",
+    "node_modules/jsdoc-tsimport-plugin",
+    "node_modules/jsdoc-typeof-plugin"
   ],
-  "docdash": {
-    "sort": true,
-    "search": true
-  },
   "templates": {
     "referenceTitle": "NIEM Model Classes",
     "disableSort": false,
     "collapse": true,
     "default": {
-      "includeDate": false,
-      "layoutFile": "./assets/docs/layout.tmpl",
-      "staticFiles": {
-        "include": [
-          "./assets/docs"
-        ]
-      }
+      "includeDate": false
     }
   }
 }
