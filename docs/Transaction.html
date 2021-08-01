@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      Transaction - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  <link type="text/css" rel="stylesheet" href="styles/custom.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li >
+        <a href="index.html">
+          
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      NIEM Model Classes
+    </h3>
+
+    
+
+    <h3>Classes</h3><ul><li id="Component-nav"><a href="Component.html">Component</a><ul class='methods'><li data-type="method" id="Component-getName-nav"><a href="Component.html#.getName">getName</a></li><li data-type="method" id="Component-getPrefix-nav"><a href="Component.html#.getPrefix">getPrefix</a></li><li data-type="method" id="Component-identifiers-nav"><a href="Component.html#.identifiers">identifiers</a></li><li data-type="method" id="Component-sortByCoreQName-nav"><a href="Component.html#.sortByCoreQName">sortByCoreQName</a></li><li data-type="method" id="Component-sortByName-nav"><a href="Component.html#.sortByName">sortByName</a></li><li data-type="method" id="Component-sortByNameCaseSensitive-nav"><a href="Component.html#.sortByNameCaseSensitive">sortByNameCaseSensitive</a></li><li data-type="method" id="Component-sortByNameFunction-nav"><a href="Component.html#.sortByNameFunction">sortByNameFunction</a></li><li data-type="method" id="Component-sortByQName-nav"><a href="Component.html#.sortByQName">sortByQName</a></li><li data-type="method" id="Component-sortListByNamespaceStyle-nav"><a href="Component.html#.sortListByNamespaceStyle">sortListByNamespaceStyle</a></li><li data-type="method" id="Component-namespace-nav"><a href="Component.html#namespace">namespace</a></li></ul></li><li id="DataSet-nav"><a href="DataSet.html">DataSet</a><ul class='methods'><li data-type="method" id="DataSet-add-nav"><a href="DataSet.html#add">add</a></li><li data-type="method" id="DataSet-count-nav"><a href="DataSet.html#count">count</a></li><li data-type="method" id="DataSet-delete-nav"><a href="DataSet.html#delete">delete</a></li><li data-type="method" id="DataSet-edit-nav"><a href="DataSet.html#edit">edit</a></li><li data-type="method" id="DataSet-find-nav"><a href="DataSet.html#find">find</a></li><li data-type="method" id="DataSet-get-nav"><a href="DataSet.html#get">get</a></li><li data-type="method" id="DataSet-history-nav"><a href="DataSet.html#history">history</a></li><li data-type="method" id="DataSet-id-nav"><a href="DataSet.html#id">id</a></li><li data-type="method" id="DataSet-load-nav"><a href="DataSet.html#load">load</a></li><li data-type="method" id="DataSet-modify-nav"><a href="DataSet.html#modify">modify</a></li><li data-type="method" id="DataSet-revisions-nav"><a href="DataSet.html#revisions">revisions</a></li><li data-type="method" id="DataSet-updatePreviousIdentifiers-nav"><a href="DataSet.html#updatePreviousIdentifiers">updatePreviousIdentifiers</a></li></ul></li><li id="DataSetInterface-nav"><a href="DataSetInterface.html">DataSetInterface</a><ul class='methods'><li data-type="method" id="DataSetInterface-add-nav"><a href="DataSetInterface.html#add">add</a></li><li data-type="method" id="DataSetInterface-count-nav"><a href="DataSetInterface.html#count">count</a></li><li data-type="method" id="DataSetInterface-delete-nav"><a href="DataSetInterface.html#delete">delete</a></li><li data-type="method" id="DataSetInterface-edit-nav"><a href="DataSetInterface.html#edit">edit</a></li><li data-type="method" id="DataSetInterface-find-nav"><a href="DataSetInterface.html#find">find</a></li><li data-type="method" id="DataSetInterface-get-nav"><a href="DataSetInterface.html#get">get</a></li><li data-type="method" id="DataSetInterface-history-nav"><a href="DataSetInterface.html#history">history</a></li><li data-type="method" id="DataSetInterface-id-nav"><a href="DataSetInterface.html#id">id</a></li><li data-type="method" id="DataSetInterface-revisions-nav"><a href="DataSetInterface.html#revisions">revisions</a></li></ul></li><li id="Facet-nav"><a href="Facet.html">Facet</a><ul class='methods'><li data-type="method" id="Facet-create-nav"><a href="Facet.html#.create">create</a></li><li data-type="method" id="Facet-identifiers-nav"><a href="Facet.html#.identifiers">identifiers</a></li><li data-type="method" id="Facet-route-nav"><a href="Facet.html#.route">route</a></li><li data-type="method" id="Facet-sortFacetsByStyleAdjustedValueDefinition-nav"><a href="Facet.html#.sortFacetsByStyleAdjustedValueDefinition">sortFacetsByStyleAdjustedValueDefinition</a></li><li data-type="method" id="Facet-sortFacetsByStyleValueDefinition-nav"><a href="Facet.html#.sortFacetsByStyleValueDefinition">sortFacetsByStyleValueDefinition</a></li><li data-type="method" id="Facet-sortFacetsByValue-nav"><a href="Facet.html#.sortFacetsByValue">sortFacetsByValue</a></li></ul></li><li id="LocalTerm-nav"><a href="LocalTerm.html">LocalTerm</a><ul class='methods'><li data-type="method" id="LocalTerm-create-nav"><a href="LocalTerm.html#.create">create</a></li><li data-type="method" id="LocalTerm-identifiers-nav"><a href="LocalTerm.html#.identifiers">identifiers</a></li><li data-type="method" id="LocalTerm-route-nav"><a href="LocalTerm.html#.route">route</a></li><li data-type="method" id="LocalTerm-sortByPrefixTerm-nav"><a href="LocalTerm.html#.sortByPrefixTerm">sortByPrefixTerm</a></li><li data-type="method" id="LocalTerm-sortByTerm-nav"><a href="LocalTerm.html#.sortByTerm">sortByTerm</a></li></ul></li><li id="Mapping-nav"><a href="Mapping.html">Mapping</a></li><li id="Mappings-nav"><a href="Mappings.html">Mappings</a><ul class='methods'><li data-type="method" id="Mappings-add-nav"><a href="Mappings.html#add">add</a></li><li data-type="method" id="Mappings-addMultiple-nav"><a href="Mappings.html#addMultiple">addMultiple</a></li><li data-type="method" id="Mappings-calculate-nav"><a href="Mappings.html#calculate">calculate</a></li><li data-type="method" id="Mappings-find-nav"><a href="Mappings.html#find">find</a></li><li data-type="method" id="Mappings-get-nav"><a href="Mappings.html#get">get</a></li><li data-type="method" id="Mappings-load-nav"><a href="Mappings.html#load">load</a></li></ul></li><li id="Model-nav"><a href="Model.html">Model</a><ul class='methods'><li data-type="method" id="Model-create-nav"><a href="Model.html#.create">create</a></li><li data-type="method" id="Model-identifiers-nav"><a href="Model.html#.identifiers">identifiers</a></li></ul></li><li id="Namespace-nav"><a href="Namespace.html">Namespace</a><ul class='methods'><li data-type="method" id="Namespace-create-nav"><a href="Namespace.html#.create">create</a></li><li data-type="method" id="Namespace-defaultStyle-nav"><a href="Namespace.html#.defaultStyle">defaultStyle</a></li><li data-type="method" id="Namespace-identifiers-nav"><a href="Namespace.html#.identifiers">identifiers</a></li><li data-type="method" id="Namespace-sortByPrefix-nav"><a href="Namespace.html#.sortByPrefix">sortByPrefix</a></li><li data-type="method" id="Namespace-sortByStyle-nav"><a href="Namespace.html#.sortByStyle">sortByStyle</a></li><li data-type="method" id="Namespace-sortByURI-nav"><a href="Namespace.html#.sortByURI">sortByURI</a></li><li data-type="method" id="Namespace-dependencies-nav"><a href="Namespace.html#dependencies">dependencies</a></li><li data-type="method" id="Namespace-dependencyList-nav"><a href="Namespace.html#dependencyList">dependencyList</a></li><li data-type="method" id="Namespace-dependencyNamespaces-nav"><a href="Namespace.html#dependencyNamespaces">dependencyNamespaces</a></li><li data-type="method" id="Namespace-dependencyReferences-nav"><a href="Namespace.html#dependencyReferences">dependencyReferences</a></li><li data-type="method" id="Namespace-dependents-nav"><a href="Namespace.html#dependents">dependents</a></li><li data-type="method" id="Namespace-updateDependents-nav"><a href="Namespace.html#updateDependents">updateDependents</a></li></ul></li><li id="NIEM-nav"><a href="NIEM.html">NIEM</a><ul class='methods'><li data-type="method" id="NIEM-export-nav"><a href="NIEM.html#export">export</a></li><li data-type="method" id="NIEM-load-nav"><a href="NIEM.html#load">load</a></li><li data-type="method" id="NIEM-loadFile-nav"><a href="NIEM.html#loadFile">loadFile</a></li></ul></li><li id="NIEMFormatInterface-nav"><a href="NIEMFormatInterface.html">NIEMFormatInterface</a></li><li id="NIEMObject-nav"><a href="NIEMObject.html">NIEMObject</a><ul class='methods'><li data-type="method" id="NIEMObject-addMultiple-nav"><a href="NIEMObject.html#.addMultiple">addMultiple</a></li><li data-type="method" id="NIEMObject-create-nav"><a href="NIEMObject.html#.create">create</a></li><li data-type="method" id="NIEMObject-identifiers-nav"><a href="NIEMObject.html#.identifiers">identifiers</a></li><li data-type="method" id="NIEMObject-match-nav"><a href="NIEMObject.html#.match">match</a></li><li data-type="method" id="NIEMObject-matches-nav"><a href="NIEMObject.html#.matches">matches</a></li><li data-type="method" id="NIEMObject-route-nav"><a href="NIEMObject.html#.route">route</a></li><li data-type="method" id="NIEMObject-add-nav"><a href="NIEMObject.html#add">add</a></li><li data-type="method" id="NIEMObject-checkBaselineFields-nav"><a href="NIEMObject.html#checkBaselineFields">checkBaselineFields</a></li><li data-type="method" id="NIEMObject-checkSourceID-nav"><a href="NIEMObject.html#checkSourceID">checkSourceID</a></li><li data-type="method" id="NIEMObject-delete-nav"><a href="NIEMObject.html#delete">delete</a></li><li data-type="method" id="NIEMObject-dependencies-nav"><a href="NIEMObject.html#dependencies">dependencies</a></li><li data-type="method" id="NIEMObject-dependents-nav"><a href="NIEMObject.html#dependents">dependents</a></li><li data-type="method" id="NIEMObject-match-nav"><a href="NIEMObject.html#match">match</a></li><li data-type="method" id="NIEMObject-save-nav"><a href="NIEMObject.html#save">save</a></li><li data-type="method" id="NIEMObject-updateDependents-nav"><a href="NIEMObject.html#updateDependents">updateDependents</a></li><li data-type="method" id="NIEMObject-updateSource-nav"><a href="NIEMObject.html#updateSource">updateSource</a></li></ul></li><li id="NIEMObjectFormatInterface-nav"><a href="NIEMObjectFormatInterface.html">NIEMObjectFormatInterface</a><ul class='methods'><li data-type="method" id="NIEMObjectFormatInterface-create-nav"><a href="NIEMObjectFormatInterface.html#.create">create</a></li><li data-type="method" id="NIEMObjectFormatInterface-export-nav"><a href="NIEMObjectFormatInterface.html#export">export</a></li><li data-type="method" id="NIEMObjectFormatInterface-load-nav"><a href="NIEMObjectFormatInterface.html#load">load</a></li><li data-type="method" id="NIEMObjectFormatInterface-parse-nav"><a href="NIEMObjectFormatInterface.html#parse">parse</a></li><li data-type="method" id="NIEMObjectFormatInterface-read-nav"><a href="NIEMObjectFormatInterface.html#read">read</a></li><li data-type="method" id="NIEMObjectFormatInterface-stringify-nav"><a href="NIEMObjectFormatInterface.html#stringify">stringify</a></li><li data-type="method" id="NIEMObjectFormatInterface-write-nav"><a href="NIEMObjectFormatInterface.html#write">write</a></li></ul></li><li id="Property-nav"><a href="Property.html">Property</a><ul class='methods'><li data-type="method" id="Property-create-nav"><a href="Property.html#.create">create</a></li><li data-type="method" id="Property-createAbstract-nav"><a href="Property.html#.createAbstract">createAbstract</a></li><li data-type="method" id="Property-createAttribute-nav"><a href="Property.html#.createAttribute">createAttribute</a></li><li data-type="method" id="Property-createElement-nav"><a href="Property.html#.createElement">createElement</a></li><li data-type="method" id="Property-appliesToProperties-nav"><a href="Property.html#appliesToProperties">appliesToProperties</a></li><li data-type="method" id="Property-appliesToTypes-nav"><a href="Property.html#appliesToTypes">appliesToTypes</a></li><li data-type="method" id="Property-dependencies-nav"><a href="Property.html#dependencies">dependencies</a></li><li data-type="method" id="Property-dependents-nav"><a href="Property.html#dependents">dependents</a></li><li data-type="method" id="Property-group-nav"><a href="Property.html#group">group</a></li><li data-type="method" id="Property-groupHead-nav"><a href="Property.html#groupHead">groupHead</a></li><li data-type="method" id="Property-substitutionDescendants-nav"><a href="Property.html#substitutionDescendants">substitutionDescendants</a></li><li data-type="method" id="Property-substitutions-nav"><a href="Property.html#substitutions">substitutions</a></li><li data-type="method" id="Property-type-nav"><a href="Property.html#type">type</a></li><li data-type="method" id="Property-updateDependents-nav"><a href="Property.html#updateDependents">updateDependents</a></li></ul></li><li id="Release-nav"><a href="Release.html">Release</a><ul class='methods'><li data-type="method" id="Release-create-nav"><a href="Release.html#.create">create</a></li><li data-type="method" id="Release-identifiers-nav"><a href="Release.html#.identifiers">identifiers</a></li><li data-type="method" id="Release-route-nav"><a href="Release.html#.route">route</a></li></ul></li><li id="ReleaseObject-nav"><a href="ReleaseObject.html">ReleaseObject</a></li><li id="SubProperty-nav"><a href="SubProperty.html">SubProperty</a><ul class='methods'><li data-type="method" id="SubProperty-create-nav"><a href="SubProperty.html#.create">create</a></li><li data-type="method" id="SubProperty-identifiers-nav"><a href="SubProperty.html#.identifiers">identifiers</a></li><li data-type="method" id="SubProperty-route-nav"><a href="SubProperty.html#.route">route</a></li><li data-type="method" id="SubProperty-sortByCoreTypeProperty-nav"><a href="SubProperty.html#.sortByCoreTypeProperty">sortByCoreTypeProperty</a></li><li data-type="method" id="SubProperty-sortByCoreTypeSequence-nav"><a href="SubProperty.html#.sortByCoreTypeSequence">sortByCoreTypeSequence</a></li><li data-type="method" id="SubProperty-sortByTypeProperty-nav"><a href="SubProperty.html#.sortByTypeProperty">sortByTypeProperty</a></li><li data-type="method" id="SubProperty-sortByTypeSequence-nav"><a href="SubProperty.html#.sortByTypeSequence">sortByTypeSequence</a></li><li data-type="method" id="SubProperty-namespace-nav"><a href="SubProperty.html#namespace">namespace</a></li></ul></li><li id="Transaction-nav"><a href="Transaction.html">Transaction</a></li><li id="Type-nav"><a href="Type.html">Type</a><ul class='methods'><li data-type="method" id="Type-create-nav"><a href="Type.html#.create">create</a></li><li data-type="method" id="Type-childTypes-nav"><a href="Type.html#childTypes">childTypes</a></li><li data-type="method" id="Type-dependents-nav"><a href="Type.html#dependents">dependents</a></li><li data-type="method" id="Type-descendantTypes-nav"><a href="Type.html#descendantTypes">descendantTypes</a></li><li data-type="method" id="Type-updateDependents-nav"><a href="Type.html#updateDependents">updateDependents</a></li></ul></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#addMultiple">addMultiple</a></li><li><a href="global.html#augmentationPoint">augmentationPoint</a></li><li><a href="global.html#calculate">calculate</a></li><li><a href="global.html#compareObject">compareObject</a></li><li><a href="global.html#ComponentIdentifiersType">ComponentIdentifiersType</a></li><li><a href="global.html#containedProperties">containedProperties</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#facets">facets</a></li><li><a href="global.html#find">find</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getDataSet">getDataSet</a></li><li><a href="global.html#getParents">getParents</a></li><li><a href="global.html#inheritedProperties">inheritedProperties</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#load">load</a></li></ul>
+  </nav>
+
+  <div id="main">
+    
+      <h1 class="page-title">
+        Transaction
+      </h1>
+    
+
+    
+
+<section>
+  <header>
+    
+      <h2>
+        
+        Transaction
+        
+      </h2>
+
+      
+    
+  </header>
+
+  <article>
+    <div class="container-overview">
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#Transaction">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="Transaction">
+      <span class="type-signature"></span>new Transaction<span class="signature">(className, operation, niemObject, criteria, change, count)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>className</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>operation</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="global.html#OperationType">OperationType</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>niemObject</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      T
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>criteria</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>NIEM object search criteria for find operations</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>change</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      Change
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>count</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      number
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="interfaces_source_transaction_index.js.html">interfaces/source/transaction/index.js</a>, <a href="interfaces_source_transaction_index.js.html#line7">line 7</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+  </article>
+</section>
+
+
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>

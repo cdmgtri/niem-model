@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>ReleaseObject - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="global.html#Component">Component</a><ul class='methods'><li data-type='method'><a href="global.html#Component#.getName">getName</a></li><li data-type='method'><a href="global.html#Component#.getPrefix">getPrefix</a></li><li data-type='method'><a href="global.html#Component#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#Component#.sortByCoreQName">sortByCoreQName</a></li><li data-type='method'><a href="global.html#Component#.sortByName">sortByName</a></li><li data-type='method'><a href="global.html#Component#.sortByNameCaseSensitive">sortByNameCaseSensitive</a></li><li data-type='method'><a href="global.html#Component#.sortByNameFunction">sortByNameFunction</a></li><li data-type='method'><a href="global.html#Component#.sortByQName">sortByQName</a></li><li data-type='method'><a href="global.html#Component#.sortListByNamespaceStyle">sortListByNamespaceStyle</a></li></ul></li><li><a href="DataSet.html">DataSet</a><ul class='methods'><li data-type='method'><a href="DataSet.html#add">add</a></li><li data-type='method'><a href="DataSet.html#count">count</a></li><li data-type='method'><a href="DataSet.html#delete">delete</a></li><li data-type='method'><a href="DataSet.html#edit">edit</a></li><li data-type='method'><a href="DataSet.html#find">find</a></li><li data-type='method'><a href="DataSet.html#get">get</a></li><li data-type='method'><a href="DataSet.html#history">history</a></li><li data-type='method'><a href="DataSet.html#id">id</a></li><li data-type='method'><a href="DataSet.html#load">load</a></li><li data-type='method'><a href="DataSet.html#modify">modify</a></li><li data-type='method'><a href="DataSet.html#revisions">revisions</a></li><li data-type='method'><a href="DataSet.html#updatePreviousIdentifiers">updatePreviousIdentifiers</a></li></ul></li><li><a href="DataSetInterface.html">DataSetInterface</a><ul class='methods'><li data-type='method'><a href="DataSetInterface.html#add">add</a></li><li data-type='method'><a href="DataSetInterface.html#count">count</a></li><li data-type='method'><a href="DataSetInterface.html#delete">delete</a></li><li data-type='method'><a href="DataSetInterface.html#edit">edit</a></li><li data-type='method'><a href="DataSetInterface.html#find">find</a></li><li data-type='method'><a href="DataSetInterface.html#get">get</a></li><li data-type='method'><a href="DataSetInterface.html#history">history</a></li><li data-type='method'><a href="DataSetInterface.html#id">id</a></li><li data-type='method'><a href="DataSetInterface.html#revisions">revisions</a></li></ul></li><li><a href="global.html#Facet">Facet</a><ul class='methods'><li data-type='method'><a href="global.html#Facet#.create">create</a></li><li data-type='method'><a href="global.html#Facet#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#Facet#.route">route</a></li><li data-type='method'><a href="global.html#Facet#.sortFacetsByStyleAdjustedValueDefinition">sortFacetsByStyleAdjustedValueDefinition</a></li><li data-type='method'><a href="global.html#Facet#.sortFacetsByStyleValueDefinition">sortFacetsByStyleValueDefinition</a></li><li data-type='method'><a href="global.html#Facet#.sortFacetsByValue">sortFacetsByValue</a></li></ul></li><li><a href="global.html#LocalTerm">LocalTerm</a><ul class='methods'><li data-type='method'><a href="global.html#LocalTerm#.create">create</a></li><li data-type='method'><a href="global.html#LocalTerm#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#LocalTerm#.route">route</a></li><li data-type='method'><a href="global.html#LocalTerm#.sortByPrefixTerm">sortByPrefixTerm</a></li><li data-type='method'><a href="global.html#LocalTerm#.sortByTerm">sortByTerm</a></li></ul></li><li><a href="Mapping.html">Mapping</a></li><li><a href="Mappings.html">Mappings</a><ul class='methods'><li data-type='method'><a href="Mappings.html#add">add</a></li><li data-type='method'><a href="Mappings.html#addMultiple">addMultiple</a></li><li data-type='method'><a href="Mappings.html#calculate">calculate</a></li><li data-type='method'><a href="Mappings.html#find">find</a></li><li data-type='method'><a href="Mappings.html#get">get</a></li><li data-type='method'><a href="Mappings.html#load">load</a></li></ul></li><li><a href="global.html#Model">Model</a><ul class='methods'><li data-type='method'><a href="global.html#Model#.create">create</a></li><li data-type='method'><a href="global.html#Model#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#Model#add">add</a></li><li data-type='method'><a href="global.html#Model#checkBaselineFields">checkBaselineFields</a></li><li data-type='method'><a href="global.html#Model#checkSourceID">checkSourceID</a></li><li data-type='method'><a href="global.html#Model#delete">delete</a></li><li data-type='method'><a href="global.html#Model#dependencies">dependencies</a></li><li data-type='method'><a href="global.html#Model#dependents">dependents</a></li><li data-type='method'><a href="global.html#Model#match">match</a></li><li data-type='method'><a href="global.html#Model#save">save</a></li><li data-type='method'><a href="global.html#Model#updateDependents">updateDependents</a></li><li data-type='method'><a href="global.html#Model#updateSource">updateSource</a></li></ul></li><li><a href="global.html#Namespace">Namespace</a><ul class='methods'><li data-type='method'><a href="global.html#Namespace#.create">create</a></li><li data-type='method'><a href="global.html#Namespace#.defaultStyle">defaultStyle</a></li><li data-type='method'><a href="global.html#Namespace#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#Namespace#.sortByPrefix">sortByPrefix</a></li><li data-type='method'><a href="global.html#Namespace#.sortByStyle">sortByStyle</a></li><li data-type='method'><a href="global.html#Namespace#.sortByURI">sortByURI</a></li><li data-type='method'><a href="global.html#Namespace#dependencies">dependencies</a></li><li data-type='method'><a href="global.html#Namespace#dependencyList">dependencyList</a></li><li data-type='method'><a href="global.html#Namespace#dependencyNamespaces">dependencyNamespaces</a></li><li data-type='method'><a href="global.html#Namespace#dependencyReferences">dependencyReferences</a></li><li data-type='method'><a href="global.html#Namespace#dependents">dependents</a></li><li data-type='method'><a href="global.html#Namespace#updateDependents">updateDependents</a></li></ul></li><li><a href="NIEM.html">NIEM</a><ul class='methods'><li data-type='method'><a href="NIEM.html#export">export</a></li><li data-type='method'><a href="NIEM.html#load">load</a></li><li data-type='method'><a href="NIEM.html#loadFile">loadFile</a></li></ul></li><li><a href="NIEMFormatInterface.html">NIEMFormatInterface</a></li><li><a href="global.html#NIEMObject">NIEMObject</a><ul class='methods'><li data-type='method'><a href="global.html#NIEMObject#.addMultiple">addMultiple</a></li><li data-type='method'><a href="global.html#NIEMObject#.create">create</a></li><li data-type='method'><a href="global.html#NIEMObject#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#NIEMObject#.match">match</a></li><li data-type='method'><a href="global.html#NIEMObject#.matches">matches</a></li><li data-type='method'><a href="global.html#NIEMObject#.route">route</a></li><li data-type='method'><a href="global.html#NIEMObject#add">add</a></li><li data-type='method'><a href="global.html#NIEMObject#checkBaselineFields">checkBaselineFields</a></li><li data-type='method'><a href="global.html#NIEMObject#checkSourceID">checkSourceID</a></li><li data-type='method'><a href="global.html#NIEMObject#delete">delete</a></li><li data-type='method'><a href="global.html#NIEMObject#dependencies">dependencies</a></li><li data-type='method'><a href="global.html#NIEMObject#dependents">dependents</a></li><li data-type='method'><a href="global.html#NIEMObject#match">match</a></li><li data-type='method'><a href="global.html#NIEMObject#save">save</a></li><li data-type='method'><a href="global.html#NIEMObject#updateDependents">updateDependents</a></li><li data-type='method'><a href="global.html#NIEMObject#updateSource">updateSource</a></li></ul></li><li><a href="NIEMObjectFormatInterface.html">NIEMObjectFormatInterface</a><ul class='methods'><li data-type='method'><a href="NIEMObjectFormatInterface.html#.create">create</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#export">export</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#load">load</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#parse">parse</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#read">read</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#stringify">stringify</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#write">write</a></li></ul></li><li><a href="global.html#Property">Property</a><ul class='methods'><li data-type='method'><a href="global.html#Property#.create">create</a></li><li data-type='method'><a href="global.html#Property#.createAbstract">createAbstract</a></li><li data-type='method'><a href="global.html#Property#.createAttribute">createAttribute</a></li><li data-type='method'><a href="global.html#Property#.createElement">createElement</a></li><li data-type='method'><a href="global.html#Property#dependents">dependents</a></li><li data-type='method'><a href="global.html#Property#substitutionDescendants">substitutionDescendants</a></li><li data-type='method'><a href="global.html#Property#substitutions">substitutions</a></li><li data-type='method'><a href="global.html#Property#updateDependents">updateDependents</a></li></ul></li><li><a href="global.html#Release">Release</a><ul class='methods'><li data-type='method'><a href="global.html#Release#.create">create</a></li><li data-type='method'><a href="global.html#Release#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#Release#.route">route</a></li></ul></li><li><a href="global.html#ReleaseObject">ReleaseObject</a></li><li><a href="global.html#SubProperty">SubProperty</a><ul class='methods'><li data-type='method'><a href="global.html#SubProperty#.create">create</a></li><li data-type='method'><a href="global.html#SubProperty#.identifiers">identifiers</a></li><li data-type='method'><a href="global.html#SubProperty#.route">route</a></li><li data-type='method'><a href="global.html#SubProperty#.sortByCoreTypeProperty">sortByCoreTypeProperty</a></li><li data-type='method'><a href="global.html#SubProperty#.sortByCoreTypeSequence">sortByCoreTypeSequence</a></li><li data-type='method'><a href="global.html#SubProperty#.sortByTypeProperty">sortByTypeProperty</a></li><li data-type='method'><a href="global.html#SubProperty#.sortByTypeSequence">sortByTypeSequence</a></li><li data-type='method'><a href="global.html#SubProperty#namespace">namespace</a></li></ul></li><li><a href="Transaction.html">Transaction</a></li><li><a href="global.html#Type">Type</a><ul class='methods'><li data-type='method'><a href="global.html#Type#.create">create</a></li><li data-type='method'><a href="global.html#Type#childTypes">childTypes</a></li><li data-type='method'><a href="global.html#Type#dependents">dependents</a></li><li data-type='method'><a href="global.html#Type#descendantTypes">descendantTypes</a></li><li data-type='method'><a href="global.html#Type#updateDependents">updateDependents</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#addMultiple">addMultiple</a></li><li><a href="global.html#augmentationPoint">augmentationPoint</a></li><li><a href="global.html#calculate">calculate</a></li><li><a href="global.html#compareObject">compareObject</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#find">find</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getDataSet">getDataSet</a></li><li><a href="global.html#getParents">getParents</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#PropertyCriteriaType">PropertyCriteriaType</a></li><li><a href="global.html#PropertyDependentsTypes">PropertyDependentsTypes</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">ReleaseObject</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        ReleaseObject
+        </h2>
+        
+            <div class="class-description usertext">Commonalities of NIEM release components and other items.</div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="ReleaseObject"><span class="type-signature"></span>new ReleaseObject<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="release-object_index.js.html">release-object/index.js</a>, <a href="release-object_index.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="global.html#NIEMObject">NIEMObject</a>.&lt;T></li>
+    </ul>
+
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="authoritativePrefix"><span class="type-signature"></span>authoritativePrefix<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="release-object_index.js.html">release-object/index.js</a>, <a href="release-object_index.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Returns the prefix of the namespace responsible for the object.
+</div>
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>For element nc:Person, returns "nc"</code></pre>
+
+    <pre class="prettyprint"><code>For sub-property relationship j:SubjectType-has-nc:RoleOfPerson, returns "j"</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="release"><span class="type-signature"></span>release<span class="type-signature"> :<a href="global.html#Release">Release</a></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="release-object_index.js.html">release-object/index.js</a>, <a href="release-object_index.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#Release">Release</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="route"><span class="type-signature"></span>route<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="release-object_index.js.html">release-object/index.js</a>, <a href="release-object_index.js.html#line68">line 68</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>"/niem/model/4.0"</code></pre>
+
+    <pre class="prettyprint"><code>"/lapd/arrestReport/1.0"</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sat Jul 31 2021 10:23:23 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

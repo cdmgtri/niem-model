@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>SourceDataSetInterface - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Component.html">Component</a><ul class='methods'><li data-type='method'><a href="Component.html#.getName">getName</a></li><li data-type='method'><a href="Component.html#.getPrefix">getPrefix</a></li><li data-type='method'><a href="Component.html#.identifiers">identifiers</a></li><li data-type='method'><a href="Component.html#.sortByName">sortByName</a></li><li data-type='method'><a href="Component.html#.sortByQName">sortByQName</a></li></ul></li><li><a href="Facet.html">Facet</a><ul class='methods'><li data-type='method'><a href="Facet.html#.create">create</a></li><li data-type='method'><a href="Facet.html#.identifiers">identifiers</a></li><li data-type='method'><a href="Facet.html#.route">route</a></li></ul></li><li><a href="LocalTerm.html">LocalTerm</a><ul class='methods'><li data-type='method'><a href="LocalTerm.html#.create">create</a></li><li data-type='method'><a href="LocalTerm.html#.identifiers">identifiers</a></li><li data-type='method'><a href="LocalTerm.html#.route">route</a></li></ul></li><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#objectUpdates">objectUpdates</a></li></ul></li><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.create">create</a></li><li data-type='method'><a href="Model.html#.identifiers">identifiers</a></li></ul></li><li><a href="Namespace.html">Namespace</a><ul class='methods'><li data-type='method'><a href="Namespace.html#.create">create</a></li><li data-type='method'><a href="Namespace.html#.identifiers">identifiers</a></li><li data-type='method'><a href="Namespace.html#.sortByPrefix">sortByPrefix</a></li><li data-type='method'><a href="Namespace.html#.sortByStyle">sortByStyle</a></li><li data-type='method'><a href="Namespace.html#.sortByURI">sortByURI</a></li><li data-type='method'><a href="Namespace.html#dependencies">dependencies</a></li><li data-type='method'><a href="Namespace.html#dependents">dependents</a></li><li data-type='method'><a href="Namespace.html#updateDependents">updateDependents</a></li></ul></li><li><a href="NIEM.html">NIEM</a></li><li></li><li><a href="NIEMModelFormatInterface.html">NIEMModelFormatInterface</a><ul class='methods'><li data-type='method'><a href="NIEMModelFormatInterface.html#.create">create</a></li></ul></li><li><a href="NIEMObject.html">NIEMObject</a><ul class='methods'><li data-type='method'><a href="NIEMObject.html#.create">create</a></li><li data-type='method'><a href="NIEMObject.html#.identifiers">identifiers</a></li><li data-type='method'><a href="NIEMObject.html#.match">match</a></li><li data-type='method'><a href="NIEMObject.html#.matches">matches</a></li><li data-type='method'><a href="NIEMObject.html#add">add</a></li><li data-type='method'><a href="NIEMObject.html#checkBaselineFields">checkBaselineFields</a></li><li data-type='method'><a href="NIEMObject.html#checkSourceID">checkSourceID</a></li><li data-type='method'><a href="NIEMObject.html#delete">delete</a></li><li data-type='method'><a href="NIEMObject.html#dependencies">dependencies</a></li><li data-type='method'><a href="NIEMObject.html#dependents">dependents</a></li><li data-type='method'><a href="NIEMObject.html#match">match</a></li><li data-type='method'><a href="NIEMObject.html#save">save</a></li><li data-type='method'><a href="NIEMObject.html#updateDependents">updateDependents</a></li><li data-type='method'><a href="NIEMObject.html#updateSource">updateSource</a></li></ul></li><li><a href="NIEMObjectFormatInterface.html">NIEMObjectFormatInterface</a><ul class='methods'><li data-type='method'><a href="NIEMObjectFormatInterface.html#generate">generate</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#load">load</a></li><li data-type='method'><a href="NIEMObjectFormatInterface.html#parse">parse</a></li></ul></li><li><a href="Property.html">Property</a><ul class='methods'><li data-type='method'><a href="Property.html#.create">create</a></li><li data-type='method'><a href="Property.html#.createAbstract">createAbstract</a></li><li data-type='method'><a href="Property.html#.createAttribute">createAttribute</a></li><li data-type='method'><a href="Property.html#.createElement">createElement</a></li><li data-type='method'><a href="Property.html#dependents">dependents</a></li><li data-type='method'><a href="Property.html#substitutionDescendants">substitutionDescendants</a></li><li data-type='method'><a href="Property.html#substitutions">substitutions</a></li><li data-type='method'><a href="Property.html#updateDependents">updateDependents</a></li></ul></li><li><a href="Release.html">Release</a><ul class='methods'><li data-type='method'><a href="Release.html#.create">create</a></li><li data-type='method'><a href="Release.html#.identifiers">identifiers</a></li><li data-type='method'><a href="Release.html#.route">route</a></li></ul></li><li><a href="ReleaseObject.html">ReleaseObject</a><ul class='methods'><li data-type='method'><a href="ReleaseObject.html#xsd">xsd</a></li></ul></li><li><a href="SourceDataSet.html">SourceDataSet</a><ul class='methods'><li data-type='method'><a href="SourceDataSet.html#add">add</a></li><li data-type='method'><a href="SourceDataSet.html#count">count</a></li><li data-type='method'><a href="SourceDataSet.html#delete">delete</a></li><li data-type='method'><a href="SourceDataSet.html#edit">edit</a></li><li data-type='method'><a href="SourceDataSet.html#find">find</a></li><li data-type='method'><a href="SourceDataSet.html#get">get</a></li><li data-type='method'><a href="SourceDataSet.html#history">history</a></li><li data-type='method'><a href="SourceDataSet.html#load">load</a></li><li data-type='method'><a href="SourceDataSet.html#modify">modify</a></li><li data-type='method'><a href="SourceDataSet.html#revisions">revisions</a></li><li data-type='method'><a href="SourceDataSet.html#updatePreviousIdentifiers">updatePreviousIdentifiers</a></li></ul></li><li><a href="SourceDataSetInterface.html">SourceDataSetInterface</a><ul class='methods'><li data-type='method'><a href="SourceDataSetInterface.html#add">add</a></li><li data-type='method'><a href="SourceDataSetInterface.html#count">count</a></li><li data-type='method'><a href="SourceDataSetInterface.html#delete">delete</a></li><li data-type='method'><a href="SourceDataSetInterface.html#edit">edit</a></li><li data-type='method'><a href="SourceDataSetInterface.html#find">find</a></li><li data-type='method'><a href="SourceDataSetInterface.html#get">get</a></li><li data-type='method'><a href="SourceDataSetInterface.html#history">history</a></li><li data-type='method'><a href="SourceDataSetInterface.html#revisions">revisions</a></li></ul></li><li><a href="SubProperty.html">SubProperty</a><ul class='methods'><li data-type='method'><a href="SubProperty.html#.create">create</a></li><li data-type='method'><a href="SubProperty.html#.identifiers">identifiers</a></li><li data-type='method'><a href="SubProperty.html#.route">route</a></li><li data-type='method'><a href="SubProperty.html#namespace">namespace</a></li></ul></li><li><a href="Transaction.html">Transaction</a></li><li><a href="Type.html">Type</a><ul class='methods'><li data-type='method'><a href="Type.html#.create">create</a></li><li data-type='method'><a href="Type.html#childDescendantTypes">childDescendantTypes</a></li><li data-type='method'><a href="Type.html#childTypes">childTypes</a></li><li data-type='method'><a href="Type.html#dependents">dependents</a></li><li data-type='method'><a href="Type.html#updateDependents">updateDependents</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#find">find</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#xsd">xsd</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SourceDataSetInterface</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        SourceDataSetInterface
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+
+    <h4 class="name" id="SourceDataSetInterface"><span class="type-signature"></span>new SourceDataSetInterface<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="add"><span class="type-signature">(async) </span>add<span class="signature">(niemObject, change<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;T>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>niemObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">T</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>change</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Change</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;T></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="count"><span class="type-signature">(async) </span>count<span class="signature">(criteria<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;number>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>criteria</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#CriteriaType">CriteriaType</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;number></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="delete"><span class="type-signature">(async) </span>delete<span class="signature">(niemObject, change<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;T>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>niemObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">T</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>change</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Change</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;T></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="edit"><span class="type-signature">(async) </span>edit<span class="signature">(niemObject, change<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;T>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>niemObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">T</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>change</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Change</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;T></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="find"><span class="type-signature">(async) </span>find<span class="signature">(criteria<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;T>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>criteria</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#CriteriaType">CriteriaType</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;T>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="get"><span class="type-signature">(async) </span>get<span class="signature">(identifiers)</span><span class="type-signature"> &rarr; {Promise.&lt;T>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>identifiers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#IdentifiersType">IdentifiersType</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;T></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="history"><span class="type-signature">(async) </span>history<span class="signature">(niemObject)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Transaction.html">Transaction</a>>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>niemObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">T</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;<a href="Transaction.html">Transaction</a>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="revisions"><span class="type-signature">(async) </span>revisions<span class="signature">(niemObject)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Transaction.html">Transaction</a>>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interfaces_source_dataSet_index.js.html">interfaces/source/dataSet/index.js</a>, <a href="interfaces_source_dataSet_index.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>niemObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">T</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;<a href="Transaction.html">Transaction</a>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Mon Feb 17 2020 17:24:31 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

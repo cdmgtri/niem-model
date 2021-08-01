@@ -1,0 +1,4515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      Property - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  <link type="text/css" rel="stylesheet" href="styles/custom.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li >
+        <a href="index.html">
+          
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      NIEM Model Classes
+    </h3>
+
+    
+
+    <h3>Classes</h3><ul><li id="Component-nav"><a href="Component.html">Component</a><ul class='methods'><li data-type="method" id="Component-getName-nav"><a href="Component.html#.getName">getName</a></li><li data-type="method" id="Component-getPrefix-nav"><a href="Component.html#.getPrefix">getPrefix</a></li><li data-type="method" id="Component-identifiers-nav"><a href="Component.html#.identifiers">identifiers</a></li><li data-type="method" id="Component-sortByCoreQName-nav"><a href="Component.html#.sortByCoreQName">sortByCoreQName</a></li><li data-type="method" id="Component-sortByName-nav"><a href="Component.html#.sortByName">sortByName</a></li><li data-type="method" id="Component-sortByNameCaseSensitive-nav"><a href="Component.html#.sortByNameCaseSensitive">sortByNameCaseSensitive</a></li><li data-type="method" id="Component-sortByNameFunction-nav"><a href="Component.html#.sortByNameFunction">sortByNameFunction</a></li><li data-type="method" id="Component-sortByQName-nav"><a href="Component.html#.sortByQName">sortByQName</a></li><li data-type="method" id="Component-sortListByNamespaceStyle-nav"><a href="Component.html#.sortListByNamespaceStyle">sortListByNamespaceStyle</a></li><li data-type="method" id="Component-namespace-nav"><a href="Component.html#namespace">namespace</a></li></ul></li><li id="DataSet-nav"><a href="DataSet.html">DataSet</a><ul class='methods'><li data-type="method" id="DataSet-add-nav"><a href="DataSet.html#add">add</a></li><li data-type="method" id="DataSet-count-nav"><a href="DataSet.html#count">count</a></li><li data-type="method" id="DataSet-delete-nav"><a href="DataSet.html#delete">delete</a></li><li data-type="method" id="DataSet-edit-nav"><a href="DataSet.html#edit">edit</a></li><li data-type="method" id="DataSet-find-nav"><a href="DataSet.html#find">find</a></li><li data-type="method" id="DataSet-get-nav"><a href="DataSet.html#get">get</a></li><li data-type="method" id="DataSet-history-nav"><a href="DataSet.html#history">history</a></li><li data-type="method" id="DataSet-id-nav"><a href="DataSet.html#id">id</a></li><li data-type="method" id="DataSet-load-nav"><a href="DataSet.html#load">load</a></li><li data-type="method" id="DataSet-modify-nav"><a href="DataSet.html#modify">modify</a></li><li data-type="method" id="DataSet-revisions-nav"><a href="DataSet.html#revisions">revisions</a></li><li data-type="method" id="DataSet-updatePreviousIdentifiers-nav"><a href="DataSet.html#updatePreviousIdentifiers">updatePreviousIdentifiers</a></li></ul></li><li id="DataSetInterface-nav"><a href="DataSetInterface.html">DataSetInterface</a><ul class='methods'><li data-type="method" id="DataSetInterface-add-nav"><a href="DataSetInterface.html#add">add</a></li><li data-type="method" id="DataSetInterface-count-nav"><a href="DataSetInterface.html#count">count</a></li><li data-type="method" id="DataSetInterface-delete-nav"><a href="DataSetInterface.html#delete">delete</a></li><li data-type="method" id="DataSetInterface-edit-nav"><a href="DataSetInterface.html#edit">edit</a></li><li data-type="method" id="DataSetInterface-find-nav"><a href="DataSetInterface.html#find">find</a></li><li data-type="method" id="DataSetInterface-get-nav"><a href="DataSetInterface.html#get">get</a></li><li data-type="method" id="DataSetInterface-history-nav"><a href="DataSetInterface.html#history">history</a></li><li data-type="method" id="DataSetInterface-id-nav"><a href="DataSetInterface.html#id">id</a></li><li data-type="method" id="DataSetInterface-revisions-nav"><a href="DataSetInterface.html#revisions">revisions</a></li></ul></li><li id="Facet-nav"><a href="Facet.html">Facet</a><ul class='methods'><li data-type="method" id="Facet-create-nav"><a href="Facet.html#.create">create</a></li><li data-type="method" id="Facet-identifiers-nav"><a href="Facet.html#.identifiers">identifiers</a></li><li data-type="method" id="Facet-route-nav"><a href="Facet.html#.route">route</a></li><li data-type="method" id="Facet-sortFacetsByStyleAdjustedValueDefinition-nav"><a href="Facet.html#.sortFacetsByStyleAdjustedValueDefinition">sortFacetsByStyleAdjustedValueDefinition</a></li><li data-type="method" id="Facet-sortFacetsByStyleValueDefinition-nav"><a href="Facet.html#.sortFacetsByStyleValueDefinition">sortFacetsByStyleValueDefinition</a></li><li data-type="method" id="Facet-sortFacetsByValue-nav"><a href="Facet.html#.sortFacetsByValue">sortFacetsByValue</a></li></ul></li><li id="LocalTerm-nav"><a href="LocalTerm.html">LocalTerm</a><ul class='methods'><li data-type="method" id="LocalTerm-create-nav"><a href="LocalTerm.html#.create">create</a></li><li data-type="method" id="LocalTerm-identifiers-nav"><a href="LocalTerm.html#.identifiers">identifiers</a></li><li data-type="method" id="LocalTerm-route-nav"><a href="LocalTerm.html#.route">route</a></li><li data-type="method" id="LocalTerm-sortByPrefixTerm-nav"><a href="LocalTerm.html#.sortByPrefixTerm">sortByPrefixTerm</a></li><li data-type="method" id="LocalTerm-sortByTerm-nav"><a href="LocalTerm.html#.sortByTerm">sortByTerm</a></li></ul></li><li id="Mapping-nav"><a href="Mapping.html">Mapping</a></li><li id="Mappings-nav"><a href="Mappings.html">Mappings</a><ul class='methods'><li data-type="method" id="Mappings-add-nav"><a href="Mappings.html#add">add</a></li><li data-type="method" id="Mappings-addMultiple-nav"><a href="Mappings.html#addMultiple">addMultiple</a></li><li data-type="method" id="Mappings-calculate-nav"><a href="Mappings.html#calculate">calculate</a></li><li data-type="method" id="Mappings-find-nav"><a href="Mappings.html#find">find</a></li><li data-type="method" id="Mappings-get-nav"><a href="Mappings.html#get">get</a></li><li data-type="method" id="Mappings-load-nav"><a href="Mappings.html#load">load</a></li></ul></li><li id="Model-nav"><a href="Model.html">Model</a><ul class='methods'><li data-type="method" id="Model-create-nav"><a href="Model.html#.create">create</a></li><li data-type="method" id="Model-identifiers-nav"><a href="Model.html#.identifiers">identifiers</a></li></ul></li><li id="Namespace-nav"><a href="Namespace.html">Namespace</a><ul class='methods'><li data-type="method" id="Namespace-create-nav"><a href="Namespace.html#.create">create</a></li><li data-type="method" id="Namespace-defaultStyle-nav"><a href="Namespace.html#.defaultStyle">defaultStyle</a></li><li data-type="method" id="Namespace-identifiers-nav"><a href="Namespace.html#.identifiers">identifiers</a></li><li data-type="method" id="Namespace-sortByPrefix-nav"><a href="Namespace.html#.sortByPrefix">sortByPrefix</a></li><li data-type="method" id="Namespace-sortByStyle-nav"><a href="Namespace.html#.sortByStyle">sortByStyle</a></li><li data-type="method" id="Namespace-sortByURI-nav"><a href="Namespace.html#.sortByURI">sortByURI</a></li><li data-type="method" id="Namespace-dependencies-nav"><a href="Namespace.html#dependencies">dependencies</a></li><li data-type="method" id="Namespace-dependencyList-nav"><a href="Namespace.html#dependencyList">dependencyList</a></li><li data-type="method" id="Namespace-dependencyNamespaces-nav"><a href="Namespace.html#dependencyNamespaces">dependencyNamespaces</a></li><li data-type="method" id="Namespace-dependencyReferences-nav"><a href="Namespace.html#dependencyReferences">dependencyReferences</a></li><li data-type="method" id="Namespace-dependents-nav"><a href="Namespace.html#dependents">dependents</a></li><li data-type="method" id="Namespace-updateDependents-nav"><a href="Namespace.html#updateDependents">updateDependents</a></li></ul></li><li id="NIEM-nav"><a href="NIEM.html">NIEM</a><ul class='methods'><li data-type="method" id="NIEM-export-nav"><a href="NIEM.html#export">export</a></li><li data-type="method" id="NIEM-load-nav"><a href="NIEM.html#load">load</a></li><li data-type="method" id="NIEM-loadFile-nav"><a href="NIEM.html#loadFile">loadFile</a></li></ul></li><li id="NIEMFormatInterface-nav"><a href="NIEMFormatInterface.html">NIEMFormatInterface</a></li><li id="NIEMObject-nav"><a href="NIEMObject.html">NIEMObject</a><ul class='methods'><li data-type="method" id="NIEMObject-addMultiple-nav"><a href="NIEMObject.html#.addMultiple">addMultiple</a></li><li data-type="method" id="NIEMObject-create-nav"><a href="NIEMObject.html#.create">create</a></li><li data-type="method" id="NIEMObject-identifiers-nav"><a href="NIEMObject.html#.identifiers">identifiers</a></li><li data-type="method" id="NIEMObject-match-nav"><a href="NIEMObject.html#.match">match</a></li><li data-type="method" id="NIEMObject-matches-nav"><a href="NIEMObject.html#.matches">matches</a></li><li data-type="method" id="NIEMObject-route-nav"><a href="NIEMObject.html#.route">route</a></li><li data-type="method" id="NIEMObject-add-nav"><a href="NIEMObject.html#add">add</a></li><li data-type="method" id="NIEMObject-checkBaselineFields-nav"><a href="NIEMObject.html#checkBaselineFields">checkBaselineFields</a></li><li data-type="method" id="NIEMObject-checkSourceID-nav"><a href="NIEMObject.html#checkSourceID">checkSourceID</a></li><li data-type="method" id="NIEMObject-delete-nav"><a href="NIEMObject.html#delete">delete</a></li><li data-type="method" id="NIEMObject-dependencies-nav"><a href="NIEMObject.html#dependencies">dependencies</a></li><li data-type="method" id="NIEMObject-dependents-nav"><a href="NIEMObject.html#dependents">dependents</a></li><li data-type="method" id="NIEMObject-match-nav"><a href="NIEMObject.html#match">match</a></li><li data-type="method" id="NIEMObject-save-nav"><a href="NIEMObject.html#save">save</a></li><li data-type="method" id="NIEMObject-updateDependents-nav"><a href="NIEMObject.html#updateDependents">updateDependents</a></li><li data-type="method" id="NIEMObject-updateSource-nav"><a href="NIEMObject.html#updateSource">updateSource</a></li></ul></li><li id="NIEMObjectFormatInterface-nav"><a href="NIEMObjectFormatInterface.html">NIEMObjectFormatInterface</a><ul class='methods'><li data-type="method" id="NIEMObjectFormatInterface-create-nav"><a href="NIEMObjectFormatInterface.html#.create">create</a></li><li data-type="method" id="NIEMObjectFormatInterface-export-nav"><a href="NIEMObjectFormatInterface.html#export">export</a></li><li data-type="method" id="NIEMObjectFormatInterface-load-nav"><a href="NIEMObjectFormatInterface.html#load">load</a></li><li data-type="method" id="NIEMObjectFormatInterface-parse-nav"><a href="NIEMObjectFormatInterface.html#parse">parse</a></li><li data-type="method" id="NIEMObjectFormatInterface-read-nav"><a href="NIEMObjectFormatInterface.html#read">read</a></li><li data-type="method" id="NIEMObjectFormatInterface-stringify-nav"><a href="NIEMObjectFormatInterface.html#stringify">stringify</a></li><li data-type="method" id="NIEMObjectFormatInterface-write-nav"><a href="NIEMObjectFormatInterface.html#write">write</a></li></ul></li><li id="Property-nav"><a href="Property.html">Property</a><ul class='methods'><li data-type="method" id="Property-create-nav"><a href="Property.html#.create">create</a></li><li data-type="method" id="Property-createAbstract-nav"><a href="Property.html#.createAbstract">createAbstract</a></li><li data-type="method" id="Property-createAttribute-nav"><a href="Property.html#.createAttribute">createAttribute</a></li><li data-type="method" id="Property-createElement-nav"><a href="Property.html#.createElement">createElement</a></li><li data-type="method" id="Property-appliesToProperties-nav"><a href="Property.html#appliesToProperties">appliesToProperties</a></li><li data-type="method" id="Property-appliesToTypes-nav"><a href="Property.html#appliesToTypes">appliesToTypes</a></li><li data-type="method" id="Property-dependencies-nav"><a href="Property.html#dependencies">dependencies</a></li><li data-type="method" id="Property-dependents-nav"><a href="Property.html#dependents">dependents</a></li><li data-type="method" id="Property-group-nav"><a href="Property.html#group">group</a></li><li data-type="method" id="Property-groupHead-nav"><a href="Property.html#groupHead">groupHead</a></li><li data-type="method" id="Property-substitutionDescendants-nav"><a href="Property.html#substitutionDescendants">substitutionDescendants</a></li><li data-type="method" id="Property-substitutions-nav"><a href="Property.html#substitutions">substitutions</a></li><li data-type="method" id="Property-type-nav"><a href="Property.html#type">type</a></li><li data-type="method" id="Property-updateDependents-nav"><a href="Property.html#updateDependents">updateDependents</a></li></ul></li><li id="Release-nav"><a href="Release.html">Release</a><ul class='methods'><li data-type="method" id="Release-create-nav"><a href="Release.html#.create">create</a></li><li data-type="method" id="Release-identifiers-nav"><a href="Release.html#.identifiers">identifiers</a></li><li data-type="method" id="Release-route-nav"><a href="Release.html#.route">route</a></li></ul></li><li id="ReleaseObject-nav"><a href="ReleaseObject.html">ReleaseObject</a></li><li id="SubProperty-nav"><a href="SubProperty.html">SubProperty</a><ul class='methods'><li data-type="method" id="SubProperty-create-nav"><a href="SubProperty.html#.create">create</a></li><li data-type="method" id="SubProperty-identifiers-nav"><a href="SubProperty.html#.identifiers">identifiers</a></li><li data-type="method" id="SubProperty-route-nav"><a href="SubProperty.html#.route">route</a></li><li data-type="method" id="SubProperty-sortByCoreTypeProperty-nav"><a href="SubProperty.html#.sortByCoreTypeProperty">sortByCoreTypeProperty</a></li><li data-type="method" id="SubProperty-sortByCoreTypeSequence-nav"><a href="SubProperty.html#.sortByCoreTypeSequence">sortByCoreTypeSequence</a></li><li data-type="method" id="SubProperty-sortByTypeProperty-nav"><a href="SubProperty.html#.sortByTypeProperty">sortByTypeProperty</a></li><li data-type="method" id="SubProperty-sortByTypeSequence-nav"><a href="SubProperty.html#.sortByTypeSequence">sortByTypeSequence</a></li><li data-type="method" id="SubProperty-namespace-nav"><a href="SubProperty.html#namespace">namespace</a></li></ul></li><li id="Transaction-nav"><a href="Transaction.html">Transaction</a></li><li id="Type-nav"><a href="Type.html">Type</a><ul class='methods'><li data-type="method" id="Type-create-nav"><a href="Type.html#.create">create</a></li><li data-type="method" id="Type-childTypes-nav"><a href="Type.html#childTypes">childTypes</a></li><li data-type="method" id="Type-dependents-nav"><a href="Type.html#dependents">dependents</a></li><li data-type="method" id="Type-descendantTypes-nav"><a href="Type.html#descendantTypes">descendantTypes</a></li><li data-type="method" id="Type-updateDependents-nav"><a href="Type.html#updateDependents">updateDependents</a></li></ul></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#addMultiple">addMultiple</a></li><li><a href="global.html#augmentationPoint">augmentationPoint</a></li><li><a href="global.html#calculate">calculate</a></li><li><a href="global.html#compareObject">compareObject</a></li><li><a href="global.html#ComponentIdentifiersType">ComponentIdentifiersType</a></li><li><a href="global.html#containedProperties">containedProperties</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#facets">facets</a></li><li><a href="global.html#find">find</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getDataSet">getDataSet</a></li><li><a href="global.html#getParents">getParents</a></li><li><a href="global.html#inheritedProperties">inheritedProperties</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#load">load</a></li></ul>
+  </nav>
+
+  <div id="main">
+    
+      <h1 class="page-title">
+        Property
+      </h1>
+    
+
+    
+
+<section>
+  <header>
+    
+      <h2>
+        
+        Property
+        
+      </h2>
+
+      
+        <div class="class-description">
+          <p>A property represents a concept, idea, or thing. It defines specific semantics and appears in
+exchanges as the tag or label for a field.</p>
+<p>Properties may be more commonly known as as elements, attributes, fields, tags, keys, or keywords.</p>
+        </div>
+      
+    
+  </header>
+
+  <article>
+    <div class="container-overview">
+      
+        
+
+
+  
+    <h2>Constructor</h2>
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#Property">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="Property">
+      <span class="type-signature"></span>new Property<span class="signature">(prefix<span class="signature-attributes">opt</span>, name<span class="signature-attributes">opt</span>, definition<span class="signature-attributes">opt</span>, typeQName<span class="signature-attributes">opt</span>, groupQName<span class="signature-attributes">opt</span>, isElement<span class="signature-attributes">opt</span>, isAbstract<span class="signature-attributes">opt</span>, nillable<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+        <th>Default</th>
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>prefix</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Prefix of the namespace in which the property is defined</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Name of the property</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>definition</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Definition of the property</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>typeQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Qualified name of the property's data type</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>groupQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Qualified name of the property's substitution group head</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>isElement</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              true
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>True if element (default); false if attribute</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>isAbstract</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              false
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>True if concrete (default); false if abstract</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>nillable</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              true
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>True if property can be assigned an explicit null value (default)</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line12">line 12</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+      <h3 class="subsection-title">Extends</h3>
+
+      
+
+
+  <ul>
+    <li><a href="Component.html">Component</a>.&lt;<a href="Property.html">Property</a>></li>
+  </ul>
+
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+
+<h4 class="name" id=".IdentifiersType">
+  <span class="type-signature">(static) </span>IdentifiersType<span class="type-signature"> :<a href="global.html#IdentifiersType">IdentifiersType</a></span>
+</h4>
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line527">line 527</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".PropertyCriteriaType">
+  <span class="type-signature">(static) </span>PropertyCriteriaType<span class="type-signature"> :<a href="global.html#CriteriaType">CriteriaType</a></span>
+</h4>
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line512">line 512</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id=".PropertyDependentsTypes">
+  <span class="type-signature">(static) </span>PropertyDependentsTypes<span class="type-signature"> :<a href="global.html#DependentsTypes">DependentsTypes</a></span>
+</h4>
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line538">line 538</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="appliesToPropertyQNames">
+  <span class="type-signature"></span>appliesToPropertyQNames<span class="type-signature"> :Array.&lt;String></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Specially-designated properties to which a metadata property may be applied.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line67">line 67</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="appliesToTypeQNames">
+  <span class="type-signature"></span>appliesToTypeQNames<span class="type-signature"> :Array.&lt;String></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Specially-designated types to which a metadata property may be applied.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line73">line 73</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="contents">
+  <span class="type-signature"></span>contents<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Gets an object with functions that will find any contents that this property may contain or carry.</p>
+<ul>
+<li>async facets() - Finds any codes or other facets that this property may contain</li>
+<li>async containedProperties() - Finds any properties that this property directly contains</li>
+<li>async inheritedProperties() - Finds parent types and the properties those types contain</li>
+<li>async base() - Finds the base or parent of this property's data type</li>
+</ul>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line369">line 369</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="groupName">
+  <span class="type-signature"></span>groupName<span class="type-signature"> :string</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Name of the property's substitution group head, without the namespace prefix</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line105">line 105</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="groupPrefix">
+  <span class="type-signature"></span>groupPrefix<span class="type-signature"> :string</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Namespace prefix of the property's substitution group head</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line97">line 97</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="groupQName">
+  <span class="type-signature"></span>groupQName<span class="type-signature"> :String</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Qualified name of the property's substitution group head</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line38">line 38</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="isAbstract">
+  <span class="type-signature"></span>isAbstract<span class="type-signature"> :Boolean</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>True if the property is concrete; false if abstract</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line50">line 50</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="isAttribute">
+  <span class="type-signature"></span>isAttribute<span class="type-signature"> :boolean</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>True if the property is an attribute; false if the property is an element.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line113">line 113</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="isConcrete">
+  <span class="type-signature"></span>isConcrete<span class="type-signature"> :boolean</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>True if the property is a concrete element; false if the property is an abstract element or an attribute.</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line121">line 121</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="isElement">
+  <span class="type-signature"></span>isElement<span class="type-signature"> :Boolean</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>True if the property is an element; false if attribute</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line44">line 44</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="nillable">
+  <span class="type-signature"></span>nillable<span class="type-signature"> :Boolean</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>True if the property can be assigned an explicit null value</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line56">line 56</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="style">
+  <span class="type-signature"></span>style<span class="type-signature"> :"abstract"|"attribute"|"element"</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Style of the property</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line129">line 129</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="subProperties">
+  <span class="type-signature"></span>subProperties<span class="type-signature"></span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Sub-property functions for this property as it may occur under one or more types.</p>
+<ul>
+<li>async add(typeQName, [min], [max], [definition]) =&gt; SubProperty</li>
+<li>async find(criteria) =&gt; SubProperty[]</li>
+</ul>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line248">line 248</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="typeName">
+  <span class="type-signature"></span>typeName<span class="type-signature"> :string</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Name of the property's data type, without the namespace prefix</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line89">line 89</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="typePrefix">
+  <span class="type-signature"></span>typePrefix<span class="type-signature"> :string</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Namespace prefix of the property's data type</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line81">line 81</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+            
+
+<h4 class="name" id="typeQName">
+  <span class="type-signature"></span>typeQName<span class="type-signature"> :String</span>
+</h4>
+
+
+
+
+  <div class="description">
+    <p>Qualified name of the property's data type</p>
+  </div>
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line32">line 32</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+          
+        
+    
+
+    
+      <h3 class="subsection-title">Methods</h3>
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#.create">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id=".create">
+      <span class="type-signature">(static) </span>create<span class="signature">(prefix, name, definition<span class="signature-attributes">opt</span>, typeQName<span class="signature-attributes">opt</span>, groupQName<span class="signature-attributes">opt</span>, isElement<span class="signature-attributes">opt</span>, isAbstract<span class="signature-attributes">opt</span>, ndrVersion<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Property.html">Property</a>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Creates a new property.</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+        <th>Default</th>
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>prefix</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>definition</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>typeQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>groupQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>isElement</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              true
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>isAbstract</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              false
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>ndrVersion</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="global.html#NDRVersionType">NDRVersionType</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line420">line 420</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#.createAbstract">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id=".createAbstract">
+      <span class="type-signature">(static) </span>createAbstract<span class="signature">(release, prefix, name, definition)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>release</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="Release.html">Release</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>prefix</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>definition</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line458">line 458</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#.createAttribute">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id=".createAttribute">
+      <span class="type-signature">(static) </span>createAttribute<span class="signature">(release, prefix, name, definition, typeQName)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>release</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="Release.html">Release</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>prefix</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>definition</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>typeQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line446">line 446</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#.createElement">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id=".createElement">
+      <span class="type-signature">(static) </span>createElement<span class="signature">(release, prefix, name, definition, typeQName, groupQName, isAbstract<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+        <th>Default</th>
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>release</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="Release.html">Release</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>prefix</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>definition</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>typeQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>groupQName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>isAbstract</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              false
+            
+          </td>
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line433">line 433</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#appliesToProperties">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="appliesToProperties">
+      <span class="type-signature">(async) </span>appliesToProperties<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Property.html">Property</a>>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Specially-designated properties to which a metadata property may be applied.</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line230">line 230</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#appliesToTypes">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="appliesToTypes">
+      <span class="type-signature">(async) </span>appliesToTypes<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Type.html">Type</a>>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Specially-designated types to which a metadata property may be applied.</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line213">line 213</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#dependencies">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="dependencies">
+      <span class="type-signature">(async) </span>dependencies<span class="signature">()</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets an object containing the other objects that this property directly refers to.</p>
+<p>Useful in helping to determine which namespaces will need to be imported in this property's schema.</p>
+<ul>
+<li>type: Data type of this property</li>
+<li>group: Substitution group head for this property</li>
+<li>count: Number of dependencies (between 0 and 2)</li>
+</ul>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line287">line 287</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#dependents">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="dependents">
+      <span class="type-signature">(async) </span>dependents<span class="signature">(current<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#DependentsTypes">DependentsTypes</a>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets an object containing the other objects that refer to this property.</p>
+<p>Useful in cascading changes when this property is updated or deleted.</p>
+<ul>
+<li>substitutions: Properties that may substitute for this property</li>
+<li>subProperties: Sub-property relationships that this property is a part of</li>
+<li>count:  Number of dependents</li>
+</ul>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+        <th>Default</th>
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>current</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      boolean
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              true
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>Defaults to true; false for last saved identifiers</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line311">line 311</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#group">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="group">
+      <span class="type-signature">(async) </span>group<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Property.html">Property</a>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets the substitution group head property for this property.</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line149">line 149</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#groupHead">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="groupHead">
+      <span class="type-signature">(async) </span>groupHead<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Property.html">Property</a>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets the substitution group or substitution group grandparent property</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line158">line 158</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">
+      <ul>
+        
+          <li>
+            Substitution group lookup should recurse to be able to go up multiple levels
+          </li>
+        
+      </ul>
+    </dd>
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#substitutionDescendants">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="substitutionDescendants">
+      <span class="type-signature">(async) </span>substitutionDescendants<span class="signature">(criteria)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Property.html">Property</a>>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets immediate and second-level properties that can be substituted for this property.</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>criteria</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="global.html#CriteriaType">CriteriaType</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>Optional criteria to filter the results</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line192">line 192</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#substitutions">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="substitutions">
+      <span class="type-signature">(async) </span>substitutions<span class="signature">(criteria<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Property.html">Property</a>>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets properties that can be substituted for this property.</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>criteria</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      <a href="global.html#CriteriaType">CriteriaType</a>
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+
+        <td class="description last">
+          <p>Optional criteria to filter the results</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line182">line 182</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#type">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="type">
+      <span class="type-signature">(async) </span>type<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Type.html">Type</a>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Gets the type object for this property's data type, based on the typeQName value.</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line173">line 173</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#updateDependents">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="updateDependents">
+      <span class="type-signature">(async) </span>updateDependents<span class="signature">(op, change<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Cascades changes when a property is updated or deleted.</p>
+<ul>
+<li>edit: Updates the property's qname in references by other components</li>
+<li>delete: Deletes the reference to this property from other components</li>
+</ul>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>op</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      "edit"
+    </span>
+
+    |
+
+    <span class="param-type">
+      "delete"
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+
+        <td class="description last">
+          <p>Change operation</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>change</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      Change
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+
+        <td class="description last">
+          <p>Change description information</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="property_index.js.html">property/index.js</a>, <a href="property_index.js.html#line332">line 332</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    
+
+    
+
+    
+  </article>
+</section>
+
+
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>
