@@ -30,6 +30,10 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "**/jasmineAsyncInstall.js",
+      ],
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       }
@@ -46,6 +50,10 @@
       "env": {
         "DEBUG": "niem"
       },
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "**/jasmineAsyncInstall.js",
+      ],
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       }
@@ -62,6 +70,10 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "**/jasmineAsyncInstall.js",
+      ],
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       }
@@ -78,6 +90,10 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "**/jasmineAsyncInstall.js",
+      ],
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       }
@@ -86,7 +102,11 @@
       "type": "node",
       "request": "launch",
       "name": "Current File",
-      "program": "${file}"
+      "program": "${file}",
+      "skipFiles": [
+        "<node_internals>/**/*.js",
+        "**/jasmineAsyncInstall.js",
+      ],
     },
   ]
 }
