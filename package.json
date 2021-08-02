@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "docs": "npx trash docs && npx jsdoc -c jsdoc.json",
+    "docs": "npx jsdoc -c jsdoc.json",
+    "docs:clean": "npx trash docs",
     "docs:watch": "npx nodemon --watch src --exec \"npm run docs\"",
     "test": "jest",
     "test:cov": "jest --runInBand --coverage || true ",
