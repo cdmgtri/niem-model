@@ -8,6 +8,7 @@
     "docs:clean": "npx trash docs",
     "docs:watch": "npx nodemon --watch src --exec \"npm run docs\"",
     "test": "jest",
+    "test:ci": "jest --ci --passWithNoTests --reporters='default' --reporters='./.github/reporter'",
     "test:cov": "jest --runInBand --coverage || true ",
     "test:debug": "env DEBUG=niem* jest --runInBand --coverage || true ",
     "test:js": "tsc --allowJs --checkJs --noEmit --skipLibCheck --target ESNext **/*.js"
