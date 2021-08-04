@@ -185,7 +185,7 @@ class DataSetInterface {
   }
 
   /**
-   * @returns {Promise&lt;T[]>}
+   * @returns {Promise&lt;T[]|T|void>}
    */
   async export(...args) {
     throw new Error("Data source not provided");
