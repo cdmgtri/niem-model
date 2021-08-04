@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      Release - Documentation
+      index.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -82,1730 +84,235 @@
   <div id="main">
     
       <h1 class="page-title">
-        Release
+        index.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      <h2>
-        
-        Release
-        
-      </h2>
-
-      
-        <div class="class-description">
-          <p>A coherent set of namespaces bundled together for a release, IEPD, EIEM, etc.</p>
-        </div>
-      
-    
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
-
-
-  
-    <h2>Constructor</h2>
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#Release">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="Release">
-      <span class="type-signature"></span>new Release<span class="signature">(releaseKey, niemReleaseKey, ndrVersion<span class="signature-attributes">opt</span>, version<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>, baseURI<span class="signature-attributes">opt</span>, branch<span class="signature-attributes">opt</span>, description<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-        <th>Attributes</th>
-      
-
-      
-        <th>Default</th>
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>releaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-              default
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>niemReleaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>ndrVersion</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      <a href="global.html#NDRVersionType">NDRVersionType</a>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-              "5.0"
-            
-          </td>
-        
-
-        <td class="description last">
-          <p>Defaults to &quot;5.0&quot;</p>
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>version</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>status</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      <a href="global.html#StatusType">StatusType</a>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>baseURI</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>branch</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>description</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line7">line 7</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-
-<h4 class="name" id=".ReleaseCriteriaType">
-  <span class="type-signature">(static) </span>ReleaseCriteriaType<span class="type-signature"> :<a href="global.html#CriteriaType">CriteriaType</a></span>
-</h4>
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line1052">line 1052</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id=".ReleaseIdentifiersType">
-  <span class="type-signature">(static) </span>ReleaseIdentifiersType<span class="type-signature"> :<a href="global.html#IdentifiersType">IdentifiersType</a></span>
-</h4>
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line1063">line 1063</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id="label">
-  <span class="type-signature"></span>label<span class="type-signature"></span>
-</h4>
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line973">line 973</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-  <h5>Examples</h5>
-  
-
-  <pre class="prettyprint"><code>"niem model 4.0"</code></pre>
-
-
-  <pre class="prettyprint"><code>"lapd arrestReport 1.0"</code></pre>
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id="model">
-  <span class="type-signature"></span>model<span class="type-signature"> :undefined</span>
-</h4>
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line24">line 24</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-            
-
-<h4 class="name" id="style">
-  <span class="type-signature"></span>style<span class="type-signature"> :"major"|"minor"|"micro"|"core supplement"|"domain update"|"patch"|"other"|""</span>
-</h4>
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line37">line 37</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-          
-        
-    
-
-    
-      <h3 class="subsection-title">Methods</h3>
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#.create">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id=".create">
-      <span class="type-signature">(static) </span>create<span class="signature">(releaseKey, niemReleaseKey<span class="signature-attributes">opt</span>, ndrVersion<span class="signature-attributes">opt</span>, version<span class="signature-attributes">opt</span>, status<span class="signature-attributes">opt</span>, baseURI<span class="signature-attributes">opt</span>, branch<span class="signature-attributes">opt</span>, description<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-        <th>Attributes</th>
-      
-
-      
-        <th>Default</th>
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>releaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>niemReleaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>ndrVersion</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      "3.0"
-    </span>
-
-    |
-
-    <span class="param-type">
-      "4.0"
-    </span>
-
-    |
-
-    <span class="param-type">
-      "5.0"
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-              "5.0"
-            
-          </td>
-        
-
-        <td class="description last">
-          <p>Defaults to &quot;5.0&quot;</p>
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>version</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>status</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      "draft"
-    </span>
-
-    |
-
-    <span class="param-type">
-      "published"
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>baseURI</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>branch</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>description</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-          <td class="attributes">
-            
-              &lt;optional><br>
-            
-
-            
-
-            
-          </td>
-        
-
-        
-          <td class="default">
-            
-          </td>
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line61">line 61</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#.identifiers">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id=".identifiers">
-      <span class="type-signature">(static) </span>identifiers<span class="signature">(userKey, modelKey, releaseKey)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>userKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>modelKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>releaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line965">line 965</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#.route">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id=".route">
-      <span class="type-signature">(static) </span>route<span class="signature">(userKey, modelKey, releaseKey)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>userKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>modelKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>releaseKey</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="release_index.js.html">release/index.js</a>, <a href="release_index.js.html#line982">line 982</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    
-
-    
-
-    
+    <pre class="prettyprint source linenums"><code>
+let TypeDefs = require("./typedefs");
+
+
+/**
+ * @typedef {import("./model/index")} ModelTypeDef
+ * @type {ModelTypeDef}
+ */
+ let ModelDef;
+
+ /**
+  * @typedef {import("./release/index")} ReleaseTypeDef
+  * @type {ReleaseTypeDef}
+  */
+ let ReleaseDef;
+
+ /**
+  * @typedef {import("./namespace/index")} NamespaceTypeDef
+  * @type {NamespaceTypeDef}
+  */
+ let NamespaceDef;
+
+ /**
+  * @typedef {import("./local-term/index")} LocalTermTypeDef
+  * @type {LocalTermTypeDef}
+  */
+ let LocalTermDef;
+
+ /**
+  * @typedef {import("./property/index")} PropertyTypeDef
+  * @type {PropertyTypeDef}
+  */
+ let PropertyDef;
+
+ /**
+  * @typedef {import("./type/index")} TypeTypeDef
+  * @type {TypeTypeDef}
+  */
+ let TypeDef;
+
+ /**
+  * @typedef {import("./facet/index")} FacetTypeDef
+  * @type {FacetTypeDef}
+  */
+ let FacetDef;
+
+ /**
+  * @typedef {import("./subproperty/index")} SubPropertyTypeDef
+  * @type {SubPropertyTypeDef}
+  */
+ let SubPropertyDef;
+
+ /**
+  * @typedef {import("./component/index")} ComponentTypeDef
+  * @type {ComponentTypeDef}
+  */
+ let ComponentDef;
+
+ /**
+  * @typedef {import("./niem-object/index")} NIEMObjectTypeDef
+  * @type {NIEMObjectTypeDef}
+  */
+ let NIEMObjectDef;
+
+ /**
+  * @typedef {import("./release-object/index")} ReleaseObjectTypeDef
+  * @type {ReleaseObjectTypeDef}
+  */
+ let ReleaseObjectDef;
+
+
+ /**
+  * @typedef {import("./interfaces/source/interface")} SourceInterfaceTypeDef
+  * @type {SourceInterfaceTypeDef}
+  */
+  let SourceInterfaceDef;
+
+  /**
+   * @typedef {import("./interfaces/source/index")} SourceTypeDef
+   * @type {SourceTypeDef}
+   */
+  let SourceDef;
+
+  /**
+   * @typedef {import("./interfaces/source/dataSet/interface")} DataSetInterfaceTypeDef
+   * @type {DataSetInterfaceTypeDef}
+   */
+  let DataSetInterfaceDef;
+
+  /**
+   * @typedef {import("./interfaces/source/dataSet/index")} DataSetTypeDef
+   * @type {DataSetTypeDef}
+   */
+  let DataSetDef;
+
+  /**
+   * @typedef {import("./interfaces/source/change/index.js")} ChangeTypeDef
+   * @type {ChangeTypeDef}
+   */
+  let ChangeDef;
+
+  /**
+   * @typedef {import("./interfaces/source/transaction/index.js")} TransactionTypeDef
+   * @type {TransactionTypeDef}
+   */
+  let TransactionDef;
+
+  /**
+   * @typedef {import("./interfaces/source/logger/index.js")} LoggerTypeDef
+   * @type {LoggerTypeDef}
+   */
+  let LoggerDef;
+
+  /**
+   * @typedef {import("./interfaces/source/mapping/index.js")} MappingTypeDef
+   * @type {MappingTypeDef}
+   */
+  let MappingDef;
+
+  /**
+   * @typedef {import("./interfaces/source/mappings/index.js")} MappingsTypeDef
+   * @type {MappingsTypeDef}
+   */
+  let MappingsDef;
+
+
+  /**
+   * @typedef {import("./interfaces/format/interface.js")} NIEMFormatInterfaceTypeDef
+   * @type {NIEMFormatInterfaceTypeDef}
+   */
+  let NIEMFormatInterfaceDef;
+
+  /**
+   * @typedef {import("./interfaces/format/niem-object/interface.js")} NIEMObjectFormatInterfaceTypeDef
+   * @type {NIEMObjectFormatInterfaceTypeDef}
+   */
+  let NIEMObjectFormatInterfaceDef;
+
+  /**
+   * @typedef {import("./niem/index")} NIEMTypeDef
+   * @type {NIEMTypeDef}
+   */
+  let NIEMDef;
+
+
+module.exports = {
+
+  NIEM: require("./niem/index"),
+
+  // Primary NIEM classes
+  Model: require("./model/index"),
+  Release: require("./release/index"),
+  Namespace: require("./namespace/index"),
+  LocalTerm: require("./local-term/index"),
+  Property: require("./property/index"),
+  Type: require("./type/index"),
+  Facet: require("./facet/index"),
+  SubProperty: require("./subproperty/index"),
+
+  // Support for NIEM classes
+  Component: require("./component/index"),
+  NIEMObject: require("./niem-object/index"),
+  ReleaseObject: require("./release-object/index"),
+
+  // TypeDefs
+  TypeDefs,
+
+  // Source interface classes
+  SourceInterface: require("./interfaces/source/interface"),
+  Source: require("./interfaces/source/index"),
+  DataSetInterface: require("./interfaces/source/dataSet/interface"),
+  DataSet: require("./interfaces/source/dataSet/index"),
+  Change: require("./interfaces/source/change/index"),
+  Transaction: require("./interfaces/source/transaction/index"),
+  Logger: require("./interfaces/source/logger/index"),
+  Mapping: require("./interfaces/source/mapping/index"),
+  Mappings: require("./interfaces/source/mappings/index"),
+
+  // Format interface classes
+  NIEMFormatInterface: require("./interfaces/format/interface"),
+  NIEMObjectFormatInterface: require("./interfaces/format/niem-object/interface"),
+
+  // Tests
+  unitTests: require("../test/unit/index"),
+  integrationTests: require("../test/integration/index"),
+
+  // TypeDefs more easily available
+  ModelDef,
+  ReleaseDef,
+  NamespaceDef,
+  LocalTermDef,
+  PropertyDef,
+  TypeDef,
+  FacetDef,
+  SubPropertyDef,
+  ComponentDef,
+  NIEMObjectDef,
+  ReleaseObjectDef,
+
+  SourceInterfaceDef,
+  SourceDef,
+  DataSetInterfaceDef,
+  DataSetDef,
+  ChangeDef,
+  TransactionDef,
+  LoggerDef,
+  MappingDef,
+  MappingsDef,
+
+  NIEMFormatInterfaceDef,
+  NIEMObjectFormatInterfaceDef,
+
+  NIEMDef
+
+};
+</code></pre>
   </article>
 </section>
 
-
+    
 
 
   </div>
