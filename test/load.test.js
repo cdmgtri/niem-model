@@ -3,7 +3,7 @@ let NIEM = require("../src/niem/index");
 
 let niem = new NIEM();
 
-describe.skip("load", () => {
+describe("load", () => {
 
   test("5.0", async () => {
 
