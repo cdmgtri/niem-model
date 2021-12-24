@@ -181,7 +181,7 @@ module.exports = {
   NIEMObjectFormatInterface: require("./interfaces/format/niem-object/interface"),
 
   // Tests
-  unitTests: require("../test/unit/index"),
+  unitTests: require("../test/unit.test..js.x"),
   integrationTests: require("../test/integration/index"),
 
   // TypeDefs more easily available
