@@ -10,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Clean cache
+        run: npm cache clean --force
+
       - name: Install
         run: npm install
 
