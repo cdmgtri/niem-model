@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "debug": "^4.3.3",
-    "jszip": "^3.7.1",
+    "jszip": "^3.8.0",
     "lodash": "^4.17.21"
   },
   "jest": {
