@@ -61,7 +61,7 @@ class NIEMObjectFormatInterface {
 
   /**
    * Returns the appropriate classes for the given NDR version.
-   * @param {"3.0"|"4.0"|"5.0"} ndrVersion
+   * @param {"3.0"|"4.0"|"5.0"|"6.0"} ndrVersion
    * @returns {NIEMObjectFormatInterface}
    */
   static create(ndrVersion) {

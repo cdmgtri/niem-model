@@ -71,6 +71,9 @@ class Namespace extends ReleaseObject {
     else if (ndrVersion == "5.0") {
       versionedNamespace = require("./5.0/index");
     }
+    else if (ndrVersion == "6.0") {
+      versionedNamespace = require("./6.0/index")
+    }
 
     return new versionedNamespace(prefix, style, uri, fileName, definition, version);
   }
@@ -111,7 +114,7 @@ class Namespace extends ReleaseObject {
   }
 
   /**
-   * @type {"3.0"|"4.0"|"5.0"|string}
+   * @type {"3.0"|"4.0"|"5.0"|"6.0"|string}
    */
   get ndrVersion() {
     return undefined;
@@ -753,7 +756,8 @@ class Namespace extends ReleaseObject {
    */
   static defaultStyle(uri, base) {
     let niemBase = "http://release.niem.gov/niem/";
-    if (uri.includes(niemBase)) {
+    let oasisBase = "https://docs.oasis-open.org/niemopen/ns/";
+    if (uri.includes(niemBase) || uri.includes(oasisBase)) {
       if (uri.includes("codes")) return "code";
       if (uri.includes("domains")) return "domain";
       if (uri.includes("niem-core")) return "core";

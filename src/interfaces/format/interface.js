@@ -6,7 +6,7 @@ class NIEMFormatInterface {
   /**
    * @param {"3.0"|"4.0"|"5.0"|"6.0"} [ndrVersion="6.0"]
    */
-  constructor(ndrVersion="5.0") {
+  constructor(ndrVersion="6.0") {
 
     this.ndrVersion = ndrVersion;
 

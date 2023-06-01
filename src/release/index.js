@@ -9,14 +9,14 @@ class Release extends NIEMObject {
   /**
    * @param {string} releaseKey
    * @param {string} niemReleaseKey
-   * @param {import("../release-object/index").NDRVersionType} [ndrVersion="5.0"] Defaults to "5.0"
+   * @param {import("../release-object/index").NDRVersionType} [ndrVersion="6.0"] Defaults to "6.0"
    * @param {string} [version]
    * @param {StatusType} [status]
    * @param {string} [baseURI]
    * @param {string} [branch]
    * @param {string} [description]
    */
-  constructor(releaseKey="default", niemReleaseKey="", ndrVersion="5.0", version="", status, baseURI="", branch="", description="") {
+  constructor(releaseKey="default", niemReleaseKey="", ndrVersion="6.0", version="", status, baseURI="", branch="", description="") {
 
     super();
 
@@ -51,14 +51,14 @@ class Release extends NIEMObject {
   /**
    * @param {string} releaseKey
    * @param {string} [niemReleaseKey]
-   * @param {"3.0"|"4.0"|"5.0"} [ndrVersion="5.0"] Defaults to "5.0"
+   * @param {"3.0"|"4.0"|"5.0"|"6.0"} [ndrVersion="6.0"] Defaults to "6.0"
    * @param {string} [version]
    * @param {"draft"|"published"} [status]
    * @param {string} [baseURI]
    * @param {string} [branch]
    * @param {string} [description]
    */
-  static create(releaseKey, niemReleaseKey, ndrVersion="5.0", version, status, baseURI, branch, description) {
+  static create(releaseKey, niemReleaseKey, ndrVersion="6.0", version, status, baseURI, branch, description) {
     return new Release(releaseKey, niemReleaseKey, ndrVersion, version, status, baseURI, branch, description);
   }
 
